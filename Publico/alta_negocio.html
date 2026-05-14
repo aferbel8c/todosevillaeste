@@ -1,0 +1,1705 @@
+﻿<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#f3d044">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="TSE">
+
+<title>Alta de negocio | Todo Sevilla Este</title>
+<meta name="description" content="Alta guiada de negocio en Todo Sevilla Este.">
+<link rel="canonical" href="https://todosevillaeste.es/alta_negocio.html">
+<meta property="og:title" content="Alta de negocio | Todo Sevilla Este">
+<meta property="og:description" content="Alta guiada de negocio en Todo Sevilla Este.">
+<meta property="og:url" content="https://todosevillaeste.es/alta_negocio.html">
+<meta property="og:type" content="website">
+<meta property="og:image" content="https://todosevillaeste.es/icono/tsev2_beta.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Alta de negocio | Todo Sevilla Este">
+<meta name="twitter:description" content="Alta guiada de negocio en Todo Sevilla Este.">
+<meta name="twitter:image" content="https://todosevillaeste.es/icono/tsev2_beta.png">
+
+<link rel="icon" href="/icono/tsev2_beta.png" type="image/png">
+<link rel="manifest" href="/manifest.webmanifest">
+<link rel="apple-touch-icon" href="/icono/tsev2_beta.png">
+<link rel="stylesheet" href="/3.7/header_shared.css">
+<style>
+:root{
+  --yellow:#f3d044;
+  --bg:#f2f2f2;
+  --card:#fff;
+  --text:#222;
+  --muted:#6b7280;
+}
+*{box-sizing:border-box}
+body{
+  margin:0;
+  font-family:Segoe UI,Arial,sans-serif;
+  background:var(--bg);
+  color:var(--text);
+}
+header{
+  background:rgba(243,208,68,.96);
+  border-bottom:1px solid rgba(0,0,0,.08);
+  box-shadow:0 2px 10px rgba(0,0,0,.08);
+  padding:.8rem 1.5rem;
+  display:grid;
+  grid-template-columns:1fr auto 1fr;
+  align-items:center;
+}
+.logo{
+  display:flex;
+  align-items:center;
+  gap:.5rem;
+  text-decoration:none;
+  color:inherit;
+  cursor:pointer;
+}
+.logo:focus-visible{
+  outline:2px solid #111;
+  outline-offset:4px;
+  border-radius:10px;
+}
+.logo img{width:clamp(54px,6vw,74px);display:block}
+.header-actions{text-align:right}
+.header-actions button{
+  padding:.48rem .86rem;
+  border:none;
+  font-weight:bold;
+  background:#111;
+  color:#fff;
+  border-radius:7px;
+  cursor:pointer;
+}
+.page{
+  min-height:calc(100vh - 86px);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  padding:20px;
+}
+.box{
+  background:#fff;
+  padding:40px;
+  width:386px;
+  border-radius:8px;
+  box-shadow:0 10px 30px rgba(0,0,0,.15);
+  position:relative;
+}
+h1{
+  font-size:22px;
+  margin-bottom:20px;
+}
+.step-meta{
+  font-size:.92rem;
+  color:#6b7280;
+  margin:8px 0 12px;
+}
+.step{display:none}
+.step.active{display:block}
+.step-label{display:block;font-weight:700;margin-bottom:6px}
+.step-help{
+  min-height:18px;
+  font-size:.88rem;
+  color:#b3261e;
+  margin:-4px 0 8px;
+}
+.step-actions{
+  display:flex;
+  gap:10px;
+  align-items:center;
+  width:100%;
+}
+.step-actions .main{
+  width:100%;
+  display:block;
+}
+.step-actions.contact .main{
+  width:auto;
+  flex:1;
+}
+.wizard{display:none}
+.wizard.show{display:block}
+.btn{
+  border:none;
+  border-radius:8px;
+  padding:12px 14px;
+  font-weight:700;
+  cursor:pointer;
+  transition:filter .15s ease, transform .15s ease, box-shadow .15s ease, background-color .15s ease;
+}
+.btn:hover,.btn:focus-visible{
+  transform:translateY(-1px);
+  outline:none;
+}
+.btn-primary{
+  background:#F3D044;
+  color:#111;
+}
+.btn-primary:hover,.btn-primary:focus-visible{
+  filter:brightness(.98);
+}
+.btn-secondary,.btn-soft{
+  background:#fff;
+  color:#111;
+  border:1px solid #111;
+}
+.btn-soft{
+  min-width:92px;
+}
+.btn-secondary:hover,.btn-secondary:focus-visible,.btn-soft:hover,.btn-soft:focus-visible{
+  background:#f5f5f5;
+}
+.step-progress {
+  display: none;
+  width: 100%;
+  height: 4px;
+  background: #f0f2f6;
+  border-radius: 999px;
+  overflow: hidden;
+  /* Ajuste para que no mueva los botones */
+  margin: 15px 0; 
+  position: relative;
+}
+.step-progress.active{display:block}
+.step-progress .bar{
+  height:100%;
+  width:30%;
+  background:linear-gradient(90deg,#111,#f3d044,#111);
+  animation:step-load 2s ease-in-out infinite;
+}
+@keyframes step-load{0%{transform:translateX(-120%)}100%{transform:translateX(320%)}}
+button.main{
+  width:100%;
+  padding:12px;
+  border:none;
+  background:#F3D044;
+  color:#111;
+  font-weight:bold;
+  cursor:pointer;
+  border-radius:4px;
+}
+button.main[disabled]{opacity:.6;cursor:not-allowed}
+button.secondary{
+  padding:12px;
+  border:1px solid #111;
+  background:#fff;
+  color:#111;
+  font-weight:700;
+  cursor:pointer;
+  border-radius:4px;
+}
+.back-arrow{
+  position:absolute;
+  top:12px;
+  left:14px;
+  width:60px;
+  height:24px;
+  border:0;
+  background:transparent;
+  color:#111;
+  font-size:20px;
+  line-height:1;
+  cursor:pointer;
+  border-radius:8px;
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  transition:background-color .15s ease, box-shadow .15s ease;
+}
+.back-arrow:hover,.back-arrow:focus-visible{
+  background:#f5f5f5;
+  box-shadow:0 6px 16px rgba(0,0,0,.12);
+  outline:none;
+}
+.input-wrap{
+  position:relative;
+  margin-bottom:10px;
+}
+.input-wrap.float input,
+.input-wrap.float textarea{
+  margin-bottom:0;
+  padding:16px 12px 10px;
+  background:#fff;
+  border:1px solid #c7c7c7;
+  transition:border-color .15s ease;
+}
+.input-wrap.float input:focus,
+.input-wrap.float textarea:focus{
+  border-color:#0f6cbd;
+  outline:none;
+}
+.input-wrap.float label{
+  position:absolute;
+  left:12px;
+  top:50%;
+  transform:translateY(-50%);
+  background:#fff;
+  padding:0 4px;
+  color:#6b7280;
+  font-size:.95rem;
+  transition:all .15s ease;
+  pointer-events:none;
+}
+.input-wrap.float input:focus + label,
+.input-wrap.float input:not(:placeholder-shown) + label,
+.input-wrap.float textarea:focus + label,
+.input-wrap.float textarea:not(:placeholder-shown) + label{
+  top:-8px;
+  transform:none;
+  font-size:.78rem;
+  color:#111;
+}
+.input-wrap input,
+.input-wrap textarea,
+.input-wrap select{
+  width:100%;
+  padding:12px;
+  border:1px solid #ccc;
+  border-radius:4px;
+  background:#fff;
+  color:#111;
+  font:inherit;
+}
+.input-wrap textarea{
+  min-height:110px;
+  resize:vertical;
+}
+.input-wrap input:focus,
+.input-wrap textarea:focus,
+.input-wrap select:focus{
+  outline:none;
+  border-color:#0f6cbd;
+  box-shadow:0 0 0 3px rgba(15,108,189,.15);
+}
+.step-note{
+  margin:0 0 12px;
+  color:var(--muted);
+  line-height:1.55;
+  font-size:.95rem;
+}
+.public-note{
+  display:flex;
+  gap:10px;
+  align-items:flex-start;
+  padding:12px 14px;
+  border-radius:8px;
+  background:#fafafa;
+  border:1px solid #ddd;
+  color:#333;
+  margin-bottom:12px;
+}
+.public-note strong{display:block;color:#111;margin-bottom:2px}
+.contact-consent{
+  display:none;
+  align-items:flex-start;
+  gap:10px;
+  margin:10px 0 4px;
+  padding:12px 14px;
+  border-radius:8px;
+  background:#fafafa;
+  border:1px solid #ddd;
+  color:#333;
+}
+.contact-consent.show{display:flex}
+.contact-consent input{
+  width:18px;
+  height:18px;
+  margin:3px 0 0;
+  accent-color:#111;
+}
+.contact-consent strong{display:block;color:#111;margin-bottom:2px}
+.contact-consent span{display:block;color:#6b7280;font-size:.92rem;line-height:1.4}
+.category-row{
+  display:flex;
+  gap:10px;
+  flex-wrap:wrap;
+  align-items:center;
+}
+.category-pill{
+  display:inline-flex;
+  align-items:center;
+  min-height:42px;
+  padding:.45rem .8rem;
+  border-radius:999px;
+  background:#fff;
+  border:1px dashed #cfd2da;
+  color:#111;
+  font-weight:700;
+}
+.category-pill.empty{color:#94a3b8}
+.map-canvas{
+  width:100%;
+  height:380px;
+  min-height:380px;
+  border:1px solid #d8dde6;
+  border-radius:10px;
+  background:#f3f6f9;
+  margin-top:12px;
+  overflow:hidden;
+}
+.map-canvas.hidden{display:none}
+.map-note{
+  margin-top:8px;
+  font-size:.92rem;
+  color:#666;
+}
+.schedule-editor{display:grid;gap:10px}
+.schedule-editor .day-schedule{
+  margin-bottom:10px;
+  padding:10px;
+  border:1px solid #eee;
+  border-radius:5px;
+  background:#fafafa;
+}
+.day-header{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:10px;
+  margin-bottom:8px;
+}
+.day-status{
+  font-size:.78rem;
+  padding:2px 8px;
+  font-weight:700;
+  border-radius:999px;
+}
+.day-status.open{background:#dff7e3;color:#0f6b2b}
+.day-status.closed{background:#fde2e2;color:#a61b14}
+.schedule-editor .day-trays{display:grid;gap:8px}
+.schedule-editor .time-tray{
+  display:grid;
+  grid-template-columns:1fr auto 1fr auto;
+  gap:8px;
+  align-items:center;
+}
+.schedule-editor .time-tray input{
+  width:100%;
+  border:1px solid #cfcfcf;
+  border-radius:4px;
+  padding:10px;
+  font:inherit;
+}
+.schedule-editor .time-tray .mini-btn{
+  width:auto;
+  min-height:42px;
+  padding:0 12px;
+}
+.auth-gate{display:none;gap:12px}
+.auth-gate.show{display:grid}
+.auth-gate p{
+  margin:0;
+  color:var(--muted);
+  line-height:1.55;
+  font-size:.95rem;
+}
+.auth-gate-actions{display:flex;gap:10px;flex-wrap:wrap}
+.link{
+  margin-top:15px;
+  text-align:center;
+  color:#0078d4;
+  cursor:pointer;
+  text-decoration:underline;
+  text-underline-offset:3px;
+  text-decoration-thickness:1px;
+}
+.link:hover,.link:focus-visible{
+  color:#003d73;
+  text-decoration-color:#003d73;
+  text-decoration-thickness:2px;
+}
+.summary-note{
+  min-height:18px;
+  font-size:.88rem;
+  color:#0f6cbd;
+  margin:8px 0 0;
+}
+.footer-note{
+  margin-top:10px;
+  color:#6b7280;
+  font-size:.92rem;
+}
+.modal-overlay{
+  position:fixed;
+  z-index:1000;
+  left:0;
+  top:0;
+  width:100%;
+  height:100%;
+  background:rgba(0,0,0,.5);
+  display:none;
+  justify-content:center;
+  align-items:center;
+  padding:18px;
+}
+.modal-overlay.show{display:flex}
+.modal-card{
+  background:#fff;
+  padding:22px;
+  border-radius:8px;
+  width:min(520px, 100%);
+  text-align:left;
+  position:relative;
+  box-shadow:0 10px 30px rgba(0,0,0,.2);
+  max-height:82vh;
+  overflow:auto;
+}
+.modal-head{
+  display:flex;
+  justify-content:space-between;
+  align-items:flex-start;
+  gap:10px;
+  margin-bottom:10px;
+}
+.modal-head h3{margin:0}
+.modal-close{
+  border:0;
+  background:transparent;
+  font-size:26px;
+  cursor:pointer;
+  color:#555;
+  line-height:1;
+}
+.cat-search{
+  width:100%;
+  padding:12px;
+  border:1px solid #ccc;
+  border-radius:4px;
+  margin-bottom:10px;
+  font:inherit;
+}
+.cat-quick{
+  display:flex;
+  flex-wrap:wrap;
+  gap:6px;
+  margin-bottom:10px;
+}
+.cat-quick button{
+  padding:6px 10px;
+  border:1px solid #ddd;
+  border-radius:999px;
+  background:#fff;
+  cursor:pointer;
+  font-size:.8rem;
+}
+.cat-quick button:hover{background:#f3d044;border-color:#f3d044}
+.cat-list{
+  display:grid;
+  gap:8px;
+  max-height:48vh;
+  overflow:auto;
+}
+.cat-item{
+  display:flex;
+  justify-content:space-between;
+  gap:10px;
+  padding:10px 12px;
+  cursor:pointer;
+  border-radius:6px;
+  border:1px solid transparent;
+  background:#fff;
+  word-break:break-word;
+  text-align:left;
+}
+.cat-item:hover{background:#faf6df;border-color:#f3d044}
+.cat-item.selected{background:#fff3b0;border-color:#f3d044;font-weight:bold}
+.cat-item span{font-size:.82rem;color:#666}
+.summary-line{
+  display:flex;
+  justify-content:space-between;
+  gap:12px;
+  margin-top:10px;
+  color:#4b5563;
+  font-size:.92rem;
+}
+.photo-box{
+  min-height:220px;
+  border-radius:8px;
+  border:1px dashed #cfd7e4;
+  background:#f8fbff;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  color:#64748b;
+  text-align:center;
+  overflow:hidden;
+}
+.photo-box img{
+  width:100%;
+  height:100%;
+  object-fit:cover;
+  display:block;
+}
+.photo-meta{font-size:.92rem;color:var(--muted);margin-top:8px}
+.photo-field{
+  display:grid;
+  gap:8px;
+}
+.photo-pick{
+  display:flex;
+  gap:10px;
+  flex-wrap:wrap;
+  align-items:center;
+}
+.photo-pick input[type="file"]{
+  position:absolute;
+  left:-9999px;
+  width:1px;
+  height:1px;
+  opacity:0;
+}
+.photo-pick .btn-secondary{
+  min-width:140px;
+}
+.site-footer{
+  background:#f5f5f5;
+  border-top:1px solid #e0e0e0;
+  padding:1rem 1.2rem 1.15rem;
+}
+.footer-top{
+  display:flex;
+  justify-content:space-between;
+  gap:12px;
+  align-items:center;
+  flex-wrap:wrap;
+}
+.footer-copy,.footer-version{color:#4b5563;font-weight:700}
+.footer-links{
+  display:flex;
+  gap:10px;
+  flex-wrap:wrap;
+  margin-top:.7rem;
+}
+.footer-link{color:#1f2937;text-decoration:none;font-weight:700}
+.footer-link:hover{text-decoration:underline}
+@media (max-width: 640px){
+  .page{padding:16px}
+  .box{width:100%;padding:28px 18px 18px}
+  .auth-gate-actions,.step-actions,.footer-top{flex-direction:column;align-items:stretch}
+  .btn,.header-actions button{width:100%}
+  .time-tray{grid-template-columns:1fr 1fr}
+  header{grid-template-columns:1fr}
+  .header-actions{text-align:left}
+}
+
+/* Contenedor principal del horario */
+.regular-schedule-container {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    background: #f8fafc;
+    padding: 20px;
+    border-radius: 12px;
+}
+
+.day-card {
+    background: #fff;
+    border: 1px solid #e2e8f0;
+    border-radius: 10px;
+    padding: 15px;
+    position: relative;
+}
+
+.day-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.day-label {
+    font-weight: 700;
+    font-size: 1.1rem;
+    color: #1e293b;
+}
+
+.status-badge {
+    padding: 4px 12px;
+    border-radius: 20px;
+    font-size: 0.75rem;
+    font-weight: 700;
+    text-transform: uppercase;
+}
+
+.status-closed { background: #fee2e2; color: #dc2626; }
+.status-open { background: #dcfce7; color: #16a34a; }
+
+/* Tramos horarios */
+.time-tray {
+    background: #fff;
+    border: 1px solid #f1f5f9;
+    border-radius: 8px;
+    padding: 15px;
+    margin-bottom: 10px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.02);
+}
+
+.range-controls {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    margin-bottom: 15px;
+}
+
+.time-input-group {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.time-display {
+    border: 1px solid #cbd5e1;
+    border-radius: 6px;
+    padding: 8px 12px;
+    font-weight: 700;
+    font-size: 1rem;
+    width: 80px;
+    text-align: center;
+}
+
+/* El Slider Amarillo */
+.range-slider-container {
+    position: relative;
+    height: 40px;
+    margin: 0 10px;
+}
+
+.slider-track {
+    position: absolute;
+    top: 18px;
+    height: 6px;
+    width: 100%;
+    background: #e2e8f0;
+    border-radius: 3px;
+}
+
+.slider-fill {
+    position: absolute;
+    top: 18px;
+    height: 6px;
+    background: #f3d044; /* Color amarillo de tu imagen */
+    border-radius: 3px;
+}
+
+.range-input {
+    position: absolute;
+    width: 100%;
+    top: 10px;
+    background: none;
+    pointer-events: none;
+    -webkit-appearance: none;
+}
+
+.range-input::-webkit-slider-thumb {
+    height: 18px;
+    width: 18px;
+    border-radius: 50%;
+    background: #fff;
+    border: 3px solid #334155;
+    pointer-events: auto;
+    -webkit-appearance: none;
+    cursor: pointer;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+}
+
+.range-labels {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 5px;
+    font-size: 0.7rem;
+    color: #94a3b8;
+}
+
+.btn-add-tramo {
+    background: #1e293b;
+    color: white;
+    border: none;
+    padding: 6px 12px;
+    border-radius: 6px;
+    font-size: 0.85rem;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.btn-add-tramo:hover { background: #334155; }
+</style>
+</head>
+<body>
+<header class="tse-header">
+  <div class="tse-header-left">
+    <a class="logo tse-header-logo" href="/frontend.html" aria-label="Ir al inicio">
+      <img src="/icono/tsev2_beta.png" alt="TodoSevillaEste">
+    </a>
+  </div>
+</header>
+
+<div class="page">
+  <div class="box">
+    <button type="button" id="backBtn" class="back-arrow" onclick="goPrevStep()" aria-label="Atrás">←</button>
+    <h1>Crear negocio</h1>
+
+    <div id="authGate" class="auth-gate">
+      <p>Para continuar necesitas iniciar sesión o crear una cuenta. Si vienes desde <strong>Añade tu negocio</strong>, volverás aquí automáticamente.</p>
+      <div class="auth-gate-actions">
+        <button class="btn btn-primary" type="button" onclick="goLogin()">Iniciar sesión</button>
+        <button class="btn btn-secondary" type="button" onclick="goRegister()">Crear cuenta</button>
+      </div>
+    </div>
+
+    <form id="businessWizard" class="wizard" autocomplete="off" novalidate>
+      <div class="step active" data-step="0">
+        <div class="input-wrap float">
+          <input id="bizName" type="text" maxlength="120" placeholder=" ">
+          <label for="bizName">Nombre del negocio</label>
+        </div>
+        <div id="nameHelp" class="step-help"></div>
+      </div>
+
+      <div class="step" data-step="1">
+        <span class="step-label">2. Categoría</span>
+        <div class="category-row">
+          <span id="categoryPill" class="category-pill empty">Sin categoria seleccionada</span>
+          <button class="btn btn-secondary" type="button" id="openCategoryBtn">Elegir categoria</button>
+        </div>
+        <input id="bizCategory" type="hidden">
+        <div id="categoryHelp" class="step-help"></div>
+      </div>
+
+      <div class="step" data-step="2">
+        <span class="step-label">3. Datos de contacto</span>
+        <div class="input-wrap float"><input id="bizPhone" type="tel" maxlength="25" placeholder=" "><label for="bizPhone">Teléfono</label></div>
+        <div class="input-wrap float"><input id="bizEmail" type="email" maxlength="180" placeholder=" "><label for="bizEmail">Correo publico</label></div>
+        <div class="input-wrap float"><input id="bizSocial" type="text" maxlength="180" placeholder=" "><label for="bizSocial">Redes sociales o web</label></div>
+        <label id="contactConsent" class="contact-consent" for="contactConsentCheck">
+          <input id="contactConsentCheck" type="checkbox">
+          <span>
+            <strong>Entiendo y acepto que esta informacion sea publica</strong>
+          </span>
+        </label>
+        <div id="contactHelp" class="step-help"></div>
+      </div>
+
+      <div class="step" data-step="3">
+        <span class="step-label">4. Descripción breve</span>
+        <div class="input-wrap float">
+          <textarea id="bizSummary" maxlength="200" placeholder=" "></textarea>
+          <label for="bizSummary">Cuéntanos qué hace tu negocio</label>
+        </div>
+        <div class="summary-line"><span></span><span id="summaryCount">0/200</span></div>
+        <div id="summaryHelp" class="step-help"></div>
+      </div>
+
+      <div class="step" data-step="4">
+        <span class="step-label">5. Dirección y mapa</span>
+        <div class="step-note">Marca la ubicacion exacta directamente sobre el mapa.</div>
+        <input id="bizLat" type="hidden">
+        <input id="bizLng" type="hidden">
+        <div id="mapCanvas" class="map-canvas"></div>
+        <div id="mapNote" class="map-note">Haz clic sobre el mapa para fijar la ubicacion publica del negocio.</div>
+        <div id="addressHelp" class="step-help"></div>
+      </div>
+
+      <div class="step" data-step="5">
+        <span class="step-label">6. Horario regular</span>
+        <div id="regularScheduleWrapper" class="regular-schedule-container">
+            <!-- Los días se generarán aquí automáticamente -->
+        </div>
+        <div id="scheduleHelp" class="step-help">Define las franjas horarias arrastrando los selectores.</div>
+      </div>
+
+      <div class="step" data-step="6">
+        <span class="step-label">7. Foto principal</span>
+        <div class="step-note">Añade una imagen de portada. Avisaremos de que será pública.</div>
+        <div class="public-note">
+          <div>
+            <strong>La foto principal será pública</strong>
+            <div>Se usara como primera imagen visible del negocio en la web.</div>
+          </div>
+        </div>
+        <div class="photo-field">
+          <div class="photo-pick">
+            <input id="bizPhoto" type="file" accept="image/*">
+            <label for="bizPhoto" class="btn btn-secondary">Elegir foto</label>
+          </div>
+        </div>
+        <div class="photo-box" id="photoPreview"><span>Sin imagen seleccionada</span></div>
+        <div class="photo-meta" id="photoMeta">Puedes subirla ahora o dejarla pendiente para la siguiente fase.</div>
+        <div id="photoHelp" class="step-help"></div>
+      </div>
+
+      <input id="antibotHoney" name="company" autocomplete="off" tabindex="-1" style="position:absolute;left:-9999px;opacity:0;height:0;width:0;border:0;padding:0;margin:0;" aria-hidden="true">
+
+      <div id="stepActions" class="step-actions">
+        <button id="nextBtn" class="main" type="button" onclick="handleStepAction()" disabled>Siguiente</button>
+      </div>
+      <div id="stepProgress" class="step-progress" aria-hidden="true"><div class="bar"></div></div>
+      <div id="draftStatus" class="footer-note" aria-live="polite"></div>
+      <div class="link" onclick="goBack()">Volver al inicio</div>
+    </form>
+  </div>
+</div>
+
+<footer class="site-footer">
+  <div class="footer-top">
+    <span class="footer-copy">© 2026 Todo Sevilla Este</span>
+    <span id="footerVersion" class="footer-version" data-version="3.7">Version: 3.7</span>
+  </div>
+  <nav class="footer-links" aria-label="Enlaces legales">
+    <a class="footer-link" href="/frontend.html">Inicio</a>
+    <a class="footer-link" href="/cookies.html">Cookies</a>
+    <a class="footer-link" href="/privacidad.html">Privacidad</a>
+    <a class="footer-link" href="/terminos.html">Términos</a>
+    <a class="footer-link" href="/aviso_legal.html">Aviso legal</a>
+  </nav>
+</footer>
+
+<div id="categoryModal" class="modal-overlay" aria-hidden="true">
+  <div class="modal-card">
+    <div class="modal-head">
+      <div>
+        <h3>Seleccionar categoria</h3>
+        <div class="step-note" id="catTargetHint">Elige la categoria del negocio.</div>
+      </div>
+      <button class="modal-close" type="button" aria-label="Cerrar" onclick="closeCategoryModal()">&times;</button>
+    </div>
+    <input id="catSearchInput" class="cat-search" type="text" placeholder="Buscar categoria...">
+    <div class="cat-quick" id="catQuickPicks"></div>
+    <div id="catList" class="cat-list"></div>
+  </div>
+</div>
+
+<div id="successModal" class="modal-overlay" aria-hidden="true">
+  <div class="modal-card" style="max-width:460px;">
+    <div class="modal-head">
+      <div>
+        <h3>Formulario enviado</h3>
+        <div class="step-note">Tu solicitud se ha registrado correctamente.</div>
+      </div>
+      <button class="modal-close" type="button" aria-label="Cerrar" onclick="goToFrontend()">&times;</button>
+    </div>
+    <p style="margin:0 0 14px; color:#374151; line-height:1.5;">
+      Hemos recibido el formulario de alta del negocio. Pulsa aceptar para volver a la página principal.
+    </p>
+    <div style="display:flex; justify-content:flex-end;">
+      <button class="btn btn-primary" type="button" onclick="goToFrontend()">Aceptar</button>
+    </div>
+  </div>
+</div>
+
+<script>
+const REDIRECT_TARGET = "/alta_negocio.html";
+const DAYS = ["Lunes","Martes","Miercoles","Jueves","Viernes","Sabado","Domingo"];
+const TOP_CATEGORIES = ["Hosteleria","Tiendas","Servicios","Belleza","Restauracion"];
+const ALL_CATEGORIES = [
+  "Supermercados","Tiendas de alimentacion","Fruterias","Carnicerias","Pescaderias","Panaderias / pastelerias","Tiendas ecologicas / bio","Tiendas gourmet",
+  "Tiendas de ropa","Zapaterias","Tiendas de deportes","Tiendas de bebes / infantil","Jugueterias","Papelerias / librerias","Tiendas de informatica",
+  "Tiendas de moviles / accesorios","Tiendas de electrodomesticos","Tiendas de muebles","Decoracion / hogar","Ferreterias","Pinturas / bricolaje","Iluminacion",
+  "Bazares / multiprecio","Floristerias","Regalos / souvenirs","Joyeria / relojeria","Opticas","Parafarmacias","Bares","Cafeterias","Restaurantes",
+  "Fast food / comida rapida","Hamburgueserias","Pizzerias","Kebabs","Comida para llevar","Catering","Heladerias","Pastelerias cafeteria","Bares de tapas",
+  "Cervecerias","Pub / copas","Discotecas","Food trucks","Abogados","Asesorias / gestorias","Consultorias","Notarias","Arquitectos","Ingenieros",
+  "Administradores de fincas","Traductores","Marketing / publicidad","Diseno grafico","Fotografia / video","Recursos humanos","Formacion empresarial",
+  "Servicios juridicos","Coworking / centros de negocios","Clinicas medicas","Clinicas dentales","Fisioterapia","Psicologia","Podologia","Nutricionistas",
+  "Centros de estetica","Peluquerias","Barberias","Centros de masaje","Quiromasaje","Centros de depilacion laser","Clinicas veterinarias","Farmacias",
+  "Gimnasios","Crossfit","Artes marciales","Yoga / pilates","Academias de baile","Entrenadores personales","Clubes deportivos","Piscinas",
+  "Escuelas deportivas","Escape room","Salones recreativos","Cines","Parques infantiles","Organizacion de eventos","Guarderias","Academias escolares",
+  "Academias de idiomas","Clases particulares","Academias de oposiciones","Formacion profesional","Autoescuelas","Escuelas de musica","Escuelas de arte",
+  "Formacion online","Inmobiliarias","Promotoras","Reformas","Albaniles","Electricistas","Fontaneros","Pintores","Carpinteria madera","Carpinteria aluminio / PVC",
+  "Cerrajeros","Instaladores aire acondicionado","Energia solar","Domotica","Talleres mecanicos","Taller chapa y pintura","Electricidad del automovil",
+  "Lavaderos de coches","Compra-venta vehiculos","Rent a car","ITV / inspeccion","Repuestos automovil","Neumaticos","Gasolineras","Mensajeria / paqueteria",
+  "Transporte privado","Reparacion moviles","Desarrollo web","Software / apps","Ciberseguridad","Telecomunicaciones","Marketing digital","Hosting / servidores",
+  "Servicios IT","Impresion 3D","Limpieza","Seguridad privada","Control de plagas","Lavanderias","Tintorerias","Alquiler maquinaria","Alquiler vehiculos",
+  "Mudanzas","Almacenes / logistica","Distribucion / mayoristas","Importacion / exportacion","Estudios de tatuajes","Estudios de grabacion","Galerias de arte",
+  "Tiendas de musica","Productoras audiovisuales","Organizacion de bodas","Animacion infantil","Decoracion eventos","Editoriales","Artesania","Agricultura urbana / huertos",
+  "Energias renovables","Reciclaje / residuos","ONG / asociaciones","Servicios domesticos","Cuidado de mayores","Cuidado infantil","Empleo domestico"
+];
+
+const params = new URLSearchParams(location.search);
+const redirect = params.get("redirect") || "/";
+const safeRedirect = (() => {
+  try{
+    const u = new URL(redirect || "/", window.location.origin);
+    if(u.origin !== window.location.origin) return "/frontend.html";
+    return `${u.pathname}${u.search}${u.hash}`;
+  }catch(_e){
+    return "/frontend.html";
+  }
+})();
+
+const wizard = document.getElementById("businessWizard");
+const authGate = document.getElementById("authGate");
+const steps = Array.from(document.querySelectorAll(".step"));
+const stepMeta = document.getElementById("stepMeta");
+const stepActions = document.getElementById("stepActions");
+const nextBtn = document.getElementById("nextBtn");
+const draftStatus = document.getElementById("draftStatus");
+const nameInput = document.getElementById("bizName");
+const categoryInput = document.getElementById("bizCategory");
+const categoryPill = document.getElementById("categoryPill");
+const catTargetHint = document.getElementById("catTargetHint");
+const catSearchInput = document.getElementById("catSearchInput");
+const catList = document.getElementById("catList");
+const catQuickPicks = document.getElementById("catQuickPicks");
+const summaryInput = document.getElementById("bizSummary");
+const summaryCount = document.getElementById("summaryCount");
+const contactConsent = document.getElementById("contactConsent");
+const contactConsentCheck = document.getElementById("contactConsentCheck");
+const mapCanvas = document.getElementById("mapCanvas");
+const mapNote = document.getElementById("mapNote");
+const latInput = document.getElementById("bizLat");
+const lngInput = document.getElementById("bizLng");
+const scheduleEditor = document.getElementById("scheduleEditor");
+const photoInput = document.getElementById("bizPhoto");
+const photoPreview = document.getElementById("photoPreview");
+const photoMeta = document.getElementById("photoMeta");
+const sessionState = document.getElementById("sessionState");
+const stepProgress = document.getElementById("stepProgress");
+let stepProgressTimer = null;
+
+let currentStep = 0;
+let currentCategoryTarget = null;
+let photoObjectUrl = "";
+let mapState = { map:null, marker:null };
+let sessionEmail = "";
+let submittingBusiness = false;
+let businessSubmitted = false;
+
+function openModal(modal){
+  if(!modal) return;
+  modal.classList.add("show");
+  modal.setAttribute("aria-hidden", "false");
+  document.body.style.overflow = "hidden";
+}
+
+function closeModal(modal){
+  if(!modal) return;
+  modal.classList.remove("show");
+  modal.setAttribute("aria-hidden", "true");
+  document.body.style.overflow = "";
+}
+
+function goToFrontend(){
+  closeModal(document.getElementById("successModal"));
+  window.location.href = "/frontend.html";
+}
+
+function goBack(){
+  if(window.history.length > 1){
+    window.history.back();
+    return;
+  }
+  window.location.href = "/frontend.html";
+}
+function goLogin(){ window.location.href = `/login.html?redirect=${encodeURIComponent(REDIRECT_TARGET)}`; }
+function goRegister(){ window.location.href = `/register.html?redirect=${encodeURIComponent(REDIRECT_TARGET)}`; }
+function setDraftStatus(message){ if(draftStatus) draftStatus.textContent = message || ""; }
+function getLatLngValue(input){
+  const raw = String(input && input.value || "").trim().replace(",", ".");
+  const num = Number(raw);
+  return Number.isFinite(num) ? num : null;
+}
+
+function hasContactValue(){
+  return ["bizPhone","bizEmail","bizSocial"].some((id) => String(document.getElementById(id).value || "").trim());
+}
+function needsContactConsent(){
+  return hasContactValue();
+}
+function hasContactConsentAccepted(){
+  return !!(contactConsentCheck && contactConsentCheck.checked);
+}
+function hasScheduleValue(){
+  return Object.values(collectSchedule()).some((rows) => Array.isArray(rows) && rows.length);
+}
+function updateSummaryCount(){
+  if(summaryCount) summaryCount.textContent = `${String(summaryInput.value || "").length}/200`;
+}
+
+function updateHelpForCurrentStep(){
+  const nameHelp = document.getElementById("nameHelp");
+  const categoryHelp = document.getElementById("categoryHelp");
+  const contactHelp = document.getElementById("contactHelp");
+  const summaryHelp = document.getElementById("summaryHelp");
+  const addressHelp = document.getElementById("addressHelp");
+  const scheduleHelp = document.getElementById("scheduleHelp");
+  const photoHelp = document.getElementById("photoHelp");
+  if(nameHelp) nameHelp.textContent = currentStep === 0 && !String(nameInput.value || "").trim() ? "" : "";
+  if(categoryHelp) categoryHelp.textContent = currentStep === 1 && !String(categoryInput.value || "").trim() ? "" : "";
+  if(summaryHelp) summaryHelp.textContent = currentStep === 3 && !String(summaryInput.value || "").trim() ? "" : "";
+  if(addressHelp) addressHelp.textContent = currentStep === 4 && !(latInput && latInput.value && lngInput && lngInput.value) ? "" : "";
+  if(scheduleHelp) scheduleHelp.textContent = currentStep === 5 && !hasScheduleValue() ? "Añade al menos un tramo horario para continuar." : "";
+  if(photoHelp) photoHelp.textContent = currentStep === 6 ? "Recuerda que la foto principal será pública." : "";
+  if(contactConsent){
+    contactConsent.classList.toggle("show", currentStep === 2 && needsContactConsent());
+  }
+  updateSummaryCount();
+}
+
+function updateNextButtonState(){
+  if(!nextBtn) return;
+  const canProceed = !submittingBusiness && !businessSubmitted && validateStep(currentStep);
+  nextBtn.disabled = !canProceed;
+  if(businessSubmitted){
+    nextBtn.textContent = "Solicitud enviada";
+  }else{
+    nextBtn.textContent = currentStep === 2 && !hasContactValue()
+      ? "Omitir"
+      : (currentStep < 6 ? "Siguiente" : "Enviar solicitud");
+  }
+}
+
+function showStep(idx){
+  currentStep = Math.max(0, Math.min(idx, steps.length - 1));
+  steps.forEach((step, i) => step.classList.toggle("active", i === currentStep));
+  if(stepMeta) stepMeta.textContent = `Paso ${currentStep + 1} de ${steps.length}`;
+  const backBtn = document.getElementById("backBtn");
+  if(backBtn) backBtn.style.display = currentStep === 0 ? "none" : "inline-flex";
+  stepActions.classList.toggle("single", currentStep === 0);
+  updateHelpForCurrentStep();
+  updateNextButtonState();
+  focusStepControl();
+  if(currentStep === 4 && mapState.map){
+    const refreshMapSize = () => {
+      try{
+        mapState.map.invalidateSize(true);
+        if(mapState.marker){
+          mapState.map.panTo(mapState.marker.getLatLng(), { animate:false });
+        }
+      }catch(_e){}
+    };
+    setTimeout(refreshMapSize, 50);
+    setTimeout(refreshMapSize, 250);
+  }
+}
+
+function triggerStepProgress(){
+  if(!stepProgress) return;
+  stepProgress.classList.add("active");
+  if(stepProgressTimer){
+    clearTimeout(stepProgressTimer);
+  }
+  stepProgressTimer = setTimeout(()=>{
+    stepProgress.classList.remove("active");
+    stepProgressTimer = null;
+  }, 900);
+}
+
+function focusStepControl(){
+  const step = steps[currentStep];
+  if(!step) return;
+  const el = Array.from(step.querySelectorAll("input:not([type='hidden']), textarea, select, button")).find((node) => node && !node.disabled);
+  if(!el) return;
+  setTimeout(() => { try{ el.focus({ preventScroll:true }); }catch(_e){ try{ el.focus(); }catch(_e2){} } }, 0);
+}
+
+function validateStep(stepIndex){
+  if(stepIndex === 0) return !!String(nameInput.value || "").trim();
+  if(stepIndex === 1) return !!String(categoryInput.value || "").trim();
+  if(stepIndex === 2) return !hasContactValue() || hasContactConsentAccepted();
+  if(stepIndex === 3) return !!String(summaryInput.value || "").trim();
+  if(stepIndex === 4) return !!(latInput && latInput.value && lngInput && lngInput.value);
+  if(stepIndex === 5) return hasScheduleValue();
+  return true;
+}
+
+async function handleStepAction(){
+  if(currentStep === 2 && !hasContactValue()){
+    setDraftStatus("");
+    // Añadimos el retraso también aquí
+    triggerStepProgress();
+    setTimeout(() => showStep(3), 800); 
+    return;
+  }
+  
+  if(!validateStep(currentStep)){
+    updateHelpForCurrentStep();
+    return;
+  }
+
+  // Iniciamos la animación de la barra
+  triggerStepProgress();
+
+  // Si es el último paso, enviamos el formulario
+  if(currentStep >= steps.length - 1){
+    await submitBusinessForm();
+    return;
+  }
+
+  // RETRASO: Esperamos 800ms antes de cambiar de pantalla
+  setTimeout(() => {
+    showStep(currentStep + 1);
+  }, 800); 
+}
+
+function goPrevStep(){
+  if(currentStep <= 0){
+    goBack();
+    return;
+  }
+  showStep(currentStep - 1);
+}
+
+function updateCategoryUI(){
+  const value = String(categoryInput.value || "").trim();
+  if(categoryPill){
+    categoryPill.textContent = value || "Sin categoria seleccionada";
+    categoryPill.classList.toggle("empty", !value);
+  }
+}
+
+function escapeHtml(text){
+  return String(text || "").replace(/[&<>"']/g, (ch) => ({ "&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;","'":"&#39;" }[ch] || ch));
+}
+
+function openCategoryModal(){
+  currentCategoryTarget = categoryInput;
+  catTargetHint.textContent = "Selecciona la categoria del negocio.";
+  catSearchInput.value = String(categoryInput.value || "");
+  renderCategoryList();
+  document.getElementById("categoryModal").classList.add("show");
+  document.getElementById("categoryModal").setAttribute("aria-hidden", "false");
+  document.body.style.overflow = "hidden";
+  setTimeout(() => { try{ catSearchInput.focus({ preventScroll:true }); }catch(_e){ try{ catSearchInput.focus(); }catch(_e2){} } }, 0);
+}
+function closeCategoryModal(){
+  document.getElementById("categoryModal").classList.remove("show");
+  document.getElementById("categoryModal").setAttribute("aria-hidden", "true");
+  document.body.style.overflow = "";
+  currentCategoryTarget = null;
+}
+function selectCategory(category){
+  if(!currentCategoryTarget) return;
+  currentCategoryTarget.value = String(category || "").trim();
+  updateCategoryUI();
+  updateHelpForCurrentStep();
+  updateNextButtonState();
+  closeCategoryModal();
+}
+function renderCategoryList(){
+  const search = String(catSearchInput.value || "").trim().toLowerCase();
+  const quick = TOP_CATEGORIES.filter((cat) => !search || cat.toLowerCase().includes(search));
+  const filtered = ALL_CATEGORIES.filter((cat) => !search || cat.toLowerCase().includes(search));
+  const selected = String(categoryInput.value || "").trim().toLowerCase();
+  catQuickPicks.innerHTML = quick.map((cat) => `<button type="button" onclick="selectCategory('${escapeHtml(cat).replace(/'/g, "\\'")}')">${escapeHtml(cat)}</button>`).join("");
+  catList.innerHTML = filtered.length
+    ? filtered.map((cat) => `
+      <button type="button" class="cat-item${selected === cat.toLowerCase() ? " selected" : ""}" onclick="selectCategory('${escapeHtml(cat).replace(/'/g, "\\'")}')">
+        <strong>${escapeHtml(cat)}</strong>
+        <span>${selected === cat.toLowerCase() ? "Seleccionada" : "Categoría"}</span>
+      </button>`).join("")
+    : `<div class="step-note">No hay resultados para esa categoria.</div>`;
+}
+
+function collectSchedule(){
+  // Lectura del horario usando la implementación basada en sliders (initRegularSchedule/addTramo)
+  // y fallback a la implementación legacy (initScheduleUI/addTimeTray) por compatibilidad.
+  const schedule = {};
+  const dayCards = Array.from(document.querySelectorAll("#regularScheduleWrapper .day-card"));
+  dayCards.forEach((dayCard, idx) => {
+    const dia = String(dayCard.dataset.day || (window.diasSemana && window.diasSemana[idx]) || `Dia_${idx + 1}`);
+    const rows = [];
+
+    // 1) UI sliders: #trays-<dia> con inputs #input-start-<trayId> / #input-end-<trayId>
+    const traysContainer = dayCard.querySelector('[id^="trays-"]');
+    if(traysContainer){
+      const startInputs = traysContainer.querySelectorAll('input[id^="input-start-"]');
+      if(startInputs && startInputs.length){
+        startInputs.forEach((sIn) => {
+          const id = String(sIn.id || "");
+          const trayId = id.replace("input-start-", "");
+          const eIn = traysContainer.querySelector(`#input-end-${trayId}`);
+          const startRaw = Number.parseInt(String(sIn.value || ""), 10);
+          const endRaw = Number.parseInt(String(eIn?.value || ""), 10);
+          const start = Number.isFinite(startRaw) ? minutesToTime(startRaw) : "";
+          const end = Number.isFinite(endRaw) ? minutesToTime(endRaw) : "";
+          if(start && end && start < end){
+            rows.push({ inicio: start, fin: end });
+          }
+        });
+      }
+    }
+
+    // 2) Fallback legacy: buscar .time-tray con inputs .tray-start/.tray-end dentro del contenedor wrapper
+    if(!rows.length && traysContainer){
+      traysContainer.querySelectorAll(".time-tray").forEach((tray) => {
+        const start = String(tray.querySelector(".tray-start")?.value || "").trim();
+        const end = String(tray.querySelector(".tray-end")?.value || "").trim();
+        if(start && end && start < end){
+          rows.push({ inicio: start, fin: end });
+        }
+      });
+    }
+
+    schedule[dia] = rows.sort((a,b) => a.inicio.localeCompare(b.inicio));
+  });
+
+  return schedule;
+}
+
+function updateDayStatus(dayCard){
+  const status = dayCard.querySelector(".day-status");
+  const hasRows = dayCard.querySelectorAll(".time-tray").length > 0;
+  if(!status) return;
+  status.textContent = hasRows ? "Dia abierto" : "Dia cerrado";
+  status.classList.toggle("open", hasRows);
+  status.classList.toggle("closed", !hasRows);
+}
+
+function addTimeTray(dayCard, data = null){
+  const tray = document.createElement("div");
+  tray.className = "time-tray";
+  tray.innerHTML = `
+    <input type="time" class="tray-start" value="${data?.inicio || "09:00"}">
+    <span style="text-align:center;font-weight:800;color:#64748b;">a</span>
+    <input type="time" class="tray-end" value="${data?.fin || "14:00"}">
+    <button type="button" class="btn btn-secondary mini-btn tray-remove" aria-label="Eliminar tramo">-</button>`;
+  tray.querySelector(".tray-remove").addEventListener("click", () => {
+    tray.remove();
+    updateDayStatus(dayCard);
+    updateHelpForCurrentStep();
+    updateNextButtonState();
+  });
+  tray.querySelectorAll("input").forEach((input) => input.addEventListener("input", () => {
+    updateHelpForCurrentStep();
+    updateNextButtonState();
+  }));
+  dayCard.querySelector(".day-trays").appendChild(tray);
+  updateDayStatus(dayCard);
+  updateNextButtonState();
+}
+
+function initScheduleUI(existing = null) {
+  // 1. Buscamos el contenedor por ID para evitar el error de "null"
+  const container = document.getElementById("regularScheduleWrapper");
+  
+  if (!container) {
+    console.warn("Contenedor 'regularScheduleWrapper' no encontrado. Abortando initScheduleUI.");
+    return;
+  }
+
+  // 2. Limpiamos el contenido
+  container.innerHTML = "";
+
+  // 3. Iteramos sobre los días (asumiendo que DAYS es ['Lunes', 'Martes', ...])
+  DAYS.forEach((day, idx) => {
+    const dayCard = document.createElement("div");
+    dayCard.className = "day-card"; // Clase actualizada para tus nuevos estilos
+    dayCard.dataset.dayIndex = String(idx);
+    
+    // 4. Estructura HTML compatible con la imagen image_a563f7.png
+    dayCard.innerHTML = `
+      <div class="day-header">
+        <span class="day-label">${day}</span>
+        <span class="status-badge status-closed">Día cerrado</span>
+      </div>
+      <div class="day-trays"></div>
+      <div style="margin-top:12px;">
+        <button type="button" class="btn-add-tramo" data-add-tray>
+          + Añadir tramo
+        </button>
+      </div>`;
+
+    // 5. Evento para añadir tramos
+    dayCard.querySelector("[data-add-tray]").addEventListener("click", () => {
+      // Llamamos a addTimeTray (asegúrate de que esta función use la lógica del slider amarillo)
+      addTimeTray(dayCard); 
+    });
+
+    container.appendChild(dayCard);
+
+    // 6. Cargar datos existentes si los hay
+    const rows = (existing && Array.isArray(existing[day])) ? existing[day] : [];
+    rows.forEach((row) => addTimeTray(dayCard, row));
+    
+    // 7. Actualizar el estado visual (Cerrado/Abierto)
+    updateDayStatus(dayCard);
+  });
+
+  // 8. Validar estado del formulario
+  if (typeof updateNextButtonState === "function") {
+    updateNextButtonState();
+  }
+}
+
+function ensureLeafletAssets(){
+  if(window.L?.map) return Promise.resolve(true);
+  if(window.__altaLeafletPromise) return window.__altaLeafletPromise;
+  window.__altaLeafletPromise = new Promise((resolve) => {
+    if(!document.getElementById("leaflet-css-alta")){
+      const link = document.createElement("link");
+      link.id = "leaflet-css-alta";
+      link.rel = "stylesheet";
+      link.href = "https://unpkg.com/leaflet@1.9.4/dist/leaflet.css";
+      document.head.appendChild(link);
+    }
+    const script = document.createElement("script");
+    script.src = "https://unpkg.com/leaflet@1.9.4/dist/leaflet.js";
+    script.async = true;
+    script.defer = true;
+    script.onload = () => resolve(true);
+    script.onerror = () => resolve(false);
+    document.head.appendChild(script);
+  });
+  return window.__altaLeafletPromise;
+}
+
+function syncMapInputs(lat, lng){
+  if(latInput) latInput.value = Number(lat).toFixed(7);
+  if(lngInput) lngInput.value = Number(lng).toFixed(7);
+}
+function updateMapNote(message){
+  if(mapNote) mapNote.textContent = message || "";
+}
+function applyMapCoordinates(lat, lng, center = true){
+  syncMapInputs(lat, lng);
+  updateMapNote(``);
+  if(!mapState.map || !window.L) return;
+  const position = [Number(lat), Number(lng)];
+  if(!mapState.marker){
+    mapState.marker = L.marker(position, { draggable:true }).addTo(mapState.map);
+    mapState.marker.on("dragend", () => {
+      const point = mapState.marker.getLatLng();
+      syncMapInputs(point.lat, point.lng);
+      updateMapNote(`Ubicacion lista: ${point.lat.toFixed(6)}, ${point.lng.toFixed(6)}`);
+      updateHelpForCurrentStep();
+      updateNextButtonState();
+    });
+  }else{
+    mapState.marker.setLatLng(position);
+  }
+  if(center) mapState.map.setView(position, Math.max(14, Number(mapState.map.getZoom() || 0)));
+  updateHelpForCurrentStep();
+  updateNextButtonState();
+}
+async function initMapPicker(){
+  if(!mapCanvas) return;
+  const ready = await ensureLeafletAssets();
+  if(!ready || !window.L?.map){
+    mapCanvas.classList.add("hidden");
+    updateMapNote("No se pudo cargar el mapa interactivo. Puedes seguir con la direccion y volver mas tarde.");
+    return;
+  }
+  mapCanvas.classList.remove("hidden");
+  mapState = { map:null, marker:null };
+  mapState.map = L.map(mapCanvas).setView([37.4050, -5.9327], 15);
+  L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", { maxZoom:19, attribution:"&copy; OpenStreetMap" }).addTo(mapState.map);
+  mapState.map.on("click", (event) => {
+    const { lat, lng } = event.latlng || {};
+    if(typeof lat === "number" && typeof lng === "number") applyMapCoordinates(lat, lng, false);
+  });
+  updateMapNote("");
+  setTimeout(() => {
+    if(mapState.map) mapState.map.invalidateSize(true);
+  }, 120);
+}
+async function resolveAddressFromMap(){
+  const lat = getLatLngValue(latInput);
+  const lng = getLatLngValue(lngInput);
+  if(lat === null || lng === null) return "";
+  try{
+    const url = `https://nominatim.openstreetmap.org/reverse?format=jsonv2&lat=${encodeURIComponent(String(lat))}&lon=${encodeURIComponent(String(lng))}`;
+    const res = await fetch(url, { headers:{ Accept:"application/json" } });
+    const data = await res.json().catch(() => ({}));
+    const parts = [];
+    const address = data && data.address ? data.address : null;
+    if(address){
+      if(address.road) parts.push(address.road);
+      if(address.house_number) parts.push(address.house_number);
+      if(address.suburb) parts.push(address.suburb);
+      if(address.city || address.town || address.village) parts.push(address.city || address.town || address.village);
+    }
+    const label = parts.filter(Boolean).join(", ").trim();
+    if(label) return label;
+    if(data && data.display_name) return String(data.display_name).trim();
+  }catch(_e){}
+  return `Ubicacion seleccionada (${lat.toFixed(6)}, ${lng.toFixed(6)})`;
+}
+function buildBusinessPayload(addressText){
+  const publicContactEmail = String(document.getElementById("bizEmail").value || "").trim();
+  const contactPhone = String(document.getElementById("bizPhone").value || "").trim();
+  const contactSocial = String(document.getElementById("bizSocial").value || "").trim();
+  const summary = String(summaryInput.value || "").trim();
+  const lat = getLatLngValue(latInput);
+  const lng = getLatLngValue(lngInput);
+  const technicalEmail = publicContactEmail || `revision-${Date.now()}-${Math.floor(Math.random() * 100000)}@todosevillaeste.local`;
+  return {
+    name: String(nameInput.value || "").trim(),
+    address: String(addressText || "").trim(),
+    phone: contactPhone,
+    website: contactSocial,
+    category: String(categoryInput.value || "").trim(),
+    business_email: technicalEmail,
+    public_contact_email: publicContactEmail || "",
+    notification_email: sessionEmail || publicContactEmail || "",
+    suppress_business_email: !publicContactEmail,
+    map_latitude: lat,
+    map_longitude: lng,
+    description: summary,
+    initial_phrase: summary.slice(0, 120) || "Tu negocio de confianza en el barrio.",
+    opening_hours: collectSchedule(),
+    active: false
+  };
+}
+async function submitBusinessForm(){
+  if(submittingBusiness || businessSubmitted) return;
+  if(!validateStep(0) || !validateStep(1) || !validateStep(3) || !validateStep(4) || !validateStep(5)){
+    updateHelpForCurrentStep();
+    return;
+  }
+  submittingBusiness = true;
+  updateNextButtonState();
+  setDraftStatus("Enviando tu solicitud... un momento.");
+  try{
+    const addressText = await resolveAddressFromMap();
+    const payload = buildBusinessPayload(addressText);
+    const res = await fetch("/places", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      credentials: "include",
+      body: JSON.stringify(payload)
+    });
+    const result = await res.json().catch(() => ({}));
+    if(!res.ok){
+      throw new Error(result.detail || "No se pudo enviar la solicitud");
+    }
+    const file = photoInput.files && photoInput.files[0];
+    if(file && file.size > 0 && result && result.id){
+      const imgFd = new FormData();
+      imgFd.append("file", file);
+      await fetch(`/places/${encodeURIComponent(result.id)}/main_photo`, {
+        method: "POST",
+        credentials: "include",
+        body: imgFd
+      });
+    }
+    const reviewMessage = "Tu negocio está en revisión. Te enviaremos un correo cuando el equipo lo valide.";
+    businessSubmitted = true;
+    setDraftStatus(reviewMessage);
+    if(draftStatus) draftStatus.scrollIntoView({ behavior:"smooth", block:"center" });
+    if(result && result.warning){
+      setDraftStatus(`${reviewMessage} ${result.warning}`);
+    }
+    if(result && result.review_email_delivery){
+      if(result.review_email_delivery === "accepted_by_smtp"){
+        setDraftStatus(`${reviewMessage} Hemos enviado el aviso al correo de tu cuenta.`);
+      }else if(result.review_email_delivery === "missing_target"){
+        setDraftStatus(`${reviewMessage} No encontramos un correo de aviso para enviarte la confirmación.`);
+      }
+    }
+    if(result && result.email_delivery && result.email_delivery !== "skipped_by_request"){
+      setDraftStatus(`${reviewMessage} Envío de correo: ${result.email_delivery}.`);
+    }
+    showStep(6);
+    openModal(document.getElementById("successModal"));
+  }catch(error){
+    setDraftStatus(error && error.message ? error.message : "No se pudo enviar la solicitud.");
+  }finally{
+    submittingBusiness = false;
+    updateNextButtonState();
+  }
+}
+function updatePhotoPreview(){
+  if(photoObjectUrl){
+    URL.revokeObjectURL(photoObjectUrl);
+    photoObjectUrl = "";
+  }
+  const file = photoInput.files && photoInput.files[0];
+  if(!file){
+    photoPreview.innerHTML = "<span>Sin imagen seleccionada</span>";
+    photoMeta.textContent = "Puedes subirla ahora o dejarla pendiente para la siguiente fase.";
+    return;
+  }
+  photoObjectUrl = URL.createObjectURL(file);
+  photoPreview.innerHTML = `<img src="${photoObjectUrl}" alt="Vista previa de la foto principal">`;
+  photoMeta.textContent = `${file.name} - esta imagen será pública en la ficha del negocio.`;
+}
+
+function loadSession(){
+  fetch("/auth/me", { credentials:"include", cache:"no-store" })
+    .then((res) => {
+      if(!res.ok) throw new Error("no-session");
+      return res.json().catch(() => ({}));
+    })
+    .then((data) => {
+      sessionEmail = String(data.email || data.user?.email || "").trim();
+      if(sessionState) sessionState.textContent = data.username || "Si";
+      if(authGate) authGate.classList.remove("show");
+      if(wizard) wizard.classList.add("show");
+      showStep(0);
+    })
+    .catch(() => {
+      if(sessionState) sessionState.textContent = "No";
+      if(authGate) authGate.classList.add("show");
+      if(wizard) wizard.classList.remove("show");
+    });
+}
+
+document.addEventListener("DOMContentLoaded", () => {
+  // Importante: usar SOLO la implementación de sliders para evitar inconsistencias al guardar opening_hours
+  initRegularSchedule();
+  updateCategoryUI();
+  updateHelpForCurrentStep();
+  showStep(0);
+  initMapPicker();
+  loadSession();
+
+  document.getElementById("openCategoryBtn").addEventListener("click", openCategoryModal);
+  catSearchInput.addEventListener("input", renderCategoryList);
+  document.getElementById("categoryModal").addEventListener("click", (e) => {
+    if(e.target === e.currentTarget) closeCategoryModal();
+  });
+  document.getElementById("successModal").addEventListener("click", (e) => {
+    if(e.target === e.currentTarget) goToFrontend();
+  });
+  document.getElementById("businessWizard").addEventListener("submit", (event) => {
+    event.preventDefault();
+    submitBusinessForm();
+  });
+  nameInput.addEventListener("input", () => {
+    updateHelpForCurrentStep();
+    updateNextButtonState();
+  });
+  categoryInput.addEventListener("input", () => {
+    updateCategoryUI();
+    updateHelpForCurrentStep();
+    updateNextButtonState();
+  });
+  ["bizPhone","bizEmail","bizSocial"].forEach((id) => {
+    document.getElementById(id).addEventListener("input", () => {
+      if(!hasContactValue() && contactConsentCheck) contactConsentCheck.checked = false;
+      updateHelpForCurrentStep();
+      updateNextButtonState();
+    });
+  });
+  if(contactConsentCheck){
+    contactConsentCheck.addEventListener("change", () => {
+      updateHelpForCurrentStep();
+      updateNextButtonState();
+    });
+  }
+  summaryInput.addEventListener("input", () => {
+    updateHelpForCurrentStep();
+    updateNextButtonState();
+  });
+  photoInput.addEventListener("change", () => {
+    updatePhotoPreview();
+    updateHelpForCurrentStep();
+    updateNextButtonState();
+  });
+  document.addEventListener("keydown", (e) => {
+    if(e.key === "Escape" && document.getElementById("categoryModal").classList.contains("show")){
+      closeCategoryModal();
+    }
+  });
+  if(mapCanvas){
+    mapCanvas.addEventListener("click", () => {
+      updateHelpForCurrentStep();
+      updateNextButtonState();
+    });
+  }
+  window.goPrevStep = goPrevStep;
+  window.handleStepAction = handleStepAction;
+  window.selectCategory = selectCategory;
+  window.goToFrontend = goToFrontend;
+});
+
+
+window.diasSemana = ['Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado', 'Domingo'];
+
+function initRegularSchedule() {
+    const container = document.getElementById('regularScheduleWrapper');
+    if (!container) return;
+    container.innerHTML = '';
+
+    diasSemana.forEach(dia => {
+        const dayCard = document.createElement('div');
+        dayCard.className = 'day-card';
+        dayCard.dataset.day = dia;
+        dayCard.innerHTML = `
+            <div class="day-header">
+                <span style="font-weight:700">${dia}</span>
+                <span class="status-badge status-closed" id="status-${dia}">Día cerrado</span>
+            </div>
+            <div id="trays-${dia}"></div>
+            <button type="button" class="btn-add-tramo" onclick="addTramo('${dia}')" 
+                    style="background:#1e293b; color:white; border:none; padding:5px 10px; border-radius:5px; cursor:pointer; font-size:0.8rem;">
+                + Añadir tramo
+            </button>
+        `;
+        container.appendChild(dayCard);
+    });
+}
+
+function addTramo(dia, inicio = 540, fin = 840) {
+    const traysContainer = document.getElementById(`trays-${dia}`);
+    const statusBadge = document.getElementById(`status-${dia}`);
+    
+    statusBadge.innerText = 'Día abierto';
+    statusBadge.className = 'status-badge status-open';
+
+    const trayId = Math.random().toString(36).substr(2, 9);
+    const tray = document.createElement('div');
+    tray.className = 'time-tray';
+    tray.style.margin = "15px 0";
+    tray.innerHTML = `
+        <div style="display:flex; justify-content:center; gap:10px; margin-bottom:5px; font-weight:700;">
+            <span id="display-start-${trayId}">${minutesToTime(inicio)}</span>
+            <span>:</span>
+            <span id="display-end-${trayId}">${minutesToTime(fin)}</span>
+        </div>
+        <div class="range-slider-container">
+            <div class="slider-track"></div>
+            <div class="slider-fill" id="fill-${trayId}"></div>
+            <input type="range" min="0" max="1435" step="5" value="${inicio}" class="range-input" id="input-start-${trayId}">
+            <input type="range" min="0" max="1435" step="5" value="${fin}" class="range-input" id="input-end-${trayId}">
+        </div>
+        <div style="display:flex; justify-content:space-between; font-size:0.65rem; color:#94a3b8;">
+            <span>00:00</span><span>12:00</span><span>23:59</span>
+        </div>
+    `;
+    traysContainer.appendChild(tray);
+    syncSliders(trayId);
+    updateHelpForCurrentStep();
+    updateNextButtonState();
+}
+
+function syncSliders(id) {
+    const sIn = document.getElementById(`input-start-${id}`);
+    const eIn = document.getElementById(`input-end-${id}`);
+    const fill = document.getElementById(`fill-${id}`);
+    const dS = document.getElementById(`display-start-${id}`);
+    const dE = document.getElementById(`display-end-${id}`);
+
+    const update = () => {
+        let val1 = parseInt(sIn.value);
+        let val2 = parseInt(eIn.value);
+        if (val1 > val2) [val1, val2] = [val2, val1];
+        sIn.value = String(val1);
+        eIn.value = String(val2);
+        
+        fill.style.left = (val1 / 1435 * 100) + "%";
+        fill.style.width = ((val2 - val1) / 1435 * 100) + "%";
+        dS.innerText = minutesToTime(val1);
+        dE.innerText = minutesToTime(val2);
+        updateHelpForCurrentStep();
+        updateNextButtonState();
+    };
+
+    sIn.oninput = update;
+    eIn.oninput = update;
+    update();
+}
+
+function minutesToTime(m) {
+    return `${Math.floor(m/60).toString().padStart(2,'0')}:${(m%60).toString().padStart(2,'0')}`;
+}
+
+</script>
+</body>
+</html>

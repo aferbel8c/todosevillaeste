@@ -1,0 +1,69 @@
+:root {
+  --tse-modal-bg: rgba(0,0,0,.5);
+  --tse-modal-surface: #ffffff;
+  --tse-modal-border: #d6e1ef;
+  --tse-modal-text: #1f2937;
+  --tse-modal-muted: #4b5563;
+  --tse-modal-accent: #f3d044;
+}
+
+.tse-ui-toast {
+  position: fixed;
+  right: 14px;
+  bottom: 14px;
+  max-width: min(460px, 92vw);
+  background: var(--tse-modal-surface);
+  border: 1px solid var(--tse-modal-border);
+  border-left: 6px solid var(--tse-modal-accent);
+  border-radius: 12px;
+  padding: 10px 12px;
+  box-shadow: 0 10px 20px rgba(0,0,0,.12);
+  display: none;
+  z-index: 9999;
+  color: var(--tse-modal-text);
+}
+.tse-ui-toast strong {
+  display: block;
+  margin-bottom: 3px;
+}
+.tse-ui-modal {
+  position: fixed;
+  inset: 0;
+  background: var(--tse-modal-bg);
+  display: none;
+  align-items: center;
+  justify-content: center;
+  padding: 14px;
+  z-index: 9998;
+}
+.tse-ui-panel {
+  background: var(--tse-modal-surface);
+  border: 1px solid var(--tse-modal-border);
+  border-radius: 12px;
+  width: min(520px, 95vw);
+  padding: 14px;
+  box-shadow: 0 14px 30px rgba(0,0,0,.18);
+  color: var(--tse-modal-text);
+}
+.tse-ui-title {
+  font-weight: 800;
+  margin-bottom: 6px;
+}
+.tse-ui-body {
+  font-size: .92rem;
+  color: var(--tse-modal-muted);
+}
+.tse-ui-input {
+  width: 100%;
+  padding: 9px 10px;
+  border: 1px solid #cfd8e3;
+  border-radius: 8px;
+  margin-top: 8px;
+}
+.tse-ui-actions {
+  display: flex;
+  gap: 8px;
+  justify-content: flex-end;
+  margin-top: 12px;
+  flex-wrap: wrap;
+}

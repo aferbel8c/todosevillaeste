@@ -1,0 +1,4065 @@
+﻿<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#f3d044">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="TSE">
+
+<title>Negocio | Todo Sevilla Este</title>
+<meta name="description" content="Gestiona tu negocio en Todo Sevilla Este: datos, horarios, servicios y contacto.">
+<link rel="canonical" href="https://todosevillaeste.es/negocio.html">
+<meta property="og:title" content="Negocio | Todo Sevilla Este">
+<meta property="og:description" content="Gestiona tu negocio en Todo Sevilla Este: datos, horarios, servicios y contacto.">
+<meta property="og:url" content="https://todosevillaeste.es/negocio.html">
+<meta property="og:type" content="website">
+<meta property="og:image" content="https://todosevillaeste.es/icono/tsev2_beta.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Negocio | Todo Sevilla Este">
+<meta name="twitter:description" content="Gestiona tu negocio en Todo Sevilla Este: datos, horarios, servicios y contacto.">
+<meta name="twitter:image" content="https://todosevillaeste.es/icono/tsev2_beta.png">
+
+<link rel="icon" href="/icono/tsev2_beta.png" type="image/png">
+<link rel="manifest" href="/manifest.webmanifest">
+<link rel="apple-touch-icon" href="/icono/tsev2_beta.png">
+<link rel="stylesheet" href="/3.7/header_shared.css">
+<style>
+:root{--yellow:#f3d044;--bg:#f4f6f9;--card:#fff;--border:#dbe2ea;--text:#1f2937;--ok:#1d8f42;--danger:#b3261e}
+*{box-sizing:border-box}
+html{width:100%;max-width:100%;overflow-x:hidden}
+body{margin:0;font-family:Segoe UI,Arial,sans-serif;background:var(--bg);color:var(--text);width:100%;max-width:100%;overflow-x:hidden}
+body.lightbox-open{overflow:hidden}
+html.add-review-open,
+body.add-review-open{
+  overflow:hidden;
+  overscroll-behavior:none;
+}
+body.add-review-open{
+  position:fixed;
+  left:0;
+  right:0;
+  width:100%;
+}
+header{background:rgba(243,208,68,.96);border-bottom:1px solid rgba(0,0,0,.08);box-shadow:0 2px 10px rgba(0,0,0,.08);padding:.8rem 1.5rem;display:grid;grid-template-columns:auto minmax(320px,720px) auto;align-items:center;gap:1rem;position:sticky;top:0;z-index:20}
+.logo{display:flex;align-items:center;gap:.5rem;font-size:1.4rem;font-weight:700}
+.logo img{width:clamp(54px,6vw,74px);display:block}
+.center-info{position:relative;width:100%;min-width:0}
+.header-search{position:relative;width:100%}
+.header-search-shell{width:100%;min-height:56px;display:flex;align-items:center;gap:.7rem;padding:.45rem .55rem .45rem .9rem;background:rgba(255,255,255,.88);border:1px solid rgba(0,0,0,.08);border-radius:18px;box-shadow:inset 0 1px 0 rgba(255,255,255,.5),0 10px 24px rgba(0,0,0,.08)}
+.header-search-shell:focus-within{background:rgba(255,255,255,.88);border-color:rgba(0,0,0,.08);box-shadow:inset 0 1px 0 rgba(255,255,255,.5),0 10px 24px rgba(0,0,0,.08)}
+.header-search-input{flex:1 1 auto;min-width:0;border:none;background:transparent;appearance:none;-webkit-appearance:none;color:var(--text);font:inherit;font-size:1rem;font-weight:700;box-shadow:none !important}
+.header-search-input::placeholder{color:#6b7280;font-weight:600}
+.header-search-input:focus{outline:none;border:none;box-shadow:none !important}
+.header-search-input::-webkit-search-cancel-button,.header-search-input::-webkit-search-decoration,.header-search-input::-webkit-search-results-button,.header-search-input::-webkit-search-results-decoration{-webkit-appearance:none;appearance:none;display:none}
+.header-search-clear{flex:0 0 auto;width:40px;height:40px;border:none;border-radius:999px;background:transparent;color:#444;font-size:1.3rem;line-height:1;cursor:pointer;display:inline-flex;align-items:center;justify-content:center;transition:background-color .18s ease,color .18s ease,transform .18s ease}
+.header-search-clear[hidden]{display:none !important}
+.header-search-clear:hover,.header-search-clear:focus-visible{background:rgba(0,0,0,.08);color:#111;transform:scale(1.04)}
+.header-search-submit{flex:0 0 auto;width:48px;height:48px;border:none;border-radius:999px;background:#111;color:#fff;font-size:1.15rem;font-weight:700;line-height:1;padding:0;cursor:pointer;display:inline-flex;align-items:center;justify-content:center;transition:transform .18s ease,filter .18s ease,box-shadow .18s ease}
+.header-search-submit[hidden]{display:none !important}
+.header-search-submit:hover,.header-search-submit:focus-visible{transform:translateY(-1px);filter:brightness(1.06);box-shadow:0 10px 18px rgba(0,0,0,.16)}
+.search-suggestions{
+  position:absolute;
+  top:calc(100% + 8px);
+  left:0;
+  right:0;
+  background:#fff;
+  border:1px solid rgba(0,0,0,.08);
+  border-radius:18px;
+  box-shadow:0 20px 44px rgba(0,0,0,.16);
+  overflow:hidden;
+  z-index:240;
+}
+.search-suggestion-btn{
+  width:100%;
+  border:none;
+  background:#fff;
+  color:#111;
+  cursor:pointer;
+  text-align:left;
+  padding:.85rem 1rem;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:.8rem;
+  transition:background-color .16s ease;
+}
+.search-suggestion-btn.is-business{
+  background:#f1f3f5;
+}
+.search-suggestion-btn + .search-suggestion-btn{
+  border-top:1px solid rgba(0,0,0,.06);
+}
+.search-suggestion-btn:hover,
+.search-suggestion-btn:focus-visible{
+  background:#fff8dc;
+}
+.search-suggestion-btn.is-business:hover,
+.search-suggestion-btn.is-business:focus-visible{
+  background:#e7eaee;
+}
+.search-suggestion-main{
+  display:grid;
+  gap:.2rem;
+}
+.search-suggestion-title{
+  font-weight:800;
+  line-height:1.2;
+}
+.search-suggestion-meta{
+  font-size:.82rem;
+  color:#5b6472;
+  font-weight:600;
+}
+.search-suggestion-kind{
+  flex:0 0 auto;
+  border-radius:999px;
+  background:#fff3c4;
+  color:#4b3d06;
+  padding:.28rem .55rem;
+  font-size:.72rem;
+  font-weight:800;
+}
+.search-suggestion-kind.is-business{
+  background:#dbe2ea;
+  color:#344255;
+}
+.search-suggestion-group + .search-suggestion-group{
+  border-top:1px solid rgba(0,0,0,.08);
+}
+.search-suggestion-group{
+  background:rgba(0,0,0,.02);
+}
+.search-suggestion-group-title{
+  margin:0;
+  padding:.72rem 1rem .45rem;
+  font-size:.78rem;
+  font-weight:900;
+  letter-spacing:.03em;
+  text-transform:uppercase;
+  color:#5b6472;
+  background:rgba(0,0,0,.035);
+}
+.search-suggestion-empty{
+  padding:.15rem 1rem .85rem;
+  font-size:.9rem;
+  color:#6b7280;
+  background:transparent;
+}
+.search-suggestion-btn.is-business,
+.search-suggestion-btn.is-category{
+  background:#fff;
+}
+.search-suggestion-btn.is-business:hover,
+.search-suggestion-btn.is-business:focus-visible,
+.search-suggestion-btn.is-category:hover,
+.search-suggestion-btn.is-category:focus-visible{
+  background:#fff8dc;
+}
+.header-actions{
+  text-align:right;
+  position:relative;
+  display:inline-flex;
+  align-items:center;
+  justify-content:flex-end;
+  gap:.55rem;
+  flex:0 0 auto;
+}
+.header-actions button{
+  border:none;
+  cursor:pointer;
+  transition:background-color .18s ease, opacity .18s ease;
+}
+.icon-action-btn{
+  width:42px;
+  height:42px;
+  border-radius:10px;
+  background:transparent;
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+}
+.icon-action-btn img{
+  width:34px;
+  height:34px;
+  object-fit:contain;
+  pointer-events:none;
+}
+.icon-action-btn:hover{background:rgba(0,0,0,.08)}
+#btnScanQr{
+  border:0 !important;
+  box-shadow:none !important;
+  background:transparent !important;
+  border-radius:50%;
+  width:60px;
+  height:60px;
+}
+#btnScanQr img{
+  width:54px;
+  height:54px;
+}
+.header-separator{
+  font-weight:900;
+  color:rgba(0,0,0,.62);
+  user-select:none;
+}
+.qr-only-mobile{display:none}
+body.android-device .qr-only-mobile{display:inline-flex}
+@media (max-width: 768px){
+  header{
+    grid-template-columns:auto minmax(0,1fr) auto;
+    gap:.55rem;
+    padding:.6rem .7rem;
+  }
+  .logo img{width:42px}
+  .center-info{min-width:0}
+  .header-search-shell{
+    min-height:48px;
+    gap:.45rem;
+    padding:.32rem .36rem .32rem .68rem;
+    border-radius:15px;
+  }
+  .header-search-input{
+    font-size:.92rem;
+  }
+  .header-search-clear{
+    width:34px;
+    height:34px;
+    font-size:1.1rem;
+  }
+  .header-search-submit{
+    width:40px;
+    height:40px;
+    font-size:1rem;
+  }
+  .qr-only-mobile{display:inline-flex}
+  .header-actions{gap:.4rem}
+  .header-separator{font-size:.9rem}
+  .icon-action-btn, .user-btn{width:52px;height:52px}
+  .icon-action-btn img{width:30px;height:30px}
+  #btnScanQr{width:52px;height:52px}
+  #btnScanQr img{width:46px;height:46px}
+  .user-btn img{width:46px;height:46px}
+}
+.auth-anchor{
+  position:relative;
+  display:inline-flex;
+  align-items:center;
+}
+.user-btn{
+  padding:0;
+  width:60px;
+  height:60px;
+  border-radius:50%;
+  background:transparent;
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  position:relative;
+}
+.user-btn img{
+  pointer-events:none;
+  width:54px;
+  height:54px;
+  border-radius:50%;
+  display:block;
+  object-fit:cover;
+  border:2px solid rgba(0,0,0,.22);
+}
+.user-btn:hover img{border-color:rgba(0,0,0,.45)}
+.avatar-unread-dot{
+  position:absolute;
+  left:50%;
+  bottom:-6px;
+  transform:translateX(-50%);
+  width:10px;
+  height:10px;
+  border-radius:50%;
+  background:#111;
+  box-shadow:0 0 0 2px rgba(243,208,68,.96);
+  display:none;
+}
+.user-btn.has-unread .avatar-unread-dot{display:block}
+.user-menu{
+  position:absolute;
+  top:calc(100% + 8px);
+  right:0;
+  margin-top:0;
+  background:#fff;
+  border-radius:10px;
+  box-shadow:0 8px 20px rgba(0,0,0,.2);
+  display:none;
+  flex-direction:column;
+  overflow:hidden;
+  z-index:200;
+  min-width:220px;
+}
+.user-menu button{
+  padding:.8rem 1rem;
+  border:none;
+  background:none;
+  text-align:left;
+  width:100%;
+  color:#000;
+  cursor:pointer;
+}
+.user-menu button:hover{background:#fff3c4}
+.user-menu button.msg-unread{
+  background:#e9f9e9;
+  font-weight:800;
+}
+.menu-msg-dot{
+  width:9px;
+  height:9px;
+  border-radius:50%;
+  background:#111;
+  margin-left:auto;
+  display:none;
+}
+.user-menu button.msg-unread .menu-msg-dot{display:inline-block}
+.menu-msg-label{
+  display:inline-flex;
+  align-items:center;
+  gap:8px;
+  width:100%;
+}
+.incoming-msg-toast-wrap{
+  position:fixed;
+  left:14px;
+  bottom:14px;
+  display:flex;
+  flex-direction:column;
+  gap:8px;
+  z-index:9999;
+}
+.incoming-msg-toast{
+  background:#111;
+  color:#fff;
+  border-radius:10px;
+  padding:10px 12px;
+  box-shadow:0 10px 26px rgba(0,0,0,.28);
+  font-weight:700;
+  max-width:min(86vw, 380px);
+  cursor:pointer;
+  border:1px solid rgba(255,255,255,.16);
+}
+.incoming-msg-toast:hover{filter:brightness(1.06)}
+.wrap{width:100%;max-width:1100px;margin:18px auto;padding:0 14px;overflow-x:hidden}
+.qr-app-cta{
+  display:none;
+  margin:0 0 12px 0;
+}
+.qr-app-cta.show{display:block}
+.qr-app-cta-btn{
+  width:100%;
+  border:1.5px solid #111;
+  background:#111;
+  color:#fff;
+  border-radius:10px;
+  padding:12px 14px;
+  font-weight:800;
+  font-size:1rem;
+  cursor:pointer;
+  text-align:center;
+}
+.qr-app-cta-btn:hover{filter:brightness(1.05)}
+.banner{position:relative;min-height:340px;border-radius:16px;overflow:hidden;background:#ddd center/cover no-repeat;border:1px solid var(--border)}
+.banner .overlay{
+  position:absolute;
+  inset:0;
+  background:linear-gradient(180deg,rgba(0,0,0,.25),rgba(0,0,0,.72));
+  display:flex;
+  flex-direction:column;
+  justify-content:space-between;
+  padding:16px;
+  color:#fff;
+}
+.banner-top{display:flex;align-items:flex-start;justify-content:flex-start}
+.banner-bottom{display:flex;justify-content:space-between;align-items:flex-end;gap:12px}
+.banner-title-wrap{min-width:0}
+.badge{display:inline-block;padding:6px 10px;border-radius:999px;font-size:.85rem;font-weight:800;background:rgba(0,0,0,.45);border:1px solid rgba(255,255,255,.35)}
+.tag{
+  display:inline-block;
+  max-width:min(100%,280px);
+  background:#f3d044;
+  color:#4f4310;
+  padding:.38rem .82rem;
+  border-radius:999px;
+  font-size:.86rem;
+  font-weight:800;
+  line-height:1.2;
+  text-align:center;
+  white-space:nowrap;
+  overflow:hidden;
+  text-overflow:ellipsis;
+  box-shadow:inset 0 0 0 1px rgba(79,67,16,.08);
+}
+.section-head{
+  display:flex;
+  align-items:flex-start;
+  justify-content:space-between;
+  gap:12px;
+}
+.section-head h3{margin:0}
+.card-rating{
+  margin-left:auto;
+  display:inline-flex;
+  align-items:center;
+  gap:.28rem;
+  min-width:0;
+  white-space:nowrap;
+  background:transparent !important;
+  border:0 !important;
+  box-shadow:none !important;
+  outline:none !important;
+  border-radius:0 !important;
+}
+.card-rating-anchor{
+  all:unset;
+  position:relative;
+  display:inline-flex;
+  align-items:flex-end;
+  margin-left:auto;
+  flex:0 0 auto;
+  cursor:pointer;
+  -webkit-tap-highlight-color:transparent;
+  min-height:auto;
+}
+.card-rating-anchor:focus,
+.card-rating-anchor:hover,
+.card-rating-anchor:focus-visible,
+.card-rating-anchor:active{
+  outline:none !important;
+  background:transparent !important;
+  box-shadow:none !important;
+  border-color:transparent !important;
+  transform:none !important;
+  filter:none !important;
+}
+.card-rating-anchor::-moz-focus-inner{
+  border:0;
+  padding:0;
+}
+.card-rating-stars{
+  --rating-percent:0%;
+  position:relative;
+  display:inline-block;
+  font-size:1.46rem;
+  line-height:1;
+  letter-spacing:.06em;
+  color:#d9d9d9;
+}
+.card-rating-stars::before{content:"\2605\2605\2605\2605\2605"}
+.card-rating-stars::after{
+  content:"\2605\2605\2605\2605\2605";
+  position:absolute;
+  top:0;
+  left:0;
+  width:var(--rating-percent);
+  overflow:hidden;
+  color:#f3d044;
+}
+.card-rating-value{
+  color:#5b616c;
+  font-size:.72rem;
+  font-weight:700;
+  opacity:.8;
+  line-height:1;
+}
+.card-rating-tooltip{
+  position:absolute;
+  right:0;
+  top:calc(100% + .5rem);
+  min-width:220px;
+  max-width:min(248px,calc(100vw - 1.5rem));
+  padding:.82rem .9rem;
+  border:1px solid rgba(226,232,240,.95);
+  border-radius:16px;
+  background:rgba(255,255,255,.98);
+  box-shadow:0 18px 40px rgba(15,23,42,.16);
+  backdrop-filter:blur(10px);
+  opacity:0;
+  pointer-events:none;
+  transform:translateY(-8px) scale(.98);
+  transform-origin:top right;
+  transition:opacity .18s ease, transform .18s ease;
+  z-index:80;
+}
+.card-rating-anchor::after{
+  content:"";
+  position:absolute;
+  right:1rem;
+  top:calc(100% + .14rem);
+  width:12px;
+  height:12px;
+  background:rgba(255,255,255,.98);
+  border-left:1px solid rgba(226,232,240,.95);
+  border-top:1px solid rgba(226,232,240,.95);
+  opacity:0;
+  pointer-events:none;
+  transform:translateY(8px) scale(.72) rotate(45deg);
+  transition:opacity .12s ease, transform .16s ease;
+  z-index:81;
+}
+.card-rating-anchor.is-open .card-rating-tooltip{
+  opacity:1;
+  transform:translateY(0) scale(1);
+}
+.card-rating-anchor:hover .card-rating-stars,
+.card-rating-anchor:focus-visible .card-rating-stars{
+  text-decoration:underline;
+  text-decoration-thickness:2px;
+  text-underline-offset:.16em;
+}
+.card-rating-anchor.is-open::after{
+  opacity:1;
+  transform:translateY(0) scale(1) rotate(45deg);
+  transition-delay:.12s;
+}
+.card-rating-tooltip-title{
+  margin-bottom:.35rem;
+  font-size:.68rem;
+  font-weight:800;
+  letter-spacing:.08em;
+  text-transform:uppercase;
+  color:#8a6f11;
+}
+.card-rating-tooltip-body{
+  font-size:.92rem;
+  font-weight:600;
+  color:#0f172a;
+  line-height:1.4;
+}
+.section-rating-top{
+  margin-left:auto;
+  flex:0 0 auto;
+}
+#ratingSection > h3{
+  margin:0 0 8px 0;
+}
+.rating-summary-wrap{
+  display:block;
+  width:100%;
+  min-height:32px;
+  margin-top:0;
+  margin-bottom:10px;
+}
+.rating-summary-wrap .card-rating-anchor,
+.rating-summary-wrap .card-rating{
+  margin-left:0;
+}
+.rating-summary-wrap .card-rating-anchor.is-static{
+  cursor:default;
+  pointer-events:none;
+}
+.rating-summary-wrap .card-rating-anchor.is-static:hover .card-rating-stars,
+.rating-summary-wrap .card-rating-anchor.is-static:focus-visible .card-rating-stars{
+  text-decoration:none;
+}
+.schedule-card{
+  padding:0;
+  overflow:hidden;
+}
+.schedule-panel{
+  border:1px solid #dbe3ee;
+  border-radius:18px;
+  overflow:hidden;
+  background:#fff;
+}
+.schedule-panel-head{
+  margin:0;
+  padding:16px 20px 14px;
+  font-size:1rem;
+  font-weight:900;
+  line-height:1.1;
+  color:#fff;
+}
+.schedule-panel-head.status-open{background:#2fa66a}
+.schedule-panel-head.status-opening{background:#2f7edb}
+.schedule-panel-head.status-closing{background:#e89a2d;color:#1f2937}
+.schedule-panel-head.status-closed{background:#ef5565}
+.schedule-panel-body{
+  padding:14px 20px 18px;
+  background:#fff;
+}
+.status-open{background:rgba(29,143,66,.85)}
+.status-opening{background:rgba(30,99,217,.9)}
+.status-closing{background:rgba(230,133,26,.92)}
+.status-closed{background:rgba(179,38,30,.85)}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:14px}
+#ratingSection{order:5}
+.schedule-card{order:4}
+.photos-card{order:4}
+.schedule-card,
+.photos-card{
+  grid-column:auto !important;
+}
+.card{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:14px;min-width:0}
+.card h3{margin:0 0 8px 0}
+.carousel{position:relative;max-width:100%;overflow:hidden}
+.carousel-track{display:flex;gap:10px;overflow:hidden;scroll-behavior:smooth;width:100%;max-width:100%;touch-action:auto}
+.carousel-track img{width:260px;height:170px;border-radius:10px;object-fit:cover;border:1px solid var(--border);background:#eee}
+.carousel-empty-message{
+  width:100%;
+  padding:16px 10px;
+  text-align:center;
+  color:#b8c2cf;
+  font-size:.95rem;
+  font-weight:600;
+}
+.photos-footer-thumbs{
+  display:none;
+}
+.photos-footer-track{
+  width:100%;
+  display:flex;
+  justify-content:flex-start;
+  align-items:center;
+  gap:8px;
+  overflow-x:auto;
+  padding:8px 2px;
+  scroll-padding-inline:50%;
+  scrollbar-width:none;
+  -ms-overflow-style:none;
+}
+.photos-footer-track::-webkit-scrollbar{
+  display:none;
+}
+.photos-footer-thumb{
+  position:relative;
+  flex:0 0 auto;
+  width:86px;
+  height:58px;
+  min-height:58px;
+  border:none;
+  border-radius:9px;
+  padding:0;
+  background:transparent;
+  cursor:pointer;
+  overflow:hidden;
+  transform:none !important;
+  filter:none !important;
+  box-shadow:none !important;
+}
+.photos-footer-thumb:hover,
+.photos-footer-thumb:focus-visible{
+  transform:none !important;
+  filter:none !important;
+  box-shadow:none !important;
+}
+.photos-footer-thumb img{
+  width:100%;
+  height:100%;
+  object-fit:cover;
+  border-radius:9px;
+  border:1px solid #d6e0ea;
+  display:block;
+}
+.photos-footer-thumb::after{
+  content:'';
+  position:absolute;
+  inset:0;
+  background:rgba(0,0,0,0);
+  border-radius:9px;
+  transition:background-color .18s ease, box-shadow .18s ease;
+}
+.photos-footer-thumb:hover::after,
+.photos-footer-thumb:focus-visible::after{
+  background:rgba(0,0,0,.14);
+}
+.photos-footer-thumb.is-active::after{
+  background:rgba(0,0,0,.40);
+  box-shadow:inset 0 0 0 2px rgba(255,255,255,.94);
+}
+.carousel button{
+  position:absolute;
+  top:50%;
+  transform:translateY(-50%);
+  border:1.5px solid #111;
+  border-radius:50%;
+  width:34px;
+  height:34px;
+  min-height:34px;
+  background:#111;
+  color:#fff;
+  cursor:pointer;
+}
+.carousel .prev{left:-6px}
+.carousel .next{right:-6px}
+@media(min-width:901px){
+  .photos-card{
+    padding:12px;
+    display:flex;
+    flex-direction:column;
+  }
+  .photos-card .carousel{
+    height:340px;
+    border-radius:12px;
+    flex:0 0 auto;
+  }
+  .photos-card .carousel-track{
+    gap:0;
+    height:100%;
+    overflow-x:auto;
+    scroll-snap-type:x mandatory;
+    scrollbar-width:none;
+    -ms-overflow-style:none;
+  }
+  .photos-card .carousel-track::-webkit-scrollbar{
+    display:none;
+  }
+  .photos-card .carousel-track img{
+    flex:0 0 100%;
+    width:100%;
+    max-width:100%;
+    height:100%;
+    border-radius:12px;
+    border:1px solid #d6e0ea;
+    object-fit:cover;
+    scroll-snap-align:start;
+  }
+  .photos-card .carousel-empty-message{
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    height:100%;
+    border:1px dashed #dbe3ee;
+    border-radius:12px;
+  }
+  .photos-card .photos-footer-thumbs{
+    display:flex;
+    flex:1 1 auto;
+    align-items:center;
+    min-height:64px;
+  }
+  .photos-card .carousel .prev,
+  .photos-card .carousel .next{
+    opacity:0;
+    pointer-events:none;
+    visibility:hidden;
+  }
+  .photos-card .carousel:hover .prev,
+  .photos-card .carousel:hover .next,
+  .photos-card .carousel:focus-within .prev,
+  .photos-card .carousel:focus-within .next,
+  .photos-card .carousel.show-controls .prev,
+  .photos-card .carousel.show-controls .next{
+    opacity:1;
+    pointer-events:auto;
+    visibility:visible;
+  }
+  .carousel button{
+    border:1px solid rgba(15,23,42,.16);
+    border-radius:999px;
+    width:38px;
+    height:38px;
+    min-height:38px;
+    background:rgba(255,255,255,.92);
+    color:#0f172a;
+    display:inline-flex;
+    align-items:center;
+    justify-content:center;
+    font-size:1rem;
+    line-height:1;
+    font-weight:900;
+    box-shadow:0 10px 24px rgba(15,23,42,.16);
+    backdrop-filter:blur(4px);
+    transition:opacity .22s ease,visibility .22s ease,background-color .18s ease,border-color .18s ease,box-shadow .18s ease,transform .18s ease,color .18s ease;
+  }
+  .carousel button:not(:disabled):hover,
+  .carousel button:not(:disabled):focus-visible{
+    transform:translateY(-50%) scale(1.04);
+    background:#fff;
+    color:#111827;
+    border-color:rgba(15,23,42,.28);
+    box-shadow:0 14px 28px rgba(15,23,42,.22);
+    filter:none;
+  }
+  .carousel button:active{
+    transform:translateY(-50%) scale(.98);
+  }
+  .carousel .prev{left:10px}
+  .carousel .next{right:10px}
+}
+.lightbox{position:fixed;inset:0;background:rgba(0,0,0,.88);display:none;align-items:center;justify-content:center;z-index:50;padding:20px}
+.lightbox img{max-width:min(1200px,92vw);max-height:84vh;object-fit:contain;border-radius:10px;background:#111;transition:transform .14s ease;touch-action:pan-y}
+.lightbox .lb-close,
+.lightbox .lb-nav{
+  position:absolute;
+  border:1px solid rgba(15,23,42,.16);
+  border-radius:999px;
+  width:44px;
+  height:44px;
+  min-height:44px;
+  background:rgba(255,255,255,.92);
+  color:#0f172a;
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  font-size:1.35rem;
+  line-height:1;
+  font-weight:900;
+  box-shadow:0 10px 24px rgba(15,23,42,.18);
+  backdrop-filter:blur(4px);
+  cursor:pointer;
+  transition:background-color .18s ease,border-color .18s ease,box-shadow .18s ease,transform .18s ease,color .18s ease;
+}
+.lightbox .lb-nav{
+  top:50%;
+  transform:translateY(-50%);
+}
+.lightbox .lb-close{
+  top:12px;
+  right:14px;
+  font-size:1.6rem;
+  transform:none;
+}
+.lightbox .lb-close:hover,
+.lightbox .lb-close:focus-visible{
+  background:#fff;
+  color:#111827;
+  border-color:rgba(15,23,42,.28);
+  box-shadow:0 14px 28px rgba(15,23,42,.22);
+  transform:scale(1.04);
+}
+.lightbox .lb-nav:hover,
+.lightbox .lb-nav:focus-visible{
+  transform:translateY(-50%) scale(1.04);
+  background:#fff;
+  color:#111827;
+  border-color:rgba(15,23,42,.28);
+  box-shadow:0 14px 28px rgba(15,23,42,.22);
+}
+.lightbox .lb-close:active{transform:scale(.98)}
+.lightbox .lb-nav:active{transform:translateY(-50%) scale(.98)}
+.lightbox .lb-prev{left:14px}
+.lightbox .lb-next{right:14px}
+.lightbox .lb-caption{position:absolute;bottom:92px;left:50%;transform:translateX(-50%);color:#fff;font-size:.95rem;background:rgba(0,0,0,.45);padding:6px 10px;border-radius:8px}
+.lb-thumbs{
+  position:absolute;
+  left:50%;
+  bottom:14px;
+  transform:translateX(-50%);
+  width:min(92vw,980px);
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  gap:8px;
+  overflow-x:auto;
+  padding:6px 2px;
+  scrollbar-width:thin;
+}
+.lb-thumb{
+  position:relative;
+  flex:0 0 auto;
+  width:108px;
+  height:74px;
+  border:none;
+  border-radius:9px;
+  padding:0;
+  background:transparent;
+  cursor:pointer;
+  overflow:hidden;
+}
+.lb-thumb img{
+  width:100%;
+  height:100%;
+  object-fit:cover;
+  border-radius:9px;
+  border:1px solid rgba(255,255,255,.45);
+  display:block;
+}
+.lb-thumb::after{
+  content:'';
+  position:absolute;
+  inset:0;
+  background:rgba(0,0,0,0);
+  border-radius:9px;
+  transition:background-color .18s ease, box-shadow .18s ease;
+}
+.lb-thumb:hover::after,
+.lb-thumb:focus-visible::after{
+  background:rgba(0,0,0,.18);
+}
+.lb-thumb.is-active::after{
+  background:rgba(0,0,0,.45);
+  box-shadow:inset 0 0 0 2px rgba(255,255,255,.92);
+}
+.schedule-list{margin:0;padding:0;list-style:none;display:grid;gap:.55rem}
+.schedule-item{
+  display:grid;
+  grid-template-columns:minmax(80px, 90px) 1fr;
+  align-items:start;
+  gap:.90rem;
+  padding:0;
+  margin:0;
+  border:none;
+  background:transparent;
+  cursor:default;
+}
+.schedule-day{
+  display:grid;
+  gap:.1rem;
+  font-size:.9rem;
+  font-weight:500;
+  text-transform:lowercase;
+  color:#0f172a;
+  position:relative;
+  padding-right:16px;
+}
+.schedule-item.today .schedule-day{font-weight:800}
+.schedule-day::after{
+  content:'\2192';
+  position:absolute;
+  right:0;
+  top:.02rem;
+  font-size:.88rem;
+  font-weight:800;
+  color:#8a6f11;
+  line-height:1.2;
+}
+.schedule-date{
+  font-size:.76rem;
+  font-weight:600;
+  color:#8a6f11;
+  text-transform:none;
+}
+.schedule-hours{
+  display:flex;
+  align-items:flex-start;
+  gap:.55rem;
+  flex-wrap:wrap;
+  font-size:.9rem;
+  font-weight:500;
+  color:#0f172a;
+  text-align:left;
+}
+.schedule-hours-list{display:grid;gap:0}
+.schedule-hours span{display:block;white-space:nowrap}
+.schedule-hours.is-closed{font-weight:600;color:#8f1d1d}
+.reason{
+  margin-top:0;
+  align-self:flex-start;
+  font-size:.85rem;
+  color:#6f4f00;
+  background:#fff3b0;
+  padding:6px 8px;
+  border-radius:8px;
+}
+.kv{margin:0;display:grid;gap:10px}
+.kv div{padding:0;border:none;border-radius:0;background:transparent}
+.contact-copy-line{display:flex;align-items:center;gap:8px}
+.contact-copy-line strong{display:inline-flex;width:18px;justify-content:center;flex:0 0 18px}
+.contact-copy-line.phone-line #bizPhone{margin-left:-4px}
+.muted{color:#607081}
+.map-frame{
+  width:100%;
+  height:290px;
+  border:1px solid #e5ebf2;
+  border-radius:10px;
+  pointer-events:none;
+  display:block;
+}
+.map-actions{margin-top:8px;display:flex;gap:8px;flex-wrap:wrap;align-items:center;justify-content:space-between}
+.map-action-btn{border:1.5px solid #111;background:#fff;color:#1f2937;border-radius:8px;padding:8px 10px;font-weight:700;cursor:pointer}
+.map-action-btn:hover{background:#f4f7fb}
+.map-expand-btn{
+  width:44px;
+  height:40px;
+  border:none;
+  box-shadow:none;
+  padding:0;
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+}
+.map-expand-btn svg{
+  width:22px;
+  height:22px;
+  stroke:#6b7280;
+  fill:none;
+  stroke-width:2.2;
+  stroke-linecap:round;
+  stroke-linejoin:round;
+}
+.map-route-btn{
+  border:none;
+  background:#1d4ed8;
+  color:#fff;
+  display:inline-flex;
+  align-items:center;
+  gap:7px;
+}
+.map-route-btn:hover{background:#1e40af}
+.map-route-btn svg{
+  width:14px;
+  height:14px;
+  fill:none;
+  stroke:#fff;
+  stroke-width:2.4;
+  stroke-linecap:round;
+  stroke-linejoin:round;
+}
+.add-review-btn{
+  border:1px solid #111;
+  background:#111;
+  color:#fff;
+  border-radius:10px;
+  min-height:40px;
+  width:100%;
+  display:block;
+  padding:0 14px;
+  font-weight:800;
+  cursor:pointer;
+  box-shadow:0 10px 18px rgba(0,0,0,.2);
+}
+.add-review-btn:hover,
+.add-review-btn:focus-visible{
+  background:#000;
+  border-color:#000;
+  color:#fff;
+  box-shadow:0 12px 20px rgba(0,0,0,.26);
+}
+.business-chat-btn{
+  width:100%;
+  min-height:52px;
+  border:none;
+  border-radius:12px;
+  background:linear-gradient(180deg,#25d366,#16a34a);
+  color:#fff;
+  font-weight:800;
+  padding:0 16px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:10px;
+  cursor:pointer;
+  box-shadow:0 12px 24px rgba(34,197,94,.24);
+  transition:transform .16s ease, filter .16s ease, box-shadow .16s ease, background .16s ease;
+}
+.business-chat-btn:hover,
+.business-chat-btn:focus-visible{
+  transform:translateY(-1px);
+  filter:brightness(1.04);
+  box-shadow:0 16px 28px rgba(34,197,94,.3);
+  outline:none;
+}
+.business-chat-btn svg{
+  width:20px;
+  height:20px;
+  fill:currentColor;
+  flex:0 0 auto;
+}
+.business-chat-btn-label{
+  line-height:1.1;
+}
+.map-modal{position:fixed;inset:0;background:rgba(0,0,0,.86);display:none;align-items:center;justify-content:center;z-index:60;padding:18px}
+.map-modal-inner{position:relative;width:min(1300px,95vw);height:min(860px,88vh);background:#111;border-radius:12px;padding:10px}
+.map-modal iframe{width:100%;height:100%;border:0;border-radius:10px}
+.map-modal-close{
+  position:absolute;
+  top:12px;
+  right:12px;
+  width:42px;
+  height:42px;
+  min-height:42px;
+  border:1px solid rgba(15,23,42,.16);
+  background:rgba(255,255,255,.94);
+  color:#111827;
+  border-radius:999px;
+  padding:0;
+  font-weight:900;
+  font-size:1.55rem;
+  line-height:1;
+  cursor:pointer;
+  z-index:2;
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  box-shadow:0 10px 22px rgba(15,23,42,.18);
+}
+.map-modal-route-btn{
+  position:absolute;
+  top:14px;
+  left:14px;
+  z-index:2;
+}
+.map-modal-close:hover,
+.map-modal-close:focus-visible{
+  background:#fff;
+  border-color:rgba(15,23,42,.28);
+  box-shadow:0 12px 24px rgba(15,23,42,.24);
+}
+.error404{max-width:860px;margin:40px auto;padding:24px;border:1px solid #f0b7b2;background:#fff5f4;color:#7d1212;border-radius:12px;text-align:center}
+.error404 h2{margin:0 0 8px 0}
+.review-card{
+  border:1px solid #dbe2ea;
+  border-radius:14px;
+  padding:12px;
+  margin-bottom:10px;
+  background:#fff;
+  box-shadow:0 6px 18px rgba(15,23,42,.05);
+}
+.review-head{display:flex;justify-content:space-between;gap:10px;align-items:flex-start}
+.review-user{display:flex;gap:10px;align-items:center}
+.review-avatar-wrap{position:relative;display:inline-flex}
+.review-user img{
+  width:44px;
+  height:44px;
+  border-radius:50%;
+  object-fit:cover;
+  border:1px solid #d2dbe6;
+  cursor:pointer;
+}
+.review-name{
+  color:#111827;
+  font-size:.95rem;
+  line-height:1.15;
+}
+.review-stars{
+  color:#f3b61f;
+  font-size:.95rem;
+  letter-spacing:.02em;
+}
+.review-text{
+  margin:.62rem 0 .58rem;
+  color:#1f2937;
+  line-height:1.45;
+}
+.review-photos{
+  display:flex;
+  flex-wrap:wrap;
+  gap:6px;
+}
+.review-photos img{
+  width:66px;
+  height:66px;
+  border-radius:8px;
+  object-fit:cover;
+  border:1px solid #d4dce6;
+  margin-right:0;
+}
+.review-date{
+  margin-top:.48rem;
+  font-size:.82rem;
+  color:#6b7280;
+}
+.review-actions{display:flex;gap:6px;align-items:center;flex-wrap:wrap;margin-top:8px}
+.review-mini-btn{
+  border:1px solid #d3dbe5;
+  background:#f8fafc;
+  color:#334155;
+  padding:5px 8px;
+  border-radius:9px;
+  font-weight:700;
+  cursor:pointer;
+}
+.review-mini-btn:hover,
+.review-mini-btn:focus-visible{
+  background:#eef2f7;
+  border-color:#c4cfdb;
+}
+.reviews-see-all-wrap{
+  margin-top:10px;
+  display:flex;
+  justify-content:center;
+}
+.reviews-see-all-btn{
+  border:1px solid #111;
+  background:#111;
+  color:#fff;
+  border-radius:999px;
+  min-height:40px;
+  padding:0 16px;
+  font-weight:800;
+  cursor:pointer;
+  box-shadow:0 8px 16px rgba(0,0,0,.22);
+}
+.reviews-see-all-btn:hover,
+.reviews-see-all-btn:focus-visible{
+  background:#000;
+  border-color:#000;
+  color:#fff;
+  box-shadow:0 10px 18px rgba(0,0,0,.28);
+}
+.review-dots{position:relative}
+.review-menu{position:absolute;right:0;top:30px;background:#fff;border:1px solid #d4dce7;border-radius:10px;min-width:160px;display:none;box-shadow:0 10px 24px rgba(15,23,42,.12);z-index:5;padding:6px}
+.review-menu button{display:block;width:100%;text-align:left;background:#fff;border:1px solid #d4dce7;border-radius:8px;padding:8px 10px;cursor:pointer;color:#334155}
+.review-menu button:hover{background:#f8fafc}
+.profile-menu{position:absolute;left:0;top:46px;background:#fff;border:1px solid #ddd;border-radius:8px;min-width:130px;display:none;box-shadow:0 8px 20px rgba(0,0,0,.12);z-index:50}
+.profile-menu button{display:block;width:100%;text-align:left;background:#fff;border:1.5px solid #111;padding:8px 10px;cursor:pointer}
+.profile-menu button:hover{background:#f7f7f7}
+.add-review-rating-wrap{
+  display:grid;
+  gap:.45rem;
+}
+.add-review-rating{
+  display:flex;
+  flex-wrap:wrap;
+  gap:.45rem;
+  margin-top:6px;
+}
+.add-review-rating button{
+  appearance:none;
+  -webkit-appearance:none;
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  vertical-align:middle;
+  position:relative;
+  width:2.15rem;
+  height:2.15rem;
+  min-height:2.15rem;
+  border:0;
+  border-radius:0;
+  background:transparent;
+  color:transparent;
+  box-shadow:none;
+  -webkit-text-stroke:1.35px #d4d9e1;
+  text-stroke:1.35px #d4d9e1;
+  font-size:2rem;
+  line-height:1;
+  cursor:pointer;
+  transform:translateY(0);
+  transition:transform .18s ease, color .15s ease, -webkit-text-stroke-color .15s ease, text-stroke-color .15s ease;
+}
+.add-review-rating button:hover,
+.add-review-rating button:active,
+.add-review-rating button:focus-visible{
+  background:transparent;
+  box-shadow:none;
+  outline:none;
+}
+.add-review-rating button.preview-hover{
+  transform:translateY(-8px);
+  color:#f3d044;
+  -webkit-text-stroke:0 transparent;
+  text-stroke:0 transparent;
+  background:transparent !important;
+  box-shadow:none !important;
+}
+.add-review-rating button:hover{
+  transform:translateY(-8px) !important;
+  z-index:2;
+}
+.add-review-rating button.active{
+  color:#f3d044;
+  -webkit-text-stroke:0 transparent;
+  text-stroke:0 transparent;
+}
+.add-review-field{
+  position:relative;
+}
+.add-review-field textarea{
+  width:100%;
+  border:1px solid #b7c1cd;
+  border-radius:10px;
+  padding:.95rem 1rem;
+  font:inherit;
+  background:#fff;
+  color:#334155;
+  transition:border-color .15s ease, box-shadow .15s ease;
+  min-height:300px;
+  resize:vertical;
+}
+.add-review-field textarea::placeholder{
+  color:#5e748b;
+}
+.add-review-field textarea:focus{
+  border-color:#0f6cbd;
+  outline:none;
+  box-shadow:0 0 0 3px rgba(15,108,189,.12);
+}
+.add-review-files{
+  position:relative;
+  border:1px solid #d6dee8;
+  border-radius:12px;
+  background:#fbfcfe;
+  padding:10px;
+  min-height:168px;
+  cursor:pointer;
+  transition:background-color .18s ease, border-color .18s ease, box-shadow .18s ease;
+  transform:none !important;
+}
+.add-review-files:not(.has-files){
+  min-height:168px;
+}
+.add-review-files:hover,
+.add-review-files:focus-visible{
+  background:#f6f9fd;
+  border-color:#b9c8d9;
+  box-shadow:0 8px 18px rgba(15,23,42,.08);
+  transform:none !important;
+  filter:none !important;
+}
+.add-review-files.is-dragover{
+  border-color:#0f6cbd;
+  background:#f2f7ff;
+}
+.add-review-files.has-files{
+  min-height:168px;
+  cursor:default;
+}
+.add-review-drop-empty{
+  position:absolute;
+  inset:10px;
+  border:1px dashed #c9d5e4;
+  border-radius:10px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  color:#5b6472;
+  pointer-events:none;
+  transition:background-color .15s ease, border-color .15s ease, opacity .15s ease;
+}
+.add-review-files.has-files .add-review-drop-empty{
+  opacity:0;
+}
+.add-review-files.is-dragover .add-review-drop-empty{
+  border-color:#0f6cbd;
+  background:#eaf2ff;
+}
+.add-review-drop-plus{
+  color:#6b7280;
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  font-size:3rem;
+  line-height:1;
+  font-weight:400;
+  text-shadow:0 1px 0 rgba(255,255,255,.6);
+}
+.add-review-files-top{
+  display:flex;
+  gap:8px;
+  flex-wrap:wrap;
+  align-items:center;
+  justify-content:space-between;
+  min-height:0;
+}
+.add-review-file-list{
+  margin-top:0;
+  padding-left:8px;
+  font-size:.88rem;
+  position:relative;
+  z-index:2;
+}
+.add-review-file-preview{
+  margin-top:4px;
+  display:flex;
+  flex-wrap:wrap;
+  gap:8px;
+  position:relative;
+  z-index:2;
+}
+.add-review-file-item{
+  position:relative;
+  width:84px;
+  height:84px;
+  border-radius:10px;
+  overflow:hidden;
+  border:1px solid #d6dee8;
+  background:#fff;
+}
+.add-review-file-item img{
+  width:100%;
+  height:100%;
+  object-fit:cover;
+  display:block;
+  cursor:zoom-in;
+  transition:filter .2s ease;
+}
+.add-review-file-item:hover img,
+.add-review-file-item:focus-within img{
+  filter:brightness(.72);
+}
+.add-review-file-remove{
+  position:absolute;
+  top:4px;
+  right:4px;
+  width:24px;
+  height:24px;
+  min-height:24px;
+  border:none;
+  border-radius:999px;
+  background:rgba(17,17,17,.82);
+  color:#fff;
+  font-size:1rem;
+  line-height:1;
+  cursor:pointer;
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+}
+.add-review-file-remove:hover,
+.add-review-file-remove:focus-visible{
+  background:#000;
+}
+.add-review-image-lightbox{
+  position:fixed;
+  inset:0;
+  background:rgba(0,0,0,.92);
+  display:none;
+  align-items:center;
+  justify-content:center;
+  z-index:95;
+  padding:18px;
+}
+.add-review-image-lightbox img{
+  max-width:min(1200px,94vw);
+  max-height:90vh;
+  object-fit:contain;
+  border-radius:10px;
+  background:#0f1115;
+}
+.add-review-image-close{
+  position:absolute;
+  top:14px;
+  right:14px;
+  width:42px;
+  height:42px;
+  border:1px solid rgba(255,255,255,.26);
+  border-radius:999px;
+  background:rgba(0,0,0,.35);
+  color:#fff;
+  font-size:1.8rem;
+  line-height:1;
+  cursor:pointer;
+}
+.add-review-image-close:hover,
+.add-review-image-close:focus-visible{
+  background:rgba(0,0,0,.58);
+  outline:none;
+}
+.add-review-submit-btn{
+  width:100%;
+  min-height:56px;
+  border:none;
+  border-radius:12px;
+  background:#1f9d55;
+  color:#fff;
+  cursor:pointer;
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  gap:10px;
+  font-size:1.05rem;
+  font-weight:800;
+  line-height:1;
+  padding:14px 18px;
+  box-shadow:0 10px 22px rgba(31,157,85,.28);
+  transition:filter .16s ease, transform .16s ease, box-shadow .16s ease;
+}
+.add-review-submit-btn svg{
+  width:20px;
+  height:20px;
+  fill:currentColor;
+  flex:0 0 auto;
+}
+.add-review-submit-btn:hover,
+.add-review-submit-btn:focus-visible{
+  filter:brightness(1.05);
+  transform:translateY(-1px);
+  box-shadow:0 14px 26px rgba(31,157,85,.34);
+  outline:none;
+}
+.add-review-submit-btn:active{
+  transform:translateY(0);
+}
+.custom-feedback-modal{
+  position:fixed;
+  inset:0;
+  background:rgba(0,0,0,.62);
+  display:none;
+  align-items:center;
+  justify-content:center;
+  z-index:120;
+  padding:16px;
+}
+.custom-feedback-card{
+  width:min(460px,94vw);
+  background:#fff;
+  border:1px solid #dbe3ee;
+  border-radius:14px;
+  padding:16px 16px 14px;
+  box-shadow:0 20px 44px rgba(15,23,42,.24);
+}
+.custom-feedback-title{
+  margin:0 0 8px;
+  font-size:1.05rem;
+  font-weight:900;
+  color:#0f172a;
+}
+.custom-feedback-msg{
+  margin:0 0 14px;
+  color:#334155;
+  line-height:1.4;
+}
+.custom-feedback-actions{
+  display:flex;
+  justify-content:flex-end;
+  gap:8px;
+}
+.custom-feedback-ok{
+  border:none;
+  border-radius:10px;
+  background:#111827;
+  color:#fff;
+  font-weight:800;
+  padding:10px 14px;
+  cursor:pointer;
+}
+.custom-feedback-ok:hover,
+.custom-feedback-ok:focus-visible{
+  filter:brightness(1.08);
+  outline:none;
+}
+.custom-feedback-cancel{
+  border:1px solid #cbd5e1;
+  border-radius:10px;
+  background:#fff;
+  color:#0f172a;
+  font-weight:800;
+  padding:10px 14px;
+  cursor:pointer;
+}
+.custom-feedback-cancel:hover,
+.custom-feedback-cancel:focus-visible{
+  background:#f8fafc;
+  outline:none;
+}
+.custom-feedback-input{
+  width:100%;
+  border:1px solid #cbd5e1;
+  border-radius:10px;
+  padding:10px 12px;
+  margin:0 0 12px;
+  font:inherit;
+  color:#0f172a;
+}
+.custom-feedback-input:focus{
+  outline:none;
+  border-color:#111827;
+  box-shadow:0 0 0 2px rgba(17,24,39,.12);
+}
+@media(max-width:900px){
+  .grid{grid-template-columns:1fr}
+  .banner{min-height:260px}
+  .carousel-track img{width:220px;height:145px}
+  .photos-card .carousel-track{
+    overflow-x:auto;
+    overflow-y:hidden;
+    touch-action:pan-x;
+    scroll-snap-type:x proximity;
+    overscroll-behavior-x:contain;
+    -webkit-overflow-scrolling:touch;
+    scrollbar-width:none;
+  }
+  .photos-card .carousel-track::-webkit-scrollbar{
+    display:none;
+  }
+  .photos-card .carousel-track img{
+    scroll-snap-align:start;
+  }
+  .schedule-card,.photos-card{grid-column:1/-1 !important}
+  .photos-card .carousel .prev,
+  .photos-card .carousel .next{
+    display:none !important;
+  }
+  .photos-card .photos-footer-thumbs{
+    display:none !important;
+  }
+  .add-review-files{
+    min-height:150px;
+  }
+  .add-review-files:not(.has-files){
+    min-height:150px;
+  }
+  .lightbox{
+    padding:12px;
+  }
+  .lightbox img{
+    max-height:68vh;
+  }
+  .lb-thumbs{
+    bottom:12px;
+    width:min(94vw,620px);
+  }
+  .lightbox .lb-nav{
+    top:auto;
+    bottom:98px;
+    transform:none;
+  }
+  .lightbox .lb-prev{
+    left:calc(50% - 56px);
+  }
+  .lightbox .lb-next{
+    right:auto;
+    left:calc(50% + 12px);
+  }
+  .lightbox .lb-nav:hover,
+  .lightbox .lb-nav:focus-visible{
+    transform:scale(1.04);
+  }
+  .lightbox .lb-nav:active{
+    transform:scale(.98);
+  }
+}
+@media(max-width:900px){
+  .schedule-panel-head{padding:14px 16px 13px}
+  .schedule-panel-body{padding:12px 16px 16px}
+}
+/* Cookie banner */
+
+/* Efecto de subrayado suave para telefono y email */
+#bizPhone, #bizEmail {
+  position: relative;
+  text-decoration: none;
+  display: inline-block;
+  cursor: pointer;
+  transition: color 0.3s ease;
+}
+
+#bizPhone::after, #bizEmail::after {
+  content: '';
+  position: absolute;
+  width: 100%;
+  transform: scaleX(0);
+  height: 2px;
+  bottom: -2px;
+  left: 0;
+  background-color: var(--yellow); /* Usa el color amarillo corporativo definido en tu :root */
+  transform-origin: bottom right;
+  transition: transform 0.3s ease-out;
+}
+
+#bizPhone:hover::after, #bizEmail:hover::after {
+  transform: scaleX(1);
+  transform-origin: bottom left;
+}
+
+#bizPhone:hover, #bizEmail:hover {
+  color: var(--text); /* Opcional: cambia el color del texto al hacer hover */
+}
+.incoming-msg-toast.copy-toast{background:#1d8f42;cursor:default}
+.assistant-toggle,
+.assistant-nudge,
+.assistant-panel{
+  display:none !important;
+}
+
+</style>
+
+<link rel='stylesheet' href='/ui_public.css'>
+<script defer src='/ui_public.js'></script>
+</head>
+<body>
+<header class="tse-header tse-header--rich">
+  <div class="logo"><a href="/frontend.html"><img src="/icono/tsev2_beta.png" alt="TodoSevillaEste"></a></div>
+  <div class="center-info">
+    <form id="headerSearchForm" class="header-search" autocomplete="off" role="search">
+      <div class="header-search-shell">
+        <input id="searchInput" class="header-search-input" type="search" placeholder="Busca negocios, servicios o categorias" aria-label="Buscar negocios">
+        <button id="searchClearBtn" class="header-search-clear" type="button" aria-label="Borrar búsqueda" title="Borrar búsqueda" hidden>&times;</button>
+        <button id="searchSubmitBtn" class="header-search-submit" type="submit" aria-label="Buscar" title="Buscar" hidden>???</button>
+      </div>
+      <div id="searchSuggestions" class="search-suggestions" hidden></div>
+    </form>
+  </div>
+  <div class="header-actions">
+    <button id="btnScanQr" class="icon-action-btn qr-only-mobile" onclick="goQrScan()" title="Lector QR">
+      <img src="/icono/qr.png" alt="QR">
+    </button>
+    <span class="header-separator qr-only-mobile">|</span>
+    <div class="auth-anchor">
+      <button id="guestProfileBtn" class="user-btn" title="Cuenta">
+        <img src="/icono/perfil_iniciar.png" alt="Iniciar sesion">
+      </button>
+      <div id="guestMenu" class="user-menu" style="display:none;">
+        <button onclick="goLogin()">Iniciar sesion</button>
+        <button onclick="goRegister()">Registrarse</button>
+      </div>
+      <button id="userBtn" class="user-btn" style="display:none;" title="Mi perfil">
+        <img id="userAvatar" src="/icono/perfil_iniciar.png" alt="Perfil">
+      </button>
+      <div id="userMenu" class="user-menu" style="display:none;">
+        <div id="usernameDisplay" style="padding:.5rem 1rem;font-weight:700;border-bottom:1px solid #eee;"></div>
+        <button id="menuBusinessBtn" onclick="goBusinessPanel()" style="display:none;">Gestionar negocio</button>
+        <button onclick="location.href='/account/settings/'">Configuración</button>
+        <button onclick="logout()">Cerrar sesión</button>
+      </div>
+    </div>
+  </div>
+</header>
+
+<main class="wrap">
+  <section id="qrAppCta" class="qr-app-cta" aria-live="polite">
+    <button type="button" class="qr-app-cta-btn" onclick="goClientVersions()">Descargar app</button>
+  </section>
+  <section id="businessBanner" class="banner"><div class="overlay"><div class="banner-top"><span id="catBadge" class="tag">Categoría</span></div><div class="banner-bottom"><div class="banner-title-wrap"><h1 id="bizName" style="margin:10px 0 0 0">Negocio</h1></div><div><span id="openBadge" class="badge status-closed">Cerrado</span></div></div></div></section>
+
+  <div class="grid">
+    <section class="card">
+      <div class="section-head">
+        <h3>Descripción</h3>
+        <div id="descriptionRating" class="section-rating-top"></div>
+      </div>
+      <p id="bizDescription" class="muted">Sin descripcion.</p>
+    </section>
+    <section class="card">
+      <h3>Contacto</h3>
+      <div class="kv">
+        <div class="contact-copy-line phone-line"><strong>&#128222;</strong> <span id="bizPhone" class="muted" tabindex="0" aria-label="Copiar telefono">No disponible</span></div>
+        <div class="contact-copy-line"><strong>&#9993;</strong> <span id="bizEmail" class="muted" tabindex="0" aria-label="Copiar correo electronico">No disponible</span></div>
+      </div>
+    </section>
+
+    <section class="card" id="bizMapCard" style="grid-column:1/-1;display:none">
+      <h3>Ubicacion</h3>
+      <iframe id="bizMapFrame" class="map-frame" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+      <div class="map-actions">
+        <button type="button" class="map-action-btn map-route-btn" onclick="openDirectionsInGoogleMaps()">
+          <svg viewBox="0 0 24 24" aria-hidden="true">
+            <polyline points="7 17 17 7"></polyline>
+            <polyline points="9 7 17 7 17 15"></polyline>
+          </svg>
+          <span>Como llegar</span>
+        </button>
+        <button type="button" class="map-action-btn map-expand-btn" onclick="openMapModal()" aria-label="Ampliar mapa" title="Ampliar mapa">
+          <svg viewBox="0 0 24 24" aria-hidden="true">
+            <polyline points="9 3 3 3 3 9"></polyline>
+            <line x1="3" y1="3" x2="10" y2="10"></line>
+            <polyline points="15 3 21 3 21 9"></polyline>
+            <line x1="21" y1="3" x2="14" y2="10"></line>
+            <polyline points="9 21 3 21 3 15"></polyline>
+            <line x1="3" y1="21" x2="10" y2="14"></line>
+            <polyline points="15 21 21 21 21 15"></polyline>
+            <line x1="21" y1="21" x2="14" y2="14"></line>
+          </svg>
+        </button>
+      </div>
+    </section>
+
+
+    <section class="card" style="grid-column:1/-1" id="ratingSection">
+      <div class="section-head">
+        <h3>Valoracion</h3>
+        <div id="ratingReviewsTop" class="section-rating-top muted">0 reseñas</div>
+      </div>
+      <div id="ratingSummary" class="rating-summary-wrap"></div>
+      <div style="margin:10px 0 12px;">
+        <button type="button" class="add-review-btn" onclick="openAddReviewModal()">Añadir reseña</button>
+      </div>
+      <div id="reviewsPreview" class="muted">Cargando reseñas...</div>
+    </section>
+
+    <section class="card schedule-card" style="grid-column:1/-1">
+      <h3>Horario</h3>
+      <div class="schedule-panel">
+        <div id="scheduleTitle" class="schedule-panel-head status-closed">Horario semanal</div>
+        <div class="schedule-panel-body">
+          <ul id="scheduleList" class="schedule-list"></ul>
+        </div>
+      </div>
+    </section>
+    <section class="card photos-card" style="grid-column:1/-1">
+      <h3>Multimedia</h3>
+      <div class="carousel">
+        <button class="prev" onclick="scrollPhotos(-1, event)"><</button>
+        <div id="photosTrack" class="carousel-track"></div>
+        <button class="next" onclick="scrollPhotos(1, event)">></button>
+      </div>
+      <div id="photosFooterThumbs" class="photos-footer-thumbs" aria-label="Miniaturas de fotos">
+        <div id="photosFooterTrack" class="photos-footer-track"></div>
+      </div>
+    </section>
+  </div>
+</main>
+<div id="photoLightbox" class="lightbox" onclick="closeLightbox(event)">
+  <button class="lb-close" onclick="closeLightbox(event)" aria-label="Cerrar visor de fotos" title="Cerrar">&times;</button>
+  <button class="lb-nav lb-prev" onclick="lightboxStep(-1, event)"><</button>
+  <img id="lbImage" src="/web/icono/no_imagen.png" alt="foto ampliada">
+  <button class="lb-nav lb-next" onclick="lightboxStep(1, event)">></button>
+  <div id="lbThumbs" class="lb-thumbs" aria-label="Vista previa de fotos"></div>
+</div>
+<div id="mapModal" class="map-modal" onclick="closeMapModal(event)">
+  <div class="map-modal-inner">
+    <button type="button" class="map-action-btn map-route-btn map-modal-route-btn" onclick="openDirectionsInGoogleMaps()">
+      <svg viewBox="0 0 24 24" aria-hidden="true">
+        <polyline points="7 17 17 7"></polyline>
+        <polyline points="9 7 17 7 17 15"></polyline>
+      </svg>
+      <span>Como llegar</span>
+    </button>
+    <button class="map-modal-close" onclick="closeMapModal(event)" aria-label="Cerrar" title="Cerrar">&times;</button>
+    <iframe id="mapModalFrame" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+  </div>
+</div>
+
+<div id="allReviewsModal" class="map-modal" onclick="closeAllReviewsModal(event)">
+  <div class="map-modal-inner" style="background:#fff;color:#111;overflow:auto;height:min(840px,90vh);">
+    <button class="map-modal-close" onclick="closeAllReviewsModal(event)" aria-label="Cerrar" title="Cerrar">&times;</button>
+    <h3 style="margin:8px 0 10px 0;">Todas las reseñas</h3>
+    <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:10px;">
+      <button type="button" class="map-action-btn" onclick="applyReviewSort('rating_desc')">Mayor puntuacion</button>
+      <button type="button" class="map-action-btn" onclick="applyReviewSort('rating_asc')">Menor puntuacion</button>
+      <button type="button" class="map-action-btn" onclick="applyReviewSort('newest')">Mas recientes</button>
+      <button type="button" class="map-action-btn" onclick="applyReviewSort('oldest')">Mas antiguas</button>
+    </div>
+    <div id="allReviewsList">Cargando...</div>
+  </div>
+</div>
+
+<div id="addReviewModal" class="map-modal" onclick="closeAddReviewModal(event)">
+  <div class="map-modal-inner" style="background:#fff;color:#111;overflow:auto;height:min(760px,90vh);">
+    <button class="map-modal-close" onclick="closeAddReviewModal(event)" aria-label="Cerrar" title="Cerrar">&times;</button>
+    <h3 style="margin:8px 0 10px 0;">Añadir reseña</h3>
+    <div style="margin-bottom:10px;">
+      <label>Puntuación</label>
+      <div class="add-review-rating-wrap">
+        <div class="add-review-rating" role="radiogroup" aria-label="Puntuación por estrellas">
+          <button type="button" data-add-review-rating="1" aria-label="1 estrella">★</button>
+          <button type="button" data-add-review-rating="2" aria-label="2 estrellas">★</button>
+          <button type="button" data-add-review-rating="3" aria-label="3 estrellas">★</button>
+          <button type="button" data-add-review-rating="4" aria-label="4 estrellas">★</button>
+          <button type="button" data-add-review-rating="5" aria-label="5 estrellas">★</button>
+        </div>
+        <input id="addReviewRating" type="hidden" value="0">
+      </div>
+    </div>
+    <div style="margin-bottom:12px;">
+      <div class="add-review-field">
+        <textarea id="addReviewDescription" placeholder="Descripción"></textarea>
+      </div>
+    </div>
+    <div style="margin-bottom:10px;">
+      <div id="addReviewFilesDropzone" class="add-review-files" role="button" tabindex="0" aria-label="Adjuntar fotos">
+        <div id="addReviewDropEmpty" class="add-review-drop-empty" aria-hidden="true">
+          <span class="add-review-drop-plus">+</span>
+        </div>
+        <div class="add-review-files-top">
+          <div id="addReviewFileList" class="add-review-file-list muted">Sin archivos adjuntos.</div>
+        </div>
+        <input id="addReviewFiles" type="file" multiple accept="image/*" hidden>
+        <div id="addReviewPasteHint" class="muted" style="margin-top:6px;"></div>
+        <div id="addReviewFilePreview" class="add-review-file-preview"></div>
+      </div>
+    </div>
+    <button type="button" class="add-review-submit-btn" onclick="submitReview()">
+      <span>Publicar</span>
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3.4 20.6 21 12 3.4 3.4l2.1 6.8 9.3 1.8-9.3 1.8-2.1 6.8Z"></path></svg>
+    </button>
+  </div>
+</div>
+<div id="addReviewImageLightbox" class="add-review-image-lightbox" onclick="closeAddReviewImageLightbox(event)">
+  <button type="button" class="add-review-image-close" onclick="closeAddReviewImageLightbox(event)" aria-label="Cerrar vista completa" title="Cerrar">&times;</button>
+  <img id="addReviewImageLightboxImg" src="" alt="Vista completa del adjunto">
+</div>
+<div id="customFeedbackModal" class="custom-feedback-modal" onclick="closeCustomFeedbackModal(event)">
+  <div class="custom-feedback-card">
+    <h4 id="customFeedbackTitle" class="custom-feedback-title">Aviso</h4>
+    <p id="customFeedbackMessage" class="custom-feedback-msg"></p>
+    <div class="custom-feedback-actions">
+      <button type="button" class="custom-feedback-ok" onclick="closeCustomFeedbackModal(event)">Aceptar</button>
+    </div>
+  </div>
+</div>
+<div id="customPromptModal" class="custom-feedback-modal" onclick="closeCustomPromptModal(event, true)">
+  <div class="custom-feedback-card">
+    <h4 id="customPromptTitle" class="custom-feedback-title">Motivos del reporte</h4>
+    <p id="customPromptMessage" class="custom-feedback-msg"></p>
+    <input id="customPromptInput" class="custom-feedback-input" type="text" maxlength="500" autocomplete="off">
+    <div class="custom-feedback-actions">
+      <button type="button" class="custom-feedback-cancel" onclick="closeCustomPromptModal(event, true)">Cancelar</button>
+      <button type="button" class="custom-feedback-ok" onclick="submitCustomPromptModal(event)">Aceptar</button>
+    </div>
+  </div>
+</div>
+
+<script>
+let place = null;
+let placeId = null;
+let lastPlaceSnapshot = "";
+let currentPhotos = [];
+let currentPhotoIndex = 0;
+let carouselPhotoIndex = 0;
+let lightboxZoom = 1;
+let lightboxTouchStartX = null;
+let lightboxTouchStartY = null;
+let lightboxMotionDirection = 0;
+let carouselControlsHideTimer = null;
+let currentMapCoords = null;
+let meUser = null;
+let previewReviews = [];
+let allReviews = [];
+let reviewSummaryData = { total_reviews: 0, avg_rating: 0 };
+let reviewSort = 'newest';
+let reviewAttachmentEntries = [];
+let reviewAttachmentSeq = 1;
+let addReviewLockScrollY = 0;
+let customPromptResolver = null;
+const pageParams = new URLSearchParams(location.search);
+
+function isAndroidDevice(){
+  const ua = window.navigator.userAgent || "";
+  return /Android/i.test(ua);
+}
+
+function isAndroidAppWebView(){
+  return !!(window.AndroidBridge && typeof window.AndroidBridge === 'object');
+}
+
+function tryOpenExternalUrl(url){
+  const safeUrl = String(url || '').trim();
+  if(!safeUrl) return false;
+  const bridge = window.AndroidBridge;
+  const candidateMethods = ['openExternalUrl', 'openExternal', 'openUrl', 'openLink', 'openInBrowser'];
+  if(bridge && typeof bridge === 'object'){
+    for(const methodName of candidateMethods){
+      if(typeof bridge[methodName] === 'function'){
+        try{
+          bridge[methodName](safeUrl);
+          return true;
+        }catch(_e){}
+      }
+    }
+  }
+  try{
+    const link = document.createElement('a');
+    link.href = safeUrl;
+    link.target = '_blank';
+    link.rel = 'noopener noreferrer external';
+    link.style.display = 'none';
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+    return true;
+  }catch(_e){
+    return false;
+  }
+}
+
+if(isAndroidDevice()){
+  document.body.classList.add("android-device");
+}
+
+function goLogin(){
+  const redirect = encodeURIComponent(window.location.href);
+  window.location.href = `/login.html?redirect=${redirect}`;
+}
+function goRegister(){
+  const redirect = encodeURIComponent(window.location.href);
+  window.location.href = `/register.html?redirect=${redirect}`;
+}
+function goMessages(){
+  window.location.href = '/frontend.html';
+}
+
+function goBusinessPanel(){
+  window.location.href = "/negocios_gestion.html";
+}
+
+function userHasBusinessRole(){
+  return !!(meUser && meUser.roles && meUser.roles.business === true);
+}
+
+function updateBusinessActionButtons(){
+  const menuBusinessBtn = document.getElementById("menuBusinessBtn");
+  const hasBusiness = userHasBusinessRole() && Number(meUser?.managed_place_public_id || 0) > 0;
+  if(menuBusinessBtn){
+    menuBusinessBtn.style.display = hasBusiness ? "block" : "none";
+  }
+}
+function goQrScan(){
+  window.location.href = '/scan_qr.html';
+}
+function goClientVersions(){
+  window.location.href = '/versiones_cliente.html';
+}
+
+function isStandalonePwa(){
+  return window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone === true;
+}
+
+function shouldShowQrAppCta(){
+  const raw = String(pageParams.get('from_qr') || pageParams.get('qr') || '').trim().toLowerCase();
+  const fromQr = raw === '1' || raw === 'true' || raw === 'yes' || raw === 'si';
+  return fromQr && !isStandalonePwa() && !isAndroidAppWebView();
+}
+
+function initQrAppCta(){
+  const box = document.getElementById('qrAppCta');
+  if(!box) return;
+  box.classList.toggle('show', shouldShowQrAppCta());
+}
+
+document.getElementById('guestProfileBtn').addEventListener('click', (e)=>{
+  e.stopPropagation();
+  const guestMenu = document.getElementById('guestMenu');
+  const userMenu = document.getElementById('userMenu');
+  if(userMenu) userMenu.style.display = 'none';
+  if(guestMenu) guestMenu.style.display = guestMenu.style.display === 'flex' ? 'none' : 'flex';
+});
+
+document.getElementById('userBtn').addEventListener('click', (e)=>{
+  e.stopPropagation();
+  const guestMenu = document.getElementById('guestMenu');
+  const userMenu = document.getElementById('userMenu');
+  if(guestMenu) guestMenu.style.display = 'none';
+  if(userMenu) userMenu.style.display = userMenu.style.display === 'flex' ? 'none' : 'flex';
+  if(userMenu && userMenu.style.display === 'flex'){
+    refreshUnreadMessagesIndicator(true);
+  }
+});
+
+document.addEventListener('click', (e)=>{
+  const guestMenu = document.getElementById('guestMenu');
+  const guestBtn = document.getElementById('guestProfileBtn');
+  const userMenu = document.getElementById('userMenu');
+  const userBtn = document.getElementById('userBtn');
+  if(guestMenu && guestBtn && !guestMenu.contains(e.target) && !guestBtn.contains(e.target)){
+    guestMenu.style.display = 'none';
+  }
+  if(userMenu && userBtn && !userMenu.contains(e.target) && !userBtn.contains(e.target)){
+    userMenu.style.display = 'none';
+  }
+});
+
+async function logout(){
+  await fetch('/auth/logout',{method:'POST',credentials:'include'}).catch(()=>{});
+  stopUnreadPolling();
+  setUnreadMessagesUI(0);
+  location.reload();
+}
+
+function normalizeAvatarSrc(src){
+  const value = String(src || '').trim().replace(/\\/g, '/').replace(/^["']|["']$/g, '');
+  if(!value) return '/icono/perfil_iniciar.png';
+  if(/^(data:|blob:|https?:\/\/|\/\/)/i.test(value)) return value;
+  if(/^\/[A-Za-z0-9._-]+\/.+/.test(value)) return value;
+  return '/icono/perfil_iniciar.png';
+}
+
+function setSafeAvatarImage(imgEl, src){
+  if(!imgEl) return;
+  const fallback = '/icono/perfil_iniciar.png';
+  const nextSrc = normalizeAvatarSrc(src);
+  imgEl.onerror = () => {
+    if(imgEl.dataset.avatarFallback === '1') return;
+    imgEl.dataset.avatarFallback = '1';
+    imgEl.src = fallback;
+  };
+  imgEl.dataset.avatarFallback = '';
+  imgEl.src = nextSrc;
+}
+
+async function checkSession(){
+  try{
+    const res = await fetch('/users/me',{credentials:'include'});
+    if(!res.ok){
+      meUser = null;
+      document.getElementById('guestProfileBtn').style.display = 'inline-flex';
+      document.getElementById('guestMenu').style.display = 'none';
+      document.getElementById('userBtn').style.display = 'none';
+      document.getElementById('userMenu').style.display = 'none';
+      document.getElementById('usernameDisplay').textContent = '';
+      return;
+    }
+    const me = await res.json();
+    meUser = me;
+    document.getElementById('guestProfileBtn').style.display = 'none';
+    document.getElementById('guestMenu').style.display = 'none';
+    document.getElementById('userBtn').style.display = 'inline-flex';
+    document.getElementById('usernameDisplay').textContent = me.username || 'Cuenta';
+    setSafeAvatarImage(document.getElementById('userAvatar'), me.avatar);
+    updateBusinessActionButtons();
+    startUnreadPolling();
+    await refreshUnreadMessagesIndicator(true);
+    ensurePushSubscriptionForCurrentUser();
+  }catch(_e){
+    meUser = null;
+    document.getElementById('guestProfileBtn').style.display = 'inline-flex';
+    document.getElementById('guestMenu').style.display = 'none';
+    document.getElementById('userBtn').style.display = 'none';
+    document.getElementById('userMenu').style.display = 'none';
+    document.getElementById('usernameDisplay').textContent = '';
+    updateBusinessActionButtons();
+    stopUnreadPolling();
+    setUnreadMessagesUI(0);
+  }
+}
+
+function registerFrontendServiceWorker(){
+  if(!('serviceWorker' in navigator)) return;
+  window.addEventListener('load', () => {
+    navigator.serviceWorker.register('/sw.js').catch(() => {});
+  });
+}
+
+function urlBase64ToUint8Array(base64String){
+  const padding = '='.repeat((4 - base64String.length % 4) % 4);
+  const base64 = (base64String + padding).replace(/-/g, '+').replace(/_/g, '/');
+  const rawData = window.atob(base64);
+  const out = new Uint8Array(rawData.length);
+  for(let i = 0; i < rawData.length; i++){
+    out[i] = rawData.charCodeAt(i);
+  }
+  return out;
+}
+
+async function ensurePushSubscriptionForCurrentUser(){
+  if(!meUser || !meUser.id) return;
+  if(!('serviceWorker' in navigator) || !('PushManager' in window) || !('Notification' in window)) return;
+  try{
+    const vapidRes = await fetch('/notifications/vapid_public_key', { credentials:'include', cache:'no-store' });
+    const vapidData = await vapidRes.json().catch(()=> ({}));
+    if(!vapidRes.ok || !vapidData || !vapidData.enabled || !vapidData.public_key) return;
+
+    let permission = Notification.permission;
+    if(permission === 'default'){
+      try{
+        permission = await Notification.requestPermission();
+      }catch(_e){
+        return;
+      }
+    }
+    if(permission !== 'granted') return;
+
+    const reg = await navigator.serviceWorker.ready;
+    if(!reg.pushManager) return;
+    let sub = await reg.pushManager.getSubscription();
+    if(!sub){
+      sub = await reg.pushManager.subscribe({
+        userVisibleOnly: true,
+        applicationServerKey: urlBase64ToUint8Array(String(vapidData.public_key)),
+      });
+    }
+    if(!sub) return;
+    await fetch('/notifications/subscribe', {
+      method:'POST',
+      credentials:'include',
+      headers:{ 'Content-Type':'application/json' },
+      body: JSON.stringify({ subscription: sub.toJSON() })
+    }).catch(()=>{});
+  }catch(_e){}
+}
+
+let unreadMessagesCount = 0;
+let unreadPollTimer = null;
+const unreadSnapshot = {};
+const notifiedMessageIds = {};
+
+function setUnreadMessagesUI(count){
+  unreadMessagesCount = Math.max(0, Number(count) || 0);
+  const userBtn = document.getElementById('userBtn');
+  const msgBtn = document.getElementById('menuMessagesBtn');
+  if(userBtn){
+    userBtn.classList.toggle('has-unread', unreadMessagesCount > 0);
+    let dot = userBtn.querySelector('.avatar-unread-dot');
+    if(!dot){
+      dot = document.createElement('span');
+      dot.className = 'avatar-unread-dot';
+      dot.setAttribute('aria-hidden', 'true');
+      userBtn.appendChild(dot);
+    }
+  }
+  if(msgBtn){
+    msgBtn.classList.toggle('msg-unread', unreadMessagesCount > 0);
+  }
+}
+
+async function refreshUnreadMessagesIndicator(force=false){
+  if(!meUser || !meUser.id){
+    setUnreadMessagesUI(0);
+    return;
+  }
+  if(!force && document.visibilityState === 'hidden') return;
+  try{
+    const res = await fetch('/messages/chats', { credentials:'include', cache:'no-store' });
+    const data = await res.json().catch(()=> ({}));
+    if(!res.ok){
+      setUnreadMessagesUI(0);
+      return;
+    }
+    const chats = Array.isArray(data.chats) ? data.chats : [];
+    const totalUnread = chats.reduce((acc, c) => {
+      const unread = c && c.unread_count != null ? c.unread_count : 0;
+      return acc + Math.max(0, Number(unread) || 0);
+    }, 0);
+    setUnreadMessagesUI(totalUnread);
+    handleIncomingMessageNotifications(chats, force);
+  }catch(_e){
+    setUnreadMessagesUI(0);
+  }
+}
+
+function getToastWrap(){
+  let wrap = document.getElementById('incomingMsgToastWrap');
+  if(!wrap){
+    wrap = document.createElement('div');
+    wrap.id = 'incomingMsgToastWrap';
+    wrap.className = 'incoming-msg-toast-wrap';
+    document.body.appendChild(wrap);
+  }
+  return wrap;
+}
+
+function showIncomingMessageToast(username, chatId){
+  const wrap = getToastWrap();
+  const toast = document.createElement('button');
+  toast.type = 'button';
+  toast.className = 'incoming-msg-toast';
+  toast.textContent = `${username} te ha enviado un mensaje. Clica para ver.`;
+  toast.onclick = () => {
+    window.location.href = `/frontend.html?chat=${encodeURIComponent(chatId)}`;
+  };
+  wrap.appendChild(toast);
+  setTimeout(() => {
+    if(toast.parentNode) toast.parentNode.removeChild(toast);
+  }, 6500);
+}
+
+function showCopyToast(message){
+  const wrap = getToastWrap();
+  const toast = document.createElement('div');
+  toast.className = 'incoming-msg-toast copy-toast';
+  toast.setAttribute('role', 'status');
+  toast.setAttribute('aria-live', 'polite');
+  toast.textContent = message || 'Copiado al portapapeles';
+  wrap.appendChild(toast);
+  setTimeout(() => {
+    if(toast.parentNode) toast.parentNode.removeChild(toast);
+  }, 2200);
+}
+
+async function copyTextToClipboard(value){
+  const text = String(value || '').trim();
+  if(!text || text === 'No disponible') return false;
+  try{
+    if(navigator.clipboard && navigator.clipboard.writeText){
+      await navigator.clipboard.writeText(text);
+      return true;
+    }
+  }catch(_e){}
+  try{
+    const helper = document.createElement('textarea');
+    helper.value = text;
+    helper.setAttribute('readonly', '');
+    helper.style.position = 'fixed';
+    helper.style.opacity = '0';
+    document.body.appendChild(helper);
+    helper.focus();
+    helper.select();
+    const copied = document.execCommand('copy');
+    document.body.removeChild(helper);
+    return !!copied;
+  }catch(_e){
+    return false;
+  }
+}
+
+function setupCopyField(el, getValue){
+  if(!el) return;
+  const handleCopy = async () => {
+    const value = typeof getValue === 'function' ? getValue() : '';
+    const copied = await copyTextToClipboard(value);
+    if(copied) showCopyToast('Copiado al portapapeles');
+  };
+  el.addEventListener('click', handleCopy);
+  el.addEventListener('keydown', (ev) => {
+    if(ev.key !== 'Enter' && ev.key !== ' ') return;
+    ev.preventDefault();
+    handleCopy();
+  });
+}
+
+function initCopyContactActions(){
+  setupCopyField(document.getElementById('bizPhone'), () => {
+    return document.getElementById('bizPhone')?.dataset.copyValue || document.getElementById('bizPhone')?.textContent || '';
+  });
+  setupCopyField(document.getElementById('bizEmail'), () => {
+    return document.getElementById('bizEmail')?.dataset.copyValue || document.getElementById('bizEmail')?.textContent || '';
+  });
+}
+
+async function showSystemIncomingNotification(username, chatId){
+  if(!('Notification' in window)) return;
+  let permission = Notification.permission;
+  if(permission === 'default'){
+    try{
+      permission = await Notification.requestPermission();
+    }catch(_e){
+      return;
+    }
+  }
+  if(permission !== 'granted') return;
+  const bodyText = `${username} te ha enviado un mensaje. Clica para ver.`;
+  const url = `/frontend.html?chat=${encodeURIComponent(chatId)}`;
+  try{
+    if('serviceWorker' in navigator){
+      const reg = await navigator.serviceWorker.getRegistration();
+      if(reg && reg.showNotification){
+        await reg.showNotification('Nuevo mensaje', {
+          body: bodyText,
+          icon: '/icono/tsev2.png',
+          badge: '/icono/tsev2.png',
+          tag: `chat-${chatId}`,
+          renotify: true,
+          data: { url }
+        });
+        return;
+      }
+    }
+    const n = new Notification('Nuevo mensaje', { body: bodyText, icon: '/icono/tsev2.png' });
+    n.onclick = () => {
+      window.focus();
+      window.location.href = url;
+    };
+  }catch(_e){}
+}
+
+function handleIncomingMessageNotifications(chats, force){
+  if(!meUser || !meUser.id) return;
+  const candidates = [];
+  (Array.isArray(chats) ? chats : []).forEach((c) => {
+    const chatId = Number(c && c.id ? c.id : 0);
+    if(chatId <= 0) return;
+    const unread = Math.max(0, Number(c && c.unread_count != null ? c.unread_count : 0) || 0);
+    const lastMsgId = Number(c && c.last_message && c.last_message.id ? c.last_message.id : 0);
+    const key = String(chatId);
+    const prev = unreadSnapshot[key] || { unread: 0, lastMsgId: 0 };
+    unreadSnapshot[key] = { unread, lastMsgId };
+    const justBecameUnread = unread > 0 && prev.unread <= 0;
+    const newUnreadMessage = unread > 0 && lastMsgId > 0 && lastMsgId !== prev.lastMsgId;
+    if(unread > 0 && (justBecameUnread || newUnreadMessage)){
+      const sig = `${chatId}:${lastMsgId || unread}`;
+      if(notifiedMessageIds[sig]) return;
+      notifiedMessageIds[sig] = 1;
+      const username = (c && c.other_user && c.other_user.username) ? c.other_user.username : 'Usuario';
+      candidates.push({ chatId, username });
+    }
+  });
+  if(force || candidates.length === 0) return;
+  const first = candidates[0];
+  showIncomingMessageToast(first.username, first.chatId);
+  showSystemIncomingNotification(first.username, first.chatId);
+}
+
+function startUnreadPolling(){
+  stopUnreadPolling();
+  refreshUnreadMessagesIndicator(true);
+  unreadPollTimer = setInterval(() => {
+    refreshUnreadMessagesIndicator(false);
+  }, 4000);
+}
+
+function stopUnreadPolling(){
+  if(unreadPollTimer){
+    clearInterval(unreadPollTimer);
+    unreadPollTimer = null;
+  }
+}
+
+async function openBusinessChat(){
+  if(!meUser){ goLogin(); return; }
+  if(!placeId) return;
+  const res = await fetch(`/messages/chats/from_place/${encodeURIComponent(placeId)}`, {
+    method: 'POST',
+    credentials: 'include'
+  });
+  const data = await res.json().catch(()=>({}));
+  if(!res.ok){
+    showCustomFeedbackModal(data.detail || 'No se pudo abrir el chat.', 'Error');
+    return;
+  }
+  const chatId = Number(data.chat_id || 0);
+  if(chatId > 0){
+    window.location.href = `/frontend.html?chat=${encodeURIComponent(chatId)}`;
+  }else{
+    window.location.href = '/frontend.html';
+  }
+}
+
+function nowMadrid(){
+  return new Date(new Date().toLocaleString('en-US',{timeZone:'Europe/Madrid'}));
+}
+
+function pad2(n){ return String(n).padStart(2,'0'); }
+function dateKey(d){ return `${d.getFullYear()}-${pad2(d.getMonth()+1)}-${pad2(d.getDate())}`; }
+function toMins(hhmm){ const [h,m]=String(hhmm||'00:00').split(':').map(Number); return (h||0)*60+(m||0); }
+
+function getOpeningHoursForDay(openingHours, dayName){
+  if(!openingHours || typeof openingHours !== 'object') return [];
+  const direct = openingHours[dayName];
+  if(Array.isArray(direct)) return direct;
+  const aliases = {
+    'Miércoles': ['Miercoles'],
+    'Sábado': ['Sabado']
+  };
+  const options = aliases[dayName] || [];
+  for(const alt of options){
+    const val = openingHours[alt];
+    if(Array.isArray(val)) return val;
+  }
+  return [];
+}
+
+function getSlotsForDate(p, d){
+  const dayNames=['Domingo','Lunes','Martes','Miércoles','Jueves','Viernes','Sábado'];
+  const day = dayNames[d.getDay()];
+  const regular = getOpeningHoursForDay(p.opening_hours, day);
+  const key = dateKey(d);
+  const special = p.special_days ? p.special_days[key] : null;
+  if(!special) return { slots: regular, special: null };
+  if(special.mode === 'closed') return { slots: [], special };
+  if(Array.isArray(special.opening_hours)) return { slots: special.opening_hours, special };
+  if(special.mode === 'open') return { slots: regular, special };
+  return { slots: [], special };
+}
+
+function getCurrentStatus(p){
+  const now = nowMadrid();
+  const current = now.getHours()*60 + now.getMinutes();
+  const data = getSlotsForDate(p, now);
+  let status = {text:'Cerrado', cls:'status-closed'};
+  for(const slot of (data.slots || [])){
+    const s = toMins(slot.inicio), e = toMins(slot.fin);
+    if(current >= s && current < e){
+      status = (e-current)<=30
+        ? {text:'Cierra pronto', cls:'status-closing'}
+        : {text:'Abierto', cls:'status-open'};
+      break;
+    }else if(current < s && (s-current)<=15){
+      status = {text:'Abre pronto', cls:'status-opening'};
+      break;
+    }
+  }
+  return status;
+}
+
+function renderBanner(){
+  const banner = document.getElementById('businessBanner');
+  const src = place.main_photo || '/web/icono/no_imagen.png';
+  if(place.main_photo){
+    const img = new Image();
+    img.onload = () => { banner.style.backgroundImage = `url('${src}')`; };
+    img.onerror = () => { banner.style.backgroundImage = "url('/web/icono/no_imagen.png')"; };
+    img.src = src;
+  }else{
+    banner.style.backgroundImage = `url('${src}')`;
+  }
+  document.getElementById('bizName').textContent = place.name || 'Negocio';
+  document.getElementById('catBadge').textContent = place.category || 'Sin categoria';
+  const st = getCurrentStatus(place);
+  const b = document.getElementById('openBadge');
+  b.textContent = st.text;
+  b.className = `badge ${st.cls}`;
+}
+
+function renderPhotos(){
+  const track = document.getElementById('photosTrack');
+  const footerThumbs = document.getElementById('photosFooterThumbs');
+  const footerTrack = document.getElementById('photosFooterTrack');
+  const carousel = track ? track.closest('.carousel') : null;
+  const prevBtn = carousel ? carousel.querySelector('.prev') : null;
+  const nextBtn = carousel ? carousel.querySelector('.next') : null;
+  track.innerHTML = '';
+  if(footerTrack) footerTrack.innerHTML = '';
+  currentPhotos = [];
+  (place.photos || []).forEach((p) => {
+    if(typeof p !== 'string') return;
+    const clean = p.trim();
+    if(!clean) return;
+    if(place.main_photo && clean === place.main_photo) return;
+    currentPhotos.push(clean);
+  });
+  if(!currentPhotos.length){
+    carouselPhotoIndex = 0;
+    if(prevBtn) prevBtn.style.display = 'none';
+    if(nextBtn) nextBtn.style.display = 'none';
+    if(footerThumbs) footerThumbs.style.display = 'none';
+    const empty = document.createElement('div');
+    empty.className = 'carousel-empty-message';
+    empty.textContent = 'No hay fotos disponibles';
+    track.appendChild(empty);
+    return;
+  }
+  const canSlide = currentPhotos.length >= 2;
+  if(prevBtn) prevBtn.style.display = canSlide ? '' : 'none';
+  if(nextBtn) nextBtn.style.display = canSlide ? '' : 'none';
+  if(footerThumbs) footerThumbs.style.display = '';
+  carouselPhotoIndex = 0;
+  currentPhotos.forEach((src, idx)=>{
+    const img = document.createElement('img');
+    img.src = src;
+    img.alt = place.name || 'foto negocio';
+    img.onerror = () => {
+      img.onerror = null;
+      img.src = '/web/icono/no_imagen.png';
+    };
+    img.style.cursor = 'zoom-in';
+    img.onclick = () => openLightbox(idx);
+    track.appendChild(img);
+  });
+  renderPhotosFooterThumbs();
+  updateCarouselPosition('auto');
+}
+
+function renderPhotosFooterThumbs(){
+  const footerTrack = document.getElementById('photosFooterTrack');
+  if(!footerTrack) return;
+  footerTrack.innerHTML = '';
+  if(!currentPhotos.length) return;
+  currentPhotos.forEach((src, idx) => {
+    const btn = document.createElement('button');
+    btn.type = 'button';
+    btn.className = 'photos-footer-thumb';
+    btn.setAttribute('aria-label', `Ver foto ${idx + 1}`);
+    const img = document.createElement('img');
+    img.src = src;
+    img.alt = `miniatura ${idx + 1}`;
+    img.onerror = () => {
+      img.onerror = null;
+      img.src = '/web/icono/no_imagen.png';
+    };
+    btn.appendChild(img);
+    btn.addEventListener('click', () => {
+      carouselPhotoIndex = idx;
+      updateCarouselPosition('smooth');
+    });
+    footerTrack.appendChild(btn);
+  });
+}
+
+function scrollPhotos(dir, ev){
+  if(ev && ev.currentTarget && typeof ev.currentTarget.blur === 'function'){
+    ev.currentTarget.blur();
+  }
+  markCarouselControlsActive();
+  if(!currentPhotos.length) return;
+  const total = currentPhotos.length;
+  if(total <= 1){
+    carouselPhotoIndex = 0;
+  }else if(dir > 0){
+    carouselPhotoIndex = (carouselPhotoIndex + 1) % total;
+  }else{
+    carouselPhotoIndex = (carouselPhotoIndex - 1 + total) % total;
+  }
+  updateCarouselPosition('smooth');
+}
+
+function markCarouselControlsActive(){
+  if(!window.matchMedia || !window.matchMedia('(min-width:901px)').matches) return;
+  const track = document.getElementById('photosTrack');
+  if(!track) return;
+  const carousel = track.closest('.carousel');
+  if(!carousel) return;
+  carousel.classList.add('show-controls');
+  if(carouselControlsHideTimer){
+    clearTimeout(carouselControlsHideTimer);
+    carouselControlsHideTimer = null;
+  }
+  carouselControlsHideTimer = setTimeout(() => {
+    carousel.classList.remove('show-controls');
+  }, 3000);
+}
+
+function updateCarouselPosition(behavior = 'auto'){
+  const track = document.getElementById('photosTrack');
+  const footerTrack = document.getElementById('photosFooterTrack');
+  if(!track) return;
+  const carousel = track.closest('.carousel');
+  const prevBtn = carousel ? carousel.querySelector('.prev') : null;
+  const nextBtn = carousel ? carousel.querySelector('.next') : null;
+  const total = currentPhotos.length;
+  if(!total){
+    if(prevBtn) prevBtn.disabled = true;
+    if(nextBtn) nextBtn.disabled = true;
+    return;
+  }
+  carouselPhotoIndex = Math.max(0, Math.min(carouselPhotoIndex, total - 1));
+  const pageWidth = Math.max(track.clientWidth, 1);
+  track.scrollTo({ left: pageWidth * carouselPhotoIndex, behavior });
+  if(prevBtn) prevBtn.disabled = (total < 2);
+  if(nextBtn) nextBtn.disabled = (total < 2);
+  if(footerTrack){
+    const thumbButtons = footerTrack.querySelectorAll('.photos-footer-thumb');
+    thumbButtons.forEach((btn, idx) => {
+      btn.classList.toggle('is-active', idx === carouselPhotoIndex);
+    });
+    const active = thumbButtons[carouselPhotoIndex];
+    if(active && active.scrollIntoView){
+      active.scrollIntoView({ block:'nearest', inline:'center', behavior:'smooth' });
+    }
+  }
+}
+
+function updateLightbox(){
+  const total = currentPhotos.length || 1;
+  const safeIndex = ((currentPhotoIndex % total) + total) % total;
+  currentPhotoIndex = safeIndex;
+  const lb = document.getElementById('lbImage');
+  if(lb){
+    lb.onerror = () => {
+      lb.onerror = null;
+      lb.src = '/web/icono/no_imagen.png';
+    };
+    lb.src = currentPhotos[safeIndex] || '/web/icono/no_imagen.png';
+    resetLightboxZoom();
+    animateLightboxImageEntry(lightboxMotionDirection);
+  }
+  const caption = document.getElementById('lbCaption');
+  if(caption) caption.textContent = `Foto ${safeIndex + 1} de ${total}`;
+  const thumbs = document.getElementById('lbThumbs');
+  if(thumbs){
+    const buttons = thumbs.querySelectorAll('.lb-thumb');
+    buttons.forEach((btn, idx) => {
+      btn.classList.toggle('is-active', idx === safeIndex);
+    });
+    const active = buttons[safeIndex];
+    if(active && active.scrollIntoView){
+      active.scrollIntoView({ block:'nearest', inline:'nearest', behavior:'smooth' });
+    }
+  }
+}
+
+function renderLightboxThumbs(){
+  const thumbs = document.getElementById('lbThumbs');
+  if(!thumbs) return;
+  thumbs.innerHTML = '';
+  if(!currentPhotos.length){
+    thumbs.style.display = 'none';
+    return;
+  }
+  thumbs.style.display = '';
+  currentPhotos.forEach((src, idx) => {
+    const btn = document.createElement('button');
+    btn.type = 'button';
+    btn.className = 'lb-thumb';
+    btn.setAttribute('aria-label', `Ver foto ${idx + 1}`);
+    const img = document.createElement('img');
+    img.src = src;
+    img.alt = `miniatura ${idx + 1}`;
+    img.onerror = () => {
+      img.onerror = null;
+      img.src = '/web/icono/no_imagen.png';
+    };
+    btn.appendChild(img);
+    btn.addEventListener('click', (ev) => {
+      ev.stopPropagation();
+      lightboxMotionDirection = idx === currentPhotoIndex ? 0 : (idx > currentPhotoIndex ? 1 : -1);
+      currentPhotoIndex = idx;
+      updateLightbox();
+    });
+    thumbs.appendChild(btn);
+  });
+}
+
+function openLightbox(index){
+  lightboxMotionDirection = 0;
+  currentPhotoIndex = Number(index) || 0;
+  renderLightboxThumbs();
+  updateLightbox();
+  document.body.classList.add('lightbox-open');
+  document.getElementById('photoLightbox').style.display = 'flex';
+}
+
+function lightboxStep(delta, ev){
+  if(ev) ev.stopPropagation();
+  lightboxMotionDirection = delta > 0 ? 1 : -1;
+  currentPhotoIndex += delta;
+  updateLightbox();
+}
+
+function closeLightbox(ev){
+  if(ev && ev.target && !ev.target.classList.contains('lb-close')) return;
+  document.body.classList.remove('lightbox-open');
+  document.getElementById('photoLightbox').style.display = 'none';
+  resetLightboxZoom();
+}
+
+function applyLightboxZoom(){
+  const lb = document.getElementById('lbImage');
+  if(!lb) return;
+  lb.style.transform = `scale(${lightboxZoom})`;
+  lb.style.transformOrigin = 'center center';
+}
+
+function resetLightboxZoom(){
+  lightboxZoom = 1;
+  applyLightboxZoom();
+}
+
+function handleLightboxWheel(ev){
+  const lbWrap = document.getElementById('photoLightbox');
+  if(!lbWrap || lbWrap.style.display !== 'flex') return;
+  ev.preventDefault();
+  const delta = ev.deltaY < 0 ? 0.12 : -0.12;
+  lightboxZoom = Math.max(1, Math.min(4, lightboxZoom + delta));
+  applyLightboxZoom();
+}
+
+function animateLightboxImageEntry(direction){
+  const lb = document.getElementById('lbImage');
+  if(!lb || !direction) return;
+  const fromX = direction > 0 ? 58 : -58;
+  try{
+    lb.animate(
+      [
+        { transform:`translateX(${fromX}px) scale(1)`, opacity:.28, filter:'blur(1.2px)' },
+        { transform:'translateX(0) scale(1)', opacity:1, filter:'blur(0)' }
+      ],
+      { duration:260, easing:'cubic-bezier(.22,.84,.24,1)', fill:'none' }
+    );
+  }catch(_e){}
+}
+
+function handleLightboxTouchStart(ev){
+  if(!ev.touches || !ev.touches.length) return;
+  lightboxTouchStartX = ev.touches[0].clientX;
+  lightboxTouchStartY = ev.touches[0].clientY;
+}
+
+function handleLightboxTouchEnd(ev){
+  if(lightboxTouchStartX == null || lightboxTouchStartY == null) return;
+  const endTouch = ev.changedTouches && ev.changedTouches.length ? ev.changedTouches[0] : null;
+  const endX = endTouch ? endTouch.clientX : lightboxTouchStartX;
+  const endY = endTouch ? endTouch.clientY : lightboxTouchStartY;
+  const deltaX = endX - lightboxTouchStartX;
+  const deltaY = endY - lightboxTouchStartY;
+  lightboxTouchStartX = null;
+  lightboxTouchStartY = null;
+  if(Math.abs(deltaX) < 36) return;
+  if(Math.abs(deltaX) <= Math.abs(deltaY)) return;
+  lightboxStep(deltaX < 0 ? 1 : -1);
+}
+
+
+function slotsToText(slots){
+  if(!slots || !slots.length) return 'Cerrado';
+  return slots.map(s=>`${s.inicio}-${s.fin}`).join(' | ');
+}
+
+function renderWeekSchedule(){
+  const title = document.getElementById('scheduleTitle');
+  const list = document.getElementById('scheduleList');
+  list.innerHTML = '';
+
+  const now = nowMadrid();
+  const status = getCurrentStatus(place);
+  title.textContent = `${status.text}`;
+  title.className = `schedule-panel-head ${status.cls}`;
+
+  const dayNames=['Domingo','Lunes','Martes','Miércoles','Jueves','Viernes','Sábado'];
+  for(let offset=0; offset<7; offset++){
+    const d = new Date(now);
+    d.setDate(now.getDate() + offset);
+    const dayName = dayNames[d.getDay()];
+    const info = getSlotsForDate(place, d);
+
+    const li = document.createElement('li');
+    li.className = 'schedule-item';
+    if(dateKey(d) === dateKey(now)) li.classList.add('today');
+    const day = document.createElement('div');
+    day.className = 'schedule-day';
+    day.textContent = dayName;
+    const dateMeta = document.createElement('span');
+    dateMeta.className = 'schedule-date';
+    dateMeta.textContent = `${pad2(d.getDate())}/${pad2(d.getMonth()+1)}`;
+    day.appendChild(dateMeta);
+    li.appendChild(day);
+
+    const hours = document.createElement('div');
+    hours.className = 'schedule-hours';
+    const hoursList = document.createElement('div');
+    hoursList.className = 'schedule-hours-list';
+    if(Array.isArray(info.slots) && info.slots.length){
+      info.slots.forEach((slot) => {
+        const span = document.createElement('span');
+        span.textContent = `${slot.inicio || ''}-${slot.fin || ''}`;
+        hoursList.appendChild(span);
+      });
+    }else{
+      hours.classList.add('is-closed');
+      hoursList.textContent = 'Cerrado';
+    }
+    hours.appendChild(hoursList);
+    li.appendChild(hours);
+
+    if(info.special){
+      const reason = document.createElement('div');
+      reason.className = 'reason';
+      reason.textContent = info.special.reason
+        ? `Horario especial. Motivo: ${info.special.reason}`
+        : 'Dia con horario especial.';
+      hours.appendChild(reason);
+    }
+
+    list.appendChild(li);
+  }
+}
+
+function buildPlaceSnapshot(p){
+  if(!p) return "";
+  const normalized = {
+    public_id: p.public_id || null,
+    name: p.name || "",
+    category: p.category || "",
+    description: p.description || "",
+    initial_phrase: p.initial_phrase || "",
+    address: p.address || "",
+    phone: p.phone || "",
+    business_email: p.business_email || "",
+    contact_email: p.contact_email || "",
+    contact_email_effective: p.contact_email_effective || "",
+    main_photo: p.main_photo || "",
+    photos: Array.isArray(p.photos) ? p.photos.slice() : [],
+    opening_hours: p.opening_hours || {},
+    special_days: p.special_days || {},
+    map_latitude: p.map_latitude ?? null,
+    map_longitude: p.map_longitude ?? null,
+    active: !!p.active
+  };
+  return JSON.stringify(normalized);
+}
+
+function renderBusinessMap(){
+  const card = document.getElementById('bizMapCard');
+  const frame = document.getElementById('bizMapFrame');
+  const lat = Number(place?.map_latitude);
+  const lng = Number(place?.map_longitude);
+  const hasCoords = Number.isFinite(lat) && Number.isFinite(lng) && lat >= -90 && lat <= 90 && lng >= -180 && lng <= 180;
+  if(!hasCoords){
+    currentMapCoords = null;
+    card.style.display = 'none';
+    return;
+  }
+  const coords = `${lat.toFixed(7)},${lng.toFixed(7)}`;
+  currentMapCoords = { lat, lng, coords };
+  frame.src = getEmbeddedMapUrl(lat, lng, 16);
+  card.style.display = 'block';
+}
+
+function openMapModal(){
+  if(!currentMapCoords) return;
+  const frame = document.getElementById('mapModalFrame');
+  frame.src = getEmbeddedMapUrl(currentMapCoords.lat, currentMapCoords.lng, 17);
+  document.getElementById('mapModal').style.display = 'flex';
+}
+
+function closeMapModal(ev){
+  if(ev && ev.target && ev.target.id !== 'mapModal' && !ev.target.classList.contains('map-modal-close')) return;
+  document.getElementById('mapModal').style.display = 'none';
+}
+
+async function openDirectionsInGoogleMaps(){
+  if(!currentMapCoords) return;
+  const destination = `${currentMapCoords.lat.toFixed(7)},${currentMapCoords.lng.toFixed(7)}`;
+  const webUrl = `https://www.google.com/maps/dir/?api=1&origin=${encodeURIComponent('My Location')}&destination=${encodeURIComponent(destination)}&travelmode=driving`;
+  const ua = window.navigator.userAgent || '';
+  const isMobile = /Android|iPhone|iPad|iPod/i.test(ua);
+  const isIos = /iPhone|iPad|iPod/i.test(ua);
+  const externalWebUrl = `https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(destination)}&travelmode=driving`;
+
+  if(!isMobile){
+    window.open(webUrl, '_blank', 'noopener,noreferrer');
+    return;
+  }
+
+  if(isIos){
+    const appUrl = `comgooglemaps://?daddr=${encodeURIComponent(destination)}&directionsmode=driving`;
+    const fallbackTimer = setTimeout(() => {
+      window.location.href = webUrl;
+    }, 900);
+    const clearFallback = () => {
+      clearTimeout(fallbackTimer);
+      document.removeEventListener('visibilitychange', clearFallback);
+      window.removeEventListener('pagehide', clearFallback);
+      window.removeEventListener('blur', clearFallback);
+    };
+    document.addEventListener('visibilitychange', clearFallback, { once: true });
+    window.addEventListener('pagehide', clearFallback, { once: true });
+    window.addEventListener('blur', clearFallback, { once: true });
+    window.location.href = appUrl;
+    return;
+  }
+
+  if(isAndroidAppWebView()){
+    const opened = tryOpenExternalUrl(externalWebUrl);
+    if(!opened){
+      window.location.href = externalWebUrl;
+    }
+    return;
+  }
+
+  const appUrl = `google.navigation:q=${encodeURIComponent(destination)}&mode=d`;
+  const fallbackTimer = setTimeout(() => {
+    window.location.href = externalWebUrl;
+  }, 900);
+  const clearFallback = () => {
+    clearTimeout(fallbackTimer);
+    document.removeEventListener('visibilitychange', clearFallback);
+    window.removeEventListener('pagehide', clearFallback);
+    window.removeEventListener('blur', clearFallback);
+  };
+  document.addEventListener('visibilitychange', clearFallback, { once: true });
+  window.addEventListener('pagehide', clearFallback, { once: true });
+  window.addEventListener('blur', clearFallback, { once: true });
+  window.location.href = appUrl;
+}
+
+function getEmbeddedMapUrl(lat, lng, zoom){
+  const safeLat = Number(lat);
+  const safeLng = Number(lng);
+  const safeZoom = Math.max(12, Math.min(18, Number(zoom) || 16));
+  const delta = safeZoom >= 17 ? 0.0022 : safeZoom >= 16 ? 0.0035 : 0.006;
+  const left = (safeLng - delta).toFixed(6);
+  const right = (safeLng + delta).toFixed(6);
+  const top = (safeLat + delta).toFixed(6);
+  const bottom = (safeLat - delta).toFixed(6);
+  return `https://www.openstreetmap.org/export/embed.html?bbox=${left}%2C${bottom}%2C${right}%2C${top}&layer=mapnik&marker=${safeLat.toFixed(7)}%2C${safeLng.toFixed(7)}`;
+}
+
+function renderAllBusinessData(){
+  if(!place) return;
+  const phone = place.phone || 'No disponible';
+  const email = place.contact_email_effective || place.contact_email || place.business_email || 'No disponible';
+  document.title = `${place.name || 'Negocio'} | Todo Sevilla Este`;
+  document.getElementById('bizDescription').textContent = place.description || place.initial_phrase || 'Sin descripcion.';
+  document.getElementById('bizPhone').textContent = phone;
+  document.getElementById('bizPhone').dataset.copyValue = phone === 'No disponible' ? '' : phone;
+  document.getElementById('bizEmail').textContent = email;
+  document.getElementById('bizEmail').dataset.copyValue = email === 'No disponible' ? '' : email;
+  renderBusinessRatingWidgets(reviewSummaryData);
+  renderBusinessMap();
+  renderBanner();
+  renderPhotos();
+  renderWeekSchedule();
+}
+
+function starsText(n){
+  const v = Number(n) || 0;
+  const full = '&#9733;'.repeat(Math.max(0, Math.min(5, v)));
+  const empty = '&#9734;'.repeat(Math.max(0, 5 - v));
+  return full + empty;
+}
+
+function getLocalBusinessRatingSummary(summary){
+  const safeCount = Math.max(0, Number(summary && summary.total_reviews) || 0);
+  const safeAvg = safeCount > 0 ? Math.max(0, Math.min(5, Number(summary && summary.avg_rating) || 0)) : 0;
+  return {
+    avg: safeAvg,
+    count: safeCount,
+    avgLabel: safeAvg.toFixed(1),
+    percent: `${(safeAvg / 5) * 100}%`,
+  };
+}
+
+function getLocalCardRatingHtml(summary){
+  const rating = getLocalBusinessRatingSummary(summary);
+  const reviewsLabel = rating.count === 1 ? '1 reseña' : `${rating.count} reseñas`;
+  const ariaLabel = rating.count > 0
+    ? `Valoracion media ${rating.avgLabel} sobre 5 con ${reviewsLabel}`
+    : 'Sin valoraciones';
+  const tooltipText = rating.count > 0
+    ? `Valoracion media: ${rating.avgLabel} (${reviewsLabel})`
+    : 'Sin valoraciones';
+  return `
+    <button type="button" class="card-rating-anchor" data-rating-toggle="true" aria-label="${escapeHtml(ariaLabel)}" aria-expanded="false">
+      <div class="card-rating">
+        <span class="card-rating-stars" aria-hidden="true" style="--rating-percent:${rating.percent};"></span>
+        <span class="card-rating-value">(${rating.avgLabel})</span>
+      </div>
+      <div class="card-rating-tooltip" role="tooltip">
+        <div class="card-rating-tooltip-title">Valoracion</div>
+        <div class="card-rating-tooltip-body">${escapeHtml(tooltipText)}</div>
+      </div>
+    </button>
+  `;
+}
+
+function getLocalCardRatingStaticHtml(summary){
+  const rating = getLocalBusinessRatingSummary(summary);
+  const reviewsLabel = rating.count === 1 ? '1 reseña' : `${rating.count} reseñas`;
+  const ariaLabel = rating.count > 0
+    ? `Valoracion media ${rating.avgLabel} sobre 5 con ${reviewsLabel}`
+    : 'Sin valoraciones';
+  return `
+    <div class="card-rating-anchor is-static" aria-label="${escapeHtml(ariaLabel)}">
+      <div class="card-rating">
+        <span class="card-rating-stars" aria-hidden="true" style="--rating-percent:${rating.percent};"></span>
+        <span class="card-rating-value">(${rating.avgLabel})</span>
+      </div>
+    </div>
+  `;
+}
+
+function renderBusinessRatingWidgets(summary){
+  const descriptionRating = document.getElementById('descriptionRating');
+  const ratingSummary = document.getElementById('ratingSummary');
+  const ratingReviewsTop = document.getElementById('ratingReviewsTop');
+  const count = Math.max(0, Number(summary && summary.total_reviews) || 0);
+  if(descriptionRating) descriptionRating.innerHTML = getLocalCardRatingHtml(summary);
+  if(ratingSummary) ratingSummary.innerHTML = getLocalCardRatingStaticHtml(summary);
+  if(ratingReviewsTop) ratingReviewsTop.textContent = `${count} reseñas`;
+}
+
+function closeRatingTooltips(){
+  document.querySelectorAll('.card-rating-anchor.is-open').forEach((anchor) => {
+    anchor.classList.remove('is-open');
+    anchor.setAttribute('aria-expanded', 'false');
+  });
+}
+
+function toggleRatingTooltip(button){
+  if(!button) return;
+  const shouldOpen = !button.classList.contains('is-open');
+  closeRatingTooltips();
+  if(!shouldOpen) return;
+  button.classList.add('is-open');
+  button.setAttribute('aria-expanded', 'true');
+}
+
+function safeText(value){
+  return String(value ?? '').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+}
+
+function formatIso(iso){
+  if(!iso) return '-';
+  const d = new Date(iso);
+  if(Number.isNaN(d.getTime())) return iso;
+  return `${d.toLocaleDateString('es-ES')} ${d.toLocaleTimeString('es-ES',{hour:'2-digit',minute:'2-digit'})}`;
+}
+
+function renderReviewCard(review){
+  const photos = (review.photos || []).slice(0, 6).map(p=>`<img src="${safeText(p)}" alt="foto reseña">`).join('');
+  const canReport = !!review.id;
+  const showEdited = !!(review.was_edited || (review.created_at && review.updated_at && review.created_at !== review.updated_at));
+  const timeIso = showEdited ? review.updated_at : review.created_at;
+  const d = timeIso ? new Date(timeIso) : null;
+  const hasValidDate = !!(d && !Number.isNaN(d.getTime()));
+  const datePart = hasValidDate ? d.toLocaleDateString('es-ES') : '-';
+  const timePart = hasValidDate ? d.toLocaleTimeString('es-ES',{hour:'2-digit',minute:'2-digit'}) : '-';
+  const reviewDateText = showEdited
+    ? `${datePart} | ${timePart} (Editada)`
+    : `${datePart} | ${timePart}`;
+  return `
+    <article class="review-card">
+      <div class="review-head">
+        <div class="review-user">
+          <div class="review-avatar-wrap">
+            <img src="${safeText(normalizeAvatarSrc(review.user?.avatar))}" alt="avatar" onerror="this.onerror=null;this.src='/icono/perfil_iniciar.png'" onclick="toggleProfileMenu(${review.id}, event)">
+            <div class="profile-menu" id="profileMenu${review.id}">
+              <button onclick="location.href='/perfil.html?u=${review.user?.id || 0}'">Ver perfil</button>
+            </div>
+          </div>
+          <div>
+            <div class="review-name"><strong>${safeText(review.user?.username || 'Usuario')}</strong></div>
+            <div class="review-stars">${starsText(review.rating)}</div>
+          </div>
+        </div>
+        <div class="review-dots">
+          <button class="review-mini-btn" onclick="toggleReviewMenu(${review.id}, event)">&#8942;</button>
+          <div class="review-menu" id="reviewMenu${review.id}">
+            ${canReport ? `<button onclick="reportReview(${review.id})">Reportar reseña</button>` : ''}
+          </div>
+        </div>
+      </div>
+      <p class="review-text">${safeText(review.description || '')}</p>
+      <div class="review-photos">${photos}</div>
+      <div class="review-date">${reviewDateText}</div>
+    </article>
+  `;
+}
+
+function isReviewVisible(review){
+  if(!review || typeof review !== 'object') return false;
+  if(review.hidden === true) return false;
+  if(review.is_hidden === true) return false;
+  if(review.oculta === true) return false;
+  if(review.is_public === false) return false;
+  if(review.visible === false) return false;
+  if(review.active === false) return false;
+  if(review.status && String(review.status).toLowerCase() === 'hidden') return false;
+  return true;
+}
+
+function getVisibleReviews(reviews){
+  if(!Array.isArray(reviews)) return [];
+  return reviews.filter(isReviewVisible);
+}
+
+function getVisibleReviewCount(summary, reviews){
+  if(summary && typeof summary === 'object'){
+    const summaryVisibleCandidates = [
+      summary.total_visible_reviews,
+      summary.visible_reviews,
+      summary.public_reviews,
+      summary.total_public_reviews
+    ];
+    for(const candidate of summaryVisibleCandidates){
+      const parsed = Number(candidate);
+      if(Number.isFinite(parsed) && parsed >= 0) return Math.max(0, Math.trunc(parsed));
+    }
+    const total = Number(summary.total_reviews);
+    const hidden = Number(summary.hidden_reviews ?? summary.hidden_count ?? summary.total_hidden_reviews);
+    if(Number.isFinite(total) && total >= 0 && Number.isFinite(hidden) && hidden >= 0){
+      return Math.max(0, Math.trunc(total) - Math.trunc(hidden));
+    }
+  }
+  return getVisibleReviews(reviews).length;
+}
+
+function renderPreviewReviews(){
+  const box = document.getElementById('reviewsPreview');
+  const visiblePreview = getVisibleReviews(previewReviews);
+  const cards = visiblePreview.map(renderReviewCard).join('');
+  const totalReviews = Math.max(0, Number(reviewSummaryData && reviewSummaryData.total_reviews) || 0);
+  const showSeeAll = totalReviews > 3;
+  const seeAllHtml = showSeeAll
+    ? `<div class="reviews-see-all-wrap"><button type="button" class="reviews-see-all-btn" onclick="openAllReviewsModal()">Ver todas</button></div>`
+    : '';
+  box.innerHTML = cards + seeAllHtml;
+}
+
+function renderAllReviews(){
+  const box = document.getElementById('allReviewsList');
+  const visibleAll = getVisibleReviews(allReviews);
+  if(!visibleAll.length){
+    box.innerHTML = 'No hay reseñas para mostrar.';
+    return;
+  }
+  box.innerHTML = visibleAll.map(renderReviewCard).join('');
+}
+
+async function loadReviewSummaryAndPreview(){
+  if(!placeId) return;
+  try{
+    const summaryRes = await fetch(`/places/${encodeURIComponent(placeId)}/reviews?sample=true&limit=3`);
+    if(!summaryRes.ok){
+      reviewSummaryData = { total_reviews: 0, avg_rating: 0 };
+      renderBusinessRatingWidgets(reviewSummaryData);
+      document.getElementById('reviewsPreview').innerHTML = 'No se pudieron cargar las reseñas.';
+      return;
+    }
+    const data = await summaryRes.json();
+    const summary = data.summary || { total_reviews:0, avg_rating:0 };
+    previewReviews = Array.isArray(data.reviews) ? data.reviews : [];
+    const visibleCount = getVisibleReviewCount(summary, previewReviews);
+    reviewSummaryData = { ...summary, total_reviews: visibleCount };
+    renderBusinessRatingWidgets(reviewSummaryData);
+    renderPreviewReviews();
+  }catch(_e){
+    reviewSummaryData = { total_reviews: 0, avg_rating: 0 };
+    renderBusinessRatingWidgets(reviewSummaryData);
+    document.getElementById('reviewsPreview').innerHTML = 'No se pudieron cargar las reseñas.';
+  }
+}
+
+async function loadAllReviews(){
+  if(!placeId) return;
+  try{
+    const res = await fetch(`/places/${encodeURIComponent(placeId)}/reviews?sort=${encodeURIComponent(reviewSort)}&limit=200`);
+    if(!res.ok){
+      document.getElementById('allReviewsList').innerHTML = 'No se pudieron cargar las reseñas.';
+      return;
+    }
+    const data = await res.json();
+    allReviews = Array.isArray(data.reviews) ? data.reviews : [];
+    const visibleAllCount = getVisibleReviews(allReviews).length;
+    reviewSummaryData = { ...reviewSummaryData, total_reviews: visibleAllCount };
+    renderBusinessRatingWidgets(reviewSummaryData);
+    renderPreviewReviews();
+    renderAllReviews();
+  }catch(_e){
+    document.getElementById('allReviewsList').innerHTML = 'No se pudieron cargar las reseñas.';
+  }
+}
+
+async function reportReview(reviewId){
+  const reason = (await showCustomPromptModal({
+    title: 'Motivos del reporte',
+    message: 'Motivos del reporte (mínimo 4 caracteres):',
+    placeholder: 'Escribe el motivo del reporte'
+  }) || '').trim();
+  if(!reason) return;
+  if(reason.length < 4){
+    showCustomFeedbackModal('El motivo debe tener al menos 4 caracteres.', 'Error de validación');
+    return;
+  }
+  if(!meUser){ goLogin(); return; }
+  const res = await fetch(`/reviews/${reviewId}/report`, {
+    method:'POST',
+    credentials:'include',
+    headers:{'Content-Type':'application/json'},
+    body: JSON.stringify({ reason })
+  });
+  const data = await res.json().catch(()=>({}));
+  if(!res.ok){
+    showCustomFeedbackModal(data.detail || 'No se pudo reportar la reseña.', 'Error');
+    return;
+  }
+  showCustomFeedbackModal(data.detail || 'Reporte enviado.', 'Éxito');
+}
+
+function toggleReviewMenu(reviewId, ev){
+  if(ev) ev.stopPropagation();
+  const menu = document.getElementById(`reviewMenu${reviewId}`);
+  if(!menu) return;
+  const open = menu.style.display === 'block';
+  document.querySelectorAll('.review-menu').forEach(m => { m.style.display = 'none'; });
+  document.querySelectorAll('.profile-menu').forEach(m => { m.style.display = 'none'; });
+  menu.style.display = open ? 'none' : 'block';
+}
+
+function toggleProfileMenu(reviewId, ev){
+  if(ev) ev.stopPropagation();
+  if(!reviewId) return;
+  const menu = document.getElementById(`profileMenu${reviewId}`);
+  if(!menu) return;
+  const open = menu.style.display === 'block';
+  document.querySelectorAll('.profile-menu').forEach(m => { m.style.display = 'none'; });
+  document.querySelectorAll('.review-menu').forEach(m => { m.style.display = 'none'; });
+  menu.style.display = open ? 'none' : 'block';
+}
+
+function openAllReviewsModal(){
+  document.getElementById('allReviewsModal').style.display = 'flex';
+  loadAllReviews();
+}
+
+function closeAllReviewsModal(ev){
+  if(ev && ev.target && ev.target.id !== 'allReviewsModal' && !ev.target.classList.contains('map-modal-close')) return;
+  document.getElementById('allReviewsModal').style.display = 'none';
+}
+
+function applyReviewSort(sort){
+  reviewSort = sort;
+  loadAllReviews();
+}
+
+function openAddReviewModal(){
+  if(!meUser){ goLogin(); return; }
+  setAddReviewRating(0);
+  clearAddReviewRatingHover();
+  document.getElementById('addReviewModal').style.display = 'flex';
+  lockAddReviewPageScroll();
+}
+
+function closeAddReviewModal(ev){
+  if(ev && ev.target && ev.target.id !== 'addReviewModal' && !ev.target.classList.contains('map-modal-close')) return;
+  setAddReviewRating(0);
+  clearAddReviewRatingHover();
+  document.getElementById('addReviewModal').style.display = 'none';
+  unlockAddReviewPageScroll();
+  closeAddReviewImageLightbox();
+}
+
+function showCustomFeedbackModal(message, title = 'Error'){
+  const modal = document.getElementById('customFeedbackModal');
+  const titleEl = document.getElementById('customFeedbackTitle');
+  const messageEl = document.getElementById('customFeedbackMessage');
+  if(!modal || !titleEl || !messageEl){
+    console.warn(message || title || 'Aviso');
+    return;
+  }
+  titleEl.textContent = title || 'Aviso';
+  messageEl.textContent = message || 'Ha ocurrido un error.';
+  modal.style.display = 'flex';
+}
+
+function closeCustomFeedbackModal(ev){
+  if(ev && ev.target && ev.target.id !== 'customFeedbackModal' && !ev.target.classList.contains('custom-feedback-ok')) return;
+  const modal = document.getElementById('customFeedbackModal');
+  if(!modal) return;
+  modal.style.display = 'none';
+}
+
+function showCustomPromptModal(opts = {}){
+  const modal = document.getElementById('customPromptModal');
+  const titleEl = document.getElementById('customPromptTitle');
+  const messageEl = document.getElementById('customPromptMessage');
+  const inputEl = document.getElementById('customPromptInput');
+  if(!modal || !titleEl || !messageEl || !inputEl){
+    return Promise.resolve(null);
+  }
+  titleEl.textContent = String(opts.title || 'Aviso');
+  messageEl.textContent = String(opts.message || '');
+  inputEl.placeholder = String(opts.placeholder || '');
+  inputEl.value = String(opts.value || '');
+  modal.style.display = 'flex';
+  setTimeout(() => {
+    try{ inputEl.focus(); inputEl.select(); }catch(_e){}
+  }, 0);
+  return new Promise((resolve) => {
+    customPromptResolver = resolve;
+  });
+}
+
+function submitCustomPromptModal(ev){
+  if(ev) ev.preventDefault();
+  closeCustomPromptModal(null, false);
+}
+
+function closeCustomPromptModal(ev, cancelled = true){
+  if(ev && ev.target && ev.target.id !== 'customPromptModal' && !ev.target.classList.contains('custom-feedback-cancel')) return;
+  const modal = document.getElementById('customPromptModal');
+  const inputEl = document.getElementById('customPromptInput');
+  if(!modal || !inputEl) return;
+  const resolver = customPromptResolver;
+  customPromptResolver = null;
+  modal.style.display = 'none';
+  if(typeof resolver === 'function'){
+    resolver(cancelled ? null : String(inputEl.value || ''));
+  }
+}
+
+function lockAddReviewPageScroll(){
+  if(document.body.classList.contains('add-review-open')) return;
+  addReviewLockScrollY = window.scrollY || window.pageYOffset || 0;
+  document.documentElement.classList.add('add-review-open');
+  document.body.classList.add('add-review-open');
+  document.body.style.top = `-${addReviewLockScrollY}px`;
+}
+
+function unlockAddReviewPageScroll(){
+  if(!document.body.classList.contains('add-review-open')) return;
+  document.documentElement.classList.remove('add-review-open');
+  document.body.classList.remove('add-review-open');
+  document.body.style.top = '';
+  window.scrollTo(0, addReviewLockScrollY || 0);
+}
+
+function openAddReviewImageLightbox(src){
+  if(!src) return;
+  const modal = document.getElementById('addReviewImageLightbox');
+  const img = document.getElementById('addReviewImageLightboxImg');
+  if(!modal || !img) return;
+  img.src = src;
+  modal.style.display = 'flex';
+}
+
+function closeAddReviewImageLightbox(ev){
+  if(ev && ev.target && ev.target.id !== 'addReviewImageLightbox' && !ev.target.classList.contains('add-review-image-close')) return;
+  const modal = document.getElementById('addReviewImageLightbox');
+  const img = document.getElementById('addReviewImageLightboxImg');
+  if(!modal || !img) return;
+  modal.style.display = 'none';
+  img.src = '';
+}
+
+function refreshReviewFileLabel(){
+  const listEl = document.getElementById('addReviewFileList');
+  const previewEl = document.getElementById('addReviewFilePreview');
+  const dropzone = document.getElementById('addReviewFilesDropzone');
+  const emptyState = document.getElementById('addReviewDropEmpty');
+  if(!listEl || !previewEl) return;
+  const count = reviewAttachmentEntries.length;
+  listEl.textContent = count ? `${count} archivo${count === 1 ? '' : 's'} adjunto${count === 1 ? '' : 's'}.` : 'Sin archivos adjuntos.';
+  if(dropzone) dropzone.classList.toggle('has-files', count > 0);
+  if(emptyState) emptyState.style.display = count > 0 ? 'none' : '';
+  previewEl.innerHTML = '';
+  reviewAttachmentEntries.forEach((entry) => {
+    const item = document.createElement('div');
+    item.className = 'add-review-file-item';
+    const img = document.createElement('img');
+    img.src = entry.previewUrl || '/web/icono/no_imagen.png';
+    img.alt = entry.file && entry.file.name ? entry.file.name : 'imagen';
+    img.onerror = () => {
+      img.onerror = null;
+      img.src = '/web/icono/no_imagen.png';
+    };
+    img.addEventListener('click', (ev) => {
+      ev.preventDefault();
+      ev.stopPropagation();
+      openAddReviewImageLightbox(entry.previewUrl || img.src);
+    });
+    const removeBtn = document.createElement('button');
+    removeBtn.type = 'button';
+    removeBtn.className = 'add-review-file-remove';
+    removeBtn.setAttribute('aria-label', 'Quitar adjunto');
+    removeBtn.textContent = '×';
+    removeBtn.addEventListener('click', () => removeReviewAttachment(entry.id));
+    item.appendChild(img);
+    item.appendChild(removeBtn);
+    previewEl.appendChild(item);
+  });
+}
+
+function addReviewAttachments(files, source = 'pick'){
+  const incoming = Array.isArray(files) ? files : [];
+  let accepted = 0;
+  incoming.forEach((file) => {
+    if(!(file instanceof File)) return;
+    const mime = String(file.type || '').toLowerCase();
+    if(mime && !mime.startsWith('image/')) return;
+    const entry = {
+      id: `adj_${reviewAttachmentSeq++}`,
+      file,
+      source,
+      previewUrl: URL.createObjectURL(file),
+    };
+    reviewAttachmentEntries.push(entry);
+    accepted += 1;
+  });
+  if(incoming.length && accepted === 0){
+    showCustomFeedbackModal('Solo puedes adjuntar imágenes válidas.', 'Adjuntos');
+  }
+  refreshReviewFileLabel();
+}
+
+function removeReviewAttachment(entryId){
+  const next = [];
+  reviewAttachmentEntries.forEach((entry) => {
+    if(entry.id === entryId){
+      if(entry.previewUrl) URL.revokeObjectURL(entry.previewUrl);
+      return;
+    }
+    next.push(entry);
+  });
+  reviewAttachmentEntries = next;
+  refreshReviewFileLabel();
+}
+
+function clearReviewAttachments(){
+  reviewAttachmentEntries.forEach((entry) => {
+    if(entry.previewUrl) URL.revokeObjectURL(entry.previewUrl);
+  });
+  reviewAttachmentEntries = [];
+  const input = document.getElementById('addReviewFiles');
+  if(input) input.value = '';
+  refreshReviewFileLabel();
+}
+
+function initAddReviewAttachments(){
+  const input = document.getElementById('addReviewFiles');
+  const dropzone = document.getElementById('addReviewFilesDropzone');
+  if(!input || !dropzone) return;
+  const openPicker = () => {
+    try{
+      if(typeof input.showPicker === 'function'){
+        input.showPicker();
+        return;
+      }
+    }catch(_e){}
+    input.click();
+  };
+  dropzone.addEventListener('click', (ev) => {
+    if(ev.target && ev.target.closest && ev.target.closest('.add-review-file-remove')) return;
+    if(ev.target && ev.target.closest && ev.target.closest('.add-review-file-item')) return;
+    openPicker();
+  });
+  dropzone.addEventListener('keydown', (ev) => {
+    if(ev.key !== 'Enter' && ev.key !== ' ') return;
+    ev.preventDefault();
+    openPicker();
+  });
+  input.addEventListener('change', () => {
+    addReviewAttachments(Array.from(input.files || []), 'pick');
+    input.value = '';
+  });
+  ['dragenter', 'dragover'].forEach((eventName) => {
+    dropzone.addEventListener(eventName, (ev) => {
+      ev.preventDefault();
+      dropzone.classList.add('is-dragover');
+    });
+  });
+  ['dragleave', 'dragend', 'drop'].forEach((eventName) => {
+    dropzone.addEventListener(eventName, (ev) => {
+      ev.preventDefault();
+      dropzone.classList.remove('is-dragover');
+    });
+  });
+  dropzone.addEventListener('drop', (ev) => {
+    const files = ev.dataTransfer ? Array.from(ev.dataTransfer.files || []) : [];
+    addReviewAttachments(files, 'drop');
+  });
+  refreshReviewFileLabel();
+}
+
+function getAddReviewRatingControls(){
+  const wrap = document.querySelector('.add-review-rating');
+  const input = document.getElementById('addReviewRating');
+  const buttons = wrap ? Array.from(wrap.querySelectorAll('button[data-add-review-rating]')) : [];
+  return { wrap, input, buttons };
+}
+
+function setAddReviewRating(value){
+  const { input, buttons } = getAddReviewRatingControls();
+  const next = Math.max(0, Math.min(5, Number(value) || 0));
+  if(input) input.value = String(next);
+  buttons.forEach((btn) => {
+    const btnValue = Number(btn.dataset.addReviewRating || 0);
+    btn.classList.toggle('active', btnValue <= next);
+    btn.setAttribute('aria-pressed', btnValue === next ? 'true' : 'false');
+  });
+}
+
+function setAddReviewRatingHover(value){
+  const { buttons } = getAddReviewRatingControls();
+  const next = Math.max(0, Math.min(5, Number(value) || 0));
+  buttons.forEach((btn) => {
+    const btnValue = Number(btn.dataset.addReviewRating || 0);
+    btn.classList.toggle('preview-hover', next > 0 && btnValue <= next);
+  });
+}
+
+function clearAddReviewRatingHover(){
+  const { buttons } = getAddReviewRatingControls();
+  buttons.forEach((btn) => btn.classList.remove('preview-hover'));
+}
+
+function initAddReviewRatingStars(){
+  const { wrap, buttons } = getAddReviewRatingControls();
+  if(!wrap || !buttons.length) return;
+  buttons.forEach((btn) => {
+    btn.addEventListener('click', () => setAddReviewRating(btn.dataset.addReviewRating));
+    btn.addEventListener('pointerenter', () => setAddReviewRatingHover(btn.dataset.addReviewRating));
+  });
+  wrap.addEventListener('pointermove', (event) => {
+    const btn = event.target && event.target.closest ? event.target.closest('button[data-add-review-rating]') : null;
+    if(!btn){
+      clearAddReviewRatingHover();
+      return;
+    }
+    setAddReviewRatingHover(btn.dataset.addReviewRating);
+  });
+  wrap.addEventListener('pointerleave', clearAddReviewRatingHover);
+  setAddReviewRating(0);
+}
+
+async function submitReview(){
+  if(!meUser){ goLogin(); return; }
+  const rating = Number(document.getElementById('addReviewRating').value || 0);
+  const description = document.getElementById('addReviewDescription').value.trim();
+  if(!Number.isInteger(rating) || rating < 1 || rating > 5){
+    showCustomFeedbackModal('La puntuación debe ser entre 1 y 5.', 'Error de validación');
+    return;
+  }
+  if(!description){
+    showCustomFeedbackModal('Debes escribir una descripción.', 'Error de validación');
+    return;
+  }
+  const fd = new FormData();
+  fd.append('rating', String(rating));
+  fd.append('description', description);
+  reviewAttachmentEntries.forEach((entry) => {
+    if(entry && entry.file) fd.append('files', entry.file);
+  });
+  const res = await fetch(`/places/${encodeURIComponent(placeId)}/reviews`, {
+    method:'POST',
+    credentials:'include',
+    body: fd
+  });
+  const data = await res.json().catch(()=>({}));
+  if(!res.ok){
+    showCustomFeedbackModal(data.detail || 'No se pudo publicar la reseña.', 'Error al publicar');
+    return;
+  }
+  document.getElementById('addReviewDescription').value = '';
+  document.getElementById('addReviewRating').value = '0';
+  setAddReviewRating(0);
+  clearReviewAttachments();
+  closeAddReviewModal();
+  await Promise.all([loadReviewSummaryAndPreview(), loadAllReviews()]);
+}
+
+function render404Message(){
+  document.title = "Error 404 | Todo Sevilla Este";
+  const main = document.querySelector('main.wrap');
+  if(!main) return;
+  main.innerHTML = `
+    <section class="error404">
+      <h2>Error 404: Este negocio no existe o esta desactivado</h2>
+      <p>Puedes volver al listado principal para seguir explorando negocios.</p>
+      <p><a href="/frontend.html">Ir a la página principal</a></p>
+    </section>
+  `;
+}
+
+function refreshDynamicStatus(){
+  if(!place) return;
+  const st = getCurrentStatus(place);
+  const b = document.getElementById('openBadge');
+  b.textContent = st.text;
+  b.className = `badge ${st.cls}`;
+  const title = document.getElementById('scheduleTitle');
+  title.textContent = `${st.text}`;
+  title.className = `schedule-panel-head ${st.cls}`;
+}
+
+async function loadBusiness(initial = false){
+  if(!placeId){
+    placeId = new URLSearchParams(location.search).get('id') || new URLSearchParams(location.search).get('business');
+  }
+  if(!placeId){
+    render404Message();
+    return;
+  }
+  const res = await fetch(`/places/${encodeURIComponent(placeId)}`);
+  if(!res.ok){
+    if(initial) render404Message();
+    return;
+  }
+  const nextPlace = await res.json();
+  const snapshot = buildPlaceSnapshot(nextPlace);
+  if(snapshot === lastPlaceSnapshot){
+    refreshDynamicStatus();
+    loadReviewSummaryAndPreview();
+    return;
+  }
+  place = nextPlace;
+  lastPlaceSnapshot = snapshot;
+  renderAllBusinessData();
+  loadReviewSummaryAndPreview();
+}
+
+const searchSuggestionsEl = document.getElementById('searchSuggestions');
+const HEADER_SEARCH_SUGGESTIONS_LIMIT = 6;
+const HEADER_SEARCH_REMOTE_MIN_CHARS = 2;
+const HEADER_BUSINESS_LIST_URL = '/places';
+const HEADER_BUSINESS_SUGGEST_URL = '/search/businesses/suggest';
+let headerSearchSuggestionsTimer = null;
+let headerSearchSuggestionsToken = 0;
+let headerSearchBusinesses = [];
+let headerSearchBusinessesLoaded = false;
+let headerSearchBusinessesLoadPromise = null;
+
+function normalizeSearchText(value){
+  return String(value || '')
+    .normalize('NFD')
+    .replace(/[\u0300-\u036f]/g, '')
+    .toLowerCase()
+    .trim();
+}
+
+function escapeHtml(value){
+  return String(value || '')
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#39;');
+}
+
+async function fetchRemoteJson(url){
+  const res = await fetch(url, {
+    method: 'GET',
+    cache: 'no-store',
+    credentials: 'omit',
+    headers: { 'Accept': 'application/json' },
+  });
+  if(!res.ok){
+    throw new Error('HTTP_' + res.status);
+  }
+  return res.json();
+}
+
+async function ensureHeaderSearchBusinessesLoaded(){
+  if(headerSearchBusinessesLoaded) return headerSearchBusinesses;
+  if(headerSearchBusinessesLoadPromise) return headerSearchBusinessesLoadPromise;
+  headerSearchBusinessesLoadPromise = (async () => {
+    try{
+      const res = await fetch(HEADER_BUSINESS_LIST_URL, {
+        method: 'GET',
+        cache: 'no-store',
+        credentials: 'omit',
+        headers: { 'Accept': 'application/json' },
+      });
+      const data = await res.json().catch(() => []);
+      headerSearchBusinesses = Array.isArray(data) ? data.filter((item) => item && item.active !== false) : [];
+    }catch(_e){
+      headerSearchBusinesses = [];
+    }
+    headerSearchBusinessesLoaded = true;
+    return headerSearchBusinesses;
+  })();
+  return headerSearchBusinessesLoadPromise;
+}
+
+function buildHeaderBusinessSearchEntry(b){
+  const normalizedName = normalizeSearchText(b && b.name);
+  const normalizedCategory = normalizeSearchText(b && b.category);
+  const normalizedDescription = normalizeSearchText(b && b.initial_phrase);
+  const tokens = Array.from(new Set([
+    ...normalizedName.split(/[^a-z0-9]+/).filter(Boolean),
+    ...normalizedCategory.split(/[^a-z0-9]+/).filter(Boolean),
+    ...normalizedDescription.split(/[^a-z0-9]+/).filter(Boolean),
+  ]));
+  return {
+    business: b,
+    normalizedName,
+    normalizedCategory,
+    tokens,
+  };
+}
+
+async function getLocalHeaderSearchSuggestions(query){
+  const normalizedQuery = normalizeSearchText(query);
+  if(normalizedQuery.length < HEADER_SEARCH_REMOTE_MIN_CHARS) return [];
+  const businesses = await ensureHeaderSearchBusinessesLoaded();
+  const suggestions = [];
+  const seen = new Set();
+
+  businesses.forEach((business) => {
+    const entry = buildHeaderBusinessSearchEntry(business);
+    if(entry.normalizedCategory && entry.normalizedCategory.startsWith(normalizedQuery)){
+      const key = 'category:' + entry.normalizedCategory;
+      if(!seen.has(key)){
+        seen.add(key);
+        suggestions.push({
+          label: business.category || '',
+          meta: 'Categoría',
+          kind: 'Categoría',
+          query: business.category || '',
+        });
+      }
+    }
+    const businessMatch = entry.normalizedName.startsWith(normalizedQuery) || entry.tokens.some((token) => token.startsWith(normalizedQuery));
+    if(businessMatch){
+      const key = 'business:' + entry.normalizedName;
+      if(!seen.has(key)){
+        seen.add(key);
+        suggestions.push({
+          label: business.name || '',
+          meta: business.category || 'Negocio',
+          kind: 'Negocio',
+          query: business.name || '',
+          businessId: business.public_id || business.id || business.business_id || '',
+        });
+      }
+    }
+  });
+
+  return suggestions.slice(0, HEADER_SEARCH_SUGGESTIONS_LIMIT);
+}
+
+async function resolveHeaderSearchSuggestions(query){
+  const normalizedQuery = normalizeSearchText(query);
+  if(normalizedQuery.length < HEADER_SEARCH_REMOTE_MIN_CHARS) return [];
+  try{
+    const url = new URL(HEADER_BUSINESS_SUGGEST_URL, window.location.href);
+    url.searchParams.set('q', query);
+    url.searchParams.set('limit', String(HEADER_SEARCH_SUGGESTIONS_LIMIT));
+    const data = await fetchRemoteJson(url.toString());
+    const items = Array.isArray(data && data.items) ? data.items : [];
+    if(items.length){
+      return items.slice(0, HEADER_SEARCH_SUGGESTIONS_LIMIT).map((item) => ({
+        label: item.label || item.query || item.name || '',
+        meta: item.meta || item.category || 'Sugerencia',
+        kind: item.kind || 'Meili',
+        query: item.query || item.label || item.name || '',
+        businessId: item.businessId || item.public_id || item.place_public_id || item.id || item.business_id || item.place_id || '',
+      }));
+    }
+    return getLocalHeaderSearchSuggestions(query);
+  }catch(_e){
+    return getLocalHeaderSearchSuggestions(query);
+  }
+}
+
+function hideHeaderSearchSuggestions(){
+  if(!searchSuggestionsEl) return;
+  searchSuggestionsEl.hidden = true;
+  searchSuggestionsEl.innerHTML = '';
+}
+
+function renderHeaderSearchSuggestions(items){
+  if(!searchSuggestionsEl) return;
+  const safeItems = Array.isArray(items) ? items : [];
+  const businessItems = [];
+  const categoryItems = [];
+
+  safeItems.forEach((item) => {
+    const normalizedKind = normalizeSearchText(item && item.kind);
+    const isCategory = normalizedKind === 'categoria' || normalizedKind === 'categoria';
+    if(isCategory){
+      categoryItems.push(item);
+    }else{
+      businessItems.push(item);
+    }
+  });
+
+  const renderSuggestionButton = (item, index, variantClass) =>
+    '<button type="button" class="search-suggestion-btn ' + variantClass + '" data-index="' + index + '" data-query="' + escapeHtml(item.query || item.label || '') + '" data-business-id="' + escapeHtml(item.businessId || '') + '">' +
+      '<span class="search-suggestion-main">' +
+        '<span class="search-suggestion-title">' + escapeHtml(item.label || '') + '</span>' +
+        '<span class="search-suggestion-meta">' + escapeHtml(item.meta || '') + '</span>' +
+      '</span>' +
+      '<span class="search-suggestion-kind ' + variantClass + '">' + escapeHtml(item.kind || 'Sugerencia') + '</span>' +
+    '</button>';
+
+  const renderSuggestionGroup = (title, groupItems, variantClass, emptyMessage) =>
+    '<section class="search-suggestion-group">' +
+      '<h4 class="search-suggestion-group-title">' + escapeHtml(title) + '</h4>' +
+      (
+        groupItems.length
+          ? groupItems.map((item, index) => renderSuggestionButton(item, index, variantClass)).join('')
+          : '<div class="search-suggestion-empty">' + escapeHtml(emptyMessage) + '</div>'
+      ) +
+    '</section>';
+
+  searchSuggestionsEl.innerHTML =
+    renderSuggestionGroup('Negocios', businessItems, 'is-business', 'No hay resultados para esa búsqueda') +
+    renderSuggestionGroup('Categorías', categoryItems, 'is-category', 'No hay resultados para esa búsqueda');
+  searchSuggestionsEl.hidden = false;
+}
+
+function updateHeaderSearchButtons(){
+  const input = document.getElementById('searchInput');
+  const clearBtn = document.getElementById('searchClearBtn');
+  const submitBtn = document.getElementById('searchSubmitBtn');
+  if(!input) return;
+  const hasQuery = !!String(input.value || '').trim();
+  if(clearBtn) clearBtn.hidden = !hasQuery;
+  if(submitBtn) submitBtn.hidden = !hasQuery;
+}
+
+function goFrontendWithSearch(query){
+  const safeQuery = String(query || '').trim();
+  if(!safeQuery) return;
+  window.location.href = `/frontend.html?q=${encodeURIComponent(safeQuery)}`;
+}
+
+async function queueHeaderSearchSuggestions(){
+  const input = document.getElementById('searchInput');
+  if(!input) return;
+  const query = String(input.value || '').trim();
+  if(!query){
+    hideHeaderSearchSuggestions();
+    return;
+  }
+  const requestToken = ++headerSearchSuggestionsToken;
+  const items = await resolveHeaderSearchSuggestions(query);
+  if(requestToken !== headerSearchSuggestionsToken) return;
+  renderHeaderSearchSuggestions(items);
+}
+
+function initHeaderSearch(){
+  if(window.TSEPublicHeaderSearch){
+    window.TSEPublicHeaderSearch.init({
+      businessesUrl: '/places',
+      onSubmit: (query) => {
+        const safeQuery = String(query || '').trim();
+        if(!safeQuery) return;
+        window.location.href = `/frontend.html?q=${encodeURIComponent(safeQuery)}`;
+      },
+    });
+    return;
+  }
+  const form = document.getElementById('headerSearchForm');
+  const input = document.getElementById('searchInput');
+  const clearBtn = document.getElementById('searchClearBtn');
+  if(!form || !input) return;
+  updateHeaderSearchButtons();
+  input.addEventListener('input', () => {
+    updateHeaderSearchButtons();
+    if(headerSearchSuggestionsTimer){
+      clearTimeout(headerSearchSuggestionsTimer);
+    }
+    const query = String(input.value || '').trim();
+    if(!query){
+      hideHeaderSearchSuggestions();
+      return;
+    }
+    headerSearchSuggestionsTimer = setTimeout(queueHeaderSearchSuggestions, 220);
+  });
+  input.addEventListener('focus', () => {
+    const query = String(input.value || '').trim();
+    if(!query) return;
+    queueHeaderSearchSuggestions();
+  });
+  input.addEventListener('keydown', (ev) => {
+    if(ev.key === 'Escape'){
+      input.value = '';
+      updateHeaderSearchButtons();
+      hideHeaderSearchSuggestions();
+      input.blur();
+    }
+    if(ev.key === 'Enter'){
+      ev.preventDefault();
+      goFrontendWithSearch(input.value);
+    }
+  });
+  if(clearBtn){
+    clearBtn.addEventListener('click', () => {
+      input.value = '';
+      updateHeaderSearchButtons();
+      hideHeaderSearchSuggestions();
+      input.focus();
+    });
+  }
+  form.addEventListener('submit', (ev) => {
+    ev.preventDefault();
+    goFrontendWithSearch(input.value);
+  });
+  if(searchSuggestionsEl){
+    searchSuggestionsEl.addEventListener('click', (ev) => {
+      const btn = ev.target && ev.target.closest ? ev.target.closest('.search-suggestion-btn') : null;
+      if(!btn) return;
+      const businessId = String(btn.dataset.businessId || '').trim();
+      if(businessId){
+        window.location.href = `/negocio.html?id=${encodeURIComponent(businessId)}`;
+        return;
+      }
+      goFrontendWithSearch(btn.dataset.query || btn.textContent || '');
+    });
+  }
+}
+
+document.getElementById('addReviewDescription').addEventListener('paste', (ev)=>{
+  const items = Array.from(ev.clipboardData?.items || []);
+  const collected = [];
+  items.forEach((item, idx)=>{
+    if(item.kind === 'file'){
+      const file = item.getAsFile();
+      if(file){
+        const ext = (file.type.split('/')[1] || 'png').toLowerCase();
+        collected.push(new File([file], `paste_${Date.now()}_${idx}.${ext}`, { type: file.type || 'image/png' }));
+      }
+    }
+  });
+  if(collected.length > 0){
+    addReviewAttachments(collected, 'paste');
+  }
+});
+
+document.addEventListener('click', (ev)=>{
+  const ratingToggle = ev.target && ev.target.closest ? ev.target.closest('[data-rating-toggle="true"]') : null;
+  if(ratingToggle){
+    toggleRatingTooltip(ratingToggle);
+    return;
+  }
+  closeRatingTooltips();
+  document.querySelectorAll('.review-menu').forEach(m => { m.style.display = 'none'; });
+  document.querySelectorAll('.profile-menu').forEach(m => { m.style.display = 'none'; });
+  const insideSearch = ev.target && ev.target.closest ? ev.target.closest('.header-search') : null;
+  if(!insideSearch){
+    hideHeaderSearchSuggestions();
+  }
+});
+
+checkSession();
+registerFrontendServiceWorker();
+initQrAppCta();
+initHeaderSearch();
+initCopyContactActions();
+initAddReviewAttachments();
+initAddReviewRatingStars();
+loadBusiness(true);
+setInterval(()=>loadBusiness(false), 6000);
+setInterval(refreshDynamicStatus, 60000);
+window.addEventListener('pageshow', () => {
+  checkSession();
+  refreshUnreadMessagesIndicator(true);
+});
+document.addEventListener('visibilitychange', () => {
+  if(document.visibilityState === 'visible'){
+    checkSession();
+    refreshUnreadMessagesIndicator(true);
+  }
+});
+document.addEventListener('keydown', (e)=>{
+  if(e.key === 'Escape'){
+    closeRatingTooltips();
+  }
+  const customFeedbackModal = document.getElementById('customFeedbackModal');
+  if(customFeedbackModal && customFeedbackModal.style.display === 'flex' && e.key === 'Escape'){
+    closeCustomFeedbackModal();
+    return;
+  }
+  const customPromptModal = document.getElementById('customPromptModal');
+  if(customPromptModal && customPromptModal.style.display === 'flex' && e.key === 'Escape'){
+    closeCustomPromptModal(null, true);
+    return;
+  }
+  const addReviewImageLightbox = document.getElementById('addReviewImageLightbox');
+  if(addReviewImageLightbox && addReviewImageLightbox.style.display === 'flex' && e.key === 'Escape'){
+    closeAddReviewImageLightbox();
+    return;
+  }
+  const mapModal = document.getElementById('mapModal');
+  if(mapModal && mapModal.style.display === 'flex' && e.key === 'Escape'){
+    closeMapModal();
+    return;
+  }
+  const allReviewsModal = document.getElementById('allReviewsModal');
+  if(allReviewsModal && allReviewsModal.style.display === 'flex' && e.key === 'Escape'){
+    closeAllReviewsModal();
+    return;
+  }
+  const addReviewModal = document.getElementById('addReviewModal');
+  if(addReviewModal && addReviewModal.style.display === 'flex' && e.key === 'Escape'){
+    closeAddReviewModal();
+    return;
+  }
+  const lb = document.getElementById('photoLightbox');
+  if(lb.style.display !== 'flex') return;
+  if(e.key === 'Escape') closeLightbox();
+  if(e.key === 'ArrowLeft') lightboxStep(-1);
+  if(e.key === 'ArrowRight') lightboxStep(1);
+});
+const customPromptInputEl = document.getElementById('customPromptInput');
+if(customPromptInputEl){
+  customPromptInputEl.addEventListener('keydown', (ev) => {
+    if(ev.key === 'Enter'){
+      ev.preventDefault();
+      submitCustomPromptModal(ev);
+    }
+  });
+}
+const photoLightboxEl = document.getElementById('photoLightbox');
+if(photoLightboxEl){
+  photoLightboxEl.addEventListener('wheel', handleLightboxWheel, { passive:false });
+}
+const lightboxImageEl = document.getElementById('lbImage');
+if(lightboxImageEl){
+  lightboxImageEl.addEventListener('touchstart', handleLightboxTouchStart, { passive:true });
+  lightboxImageEl.addEventListener('touchend', handleLightboxTouchEnd, { passive:true });
+}
+window.addEventListener('resize', () => {
+  if(!currentPhotos.length) return;
+  updateCarouselPosition('auto');
+});
+</script>
+
+<div id="cookieBanner" class="cookie-banner" role="dialog" aria-modal="true" aria-live="polite">
+  <div class="cookie-panel">
+    <div class="cookie-text">
+      Este sitio web usa <a class="cookie-link" href="https://todosevillaeste.es/cookies.html" target="_blank" rel="noopener">cookies</a> técnicas necesarias. Puedes aceptar, rechazar o configurar.
+    </div>
+    <div class="cookie-actions">
+      <button class="cookie-btn accept" id="cookieAccept">Aceptar</button>
+      <button class="cookie-btn reject" id="cookieReject">Rechazar</button>
+      <button class="cookie-btn config" id="cookieConfig">Configurar</button>
+    </div>
+  </div>
+</div>
+<div id="cookieConfigOverlay" class="cookie-config-overlay" role="dialog" aria-modal="true">
+  <div class="cookie-config">
+    <h4>Configuración de cookies</h4>
+    <p>Las cookies técnicas son necesarias para el funcionamiento del sitio.</p>
+    <p>No usamos cookies opcionales (analíticas o publicitarias).</p>
+    <div class="cookie-config-actions">
+      <button class="cookie-btn accept" id="cookieConfigSave">Guardar</button>
+      <button class="cookie-btn read" id="cookieConfigCancel">Cancelar</button>
+    </div>
+  </div>
+</div>
+<footer class="site-footer">
+  <div class="footer-top">
+    <span class="footer-copy">&copy; 2026 Todo Sevilla Este</span>
+    <span id="footerVersion" class="footer-version" data-version="3.6">Versión: 3.6</span>
+  </div>
+  <nav class="footer-links" aria-label="Enlaces legales">
+    <a class="footer-link" href="/frontend.html">Inicio</a>
+    <a class="footer-link" href="/cookies.html">Cookies</a>
+    <a class="footer-link" href="/terminos.html">Términos</a>
+    <a class="footer-link" href="/aviso_legal.html">Aviso legal</a>
+  </nav>
+</footer>
+</body>
+</html>
+

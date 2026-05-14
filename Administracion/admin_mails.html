@@ -1,0 +1,662 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Panel Admin - Mails</title>
+<link rel="icon" href="/icono/tse_black.png" type="image/png">
+<style>
+:root{
+  --bg:#edf2f8;
+  --panel:#f6f9fc;
+  --card:#ffffff;
+  --line:#dde4ef;
+  --text:#19212c;
+  --muted:#637084;
+  --dark:#0f1828;
+  --primary:#f3d044;
+  --soft:#e9eef7;
+  --active:#fff2bc;
+  --danger:#b62424;
+}
+*{box-sizing:border-box}
+html,body{height:100%}
+body{margin:0;font-family:Segoe UI,Roboto,Arial,sans-serif;background:var(--bg);color:var(--text)}
+.header{background:var(--dark);color:#fff;padding:12px 16px;display:flex;align-items:center;gap:10px;font-weight:800}
+.main{height:calc(100vh - 66px);display:grid;grid-template-columns:260px 420px 1fr;gap:12px;padding:12px}
+.panel{background:var(--card);border:1px solid var(--line);border-radius:14px;min-height:0}
+.sidebar{padding:12px;display:flex;flex-direction:column;gap:10px;background:linear-gradient(180deg,#fff9df 0,#f6f9fc 40%,#f6f9fc 100%)}
+.compose-big{border:none;border-radius:999px;padding:12px 16px;font-size:.95rem;font-weight:800;background:var(--primary);color:#000;cursor:pointer;text-align:left;transition:transform .12s ease, filter .12s ease, box-shadow .12s ease}
+.compose-big:hover,.compose-big:focus-visible{transform:translateY(-1px);filter:brightness(1.05);box-shadow:0 8px 16px rgba(0,0,0,.12)}
+.folder-list{display:flex;flex-direction:column;gap:6px}
+.folder-btn{border:1px solid #d7deea;background:#fff;color:#1e2735;border-radius:10px;padding:9px 10px;cursor:pointer;font-weight:700;text-align:left;display:flex;justify-content:space-between;align-items:center}
+.folder-btn.active{background:var(--active);border-color:#f0d46c}
+.folder-btn:hover{background:#f7fbff}
+.side-meta{margin-top:auto;font-size:.83rem;color:var(--muted);line-height:1.45}
+.list-wrap{display:grid;grid-template-rows:auto auto 1fr;overflow:hidden}
+.toolbar{padding:10px;border-bottom:1px solid var(--line);display:flex;flex-wrap:wrap;gap:8px;align-items:center;background:var(--panel)}
+.input{padding:9px 10px;border:1px solid #ccd5e2;border-radius:9px;font:inherit;background:#fff}
+.input.search{flex:1;min-width:190px}
+.btn{border:none;border-radius:9px;padding:8px 11px;font-weight:800;cursor:pointer;transition:transform .12s ease, filter .12s ease, box-shadow .12s ease}
+.btn.primary{background:var(--primary);color:#000}
+.btn.soft{background:var(--soft);color:#0f1724}
+.btn.danger{background:var(--danger);color:#fff}
+.btn:disabled{opacity:.55;cursor:not-allowed}
+.btn:not(:disabled):hover,.btn:not(:disabled):focus-visible{transform:translateY(-1px);filter:brightness(1.05);box-shadow:0 8px 16px rgba(0,0,0,.12)}
+.bulkbar{padding:8px 10px;border-bottom:1px solid var(--line);display:flex;gap:8px;align-items:center;background:#fbfcfe}
+.inbox-list{height:100%;overflow:auto}
+.mail-item{display:grid;grid-template-columns:22px 22px 1fr auto;gap:8px;padding:9px 10px;border-bottom:1px solid #edf2f8;cursor:pointer;align-items:start}
+.mail-item:hover{background:#f7fbff}
+.mail-item.active{background:var(--active)}
+.mail-item.unread .subject{font-weight:900}
+.mail-item .star{font-size:16px;color:#9aa7bb;line-height:1;cursor:pointer;user-select:none}
+.mail-item .star.on{color:#f0b400}
+.row-main{min-width:0}
+.from{font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.subject{font-weight:800;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.snippet{font-size:.84rem;color:#6a7689;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.date{font-size:.79rem;color:#6b7688;white-space:nowrap}
+.readpane{padding:0;display:grid;grid-template-rows:auto 1fr;overflow:hidden}
+.read-head{padding:10px;border-bottom:1px solid var(--line);display:flex;gap:8px;align-items:center;justify-content:space-between;background:var(--panel)}
+.mail-detail{height:100%;overflow:auto;padding:14px}
+.mail-header{padding-bottom:10px;border-bottom:1px solid #e7edf5}
+.muted{color:var(--muted);font-size:.86rem}
+.mail-body{white-space:pre-wrap;background:#f8fbff;border:1px solid #e5ebf4;border-radius:10px;padding:11px;margin-top:10px}
+.reply-box{margin-top:12px;border-top:1px dashed #ced7e4;padding-top:10px}
+.reply-box textarea{width:100%;min-height:130px;resize:vertical;border:1px solid #ccd3dc;border-radius:9px;padding:9px;font:inherit;background:#fff}
+.reply-actions{display:flex;justify-content:flex-end;gap:8px;margin-top:8px}
+.empty{padding:16px;color:#6a778a}
+.compose-panel{position:fixed;right:14px;bottom:14px;width:min(780px,96vw);max-height:92vh;background:#fff;border:1px solid #d7dee8;border-radius:13px;box-shadow:0 20px 54px rgba(0,0,0,.25);display:none;z-index:60;overflow:auto}
+.compose-panel.show{display:block}
+.compose-head{padding:10px 12px;border-bottom:1px solid #e4e9f0;background:#f7f9fd;display:flex;justify-content:space-between;align-items:center}
+.compose-body{padding:12px}
+.compose-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.compose-body label{display:block;font-size:.86rem;font-weight:800;margin-bottom:4px}
+.compose-body input,.compose-body textarea{width:100%;padding:9px;border:1px solid #ccd3dc;border-radius:9px;font:inherit}
+.compose-body textarea{min-height:220px;resize:vertical}
+.results{margin-top:6px;border:1px solid #e6ebf2;border-radius:9px;max-height:170px;overflow:auto;display:none}
+.result-item{padding:8px 10px;border-bottom:1px solid #edf1f6;cursor:pointer}
+.result-item:last-child{border-bottom:none}
+.result-item:hover{background:#faf6e0}
+@media(max-width:1220px){.main{grid-template-columns:220px 360px 1fr}}
+@media(max-width:1020px){.main{grid-template-columns:1fr;grid-template-rows:auto minmax(280px,42vh) 1fr}}
+</style>
+</head>
+<body>
+<div class="header">
+  <img src="/icono/tsev2admin_beta.png" alt="TodoSevillaEste" style="width:42px;height:auto;display:block;">
+  
+  <span>Mails</span>
+</div>
+
+<div class="main">
+  <aside class="panel sidebar">
+    <button class="compose-big" type="button" onclick="openCompose()">Redactar</button>
+    <div class="folder-list">
+      <button id="fInbox" class="folder-btn active" type="button" onclick="switchFolder('inbox')"><span>Recibidos</span><span id="countInbox">0</span></button>
+      <button id="fUnread" class="folder-btn" type="button" onclick="switchFolder('unread')"><span>No leídos</span><span id="countUnread">0</span></button>
+      <button id="fStarred" class="folder-btn" type="button" onclick="switchFolder('starred')"><span>Destacados</span><span id="countStarred">0</span></button>
+      <button id="fSent" class="folder-btn" type="button" onclick="switchFolder('sent')"><span>Enviados</span><span id="countSent">0</span></button>
+      <button id="fTrash" class="folder-btn" type="button" onclick="switchFolder('trash')"><span>Papelera</span><span id="countTrash">0</span></button>
+    </div>
+    <div id="inboxMeta" class="side-meta">Cargando estado del buzón...</div>
+  </aside>
+
+  <section class="panel list-wrap">
+    <div class="toolbar">
+      <input id="searchInbox" class="input search" type="text" placeholder="Buscar por remitente, asunto, destinatario o texto">
+      <button class="btn soft" type="button" onclick="loadList(true)">Buscar</button>
+      <button class="btn soft" type="button" onclick="loadList(true)">Actualizar</button>
+      <button class="btn primary" type="button" onclick="openCompose()">Mandar mail</button>
+    </div>
+    <div class="bulkbar">
+      <label><input id="selectAll" type="checkbox"> Seleccionar visibles</label>
+      <button id="bulkRead" class="btn soft" type="button" onclick="bulkSetSeen(true)">Marcar leídos</button>
+      <button id="bulkUnread" class="btn soft" type="button" onclick="bulkSetSeen(false)">Marcar no leídos</button>
+      <button id="bulkTrash" class="btn danger" type="button" onclick="bulkMoveTrash()">Papelera</button>
+      <span id="selectionMeta" class="muted"></span>
+    </div>
+    <div id="inboxList" class="inbox-list"></div>
+  </section>
+
+  <section class="panel readpane">
+    <div class="read-head">
+      <div class="muted" id="readHeaderMeta">Sin correo seleccionado</div>
+      <div style="display:flex;gap:8px">
+        <button id="actMarkUnread" class="btn soft" type="button" onclick="markCurrentUnread()" disabled>Marcar no leído</button>
+        <button id="actStar" class="btn soft" type="button" onclick="toggleCurrentStar()" disabled>Destacar</button>
+        <button id="actTrash" class="btn danger" type="button" onclick="trashCurrent()" disabled>Papelera</button>
+      </div>
+    </div>
+    <div id="mailDetail" class="mail-detail">
+      <div class="empty">Selecciona un correo para leerlo y responder.</div>
+    </div>
+  </section>
+</div>
+
+<div id="composePanel" class="compose-panel">
+  <div class="compose-head">
+    <strong>Nuevo correo</strong>
+    <button class="btn soft" type="button" onclick="closeCompose()">Cerrar</button>
+  </div>
+  <div class="compose-body">
+    <div class="compose-grid">
+      <div>
+        <label for="toEmail">Destinatario (correo)</label>
+        <input id="toEmail" type="email" placeholder="destino@correo.com">
+      </div>
+      <div>
+        <label for="toUsername">Buscar por usuario</label>
+        <div style="display:flex;gap:8px">
+          <input id="toUsername" type="text" placeholder="nombre_usuario">
+          <button class="btn soft" type="button" onclick="searchRecipient()">Buscar</button>
+        </div>
+      </div>
+    </div>
+    <div id="recipientResults" class="results"></div>
+    <div style="margin-top:8px">
+      <label for="mailSubject">Asunto</label>
+      <input id="mailSubject" type="text" maxlength="180" placeholder="Asunto del correo">
+    </div>
+    <div style="margin-top:8px">
+      <label for="mailBody">Cuerpo</label>
+      <textarea id="mailBody" placeholder="Escribe el correo..."></textarea>
+    </div>
+    <div style="margin-top:8px">
+      <label for="mailFiles">Adjuntar imágenes</label>
+      <input id="mailFiles" type="file" accept="image/*" multiple>
+      <div id="mailFilesSummary" class="muted"></div>
+    </div>
+    <div class="reply-actions" style="margin-top:12px">
+      <button class="btn soft" type="button" onclick="clearCompose()">Limpiar</button>
+      <button id="sendBtn" class="btn primary" type="button" onclick="sendCompose()">Enviar correo</button>
+    </div>
+    <div id="composeStatus" class="muted"></div>
+  </div>
+</div>
+
+<script>
+const API = location.origin;
+let inboxRows = [];
+let selectedMessage = null;
+let currentMode = "inbox";
+let currentMailbox = "inbox";
+const selectedUids = new Set();
+
+const nativeFetch = window.fetch.bind(window);
+window.fetch = async (input, init = {}) => {
+  if(init.credentials === undefined) init.credentials = "include";
+  const res = await nativeFetch(input, init);
+  if(res.status === 401 && window.top && window.top !== window){
+    window.top.postMessage({ type: "admin-auth-required" }, "*");
+  }
+  return res;
+};
+
+function q(id){ return document.getElementById(id); }
+function esc(v){ return String(v ?? "").replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;"); }
+function setComposeStatus(msg){ q("composeStatus").textContent = msg || ""; }
+function isInboxMode(){ return currentMode === "inbox" || currentMode === "unread" || currentMode === "starred"; }
+
+function updateFolderUI(){
+  ["Inbox","Unread","Starred","Sent","Trash"].forEach(k => q(`f${k}`).classList.remove("active"));
+  if(currentMode === "inbox") q("fInbox").classList.add("active");
+  if(currentMode === "unread") q("fUnread").classList.add("active");
+  if(currentMode === "starred") q("fStarred").classList.add("active");
+  if(currentMode === "sent") q("fSent").classList.add("active");
+  if(currentMode === "trash") q("fTrash").classList.add("active");
+}
+
+function switchFolder(mode){
+  currentMode = mode;
+  currentMailbox = (mode === "sent") ? "sent" : (mode === "trash" ? "trash" : "inbox");
+  selectedUids.clear();
+  selectedMessage = null;
+  updateFolderUI();
+  renderSelectionMeta();
+  renderSelectedMessage();
+  loadList(false);
+}
+
+function buildListUrl(){
+  const params = new URLSearchParams();
+  params.set("limit", "55");
+  params.set("query", (q("searchInbox").value || "").trim());
+  params.set("folder", currentMailbox);
+  if(currentMode === "unread") params.set("unread_only", "1");
+  if(currentMode === "starred") params.set("starred_only", "1");
+  return `${API}/admin/mail/inbox?${params.toString()}`;
+}
+
+function normalizeReplySubject(subject){
+  const s = String(subject || "").trim();
+  if(!s) return "Re: (Sin asunto)";
+  return /^re:/i.test(s) ? s : `Re: ${s}`;
+}
+
+function normalizeForwardSubject(subject){
+  const s = String(subject || "").trim();
+  if(!s) return "Fwd: (Sin asunto)";
+  return /^fwd:/i.test(s) ? s : `Fwd: ${s}`;
+}
+
+function updateCounters(){
+  q("countInbox").textContent = String(inboxRows.length);
+  q("countUnread").textContent = String(inboxRows.filter(r => r.is_unread).length);
+  q("countStarred").textContent = String(inboxRows.filter(r => r.is_starred).length);
+  q("countSent").textContent = currentMode === "sent" ? String(inboxRows.length) : q("countSent").textContent;
+  q("countTrash").textContent = currentMode === "trash" ? String(inboxRows.length) : q("countTrash").textContent;
+}
+
+function openCompose(prefill = {}){
+  q("composePanel").classList.add("show");
+  if(prefill.email) q("toEmail").value = prefill.email;
+  if(prefill.username) q("toUsername").value = prefill.username;
+  if(prefill.subject) q("mailSubject").value = prefill.subject;
+  if(prefill.body) q("mailBody").value = prefill.body;
+}
+function closeCompose(){ q("composePanel").classList.remove("show"); }
+function clearCompose(){
+  q("toEmail").value = "";
+  q("toUsername").value = "";
+  q("mailSubject").value = "";
+  q("mailBody").value = "";
+  q("mailFiles").value = "";
+  q("recipientResults").style.display = "none";
+  q("recipientResults").innerHTML = "";
+  q("mailFilesSummary").textContent = "";
+  setComposeStatus("");
+}
+
+async function searchRecipient(){
+  const query = (q("toUsername").value || "").trim() || (q("toEmail").value || "").trim();
+  if(query.length < 2){ setComposeStatus("Escribe al menos 2 caracteres para buscar."); return; }
+  setComposeStatus("Buscando destinatario...");
+  const res = await fetch(`${API}/admin/mail/resolve?query=${encodeURIComponent(query)}&limit=12`);
+  const data = await res.json().catch(()=>({}));
+  if(!res.ok){ setComposeStatus(data.detail || "No se pudo buscar."); return; }
+  const rows = Array.isArray(data.matches) ? data.matches : [];
+  const box = q("recipientResults");
+  if(!rows.length){
+    box.style.display = "none";
+    setComposeStatus("No hay coincidencias.");
+    return;
+  }
+  box.innerHTML = rows.map(r => `
+    <div class="result-item" data-email="${esc(r.email || "")}" data-user="${esc(r.username || "")}">
+      <strong>${esc(r.username || "")}</strong><br><span class="muted">${esc(r.email || "")}</span>
+    </div>
+  `).join("");
+  box.style.display = "block";
+  setComposeStatus("Selecciona un destinatario.");
+}
+
+async function sendCompose(){
+  const toEmail = (q("toEmail").value || "").trim();
+  const toUsername = (q("toUsername").value || "").trim();
+  const subject = (q("mailSubject").value || "").trim();
+  const body = (q("mailBody").value || "").trim();
+  if(!toEmail && !toUsername){ setComposeStatus("Indica destinatario por correo o usuario."); return; }
+  if(!subject){ setComposeStatus("Debes indicar un asunto."); return; }
+  if(!body){ setComposeStatus("Debes escribir el cuerpo."); return; }
+  const fd = new FormData();
+  fd.append("to_email", toEmail);
+  fd.append("to_username", toUsername);
+  fd.append("subject", subject);
+  fd.append("body", body);
+  Array.from(q("mailFiles").files || []).forEach(f => fd.append("files", f));
+
+  const btn = q("sendBtn");
+  btn.disabled = true;
+  setComposeStatus("Enviando correo...");
+  try{
+    const res = await fetch(`${API}/admin/mail/send`, { method:"POST", body: fd });
+    const data = await res.json().catch(()=>({}));
+    if(!res.ok){ setComposeStatus(data.detail || "No se pudo enviar."); return; }
+    setComposeStatus(data.detail || "Correo enviado.");
+    q("mailBody").value = "";
+    q("mailFiles").value = "";
+    q("mailFilesSummary").textContent = "";
+    loadList(true);
+  }catch(_e){
+    setComposeStatus("No se pudo enviar.");
+  }finally{
+    btn.disabled = false;
+  }
+}
+
+function renderSelectionMeta(){
+  q("selectionMeta").textContent = selectedUids.size ? `${selectedUids.size} seleccionado(s)` : "";
+  q("selectAll").checked = inboxRows.length > 0 && inboxRows.every(r => selectedUids.has(String(r.uid)));
+}
+
+function renderInbox(){
+  const list = q("inboxList");
+  if(!inboxRows.length){
+    list.innerHTML = '<div class="empty">No hay correos en esta carpeta.</div>';
+    return;
+  }
+  list.innerHTML = inboxRows.map(m => `
+    <div class="mail-item ${m.is_unread ? "unread" : ""} ${selectedMessage && selectedMessage.uid === m.uid ? "active" : ""}" data-uid="${esc(m.uid)}">
+      <input type="checkbox" class="sel" data-uid="${esc(m.uid)}" ${selectedUids.has(String(m.uid)) ? "checked" : ""}>
+      <span class="star ${m.is_starred ? "on" : ""}" data-star="${esc(m.uid)}" title="Destacar">★</span>
+      <div class="row-main">
+        <div class="from">${esc(m.from_name || m.from_email || m.from || "Remitente")}</div>
+        <div class="subject">${esc(m.subject || "(Sin asunto)")}</div>
+        <div class="snippet">${esc(m.snippet || "")}</div>
+      </div>
+      <div class="date">${esc((m.date || "").replace("T"," ").slice(0,16))}</div>
+    </div>
+  `).join("");
+}
+
+function renderSelectedMessage(){
+  const pane = q("mailDetail");
+  const canAct = !!selectedMessage;
+  q("actMarkUnread").disabled = !canAct;
+  q("actStar").disabled = !canAct;
+  q("actTrash").disabled = !canAct;
+
+  if(!selectedMessage){
+    q("readHeaderMeta").textContent = "Sin correo seleccionado";
+    pane.innerHTML = '<div class="empty">Selecciona un correo para leerlo y responder.</div>';
+    return;
+  }
+
+  q("readHeaderMeta").textContent = `${selectedMessage.from_email || selectedMessage.from || ""} | ${(selectedMessage.date || "").replace("T"," ").slice(0,19)}`;
+  q("actStar").textContent = selectedMessage.is_starred ? "Quitar destacado" : "Destacar";
+
+  const body = selectedMessage.body_text || selectedMessage.snippet || "";
+  pane.innerHTML = `
+    <div>
+      <div class="mail-header">
+        <h2 style="margin:0 0 6px 0;font-size:1.1rem">${esc(selectedMessage.subject || "(Sin asunto)")}</h2>
+        <div class="muted"><strong>De:</strong> ${esc(selectedMessage.from || "")}</div>
+        <div class="muted"><strong>Correo:</strong> ${esc(selectedMessage.from_email || "")}</div>
+        ${selectedMessage.to ? `<div class="muted"><strong>Para:</strong> ${esc(selectedMessage.to)}</div>` : ""}
+        ${selectedMessage.cc ? `<div class="muted"><strong>CC:</strong> ${esc(selectedMessage.cc)}</div>` : ""}
+        <div class="muted"><strong>Fecha:</strong> ${esc((selectedMessage.date || "").replace("T"," ").slice(0,19))}</div>
+      </div>
+      <div class="mail-body">${esc(body || "(sin contenido)")}</div>
+      <div class="reply-box">
+        <div style="font-weight:800;margin-bottom:6px">Responder</div>
+        <textarea id="replyBody" placeholder="Escribe la respuesta..."></textarea>
+        <div style="margin-top:8px">
+          <input id="replyFiles" type="file" accept="image/*" multiple>
+          <div id="replyFilesSummary" class="muted"></div>
+        </div>
+        <div class="reply-actions">
+          <button class="btn soft" type="button" onclick="forwardCurrent()">Reenviar</button>
+          <button class="btn soft" type="button" onclick="openCompose({ email: selectedMessage.from_email, subject: normalizeReplySubject(selectedMessage.subject) })">Abrir redactor</button>
+          <button id="replyBtn" class="btn primary" type="button" onclick="sendReply()">Responder</button>
+        </div>
+        <div id="replyStatus" class="muted"></div>
+      </div>
+    </div>
+  `;
+  const rf = q("replyFiles");
+  if(rf){
+    rf.addEventListener("change", () => {
+      const files = Array.from(rf.files || []);
+      q("replyFilesSummary").textContent = files.length ? `${files.length} imagen(es): ${files.map(f => f.name).join(", ")}` : "";
+    });
+  }
+}
+
+async function loadList(forceKeepSelection = false){
+  q("inboxMeta").textContent = "Cargando bandeja...";
+  const res = await fetch(buildListUrl());
+  const data = await res.json().catch(()=>({}));
+  if(!res.ok){
+    q("inboxMeta").textContent = data.detail || "No se pudo cargar la bandeja.";
+    return;
+  }
+  inboxRows = Array.isArray(data.messages) ? data.messages : [];
+  const unreadCount = Number(data.unread_count || 0);
+  q("inboxMeta").textContent = `${inboxRows.length} correo(s) | ${unreadCount} sin leer | carpeta: ${data.folder || currentMailbox}`;
+
+  if(!forceKeepSelection) selectedUids.clear();
+  if(forceKeepSelection){
+    const uids = new Set(inboxRows.map(r => String(r.uid)));
+    for(const uid of Array.from(selectedUids)) if(!uids.has(uid)) selectedUids.delete(uid);
+  }
+
+  if(selectedMessage){
+    const still = inboxRows.find(m => String(m.uid) === String(selectedMessage.uid));
+    if(!still) selectedMessage = null;
+  }
+
+  updateCounters();
+  renderInbox();
+  renderSelectionMeta();
+  renderSelectedMessage();
+}
+
+async function openMessage(uid){
+  if(!uid) return;
+  const res = await fetch(`${API}/admin/mail/inbox/${encodeURIComponent(uid)}?folder=${encodeURIComponent(currentMailbox)}&mark_read=1`);
+  const data = await res.json().catch(()=>({}));
+  if(!res.ok){
+    alert(data.detail || "No se pudo abrir el correo.");
+    return;
+  }
+  selectedMessage = data.message || null;
+  inboxRows = inboxRows.map(m => String(m.uid) === String(uid) ? { ...m, is_unread:false } : m);
+  renderInbox();
+  renderSelectionMeta();
+  renderSelectedMessage();
+}
+
+async function setMailFlags(uid, payload){
+  const res = await fetch(`${API}/admin/mail/inbox/${encodeURIComponent(uid)}/flags?folder=${encodeURIComponent(currentMailbox)}`, {
+    method:"PATCH",
+    headers:{"Content-Type":"application/json"},
+    body: JSON.stringify(payload || {})
+  });
+  return { ok: res.ok, data: await res.json().catch(()=>({})) };
+}
+
+async function toggleStar(uid){
+  const row = inboxRows.find(r => String(r.uid) === String(uid));
+  if(!row) return;
+  const next = !row.is_starred;
+  const out = await setMailFlags(uid, { starred: next });
+  if(!out.ok) return alert(out.data.detail || "No se pudo actualizar destacado.");
+  inboxRows = inboxRows.map(r => String(r.uid) === String(uid) ? { ...r, is_starred: next } : r);
+  if(selectedMessage && String(selectedMessage.uid) === String(uid)) selectedMessage.is_starred = next;
+  renderInbox();
+  renderSelectedMessage();
+}
+
+async function bulkSetSeen(seen){
+  const uids = Array.from(selectedUids);
+  if(!uids.length) return;
+  for(const uid of uids){
+    await setMailFlags(uid, { seen: !!seen });
+  }
+  inboxRows = inboxRows.map(r => selectedUids.has(String(r.uid)) ? { ...r, is_unread: !seen } : r);
+  if(selectedMessage && selectedUids.has(String(selectedMessage.uid))) selectedMessage.is_unread = !seen;
+  renderInbox();
+  renderSelectedMessage();
+  updateCounters();
+}
+
+async function moveToTrash(uid){
+  const res = await fetch(`${API}/admin/mail/inbox/${encodeURIComponent(uid)}/trash?folder=${encodeURIComponent(currentMailbox)}`, { method:"POST" });
+  const data = await res.json().catch(()=>({}));
+  if(!res.ok){ alert(data.detail || "No se pudo mover a papelera."); return false; }
+  return true;
+}
+
+async function bulkMoveTrash(){
+  const uids = Array.from(selectedUids);
+  if(!uids.length) return;
+  for(const uid of uids){
+    await moveToTrash(uid);
+  }
+  selectedUids.clear();
+  await loadList(false);
+}
+
+async function markCurrentUnread(){
+  if(!selectedMessage) return;
+  const out = await setMailFlags(selectedMessage.uid, { seen:false });
+  if(!out.ok) return alert(out.data.detail || "No se pudo marcar como no leído.");
+  selectedMessage.is_unread = true;
+  inboxRows = inboxRows.map(r => String(r.uid) === String(selectedMessage.uid) ? { ...r, is_unread:true } : r);
+  renderInbox();
+  renderSelectedMessage();
+  updateCounters();
+}
+
+async function toggleCurrentStar(){
+  if(!selectedMessage) return;
+  await toggleStar(selectedMessage.uid);
+}
+
+async function trashCurrent(){
+  if(!selectedMessage) return;
+  const ok = await moveToTrash(selectedMessage.uid);
+  if(!ok) return;
+  selectedMessage = null;
+  await loadList(false);
+}
+
+function forwardCurrent(){
+  if(!selectedMessage) return;
+  const header = [
+    "",
+    "---------- Mensaje reenviado ----------",
+    `De: ${selectedMessage.from || selectedMessage.from_email || ""}`,
+    `Fecha: ${(selectedMessage.date || "").replace("T"," ").slice(0,19)}`,
+    `Asunto: ${selectedMessage.subject || ""}`,
+    "",
+    (selectedMessage.body_text || selectedMessage.snippet || "")
+  ].join("\n");
+  openCompose({ subject: normalizeForwardSubject(selectedMessage.subject), body: header });
+}
+
+async function sendReply(){
+  if(!selectedMessage){ return; }
+  const body = (q("replyBody").value || "").trim();
+  if(!body){ q("replyStatus").textContent = "Debes escribir una respuesta."; return; }
+  const fd = new FormData();
+  fd.append("to_email", String(selectedMessage.from_email || "").trim());
+  fd.append("subject", normalizeReplySubject(selectedMessage.subject || ""));
+  fd.append("body", body);
+  if(selectedMessage.message_id) fd.append("in_reply_to", selectedMessage.message_id);
+  const refs = (selectedMessage.references || selectedMessage.message_id || "").trim();
+  if(refs) fd.append("references", refs);
+  Array.from(q("replyFiles").files || []).forEach(f => fd.append("files", f));
+
+  const btn = q("replyBtn");
+  btn.disabled = true;
+  q("replyStatus").textContent = "Enviando respuesta...";
+  try{
+    const res = await fetch(`${API}/admin/mail/send`, { method:"POST", body: fd });
+    const data = await res.json().catch(()=>({}));
+    if(!res.ok){
+      q("replyStatus").textContent = data.detail || "No se pudo enviar la respuesta.";
+      return;
+    }
+    q("replyStatus").textContent = data.detail || "Respuesta enviada.";
+    q("replyBody").value = "";
+    q("replyFiles").value = "";
+    q("replyFilesSummary").textContent = "";
+    loadList(true);
+  }catch(_e){
+    q("replyStatus").textContent = "No se pudo enviar la respuesta.";
+  }finally{
+    btn.disabled = false;
+  }
+}
+
+q("inboxList").addEventListener("click", (ev) => {
+  const star = ev.target.closest("[data-star]");
+  if(star){
+    ev.stopPropagation();
+    toggleStar(star.getAttribute("data-star"));
+    return;
+  }
+  const chk = ev.target.closest(".sel");
+  if(chk){
+    const uid = chk.getAttribute("data-uid") || "";
+    if(chk.checked) selectedUids.add(uid); else selectedUids.delete(uid);
+    renderSelectionMeta();
+    return;
+  }
+  const item = ev.target.closest(".mail-item");
+  if(!item) return;
+  openMessage(item.getAttribute("data-uid"));
+});
+
+q("selectAll").addEventListener("change", (ev) => {
+  if(ev.target.checked){
+    inboxRows.forEach(r => selectedUids.add(String(r.uid)));
+  }else{
+    selectedUids.clear();
+  }
+  renderInbox();
+  renderSelectionMeta();
+});
+
+q("recipientResults").addEventListener("click", (ev) => {
+  const item = ev.target.closest(".result-item");
+  if(!item) return;
+  q("toEmail").value = item.getAttribute("data-email") || "";
+  q("toUsername").value = item.getAttribute("data-user") || "";
+  q("recipientResults").style.display = "none";
+  setComposeStatus("Destinatario seleccionado.");
+});
+
+q("mailFiles").addEventListener("change", () => {
+  const files = Array.from(q("mailFiles").files || []);
+  q("mailFilesSummary").textContent = files.length ? `${files.length} imagen(es): ${files.map(f => f.name).join(", ")}` : "";
+});
+
+q("searchInbox").addEventListener("keydown", (ev) => {
+  if(ev.key === "Enter"){
+    ev.preventDefault();
+    loadList(true);
+  }
+});
+
+window.addEventListener("keydown", (ev) => {
+  const tag = (ev.target && ev.target.tagName || "").toLowerCase();
+  const writing = tag === "input" || tag === "textarea";
+  if(writing) return;
+  if(ev.key.toLowerCase() === "c") openCompose();
+  if(ev.key.toLowerCase() === "r" && selectedMessage) q("replyBody")?.focus();
+  if(ev.key.toLowerCase() === "u" && selectedMessage) markCurrentUnread();
+});
+
+window.addEventListener("message", (e) => {
+  if(!e.data || e.data.type !== "prefill-admin-mail") return;
+  const payload = e.data.payload || {};
+  openCompose({
+    email: String(payload.email || "").trim(),
+    username: String(payload.username || "").trim(),
+    subject: String(payload.subject || "").trim(),
+    body: String(payload.body || "").trim()
+  });
+  setComposeStatus("Destinatario precargado.");
+});
+
+const params = new URLSearchParams(window.location.search);
+if(params.has("to") || params.has("user")){
+  openCompose({ email: params.get("to") || "", username: params.get("user") || "" });
+}
+
+updateFolderUI();
+loadList(false);
+setInterval(() => {
+  if(document.hidden) return;
+  loadList(true).catch(() => {});
+}, 15000);
+</script>
+</body>
+</html>
+
+
+
+

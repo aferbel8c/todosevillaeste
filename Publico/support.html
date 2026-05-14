@@ -1,0 +1,248 @@
+﻿<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#f3d044">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="TSE">
+
+<title>Soporte | Todo Sevilla Este</title>
+<meta name="description" content="Soporte de Todo Sevilla Este: abre un ticket y recibe ayuda.">
+<link rel="canonical" href="https://todosevillaeste.es/support.html">
+<meta property="og:title" content="Soporte | Todo Sevilla Este">
+<meta property="og:description" content="Soporte de Todo Sevilla Este: abre un ticket y recibe ayuda.">
+<meta property="og:url" content="https://todosevillaeste.es/support.html">
+<meta property="og:type" content="website">
+<meta property="og:image" content="https://todosevillaeste.es/icono/tsev2_beta.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Soporte | Todo Sevilla Este">
+<meta name="twitter:description" content="Soporte de Todo Sevilla Este: abre un ticket y recibe ayuda.">
+<meta name="twitter:image" content="https://todosevillaeste.es/icono/tsev2_beta.png">
+
+<link rel="icon" href="/icono/tsev2_beta.png" type="image/png">
+<link rel="manifest" href="/manifest.webmanifest">
+<link rel="apple-touch-icon" href="/icono/tsev2_beta.png">
+<style>
+:root{--bg:#eef2f7;--card:#fff;--line:#d9e1ec;--text:#1f2937}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);font-family:Segoe UI,Arial,sans-serif;color:var(--text)}
+header{background:rgba(243,208,68,.96);border-bottom:1px solid rgba(0,0,0,.08);padding:.7rem 1rem;display:flex;justify-content:space-between;align-items:center}
+.wrap{max-width:860px;margin:18px auto;padding:0 14px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:14px}
+label{font-weight:700;font-size:.9rem}
+input,select,textarea{width:100%;padding:10px;border:1px solid #cfd8e3;border-radius:8px}
+textarea{min-height:130px;resize:vertical}
+.row{margin-bottom:10px}
+button{border:none;border-radius:8px;background:#111;color:#fff;font-weight:700;padding:.5rem .9rem;cursor:pointer}
+button.soft{background:#e8edf5;color:#111}
+.actions{display:flex;gap:8px;flex-wrap:wrap}
+.small{font-size:.84rem;color:#607081}
+.toast{position:fixed;right:14px;bottom:14px;max-width:min(460px,92vw);background:#fff;border:1px solid #d6e1ef;border-left:6px solid #f3d044;border-radius:10px;padding:10px 12px;box-shadow:0 10px 20px rgba(0,0,0,.12);display:none;z-index:50}
+.toast strong{display:block;margin-bottom:3px}
+/* Cookie banner */
+</style>
+
+<link rel='stylesheet' href='/ui_public.css'>
+<link rel="stylesheet" href="/3.7/header_shared.css">
+<script defer src='/ui_public.js'></script>
+</head>
+<body>
+<header class="tse-header">
+  <div class="tse-header-left">
+    <a class="tse-header-logo" href="/frontend.html"><img src="/icono/tsev2_beta.png" alt="TodoSevillaEste"></a>
+    <div class="tse-header-copy">
+      <span class="tse-header-kicker">Todo Sevilla Este</span>
+      <strong class="tse-header-title">Soporte</strong>
+    </div>
+  </div>
+  <div class="tse-header-center"></div>
+  <div class="actions">
+    <button class="soft" onclick="goBack()">Volver</button>
+  </div>
+</header>
+<main class="wrap">
+  <section class="card">
+    <div class="small" style="margin-bottom:10px;">Puedes poner un correo de contacto. Si lo dejas vacÃ­o, se usarÃ¡ el de tu cuenta.</div>
+    <div class="row">
+      <label for="ticketEmail">Correo de contacto</label>
+      <input id="ticketEmail" type="email" placeholder="correo@ejemplo.com">
+    </div>
+    <div class="row">
+      <label for="ticketSubject">Asunto</label>
+      <select id="ticketSubject"></select>
+    </div>
+    <div id="customSubjectWrap" class="row" style="display:none">
+      <label for="ticketCustomSubject">Asunto personalizado</label>
+      <input id="ticketCustomSubject" placeholder="Explica brevemente el asunto">
+    </div>
+    <div class="row">
+      <label for="ticketBody">Cuerpo del ticket</label>
+      <textarea id="ticketBody" placeholder="Describe tu problema"></textarea>
+    </div>
+    <div class="row">
+      <label for="ticketFiles">Adjuntar fotos</label>
+      <input id="ticketFiles" type="file" accept="image/*" multiple>
+    </div>
+    <div class="actions">
+      <button onclick="sendTicket()">Enviar</button>
+    </div>
+  </section>
+</main>
+<div id="toast" class="toast"></div>
+
+<script>
+let me = null;
+
+function goBack(){
+  if(history.length > 1){ history.back(); return; }
+  location.href = "/frontend.html";
+}
+
+function esc(v){ return String(v ?? "").replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;"); }
+function getQuerySubject(){ return (new URLSearchParams(location.search).get("subject") || "").trim(); }
+function showToast(title, text){
+  const box = document.getElementById("toast");
+  box.innerHTML = `<strong>${esc(title || "Mensaje")}</strong><div>${esc(text || "")}</div>`;
+  box.style.display = "block";
+  setTimeout(()=>{ box.style.display = "none"; }, 2800);
+}
+
+function buildSubjectOptions(prefilled){
+  const base = ["Feedback/mejoras", "Otros"];
+  if(!prefilled || base.includes(prefilled)) return base;
+  return [prefilled].concat(base);
+}
+
+function renderSubjectOptions(prefilled){
+  const select = document.getElementById("ticketSubject");
+  const opts = buildSubjectOptions(prefilled);
+  select.innerHTML = opts.map(v => `<option value="${esc(v)}">${esc(v)}</option>`).join("");
+  if(prefilled) select.value = prefilled;
+}
+
+function toggleCustomSubject(){
+  const subject = document.getElementById("ticketSubject").value;
+  document.getElementById("customSubjectWrap").style.display = subject === "Otros" ? "block" : "none";
+}
+
+async function requireSession(){
+  const res = await fetch("/users/me", { credentials:"include" });
+  if(!res.ok){
+    const redirect = encodeURIComponent(location.href);
+    location.href = `/login.html?redirect=${redirect}`;
+    return false;
+  }
+  me = await res.json().catch(()=>null);
+  return !!me;
+}
+
+async function sendTicket(){
+  const email = (document.getElementById("ticketEmail").value || "").trim().toLowerCase();
+  const subject = (document.getElementById("ticketSubject").value || "").trim();
+  const customSubject = (document.getElementById("ticketCustomSubject").value || "").trim();
+  const body = (document.getElementById("ticketBody").value || "").trim();
+  const files = Array.from(document.getElementById("ticketFiles").files || []);
+
+  if(!subject){ alert("Selecciona un asunto."); return; }
+  if(subject === "Otros" && customSubject.length < 3){ alert("Describe el asunto personalizado."); return; }
+  if(!body){ alert("Escribe el cuerpo del ticket."); return; }
+
+  const fd = new FormData();
+  fd.append("subject", subject);
+  fd.append("custom_subject", customSubject);
+  fd.append("body", body);
+  if(email) fd.append("email", email);
+  files.slice(0, 8).forEach(f => fd.append("files", f));
+
+  const res = await fetch("/support/tickets", { method:"POST", credentials:"include", body: fd });
+  const data = await res.json().catch(()=>({}));
+  if(!res.ok){ showToast("Soporte", data.detail || "No se pudo enviar el ticket."); return; }
+  const ticketCode = String(data.ticket_code || "").trim();
+  const shownSubject = subject === "Otros" ? customSubject : subject;
+  if(data.user_visible === false){
+    showToast("Soporte", `Gracias por tu ${shownSubject || "solicitud"}. ${ticketCode ? `Ticket#${ticketCode} registrado.` : "Tu ticket se ha registrado."} Te avisaremos cuando soporte responda.`);
+    await new Promise(r => setTimeout(r, 900));
+    location.href = "/frontend.html";
+    return;
+  }
+  const id = Number(data.ticket_id || 0);
+  showToast("Soporte", `${ticketCode ? `Ticket#${ticketCode}` : "Tu ticket"} enviado correctamente sobre "${shownSubject || "Soporte"}".`);
+  await new Promise(r => setTimeout(r, 900));
+  if(id > 0){
+    location.href = `/frontend.html?support_ticket=${encodeURIComponent(id)}`;
+    return;
+  }
+  location.href = "/frontend.html";
+}
+
+(async function init(){
+  const ok = await requireSession();
+  if(!ok) return;
+  renderSubjectOptions(getQuerySubject());
+  document.getElementById("ticketSubject").addEventListener("change", toggleCustomSubject);
+  toggleCustomSubject();
+  document.getElementById("ticketEmail").placeholder = (me?.email || "correo@ejemplo.com");
+})();
+</script>
+
+  </div>
+</div>
+<div id="cookieBanner" class="cookie-banner" role="dialog" aria-modal="true" aria-live="polite">
+  <div class="cookie-panel">
+    <div class="cookie-text">
+      Este sitio web usa <a class="cookie-link" href="https://todosevillaeste.es/cookies.html" target="_blank" rel="noopener">cookies</a> tÃ©cnicas necesarias. Puedes aceptar, rechazar o configurar.
+    </div>
+    <div class="cookie-actions">
+      <button class="cookie-btn accept" id="cookieAccept">Aceptar</button>
+      <button class="cookie-btn reject" id="cookieReject">Rechazar</button>
+      <button class="cookie-btn config" id="cookieConfig">Configurar</button>
+    </div>
+  </div>
+</div>
+<div id="cookieConfigOverlay" class="cookie-config-overlay" role="dialog" aria-modal="true">
+  <div class="cookie-config">
+    <h4>ConfiguraciÃ³n de cookies</h4>
+    <p>Las cookies tÃ©cnicas son necesarias para el funcionamiento del sitio.</p>
+    <p>No usamos cookies opcionales (analÃ­ticas o publicitarias).</p>
+    <div class="cookie-config-actions">
+      <button class="cookie-btn accept" id="cookieConfigSave">Guardar</button>
+      <button class="cookie-btn read" id="cookieConfigCancel">Cancelar</button>
+    </div>
+  </div>
+</div>
+  </div>
+</div>>
+  <div class="footer-top">
+    <span class="footer-copy">Â© 2026 Todo Sevilla Este</span>
+    <span id="footerVersion" class="footer-version" data-version="3.6">VersiÃ³n: 3.6</span>
+  </div>
+  <nav class="footer-links" aria-label="Enlaces legales">
+    <a class="footer-link" href="/frontend.html">Inicio</a>
+    <a class="footer-link" href="/cookies.html">Cookies</a>
+    <a class="footer-link" href="/terminos.html">TÃºrminos</a>
+    <a class="footer-link" href="/aviso_legal.html">Aviso legal</a>
+  </nav>
+</footer>
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,171 @@
+﻿<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#f3d044">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="TSE">
+
+<title>Versiones Android | Todo Sevilla Este</title>
+<meta name="description" content="Versiones Android de Todo Sevilla Este: historial y novedades.">
+<link rel="canonical" href="https://todosevillaeste.es/versiones.html">
+<meta property="og:title" content="Versiones Android | Todo Sevilla Este">
+<meta property="og:description" content="Versiones Android de Todo Sevilla Este: historial y novedades.">
+<meta property="og:url" content="https://todosevillaeste.es/versiones.html">
+<meta property="og:type" content="website">
+<meta property="og:image" content="https://todosevillaeste.es/icono/tsev2_beta.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Versiones Android | Todo Sevilla Este">
+<meta name="twitter:description" content="Versiones Android de Todo Sevilla Este: historial y novedades.">
+<meta name="twitter:image" content="https://todosevillaeste.es/icono/tsev2_beta.png">
+
+<link rel="icon" href="/icono/tsev2_beta.png" type="image/png">
+<link rel="manifest" href="/manifest.webmanifest">
+<link rel="apple-touch-icon" href="/icono/tsev2_beta.png">
+<link rel="stylesheet" href="/3.7/header_shared.css">
+<link rel="stylesheet" href="/ui_public.css">
+<script defer src="/ui_public.js"></script>
+<style>
+:root{--bg:#f4f6f9;--card:#fff;--line:#dde3ee;--text:#1f2937}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);font-family:Segoe UI,Arial,sans-serif;color:var(--text)}
+header{background:rgba(243,208,68,.96);border-bottom:1px solid rgba(0,0,0,.08);padding:.7rem 1rem;display:flex;justify-content:space-between;align-items:center}
+.wrap{max-width:980px;margin:18px auto;padding:0 14px}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:14px}
+h1{margin:0 0 10px 0;font-size:1.2rem}
+h2{margin:0 0 8px 0;font-size:1rem}
+.small{font-size:.9rem;color:#607081}
+.download{display:inline-block;margin-top:10px;border:none;border-radius:8px;background:#111;color:#fff;font-weight:700;padding:.55rem .95rem;text-decoration:none}
+@media (max-width:900px){.grid{grid-template-columns:1fr}}
+/* Cookie banner */
+</style>
+</head>
+<body>
+<header class="tse-header">
+  <div class="tse-header-left">
+    <a class="tse-header-logo" href="/frontend.html"><img src="/icono/tsev2_beta.png" alt="TodoSevillaEste"></a>
+    <div class="tse-header-copy">
+      <span class="tse-header-kicker">Todo Sevilla Este</span>
+      <strong class="tse-header-title">Versiones Android</strong>
+    </div>
+  </div>
+  <div class="tse-header-center"></div>
+  <div class="tse-header-actions">
+    <a href="/administracion/index-panel.html?android_admin=1" class="download soft" style="margin:0">Volver</a>
+  </div>
+</header>
+<main class="wrap">
+  <h1>Descarga de APKs en uso</h1>
+  <div class="small" style="margin-bottom:10px">AquÃ© se muestran las versiones activas definidas por administraciÃ³n.</div>
+  <div class="grid">
+    <section class="card">
+      <h2>Cliente</h2>
+      <div id="clientBox" class="small">Cargando...</div>
+    </section>
+    <section class="card">
+      <h2>AdministraciÃ³n</h2>
+      <div id="adminBox" class="small">Cargando...</div>
+    </section>
+  </div>
+</main>
+
+<script>
+function esc(v){ return String(v ?? "").replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;"); }
+function fmt(iso){
+  if(!iso) return "";
+  const d = new Date(iso);
+  return Number.isNaN(d.getTime()) ? "" : d.toLocaleDateString("es-ES",{day:"2-digit",month:"2-digit",year:"numeric"});
+}
+function renderTarget(id, row){
+  const box = document.getElementById(id);
+  if(!row){
+    box.innerHTML = "No hay versiÃ³n seleccionada.";
+    return;
+  }
+  box.innerHTML = `
+    <div><strong>VersiÃ³n:</strong> ${esc(row.version || "-")}</div>
+    <div><strong>Fecha:</strong> ${esc(fmt(row.created_at))}</div>
+    <div style="margin-top:6px"><strong>Novedades:</strong> ${esc(row.notes || "-")}</div>
+    ${row.download_url ? `<a class="download" href="${esc(row.download_url)}" target="_blank">Descargar APK</a>` : ""}
+  `;
+}
+async function boot(){
+  const ts = Date.now();
+  const res = await fetch(`/android/versions/public?ts=${ts}`, {
+    cache: "no-store",
+    credentials: "omit",
+    headers: { "Cache-Control": "no-cache", "Pragma": "no-cache" }
+  });
+  const data = await res.json().catch(()=> ({}));
+  if(!res.ok){
+    document.getElementById("clientBox").textContent = "No se pudo cargar.";
+    document.getElementById("adminBox").textContent = "No se pudo cargar.";
+    return;
+  }
+  renderTarget("clientBox", data.client || null);
+  renderTarget("adminBox", data.admin || null);
+}
+boot();
+</script>
+
+  </div>
+</div>
+<div id="cookieBanner" class="cookie-banner" role="dialog" aria-modal="true" aria-live="polite">
+  <div class="cookie-panel">
+    <div class="cookie-text">
+      Este sitio web usa <a class="cookie-link" href="https://todosevillaeste.es/cookies.html" target="_blank" rel="noopener">cookies</a> tÃ©cnicas necesarias. Puedes aceptar, rechazar o configurar.
+    </div>
+    <div class="cookie-actions">
+      <button class="cookie-btn accept" id="cookieAccept">Aceptar</button>
+      <button class="cookie-btn reject" id="cookieReject">Rechazar</button>
+      <button class="cookie-btn config" id="cookieConfig">Configurar</button>
+    </div>
+  </div>
+</div>
+<div id="cookieConfigOverlay" class="cookie-config-overlay" role="dialog" aria-modal="true">
+  <div class="cookie-config">
+    <h4>ConfiguraciÃ³n de cookies</h4>
+    <p>Las cookies tÃ©cnicas son necesarias para el funcionamiento del sitio.</p>
+    <p>No usamos cookies opcionales (analÃ­ticas o publicitarias).</p>
+    <div class="cookie-config-actions">
+      <button class="cookie-btn accept" id="cookieConfigSave">Guardar</button>
+      <button class="cookie-btn read" id="cookieConfigCancel">Cancelar</button>
+    </div>
+  </div>
+</div>
+  </div>
+</div>>
+  <div class="footer-top">
+    <span class="footer-copy">Â© 2026 Todo Sevilla Este</span>
+    <span id="footerVersion" class="footer-version" data-version="3.6">VersiÃ³n: 3.6</span>
+  </div>
+  <nav class="footer-links" aria-label="Enlaces legales">
+    <a class="footer-link" href="/frontend.html">Inicio</a>
+    <a class="footer-link" href="/cookies.html">Cookies</a>
+    <a class="footer-link" href="/terminos.html">TÃºrminos</a>
+    <a class="footer-link" href="/aviso_legal.html">Aviso legal</a>
+  </nav>
+</footer>
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

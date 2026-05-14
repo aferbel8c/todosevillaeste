@@ -1,0 +1,1581 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="robots" content="noindex, nofollow">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Administración - Todo Sevilla Este</title>
+<link rel="icon" href="/icono/tsev2admin_beta.png" type="image/png">
+<link rel="stylesheet" href="/administracion/assets/ui_admin.css">
+<script defer src="/administracion/assets/ui_admin.js"></script>
+<style>
+:root{
+  --bg:#f4f6f9;
+  --card:#ffffff;
+  --dark:#1f1f1f;
+  --dark-soft:#b2b2b2;
+  --yellow:#f3d044;
+  --border:#dde2ea;
+  --text:#1f2937;
+}
+*{box-sizing:border-box}
+body{
+  margin:0;
+  font-family: "Segoe UI", Arial, sans-serif;
+  background: radial-gradient(circle at top right, #ffffff, #f3f5f8 60%);
+  color:var(--text);
+}
+.app{display:flex;min-height:100vh}
+.sidebar{
+  width:270px;
+  background:linear-gradient(180deg, #1f1f1f 0%, #232323 100%);
+  color:#fff;
+  padding:14px 12px;
+  display:flex;
+  flex-direction:column;
+  transition:width .24s ease, box-shadow .24s ease;
+  box-shadow:4px 0 18px rgba(0,0,0,.18);
+}
+.sidebar.collapsed{width:78px}
+.brand{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  margin-bottom:18px;
+  padding:4px 4px 8px;
+  border-bottom:1px solid rgba(255,255,255,.08);
+}
+.brand h1{
+  font-size:1rem;
+  margin:0;
+  letter-spacing:.02em;
+  white-space:nowrap;
+}
+.toggle{
+  background:#2d2d2d;
+  color:#fff;
+  border:none;
+  border-radius:10px;
+  padding:8px 10px;
+  cursor:pointer;
+  transition:transform .18s ease, background .18s ease;
+}
+.toggle:hover{background:#3a3a3a;transform:translateY(-1px)}
+.menu{display:flex;flex-direction:column;gap:8px;flex:1}
+.menu button{
+  border:none;
+  background:var(--dark-soft);
+  color:#fff;
+  padding:11px 12px;
+  border-radius:10px;
+  cursor:pointer;
+  text-align:left;
+  font-weight:600;
+  transition:background .2s ease, transform .15s ease, color .2s ease;
+  white-space:nowrap;
+  overflow:hidden;
+}
+.sidebar.collapsed .menu button{
+  text-align:center;
+  padding:10px 8px;
+}
+.menu-icon{
+  width:22px;
+  height:22px;
+  object-fit:contain;
+  display:block;
+  margin:0 auto;
+  pointer-events:none;
+}
+.menu button:hover{transform:translateX(2px)}
+.menu button.active,.menu button:hover{background:var(--yellow);color:#000}
+.sidebar-footer{
+  margin-top:auto;
+  padding:12px 6px 4px;
+  border-top:1px solid rgba(255,255,255,.08);
+  font-size:.72rem;
+  color:#cbd5e1;
+}
+.sidebar-footer .version-line{
+  display:flex;
+  justify-content:space-between;
+  gap:6px;
+  white-space:nowrap;
+}
+.sidebar-footer .version-line:first-child{
+  margin-bottom:6px;
+}
+.sidebar-footer strong{color:#fff;font-weight:700}
+.sidebar.collapsed .sidebar-footer{
+  padding:10px 4px 4px;
+  font-size:.62rem;
+}
+.sidebar.collapsed .sidebar-footer .version-line{
+  flex-direction:column;
+  align-items:flex-start;
+  white-space:normal;
+}
+.android-admin-mode .sidebar.collapsed .menu button{
+  display:none;
+}
+.android-admin-mode .sidebar{
+  position:fixed;
+  left:0;
+  top:0;
+  bottom:0;
+  width:250px !important;
+  transform:translateX(-108%);
+  transition:transform .22s ease, box-shadow .22s ease;
+  z-index:35;
+}
+.android-admin-mode.menu-open .sidebar{
+  transform:translateX(0);
+}
+.android-admin-mode .content{
+  margin-left:0 !important;
+}
+.android-admin-mode .menu-overlay{
+  position:fixed;
+  inset:0;
+  background:rgba(0,0,0,.26);
+  opacity:0;
+  pointer-events:none;
+  transition:opacity .2s ease;
+  z-index:30;
+}
+.android-admin-mode.menu-open .menu-overlay{
+  opacity:1;
+  pointer-events:auto;
+}
+.android-admin-mode .edge-swipe-zone{
+  position:fixed;
+  left:0;
+  top:0;
+  bottom:0;
+  width:56px;
+  z-index:29;
+  background:transparent;
+  touch-action:none;
+}
+.android-admin-mode.menu-open .edge-swipe-zone{
+  pointer-events:none;
+}
+.content{flex:1;display:flex;flex-direction:column}
+.top{
+  height:60px;
+  background:#fff;
+  border-bottom:1px solid var(--border);
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  padding:0 14px;
+}
+.top-left{
+  display:flex;
+  align-items:center;
+  gap:8px;
+}
+.workspace{
+  flex:1;
+  padding:12px;
+  position:relative;
+}
+.panel-frame,.panel-card{
+  width:100%;
+  height:calc(100vh - 86px);
+  border:none;
+  border-radius:12px;
+  background:#fff;
+}
+.panel-card{
+  border:1px solid var(--border);
+  padding:18px;
+  max-width:760px;
+  height:auto;
+}
+.hidden{display:none !important}
+.card{
+  background:var(--card);
+  border:1px solid var(--border);
+  border-radius:12px;
+  padding:16px;
+  max-width:520px;
+  box-shadow:0 8px 20px rgba(16,24,40,.08);
+}
+.login-wrap{
+  position:fixed;
+  inset:0;
+  background:rgba(0,0,0,.45);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  padding:20px;
+  z-index:30;
+}
+.login-wrap input,.login-wrap select{
+  width:100%;
+  padding:10px;
+  border:1px solid #cfd5dd;
+  border-radius:8px;
+  margin-bottom:10px;
+}
+.turnstile-wrap{
+  display:flex;
+  justify-content:center;
+  margin:6px 0 10px;
+}
+.btn{
+  border:none;
+  border-radius:8px;
+  padding:10px 12px;
+  font-weight:700;
+  cursor:pointer;
+  transition:transform .15s ease, filter .15s ease;
+}
+.btn:hover{transform:translateY(-1px);filter:brightness(.96)}
+.btn-primary{background:var(--yellow);color:#000}
+.btn-dark{background:#222;color:#fff}
+.btn[disabled]{opacity:.6;cursor:not-allowed;filter:none;transform:none}
+.small{font-size:.88rem;color:#5b6472}
+#adminConfig .row{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+#adminConfig label{display:block;margin-bottom:6px;font-weight:600}
+#adminConfig input,#adminConfig select{
+  width:100%;
+  padding:10px;
+  border:1px solid #cfd5dd;
+  border-radius:8px;
+}
+#adminConfig textarea{
+  width:100%;
+  min-height:120px;
+  padding:10px;
+  border:1px solid #cfd5dd;
+  border-radius:8px;
+  resize:vertical;
+}
+.qr-input-row{
+  display:flex;
+  gap:8px;
+  margin-bottom:8px;
+  align-items:center;
+}
+.qr-input-row input{
+  flex:1;
+}
+.qr-input-row select{
+  width:140px !important;
+  min-width:140px;
+}
+.qr-rules-list{
+  display:flex;
+  flex-direction:column;
+  gap:6px;
+  max-height:220px;
+  overflow:auto;
+  border:1px solid #e5e7eb;
+  border-radius:8px;
+  padding:8px;
+  background:#fff;
+}
+.qr-rule-item{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:8px;
+  border:1px solid #e5e7eb;
+  border-radius:8px;
+  padding:8px;
+  background:#f9fafb;
+}
+.qr-rule-item.disabled{
+  opacity:.65;
+  background:#f3f4f6;
+}
+.qr-rule-text{
+  font-size:.88rem;
+  word-break:break-all;
+  color:#1f2937;
+  flex:1;
+}
+.qr-rule-type{
+  display:inline-block;
+  margin-right:8px;
+  padding:2px 7px;
+  border-radius:999px;
+  font-size:.72rem;
+  font-weight:700;
+  line-height:1.5;
+  background:#e8edf5;
+  color:#334155;
+}
+.qr-rule-state{
+  display:inline-block;
+  margin-right:8px;
+  padding:2px 7px;
+  border-radius:999px;
+  font-size:.72rem;
+  font-weight:700;
+  line-height:1.5;
+  background:#fee2e2;
+  color:#991b1b;
+}
+.qr-rule-actions{
+  display:flex;
+  gap:6px;
+}
+.qr-rule-actions button{
+  padding:6px 8px;
+  border:none;
+  border-radius:6px;
+  font-size:.82rem;
+  cursor:pointer;
+  font-weight:700;
+}
+.qr-edit-btn{ background:#e8edf5; color:#111; }
+.qr-del-btn{ background:#fee2e2; color:#991b1b; }
+.qr-toggle-btn{ background:#e0f2fe; color:#075985; }
+.recaptcha-wrap{display:flex;justify-content:center;margin:6px 0 10px}
+.recaptcha-blocked{display:none;text-align:center;color:#555;font-size:.9rem;padding:8px 10px;border:1px dashed #c8c8c8;border-radius:8px;background:#fafafa}
+body.recaptcha-denied .h-captcha{display:none}
+body.recaptcha-denied .recaptcha-blocked{display:block}
+
+.panel-view{
+  position:absolute;
+  inset:12px;
+  opacity:0;
+  transform:translateY(8px) scale(.996);
+  pointer-events:none;
+  transition:opacity .2s ease, transform .2s ease;
+}
+.panel-view.active{
+  opacity:1;
+  transform:translateY(0) scale(1);
+  pointer-events:auto;
+}
+
+@media (max-width:900px){
+  .sidebar{position:fixed;left:0;top:0;bottom:0;z-index:20}
+  .content{margin-left:78px}
+  .sidebar:not(.collapsed){width:220px}
+}
+</style>
+</head>
+<body>
+<div class="login-wrap" id="loginLayer">
+  <div class="card">
+    <h2 style="margin-top:0">Acceso administración</h2>
+    <input id="adminUser" placeholder="Usuario admin">
+    <input id="adminEmail" placeholder="Correo admin">
+    <input id="adminPassword" type="password" placeholder="Contraseña admin">
+    <input id="antibotHoney" name="company" autocomplete="off" tabindex="-1" style="position:absolute;left:-9999px;opacity:0;height:0;width:0;border:0;padding:0;margin:0;" aria-hidden="true">
+    <div class="recaptcha-wrap">
+      <div class="h-captcha" data-sitekey="" data-callback="onAdminRecaptchaSuccess" data-expired-callback="onAdminRecaptchaExpired" data-error-callback="onAdminRecaptchaError"></div>
+    </div>
+    <div class="recaptcha-blocked">La verificación anti-bot está desactivada por la configuración de cookies.</div>
+    <button id="adminLoginBtn" class="btn btn-primary" style="width:100%" onclick="adminLogin()" disabled>Iniciar sesión</button>
+    <div class="small" style="margin-top:10px">Recuperar contraseña de administración</div>
+    <input id="recUser" placeholder="Usuario">
+    <input id="recEmail" placeholder="Correo">
+    <div style="display:flex;gap:8px">
+      <button class="btn btn-dark" style="flex:1" onclick="requestRecoveryCode()">Enviar código</button>
+      <button class="btn btn-dark" style="flex:1" onclick="verifyRecoveryCode()">Verificar</button>
+    </div>
+    <input id="recCode" placeholder="Código de verificación">
+    <input id="recNewPassword" type="password" placeholder="Nueva contraseña admin">
+  </div>
+</div>
+
+<div class="app hidden" id="adminApp">
+  <div class="edge-swipe-zone" id="edgeSwipeZone"></div>
+  <div class="menu-overlay" id="menuOverlay" onclick="closeAndroidDrawer()"></div>
+  <aside class="sidebar collapsed" id="sidebar">
+    <div class="brand">
+      <h1 id="brandText" class="hidden">Administración</h1>
+      <button class="toggle" onclick="toggleSidebar()">&#9776;</button>
+    </div>
+    <nav class="menu">
+      <button id="menuUsers" class="active" onclick="openPanel('users')" data-full="Gestión de Usuarios" data-short="U" data-icon="/icono/admin/usuario.png">Gestión de Usuarios</button>
+      <button id="menuBiz" onclick="openPanel('biz')" data-full="Gestión de Negocios" data-short="N" data-icon="/icono/admin/negocio.png">Gestión de Negocios</button>
+      <button id="menuReviews" onclick="openPanel('reviews')" data-full="Administración de Reseñas" data-short="R" data-icon="/icono/admin/rese%C3%B1a.png">Administración de Reseñas</button>
+      <button id="menuVersions" onclick="openPanel('versions')" data-full="Versiones Android" data-short="V" data-icon="/icono/admin/versiones.png">Versiones Android</button>
+      <button id="menuScanQr" class="hidden" onclick="openAdminQrScanner()" data-full="Escanear QR" data-short="Q" data-icon="/icono/admin/qr.png">Escanear QR</button>
+      <button id="menuConsole" onclick="openPanel('console')" data-full="Consola" data-short="T" data-icon="/icono/admin/consola.png">Consola</button>
+      <button id="menuCfg" onclick="openPanel('cfg')" data-full="Configuración" data-short="C" data-icon="/icono/admin/configuracion.png">Configuración</button>
+    </nav>
+    <div class="sidebar-footer" id="sidebarVersions">
+      <div class="version-line"><span>Versión Public:</span> <strong id="publicVersion">--</strong></div>
+      <div class="version-line"><span>Versión Admin:</span> <strong id="adminVersion">--</strong></div>
+    </div>
+  </aside>
+
+  <main class="content">
+    <header class="top">
+      <div class="top-left">
+        <img src="/icono/tsev2admin_beta.png" alt="TodoSevillaEste" style="width:40px;height:auto;display:block;">
+        
+        <strong id="topTitle">Gestión de Usuarios</strong>
+      </div>
+      <button class="btn btn-dark" onclick="adminLogout()">Cerrar sesión admin</button>
+    </header>
+    <section class="workspace">
+      <div id="viewUsers" class="panel-view active">
+        <iframe id="frameUsers" class="panel-frame" data-src="/administracion/admin_usuarios.html"></iframe>
+      </div>
+      <div id="viewBiz" class="panel-view">
+        <iframe id="frameBiz" class="panel-frame" data-src="/administracion/admin_negocios.html"></iframe>
+      </div>
+      <div id="viewReviews" class="panel-view">
+        <iframe id="frameReviews" class="panel-frame" data-src="/administracion/admin_reviews.html"></iframe>
+      </div>
+      <div id="viewVersions" class="panel-view">
+        <iframe id="frameVersions" class="panel-frame" data-src="/administracion/admin_versions.html"></iframe>
+      </div>
+      <div id="viewConsole" class="panel-view">
+        <iframe id="frameConsole" class="panel-frame" data-src="/administracion/ip_log.html"></iframe>
+      </div>
+      <div id="viewCfg" class="panel-view">
+        <div id="adminConfig" class="panel-card">
+          <h3 style="margin-top:0">Configuración de sesión de administración</h3>
+          <div class="row">
+            <div>
+              <label>Modo por defecto</label>
+              <select id="cfgMode">
+                <option value="limited">Limitada</option>
+                <option value="unlimited">Ilimitada</option>
+              </select>
+            </div>
+            <div>
+              <label>Duración en minutos (si limitada)</label>
+              <input id="cfgMinutes" type="number" min="1" max="43200" placeholder="1440">
+            </div>
+          </div>
+          <h4 style="margin:14px 0 8px 0">URL de QR</h4>
+          <div class="small" style="margin-bottom:8px">
+            Añade URLs permitidas y elige si deben ser exactas o por prefijo.
+          </div>
+          <div class="row">
+            <div>
+              <label>Permitidas en app cliente</label>
+              <div class="qr-input-row">
+                <select id="cfgQrTypeClient">
+                  <option value="prefix">Empieza por...</option>
+                  <option value="exact">URL exacta</option>
+                </select>
+                <input id="cfgQrNewClient" placeholder="https://todosevillaeste.es/negocio.html?id=">
+                <button type="button" class="btn btn-dark" onclick="addQrRule('client')">Añadir URL</button>
+              </div>
+              <div id="cfgQrListClient" class="qr-rules-list"></div>
+            </div>
+            <div>
+              <label>Permitidas en app admin</label>
+              <div class="qr-input-row">
+                <select id="cfgQrTypeAdmin">
+                  <option value="prefix">Empieza por...</option>
+                  <option value="exact">URL exacta</option>
+                </select>
+                <input id="cfgQrNewAdmin" placeholder="https://todosevillaeste.es/versiones.html">
+                <button type="button" class="btn btn-dark" onclick="addQrRule('admin')">Añadir URL</button>
+              </div>
+              <div id="cfgQrListAdmin" class="qr-rules-list"></div>
+            </div>
+          </div>
+          <button id="btnSaveSessionConfig" class="btn btn-primary hidden" style="margin-top:12px" onclick="saveSessionConfig()">Guardar configuración</button>
+          <h4 style="margin:18px 0 8px 0">Visibilidad pública</h4>
+          <div class="small" style="margin-bottom:8px">
+            Estos botones no apagan servicios; solo ocultan la web pública y la IA.
+          </div>
+          <div class="row">
+            <div>
+              <label>Frontend público</label>
+              <button id="cfgPublicToggle" type="button" class="btn btn-dark" onclick="toggleVisibility('public')">Visible</button>
+              <div id="cfgPublicState" class="small" style="margin-top:6px"></div>
+            </div>
+            <div>
+              <label>Asistente IA</label>
+              <button id="cfgAiToggle" type="button" class="btn btn-dark" onclick="toggleVisibility('ai')">Visible</button>
+              <div id="cfgAiState" class="small" style="margin-top:6px"></div>
+            </div>
+          </div>
+          <button id="btnSaveVisibilityConfig" class="btn btn-primary hidden" style="margin-top:12px" onclick="saveVisibilityConfig()">Guardar visibilidad</button>
+        </div>
+      </div>
+    </section>
+  </main>
+</div>
+
+<script>
+function alertError(msg){ alert(msg || "Error"); }
+let adminAuthenticated = false;
+const ADMIN_LAST_PANEL_KEY = "tse_admin_last_panel";
+const ADMIN_SESSION_STORAGE_KEY = "tse_admin_session_id";
+const VALID_ADMIN_PANELS = new Set(["users", "biz", "reviews", "versions", "console", "cfg"]);
+const ANDROID_ADMIN_MODE = new URLSearchParams(window.location.search).get("android_admin") === "1";
+const ADMIN_EMAIL_RE = /[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}/ig;
+let qrAllowClientRules = [];
+let qrAllowAdminRules = [];
+let sessionConfigSnapshot = null;
+let visibilitySnapshot = null;
+let configHandlersBound = false;
+let antibotToken = "";
+let antibotIssuedAt = 0;
+let antibotStartedAt = 0;
+let antibotMinElapsed = 2500;
+let adminRecaptchaOk = false;
+let recaptchaSiteKeyLoaded = false;
+let recaptchaSiteKey = "";
+let hcaptchaToken = "";
+
+function loadAntibotChallenge(){
+  return fetch("/public/antibot/challenge", { cache: "no-store" })
+    .then(r => (r && r.ok) ? r.json() : null)
+    .then(data => {
+      antibotToken = (data && data.token) ? String(data.token) : "";
+      antibotIssuedAt = Number(data && data.issued_at ? data.issued_at : 0);
+      antibotMinElapsed = Number(data && data.min_elapsed_ms ? data.min_elapsed_ms : 2500);
+      antibotStartedAt = Date.now();
+      updateAdminLoginEnabled();
+      return antibotToken;
+    })
+    .catch(() => {
+      antibotToken = "";
+      antibotIssuedAt = 0;
+      antibotStartedAt = 0;
+      updateAdminLoginEnabled();
+      return "";
+    });
+}
+
+function fetchRecaptchaSiteKey(){
+  if(recaptchaSiteKeyLoaded) return Promise.resolve(recaptchaSiteKey);
+  recaptchaSiteKeyLoaded = true;
+  return fetch("/public/hcaptcha/site-key", { cache: "no-store" })
+    .then(r => (r && r.ok) ? r.json() : null)
+    .then(data => {
+      recaptchaSiteKey = (data && data.site_key) ? String(data.site_key) : "";
+      return recaptchaSiteKey;
+    })
+    .catch(() => {
+      recaptchaSiteKey = "";
+      return "";
+    });
+}
+function applyRecaptchaSiteKey(key){
+  const widget = document.querySelector(".h-captcha");
+  if(widget && key){
+    widget.setAttribute("data-sitekey", key);
+  }
+}
+async function ensureRecaptchaLoaded(){
+  if(window.hcaptcha) return;
+  if(document.getElementById("hcaptchaScript")) return;
+  const key = recaptchaSiteKey || await fetchRecaptchaSiteKey();
+  if(!key){
+    return;
+  }
+  applyRecaptchaSiteKey(key);
+  const s = document.createElement("script");
+  s.id = "hcaptchaScript";
+  s.src = "https://js.hcaptcha.com/1/api.js";
+  s.async = true;
+  s.defer = true;
+  document.head.appendChild(s);
+}
+function applyRecaptchaConsent(){
+  document.body.classList.toggle("recaptcha-denied", false);
+  ensureRecaptchaLoaded();
+}
+
+function onAdminRecaptchaSuccess(token){
+  hcaptchaToken = token || "";
+  adminRecaptchaOk = !!hcaptchaToken;
+  updateAdminLoginEnabled();
+}
+
+function onAdminRecaptchaExpired(){
+  hcaptchaToken = "";
+  adminRecaptchaOk = false;
+  updateAdminLoginEnabled();
+}
+
+function onAdminRecaptchaError(){
+  hcaptchaToken = "";
+  adminRecaptchaOk = false;
+  updateAdminLoginEnabled();
+}
+
+async function loadActiveWebVersions(){
+  const pubEl = document.getElementById("publicVersion");
+  const admEl = document.getElementById("adminVersion");
+  if(pubEl) pubEl.textContent = "--";
+  if(admEl) admEl.textContent = "--";
+  try{
+    const res = await fetch("/admin/web_versions", { cache:"no-store", credentials:"include" });
+    const data = await res.json().catch(() => ({}));
+    if(res.ok && data){
+      const pubItems = Array.isArray(data.public && data.public.items) ? data.public.items : [];
+      const admItems = Array.isArray(data.admin && data.admin.items) ? data.admin.items : [];
+      const pubActive = pubItems.find((item) => item && item.is_active);
+      const admActive = admItems.find((item) => item && item.is_active);
+      const publicV = pubActive && pubActive.version ? pubActive.version : "--";
+      const adminV = admActive && admActive.version ? admActive.version : "--";
+      if(pubEl) pubEl.textContent = publicV;
+      if(admEl) admEl.textContent = adminV;
+      return;
+    }
+    const pubRes = await fetch("/web/versions/public", { cache:"no-store" });
+    const pubData = await pubRes.json().catch(() => ({}));
+    if(!pubRes.ok) return;
+    const publicV = pubData && pubData.public && pubData.public.version ? pubData.public.version : "--";
+    const adminV = pubData && pubData.admin && pubData.admin.version ? pubData.admin.version : "--";
+    if(pubEl) pubEl.textContent = publicV;
+    if(admEl) admEl.textContent = adminV;
+  }catch(_e){
+    // Silencioso: se mantiene "--" si falla.
+  }
+}
+
+function setAdminLoginEnabled(enabled){
+  const btn = document.getElementById("adminLoginBtn");
+  if(btn) btn.disabled = !enabled;
+}
+
+function updateAdminLoginEnabled(){
+  const userVal = (document.getElementById("adminUser")?.value || "").trim();
+  const emailVal = (document.getElementById("adminEmail")?.value || "").trim();
+  const passVal = (document.getElementById("adminPassword")?.value || "");
+  setAdminLoginEnabled(!!(userVal && emailVal && passVal && antibotToken && adminRecaptchaOk));
+}
+
+window.addEventListener("load", () => {
+  ["adminUser","adminEmail","adminPassword"].forEach((id) => {
+    const el = document.getElementById(id);
+    if(el) el.addEventListener("input", updateAdminLoginEnabled);
+  });
+  updateAdminLoginEnabled();
+  loadAntibotChallenge();
+  applyRecaptchaConsent();
+});
+
+if(ANDROID_ADMIN_MODE){
+  document.body.classList.add("android-admin-mode");
+}
+
+function ensureFramesLoaded(){
+  const fUsers = document.getElementById("frameUsers");
+  const fBiz = document.getElementById("frameBiz");
+  const fReviews = document.getElementById("frameReviews");
+  const fSupport = document.getElementById("frameSupport");
+  const fMails = document.getElementById("frameMails");
+  const fVersions = document.getElementById("frameVersions");
+  const fConsole = document.getElementById("frameConsole");
+  if(fUsers && !fUsers.getAttribute("src")) fUsers.setAttribute("src", withNoCacheVersion(fUsers.dataset.src || ""));
+  if(fBiz && !fBiz.getAttribute("src")) fBiz.setAttribute("src", fBiz.dataset.src || "");
+  if(fReviews && !fReviews.getAttribute("src")) fReviews.setAttribute("src", withNoCacheVersion(fReviews.dataset.src || ""));
+  if(fSupport && !fSupport.getAttribute("src")) fSupport.setAttribute("src", fSupport.dataset.src || "");
+  if(fMails && !fMails.getAttribute("src")) fMails.setAttribute("src", withNoCacheVersion(fMails.dataset.src || ""));
+  if(fVersions && !fVersions.getAttribute("src")) fVersions.setAttribute("src", fVersions.dataset.src || "");
+  if(fConsole && !fConsole.getAttribute("src")) fConsole.setAttribute("src", withNoCacheVersion(fConsole.dataset.src || ""));
+}
+
+function withNoCacheVersion(url){
+  const raw = String(url || "").trim();
+  if(!raw) return "";
+  const sep = raw.includes("?") ? "&" : "?";
+  return `${raw}${sep}v=${Date.now()}`;
+}
+
+function normalizePanelKey(key){
+  const k = String(key || "").trim().toLowerCase();
+  return VALID_ADMIN_PANELS.has(k) ? k : "users";
+}
+
+function getStoredPanelKey(){
+  try{
+    return normalizePanelKey(localStorage.getItem(ADMIN_LAST_PANEL_KEY));
+  }catch(_e){
+    return "users";
+  }
+}
+
+function storePanelKey(key){
+  try{
+    localStorage.setItem(ADMIN_LAST_PANEL_KEY, normalizePanelKey(key));
+  }catch(_e){}
+}
+
+function storeAdminSessionId(sessionId){
+  try{
+    const sid = String(sessionId || "").trim();
+    if(!sid){
+      localStorage.removeItem(ADMIN_SESSION_STORAGE_KEY);
+      return;
+    }
+    localStorage.setItem(ADMIN_SESSION_STORAGE_KEY, sid);
+  }catch(_e){}
+}
+
+function getStoredAdminSessionId(){
+  try{
+    return String(localStorage.getItem(ADMIN_SESSION_STORAGE_KEY) || "").trim();
+  }catch(_e){
+    return "";
+  }
+}
+
+function showAuthUI(isAuthenticated){
+  adminAuthenticated = !!isAuthenticated;
+  document.getElementById("loginLayer").classList.toggle("hidden", isAuthenticated);
+  document.getElementById("adminApp").classList.toggle("hidden", !isAuthenticated);
+}
+
+async function adminLogin(){
+  const hcaptchaResponse = (window.hcaptcha && typeof window.hcaptcha.getResponse === "function")
+    ? window.hcaptcha.getResponse()
+    : hcaptchaToken;
+  if(!antibotToken){
+    alertError("Protección anti-bot no disponible. Recarga la página.");
+    return;
+  }
+  if(!hcaptchaResponse){
+    alertError("Completa la verificación anti-bot.");
+    return;
+  }
+  const recaptchaToken = antibotToken;
+  const antibotElapsed = Date.now() - (antibotStartedAt || Date.now());
+  const antibotHoney = (document.getElementById("antibotHoney")?.value || "");
+  const payload = {
+    username: document.getElementById("adminUser").value.trim(),
+    email: document.getElementById("adminEmail").value.trim().toLowerCase(),
+    password: document.getElementById("adminPassword").value,
+    hcaptcha_token: hcaptchaResponse,
+    antibot_token: recaptchaToken,
+    antibot_elapsed_ms: antibotElapsed,
+    antibot_honey: antibotHoney
+  };
+  const res = await fetch("/admin/auth/login", {
+    method:"POST",
+    headers:{ "Content-Type":"application/json" },
+    body: JSON.stringify(payload),
+    credentials:"include"
+  });
+  const data = await res.json().catch(()=>({}));
+  if(!res.ok){
+    alertError(data.detail || "No se pudo iniciar sesión");
+    loadAntibotChallenge();
+    if(window.hcaptcha && typeof window.hcaptcha.reset === "function"){
+      window.hcaptcha.reset();
+    }
+    hcaptchaToken = "";
+    adminRecaptchaOk = false;
+    updateAdminLoginEnabled();
+    setAdminLoginEnabled(false);
+    return;
+  }
+  if(data && data.session_id){
+    storeAdminSessionId(data.session_id);
+  }
+  showAuthUI(true);
+  ensureFramesLoaded();
+  loadActiveWebVersions();
+  await loadSessionConfig();
+  openPanel(getStoredPanelKey());
+}
+
+async function adminLogout(){
+  await fetch("/admin/auth/logout", { method:"POST", credentials:"include" });
+  storeAdminSessionId("");
+  showAuthUI(false);
+}
+
+async function tryRestoreAdminSession(){
+  const sid = getStoredAdminSessionId();
+  if(!sid) return false;
+  try{
+    const res = await fetch("/admin/auth/restore", {
+      method:"POST",
+      headers:{ "Content-Type":"application/json" },
+      credentials:"include",
+      body: JSON.stringify({ session_id: sid })
+    });
+    if(!res.ok){
+      storeAdminSessionId("");
+      return false;
+    }
+    return true;
+  }catch(_e){
+    return false;
+  }
+}
+
+async function handlePotentialAuthLoss(){
+  try{
+    const statusRes = await fetch("/admin/auth/status", {
+      credentials:"include",
+      cache:"no-store"
+    });
+    const statusData = await statusRes.json().catch(() => ({}));
+    if(!statusRes.ok || !statusData.authenticated){
+      const restored = await tryRestoreAdminSession();
+      if(!restored){
+        await adminLogout();
+      }
+    }
+  }catch(_e){
+    // Si no se puede verificar estado, no cerramos sesión automáticamente.
+  }
+}
+
+async function bootAdmin(){
+  let statusRes = await fetch("/admin/auth/status", { credentials:"include", cache:"no-store" });
+  let statusData = await statusRes.json().catch(() => ({}));
+  if(!statusRes.ok || !statusData.authenticated){
+    const restored = await tryRestoreAdminSession();
+    if(restored){
+      statusRes = await fetch("/admin/auth/status", { credentials:"include", cache:"no-store" });
+      statusData = await statusRes.json().catch(() => ({}));
+    }
+  }
+  if(!statusRes.ok || !statusData.authenticated){
+    showAuthUI(false);
+    return;
+  }
+  const meRes = await fetch("/admin/auth/me", { credentials:"include" });
+  if(!meRes.ok){
+    showAuthUI(false);
+    return;
+  }
+  showAuthUI(true);
+  ensureFramesLoaded();
+  loadActiveWebVersions();
+  await loadSessionConfig();
+  openPanel(getStoredPanelKey());
+}
+
+async function requestRecoveryCode(){
+  const payload = {
+    username: document.getElementById("recUser").value.trim(),
+    email: document.getElementById("recEmail").value.trim().toLowerCase()
+  };
+  const res = await fetch("/admin/auth/forgot/request", {
+    method:"POST",
+    headers:{ "Content-Type":"application/json" },
+    body: JSON.stringify(payload),
+    credentials:"include"
+  });
+  const data = await res.json().catch(()=>({}));
+  if(!res.ok){
+    alertError(data.detail || "No se pudo enviar código");
+    return;
+  }
+  alert(data.detail || "Código enviado");
+}
+
+async function verifyRecoveryCode(){
+  const payload = {
+    username: document.getElementById("recUser").value.trim(),
+    email: document.getElementById("recEmail").value.trim().toLowerCase(),
+    code: document.getElementById("recCode").value.trim(),
+    new_password: document.getElementById("recNewPassword").value
+  };
+  const res = await fetch("/admin/auth/forgot/verify", {
+    method:"POST",
+    headers:{ "Content-Type":"application/json" },
+    body: JSON.stringify(payload),
+    credentials:"include"
+  });
+  const data = await res.json().catch(()=>({}));
+  if(!res.ok){
+    alertError(data.detail || "No se pudo actualizar contraseña");
+    return;
+  }
+  alert(data.detail || "Contraseña actualizada");
+}
+
+function toggleSidebar(){
+  if(ANDROID_ADMIN_MODE){
+    // En Android admin el menú se abre solo con gesto de arrastre.
+    return;
+  }
+  const sb = document.getElementById("sidebar");
+  sb.classList.toggle("collapsed");
+  document.getElementById("brandText").classList.toggle("hidden");
+  updateSidebarMenuLabels();
+}
+
+function closeAndroidDrawer(){
+  if(!ANDROID_ADMIN_MODE) return;
+  document.body.classList.remove("menu-open");
+}
+
+function updateSidebarMenuLabels() {
+  const sidebar = document.getElementById("sidebar");
+  if (!sidebar) return;
+
+  const collapsed = sidebar.classList.contains("collapsed");
+  const ids = ["menuUsers", "menuBiz", "menuReviews", "menuVersions", "menuScanQr", "menuConsole", "menuCfg"];
+
+  ids.forEach((id) => {
+    const btn = document.getElementById(id);
+    if (!btn) return;
+    if (collapsed) {
+      const iconSrc = btn.dataset.icon || "";
+      const shortLabel = btn.dataset.short || "";
+      btn.innerHTML = iconSrc
+        ? `<img class="menu-icon" src="${iconSrc}" alt="${shortLabel}">`
+        : shortLabel;
+    } else {
+      btn.textContent = btn.dataset.full || "";
+    }
+  });
+
+}
+
+function normalizeQrRule(value){
+  return String(value || "").trim();
+}
+
+function normalizeQrRuleType(value){
+  return String(value || "").trim().toLowerCase() === "exact" ? "exact" : "prefix";
+}
+
+function parseQrRuleTypeInput(value){
+  const v = String(value || "").trim().toLowerCase();
+  if(!v) return null;
+  if(["exacta", "exacto", "exact", "e", "url exacta"].includes(v)) return "exact";
+  if(["prefijo", "prefix", "p", "empieza", "empieza por"].includes(v)) return "prefix";
+  return null;
+}
+
+function toStoredQrRule(type, value){
+  const normalizedValue = normalizeQrRule(value);
+  if(!normalizedValue) return "";
+  const normalizedType = normalizeQrRuleType(type);
+  return normalizedType === "exact" ? `exact:${normalizedValue}` : `prefix:${normalizedValue}`;
+}
+
+function fromStoredQrRule(raw){
+  let text = normalizeQrRule(raw);
+  if(!text) return null;
+  let enabled = true;
+  const rawLower = text.toLowerCase();
+  if(rawLower.startsWith("off:")){
+    enabled = false;
+    text = normalizeQrRule(text.slice(4));
+  }else if(rawLower.startsWith("disabled:")){
+    enabled = false;
+    text = normalizeQrRule(text.slice(9));
+  }
+  if(!text) return null;
+  const lower = text.toLowerCase();
+  if(lower.startsWith("exact:")){
+    const value = normalizeQrRule(text.slice(6));
+    return value ? { type:"exact", value, enabled } : null;
+  }
+  if(lower.startsWith("prefix:")){
+    const value = normalizeQrRule(text.slice(7));
+    return value ? { type:"prefix", value, enabled } : null;
+  }
+  return { type:"prefix", value:text, enabled };
+}
+
+function toStoredQrRuleWithState(type, value, enabled){
+  const base = toStoredQrRule(type, value);
+  if(!base) return "";
+  return enabled === false ? `off:${base}` : base;
+}
+
+function qrRuleKey(parsed){
+  if(!parsed) return "";
+  return `${normalizeQrRuleType(parsed.type)}|${normalizeQrRule(parsed.value)}`;
+}
+
+function getQrTypeSelectId(target){
+  return target === "admin" ? "cfgQrTypeAdmin" : "cfgQrTypeClient";
+}
+
+function getQrRulesByTarget(target){
+  return target === "admin" ? qrAllowAdminRules : qrAllowClientRules;
+}
+
+function getSessionConfigSnapshot(){
+  const modeEl = document.getElementById("cfgMode");
+  const minutesEl = document.getElementById("cfgMinutes");
+  const snapshot = {
+    mode: modeEl ? modeEl.value : "limited",
+    minutes: Number(minutesEl ? minutesEl.value || 0 : 0),
+    clientRules: [...qrAllowClientRules],
+    adminRules: [...qrAllowAdminRules]
+  };
+  return JSON.stringify(snapshot);
+}
+
+function updateSessionSaveVisibility(){
+  const btn = document.getElementById("btnSaveSessionConfig");
+  if(!btn){
+    return;
+  }
+  if(sessionConfigSnapshot === null){
+    btn.classList.add("hidden");
+    return;
+  }
+  const changed = getSessionConfigSnapshot() !== sessionConfigSnapshot;
+  btn.classList.toggle("hidden", !changed);
+}
+
+function setSessionSnapshotFromCurrent(){
+  sessionConfigSnapshot = getSessionConfigSnapshot();
+  updateSessionSaveVisibility();
+}
+
+function getVisibilitySnapshot(){
+  return JSON.stringify({
+    public_visible: !!visibilityState.public_visible,
+    ai_visible: !!visibilityState.ai_visible
+  });
+}
+
+function updateVisibilitySaveVisibility(){
+  const btn = document.getElementById("btnSaveVisibilityConfig");
+  if(!btn){
+    return;
+  }
+  if(visibilitySnapshot === null){
+    btn.classList.add("hidden");
+    return;
+  }
+  const changed = getVisibilitySnapshot() !== visibilitySnapshot;
+  btn.classList.toggle("hidden", !changed);
+}
+
+function setVisibilitySnapshotFromCurrent(){
+  visibilitySnapshot = getVisibilitySnapshot();
+  updateVisibilitySaveVisibility();
+}
+
+function bindConfigChangeHandlers(){
+  if(configHandlersBound) return;
+  configHandlersBound = true;
+  const modeEl = document.getElementById("cfgMode");
+  const minutesEl = document.getElementById("cfgMinutes");
+  if(modeEl){
+    modeEl.addEventListener("change", updateSessionSaveVisibility);
+  }
+  if(minutesEl){
+    minutesEl.addEventListener("input", updateSessionSaveVisibility);
+    minutesEl.addEventListener("change", updateSessionSaveVisibility);
+  }
+}
+
+function setQrRulesByTarget(target, list){
+  const normalized = (Array.isArray(list) ? list : [])
+    .map(normalizeQrRule)
+    .filter(Boolean);
+  const unique = [];
+  normalized.forEach((item) => { if(!unique.includes(item)) unique.push(item); });
+  if(target === "admin") qrAllowAdminRules = unique;
+  else qrAllowClientRules = unique;
+}
+
+function renderQrRuleList(target){
+  const listEl = document.getElementById(target === "admin" ? "cfgQrListAdmin" : "cfgQrListClient");
+  if(!listEl) return;
+  const rules = getQrRulesByTarget(target);
+  if(!rules.length){
+    listEl.innerHTML = '<div class="small">No hay URLs configuradas.</div>';
+    return;
+  }
+  listEl.innerHTML = rules.map((rule, idx) => {
+    const parsed = fromStoredQrRule(rule) || { type:"prefix", value:String(rule || ""), enabled:true };
+    const safeValue = String(parsed.value || "").replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;");
+    const typeLabel = parsed.type === "exact" ? "URL exacta" : "Empieza por";
+    const stateLabel = parsed.enabled === false ? '<span class="qr-rule-state">Desactivada</span>' : "";
+    const toggleLabel = parsed.enabled === false ? "Activar" : "Desactivar";
+    const rowClass = parsed.enabled === false ? "qr-rule-item disabled" : "qr-rule-item";
+    return `<div class="${rowClass}"><div class="qr-rule-text"><span class="qr-rule-type">${typeLabel}</span>${stateLabel}${safeValue}</div><div class="qr-rule-actions"><button type="button" class="qr-toggle-btn" onclick="toggleQrRuleEnabled('${target}', ${idx})">${toggleLabel}</button><button type="button" class="qr-edit-btn" onclick="editQrRule('${target}', ${idx})">Editar</button><button type="button" class="qr-del-btn" onclick="deleteQrRule('${target}', ${idx})">Eliminar</button></div></div>`;
+  }).join("");
+}
+
+function addQrRule(target){
+  const inputId = target === "admin" ? "cfgQrNewAdmin" : "cfgQrNewClient";
+  const typeSelectId = getQrTypeSelectId(target);
+  const input = document.getElementById(inputId);
+  const typeSelect = document.getElementById(typeSelectId);
+  if(!input) return;
+  const value = normalizeQrRule(input.value);
+  if(!value) return;
+  const type = normalizeQrRuleType(typeSelect ? typeSelect.value : "prefix");
+  const storedRule = toStoredQrRuleWithState(type, value, true);
+  if(!storedRule) return;
+  const rules = [...getQrRulesByTarget(target)];
+  const newParsed = fromStoredQrRule(storedRule);
+  const newKey = qrRuleKey(newParsed);
+  const dupIndex = rules.findIndex((r) => qrRuleKey(fromStoredQrRule(r)) === newKey);
+  if(dupIndex >= 0){
+    const existingParsed = fromStoredQrRule(rules[dupIndex]);
+    if(existingParsed && existingParsed.enabled === false){
+      rules[dupIndex] = storedRule;
+      setQrRulesByTarget(target, rules);
+      renderQrRuleList(target);
+      updateSessionSaveVisibility();
+      input.value = "";
+      return;
+    }
+    alertError("Esa URL ya está añadida");
+    return;
+  }
+  rules.push(storedRule);
+  setQrRulesByTarget(target, rules);
+  renderQrRuleList(target);
+  updateSessionSaveVisibility();
+  input.value = "";
+}
+
+async function editQrRule(target, index){
+  const rules = [...getQrRulesByTarget(target)];
+  const current = rules[index];
+  if(typeof current !== "string") return;
+  const parsed = fromStoredQrRule(current);
+  if(!parsed) return;
+  const updatedValueInput = typeof window.uiPrompt === "function"
+    ? await window.uiPrompt("Editar URL de QR", parsed.value)
+    : prompt("Editar URL de QR", parsed.value);
+  if(updatedValueInput === null) return;
+  const updatedValue = normalizeQrRule(updatedValueInput);
+  if(!updatedValue) return;
+  const updatedTypeInput = typeof window.uiPrompt === "function"
+    ? await window.uiPrompt("Tipo (exacta/prefijo)", parsed.type === "exact" ? "exacta" : "prefijo")
+    : prompt("Tipo (exacta/prefijo)", parsed.type === "exact" ? "exacta" : "prefijo");
+  if(updatedTypeInput === null) return;
+  const updatedType = parseQrRuleTypeInput(updatedTypeInput);
+  if(!updatedType){
+    alertError("Tipo inválido. Usa 'exacta' o 'prefijo'");
+    return;
+  }
+  const updatedStored = toStoredQrRuleWithState(updatedType, updatedValue, parsed.enabled !== false);
+  if(!updatedStored) return;
+  const updatedKey = qrRuleKey(fromStoredQrRule(updatedStored));
+  if(rules.some((r, i) => i !== index && qrRuleKey(fromStoredQrRule(r)) === updatedKey)){
+    alertError("Esa URL ya está añadida");
+    return;
+  }
+  rules[index] = updatedStored;
+  setQrRulesByTarget(target, rules);
+  renderQrRuleList(target);
+  updateSessionSaveVisibility();
+}
+
+function toggleQrRuleEnabled(target, index){
+  const rules = [...getQrRulesByTarget(target)];
+  const current = rules[index];
+  if(typeof current !== "string") return;
+  const parsed = fromStoredQrRule(current);
+  if(!parsed) return;
+  const toggled = toStoredQrRuleWithState(parsed.type, parsed.value, parsed.enabled === false);
+  if(!toggled) return;
+  rules[index] = toggled;
+  setQrRulesByTarget(target, rules);
+  renderQrRuleList(target);
+  updateSessionSaveVisibility();
+}
+
+function deleteQrRule(target, index){
+  const rules = [...getQrRulesByTarget(target)];
+  if(index < 0 || index >= rules.length) return;
+  rules.splice(index, 1);
+  setQrRulesByTarget(target, rules);
+  renderQrRuleList(target);
+  updateSessionSaveVisibility();
+}
+
+function openAdminQrScanner(){
+  if(ANDROID_ADMIN_MODE){
+    closeAndroidDrawer();
+  }
+  window.open("/scan_qr.html?app=admin", "_blank", "noopener");
+}
+
+
+function setActiveView(viewId){
+  const views = ["viewUsers", "viewBiz", "viewReviews", "viewVersions", "viewConsole", "viewCfg"];
+  views.forEach((id) => {
+    const el = document.getElementById(id);
+    if(!el) return;
+    el.classList.toggle("active", id === viewId);
+  });
+}
+
+function openPanel(key){
+  key = normalizePanelKey(key);
+  document.getElementById("menuUsers").classList.remove("active");
+  document.getElementById("menuBiz").classList.remove("active");
+  document.getElementById("menuReviews").classList.remove("active");
+  document.getElementById("menuVersions").classList.remove("active");
+  document.getElementById("menuConsole").classList.remove("active");
+  document.getElementById("menuCfg").classList.remove("active");
+
+  if(key === "users"){
+    document.getElementById("menuUsers").classList.add("active");
+    document.getElementById("topTitle").textContent = "Gestión de Usuarios";
+    const usersFrame = document.getElementById("frameUsers");
+    if(usersFrame){
+      usersFrame.setAttribute("src", withNoCacheVersion(usersFrame.dataset.src || "/administracion/admin_usuarios.html"));
+    }
+    setActiveView("viewUsers");
+  } else if(key === "biz"){
+    document.getElementById("menuBiz").classList.add("active");
+    document.getElementById("topTitle").textContent = "Gestión de Negocios";
+    setActiveView("viewBiz");
+  } else if(key === "reviews"){
+    document.getElementById("menuReviews").classList.add("active");
+    document.getElementById("topTitle").textContent = "Administración de Reseñas";
+    const reviewsFrame = document.getElementById("frameReviews");
+    if(reviewsFrame){
+      reviewsFrame.setAttribute("src", withNoCacheVersion(reviewsFrame.dataset.src || "/administracion/admin_reviews.html"));
+    }
+    setActiveView("viewReviews");
+  } else if(key === "versions"){
+    document.getElementById("menuVersions").classList.add("active");
+    document.getElementById("topTitle").textContent = "Versiones Android";
+    setActiveView("viewVersions");
+  } else if(key === "console"){
+    document.getElementById("menuConsole").classList.add("active");
+    document.getElementById("topTitle").textContent = "Consola";
+    const consoleFrame = document.getElementById("frameConsole");
+    if(consoleFrame){
+      consoleFrame.setAttribute("src", withNoCacheVersion(consoleFrame.dataset.src || "/administracion/ip_log.html"));
+    }
+    setActiveView("viewConsole");
+  } else {
+    document.getElementById("menuCfg").classList.add("active");
+    document.getElementById("topTitle").textContent = "Configuración";
+    setActiveView("viewCfg");
+  }
+  if(ANDROID_ADMIN_MODE){
+    closeAndroidDrawer();
+  }
+  storePanelKey(key);
+}
+
+async function loadSessionConfig(){
+  const res = await fetch("/admin/settings/session", { credentials:"include" });
+  if(!res.ok) return;
+  const data = await res.json();
+  document.getElementById("cfgMode").value = data.default_mode || "limited";
+  document.getElementById("cfgMinutes").value = data.default_duration_minutes || 1440;
+  setQrRulesByTarget("client", data.qr_allow_client || []);
+  setQrRulesByTarget("admin", data.qr_allow_admin || []);
+  renderQrRuleList("client");
+  renderQrRuleList("admin");
+  bindConfigChangeHandlers();
+  setSessionSnapshotFromCurrent();
+  loadVisibilityConfig();
+}
+
+async function saveSessionConfig(){
+  const payload = {
+    default_mode: document.getElementById("cfgMode").value,
+    default_duration_minutes: Number(document.getElementById("cfgMinutes").value || 0),
+    qr_allow_client: [...qrAllowClientRules],
+    qr_allow_admin: [...qrAllowAdminRules]
+  };
+  const res = await fetch("/admin/settings/session", {
+    method:"PUT",
+    headers:{ "Content-Type":"application/json" },
+    body: JSON.stringify(payload),
+    credentials:"include"
+  });
+  const data = await res.json().catch(()=>({}));
+  if(!res.ok){
+    alertError(data.detail || "No se pudo guardar configuración");
+    return;
+  }
+  alert(data.detail || "Guardado");
+  setSessionSnapshotFromCurrent();
+}
+
+const visibilityState = {
+  public_visible: true,
+  ai_visible: true
+};
+
+function renderVisibilityState(){
+  const publicBtn = document.getElementById("cfgPublicToggle");
+  const aiBtn = document.getElementById("cfgAiToggle");
+  const publicState = document.getElementById("cfgPublicState");
+  const aiState = document.getElementById("cfgAiState");
+  if(publicBtn){
+    publicBtn.textContent = visibilityState.public_visible ? "Visible" : "Oculto";
+    publicBtn.classList.toggle("btn-dark", visibilityState.public_visible);
+    publicBtn.classList.toggle("btn-primary", !visibilityState.public_visible);
+  }
+  if(aiBtn){
+    aiBtn.textContent = visibilityState.ai_visible ? "Visible" : "Oculto";
+    aiBtn.classList.toggle("btn-dark", visibilityState.ai_visible);
+    aiBtn.classList.toggle("btn-primary", !visibilityState.ai_visible);
+  }
+  if(publicState) publicState.textContent = visibilityState.public_visible ? "La web pública se muestra." : "La web pública está oculta.";
+  if(aiState) aiState.textContent = visibilityState.ai_visible ? "La IA está visible." : "La IA está oculta.";
+}
+
+function toggleVisibility(target){
+  if(target === "ai"){
+    visibilityState.ai_visible = !visibilityState.ai_visible;
+  }else{
+    visibilityState.public_visible = !visibilityState.public_visible;
+  }
+  renderVisibilityState();
+  updateVisibilitySaveVisibility();
+}
+
+async function loadVisibilityConfig(){
+  const res = await fetch("/admin/settings/visibility", { credentials:"include" });
+  if(!res.ok) return;
+  const data = await res.json();
+  visibilityState.public_visible = !!data.public_visible;
+  visibilityState.ai_visible = !!data.ai_visible;
+  renderVisibilityState();
+  setVisibilitySnapshotFromCurrent();
+}
+
+async function saveVisibilityConfig(){
+  const payload = {
+    public_visible: visibilityState.public_visible,
+    ai_visible: visibilityState.ai_visible
+  };
+  const res = await fetch("/admin/settings/visibility", {
+    method:"PUT",
+    headers:{ "Content-Type":"application/json" },
+    body: JSON.stringify(payload),
+    credentials:"include"
+  });
+  const data = await res.json().catch(()=>({}));
+  if(!res.ok){
+    alertError(data.detail || "No se pudo guardar visibilidad");
+    return;
+  }
+  alert(data.detail || "Guardado");
+  setVisibilitySnapshotFromCurrent();
+}
+
+
+window.addEventListener("message", (e) => {
+  if(!adminAuthenticated) return;
+  const msg = e && e.data && typeof e.data === "object" ? e.data : {};
+  if(msg.type === "admin-auth-required"){
+    handlePotentialAuthLoss();
+    return;
+  }
+  if(msg.type === "open-admin-reviews"){
+    openPanel("reviews");
+    const frame = document.getElementById("frameReviews");
+    if(!frame) return;
+    if(!frame.getAttribute("src")) frame.setAttribute("src", frame.dataset.src || "");
+    const filters = msg.filters || {};
+    const postFilters = () => {
+      try {
+        frame.contentWindow.postMessage({ type: "set-review-filters", filters }, "*");
+      } catch(_e){}
+    };
+    if(frame.contentDocument && frame.contentDocument.readyState === "complete"){
+      postFilters();
+    } else {
+      frame.addEventListener("load", postFilters, { once:true });
+    }
+  }
+  if(msg.type === "web-versions-updated"){
+    loadActiveWebVersions();
+  }
+});
+
+bootAdmin();
+if(ANDROID_ADMIN_MODE){
+  const sb = document.getElementById("sidebar");
+  if(sb) sb.classList.remove("collapsed");
+  const brand = document.getElementById("brandText");
+  if(brand) brand.classList.remove("hidden");
+  const scanBtn = document.getElementById("menuScanQr");
+  if(scanBtn) scanBtn.classList.remove("hidden");
+}
+updateSidebarMenuLabels();
+
+if(ANDROID_ADMIN_MODE){
+  const sidebar = document.getElementById("sidebar");
+  const edgeZone = document.getElementById("edgeSwipeZone");
+  const overlay = document.getElementById("menuOverlay");
+  if(sidebar && edgeZone){
+    let dragging = false;
+    let dragMode = "";
+    let startX = 0;
+    let startY = 0;
+    let sidebarWidth = 0;
+    let currentX = 0;
+    let dragActivated = false;
+
+    const clamp = (v, min, max) => Math.max(min, Math.min(max, v));
+    const isOpen = () => document.body.classList.contains("menu-open");
+
+    const beginDrag = (mode, touch) => {
+      dragging = true;
+      dragMode = mode;
+      startX = touch.clientX;
+      startY = touch.clientY;
+      sidebarWidth = sidebar.getBoundingClientRect().width || 250;
+      currentX = mode === "open" ? -sidebarWidth : 0;
+      dragActivated = false;
+      sidebar.style.transition = "none";
+      if(mode === "close"){
+        document.body.classList.add("menu-open");
+      }
+    };
+
+    const updateDrag = (touch) => {
+      if(!dragging) return;
+      const dx = touch.clientX - startX;
+      const dy = Math.abs(touch.clientY - startY);
+      if(dy > 80) return;
+      if(Math.abs(dx) > 8){
+        dragActivated = true;
+      }
+      if(dragMode === "open" && dragActivated && !isOpen()){
+        document.body.classList.add("menu-open");
+      }
+      if(dragMode === "open"){
+        currentX = clamp(-sidebarWidth + dx, -sidebarWidth, 0);
+      }else{
+        currentX = clamp(dx, -sidebarWidth, 0);
+      }
+      sidebar.style.transform = `translateX(${currentX}px)`;
+    };
+
+    const endDrag = () => {
+      if(!dragging) return;
+      dragging = false;
+      sidebar.style.transition = "";
+      sidebar.style.transform = "";
+      const threshold = sidebarWidth * 0.35;
+      if(!dragActivated){
+        // Sin gesto real: no forzar cierre para no interferir con taps normales del menú.
+        if(dragMode === "open"){
+          closeAndroidDrawer();
+        }
+        dragMode = "";
+        return;
+      }
+      if(dragMode === "open"){
+        if(currentX > -threshold){
+          document.body.classList.add("menu-open");
+        }else{
+          closeAndroidDrawer();
+        }
+      }else{
+        if(Math.abs(currentX) > threshold){
+          closeAndroidDrawer();
+        }else{
+          document.body.classList.add("menu-open");
+        }
+      }
+      dragMode = "";
+    };
+
+    edgeZone.addEventListener("touchstart", (e) => {
+      if(isOpen()) return;
+      const t = e.changedTouches && e.changedTouches[0];
+      if(!t) return;
+      beginDrag("open", t);
+    }, { passive:true });
+
+    edgeZone.addEventListener("touchmove", (e) => {
+      const t = e.changedTouches && e.changedTouches[0];
+      if(!t) return;
+      updateDrag(t);
+    }, { passive:true });
+
+    edgeZone.addEventListener("touchend", endDrag, { passive:true });
+    edgeZone.addEventListener("touchcancel", endDrag, { passive:true });
+
+    sidebar.addEventListener("touchstart", (e) => {
+      if(!isOpen()) return;
+      const t = e.changedTouches && e.changedTouches[0];
+      if(!t) return;
+      const target = e.target;
+      if(
+        target &&
+        (
+          target.closest(".menu button") ||
+          target.closest(".toggle") ||
+          target.closest("a") ||
+          target.closest("input") ||
+          target.closest("select") ||
+          target.closest("textarea")
+        )
+      ){
+        // Permitir interacción normal con controles sin activar cierre por deslizamiento.
+        return;
+      }
+      beginDrag("close", t);
+    }, { passive:true });
+
+    sidebar.addEventListener("touchmove", (e) => {
+      const t = e.changedTouches && e.changedTouches[0];
+      if(!t) return;
+      updateDrag(t);
+    }, { passive:true });
+
+    sidebar.addEventListener("touchend", endDrag, { passive:true });
+    sidebar.addEventListener("touchcancel", endDrag, { passive:true });
+
+    // Cerrar deslizando derecha -> izquierda fuera del panel cuando está abierto.
+    let outsideTracking = false;
+    let outsideStartX = 0;
+    let outsideStartY = 0;
+
+    const outsideStart = (e) => {
+      if(!isOpen()) return;
+      const t = e.changedTouches && e.changedTouches[0];
+      if(!t) return;
+      const sidebarRight = sidebar.getBoundingClientRect().right;
+      if(t.clientX > sidebarRight){
+        outsideTracking = true;
+        outsideStartX = t.clientX;
+        outsideStartY = t.clientY;
+      }else{
+        outsideTracking = false;
+      }
+    };
+
+    const outsideEnd = (e) => {
+      if(!outsideTracking) return;
+      outsideTracking = false;
+      const t = e.changedTouches && e.changedTouches[0];
+      if(!t) return;
+      const dx = t.clientX - outsideStartX;
+      const dy = Math.abs(t.clientY - outsideStartY);
+      if(dy > 80) return;
+      if(dx < -55){
+        closeAndroidDrawer();
+      }
+    };
+
+    if(overlay){
+      overlay.addEventListener("touchstart", outsideStart, { passive:true });
+      overlay.addEventListener("touchend", outsideEnd, { passive:true });
+      overlay.addEventListener("touchcancel", () => { outsideTracking = false; }, { passive:true });
+    }
+  }
+}
+window.addEventListener("load", () => {
+  ensureRecaptchaLoaded();
+});
+</script>
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+

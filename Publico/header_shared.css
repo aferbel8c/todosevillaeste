@@ -1,0 +1,216 @@
+:root{
+  --tse-header-yellow: rgba(243,208,68,.96);
+  --tse-header-line: rgba(0,0,0,.08);
+  --tse-header-text: #111;
+  --tse-header-muted: #6b7280;
+  --tse-header-btn-bg: #111;
+  --tse-header-btn-text: #fff;
+  --tse-header-btn-soft-bg: #eef2f7;
+  --tse-header-btn-soft-text: #111;
+}
+
+.tse-header{
+  background: var(--tse-header-yellow);
+  border-bottom: 1px solid var(--tse-header-line);
+  box-shadow: 0 2px 10px rgba(0,0,0,.08);
+  padding: .8rem 1rem;
+  display: grid;
+  grid-template-columns: minmax(0, auto) minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 1rem;
+}
+
+.tse-header-left{
+  display: flex;
+  align-items: center;
+  gap: .85rem;
+  min-width: 0;
+}
+
+.tse-header > a,
+.tse-header > .logo,
+.tse-header > .left{
+  display: flex;
+  align-items: center;
+  gap: .85rem;
+  min-width: 0;
+}
+
+.tse-header-logo{
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  text-decoration: none;
+  color: inherit;
+  flex: 0 0 auto;
+}
+
+.tse-header-logo img{
+  width: clamp(54px, 6vw, 74px);
+  height: auto;
+  display: block;
+}
+
+.tse-header > a img,
+.tse-header > .logo img,
+.tse-header > .left img{
+  width: clamp(54px, 6vw, 74px);
+  height: auto;
+  display: block;
+}
+
+.tse-header-copy{
+  display: grid;
+  gap: .12rem;
+  min-width: 0;
+}
+
+.tse-header-kicker{
+  font-size: .74rem;
+  line-height: 1;
+  font-weight: 800;
+  letter-spacing: .06em;
+  text-transform: uppercase;
+  color: rgba(0,0,0,.62);
+}
+
+.tse-header-title{
+  font-size: clamp(1rem, 1.7vw, 1.18rem);
+  line-height: 1.15;
+  font-weight: 800;
+  color: var(--tse-header-text);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.tse-header > strong,
+.tse-header > .left span,
+.tse-header .center-info{
+  font-size: clamp(1rem, 1.7vw, 1.18rem);
+  line-height: 1.15;
+  font-weight: 800;
+  color: var(--tse-header-text);
+}
+
+.tse-header .center-info{
+  text-align: center;
+}
+
+.tse-header-center{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-width: 0;
+}
+
+.tse-header-spacer{
+  min-height: 1px;
+}
+
+.tse-header-actions{
+  display: inline-flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: .6rem;
+}
+
+.tse-header > .actions,
+.tse-header > .header-actions,
+.tse-header > .head-actions{
+  display: inline-flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: .6rem;
+}
+
+.tse-header-btn{
+  border: none;
+  border-radius: 10px;
+  background: var(--tse-header-btn-bg);
+  color: var(--tse-header-btn-text);
+  font-weight: 800;
+  padding: .62rem .95rem;
+  text-decoration: none;
+  cursor: pointer;
+  transition: transform .18s ease, filter .18s ease, box-shadow .18s ease;
+}
+
+.tse-header button,
+.tse-header .download{
+  border: none;
+  border-radius: 10px;
+  background: var(--tse-header-btn-bg);
+  color: var(--tse-header-btn-text);
+  font-weight: 800;
+  padding: .62rem .95rem;
+  text-decoration: none;
+  cursor: pointer;
+  transition: transform .18s ease, filter .18s ease, box-shadow .18s ease;
+}
+
+.tse-header button.soft,
+.tse-header .download.soft{
+  background: var(--tse-header-btn-soft-bg);
+  color: var(--tse-header-btn-soft-text);
+}
+
+.tse-header-btn:hover,
+.tse-header-btn:focus-visible{
+  transform: translateY(-1px);
+  filter: brightness(1.05);
+  box-shadow: 0 8px 16px rgba(0,0,0,.16);
+}
+
+.tse-header button:hover,
+.tse-header button:focus-visible,
+.tse-header .download:hover,
+.tse-header .download:focus-visible{
+  transform: translateY(-1px);
+  filter: brightness(1.05);
+  box-shadow: 0 8px 16px rgba(0,0,0,.16);
+}
+
+.tse-header-btn.soft{
+  background: var(--tse-header-btn-soft-bg);
+  color: var(--tse-header-btn-soft-text);
+}
+
+.tse-header--rich{
+  padding-inline: 1.5rem;
+}
+
+@media (max-width: 768px){
+  .tse-header{
+    padding: .65rem .8rem;
+    gap: .75rem;
+    grid-template-columns: minmax(0, 1fr) auto;
+  }
+
+  .tse-header-logo img{
+    width: 52px;
+  }
+
+  .tse-header-title{
+    font-size: .98rem;
+  }
+
+  .tse-header-btn{
+    padding: .56rem .82rem;
+  }
+
+  .tse-header-copy{
+    display: none;
+  }
+
+  .tse-header-center{
+    grid-column: 1 / -1;
+    order: 3;
+    justify-content: stretch;
+  }
+
+  .tse-header-center:empty,
+  .tse-header-spacer{
+    display: none;
+  }
+}

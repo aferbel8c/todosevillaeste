@@ -1,0 +1,273 @@
+﻿<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#f3d044">
+    <title>Perfil pÃºblico | Todo Sevilla Este</title>
+    
+    <link rel="stylesheet" href="/3.7/header_shared.css">
+    
+    <style>
+        /* Variables de diseÃ±o de ui_public.css[cite: 3] */
+        :root {
+            --ux-bg: #f5f7fb;
+            --ux-surface: #ffffff;
+            --ux-border: #d7e0ea;
+            --ux-text: #17212b;
+            --ux-muted: #516173;
+            --ux-brand: #f3d044;
+            --ux-focus: #0b67d1;
+        }
+
+        /* SOLUCIÃ“N PARA EL FOOTER: Flexbox en el body[cite: 3] */
+        html, body {
+            height: 100%;
+            margin: 0;
+        }
+
+        body { 
+            font-family: Segoe UI, Roboto, Helvetica, Arial, sans-serif;
+            background: linear-gradient(180deg, #ffffff 0%, var(--ux-bg) 100%);
+            color: var(--ux-text);
+            display: flex;
+            flex-direction: column;
+            line-height: 1.5;
+        }
+
+        /* El contenedor principal crece para empujar al footer abajo[cite: 3] */
+        .wrap { 
+            max-width: 940px; 
+            margin: 20px auto; 
+            padding: 0 16px; 
+            width: 100%;
+            flex: 1 0 auto; /* Crece dinÃ¡micamente */
+            box-sizing: border-box;
+        }
+
+        .card { 
+            background: var(--ux-surface); 
+            border: 1px solid var(--ux-border); 
+            border-radius: 14px; 
+            padding: 24px; 
+            margin-bottom: 20px; 
+            box-shadow: 0 4px 12px rgba(0,0,0,0.03); 
+        }
+
+        .profile { display: flex; gap: 24px; align-items: flex-start; }
+        .profile img { width: 110px; height: 110px; border-radius: 50%; object-fit: cover; border: 3px solid var(--ux-brand); }
+        .profile-info h1 { margin: 0 0 4px 0; font-size: 1.6rem; color: var(--ux-text); }
+        .muted { color: var(--ux-muted); font-size: 0.95rem; margin-bottom: 8px; }
+        
+        .review { 
+            padding: 16px; 
+            border: 1px solid var(--ux-border); 
+            border-radius: 12px; 
+            margin-bottom: 12px;
+            background: #fff;
+        }
+
+        .btn {
+            min-height: 42px;
+            border-radius: 10px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: transform .16s ease, box-shadow .16s ease;
+            border: none;
+            padding: 0 20px;
+            display: inline-flex;
+            align-items: center;
+            text-decoration: none;
+        }
+        .btn:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 10px 18px rgba(0,0,0,.16);
+        }
+
+        /* FOOTER ESTILIZADO SEGÃšN UI_PUBLIC[cite: 3] */
+        .site-footer {
+            flex-shrink: 0; /* Evita que el footer se encoja */
+            background: var(--ux-brand);
+            padding: 1.4rem 1rem 1.6rem;
+            text-align: center;
+            font-weight: 700;
+            border-top: 1px solid rgba(0,0,0,.08);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 12px;
+        }
+        .site-footer .footer-top {
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+            justify-content: center;
+            align-items: center;
+        }
+        .site-footer .footer-copy { font-weight: 800; color: #111; }
+        .site-footer .footer-version {
+            font-weight: 700;
+            color: #111;
+            font-size: .85rem;
+            background: rgba(255,255,255,.65);
+            border: 1px solid rgba(0,0,0,.08);
+            padding: 4px 10px;
+            border-radius: 999px;
+        }
+        .site-footer .footer-links {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            justify-content: center;
+            font-size: .95rem;
+        }
+        .site-footer .footer-link {
+            color: #111;
+            text-decoration: none;
+            font-weight: 700;
+            padding: 2px 4px;
+        }
+        .site-footer .footer-link:hover {
+            text-decoration: underline;
+            text-underline-offset: 3px;
+        }
+
+        @media (max-width: 720px) {
+            .profile { flex-direction: column; align-items: center; text-align: center; }
+            header { padding: 0.8rem !important; }
+        }
+    </style>
+</head>
+<body>
+
+<header style="background: var(--ux-brand); padding: 0.8rem 1.5rem; display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 100; border-bottom: 1px solid rgba(0,0,0,0.05);">
+    <a href="/frontend.html"><img src="/icono/tsev2_beta.png" alt="TSE" style="width: 60px; display: block;"></a>
+    <button class="btn" style="background: rgba(0,0,0,0.07); color: #111;" onclick="goBack()">Volver</button>
+</header>
+
+<main class="wrap">
+    <section class="card profile">
+        <img id="avatar" src="/icono/perfil_iniciar.png" alt="avatar">
+        <div class="profile-info">
+            <h1 id="username">Cargando...</h1>
+            <div id="birth" class="muted"></div>
+            <p id="desc" class="muted">Cargando informaciÃ³n del perfil...</p>
+            <div id="stats" class="muted" style="font-weight: 700; color: var(--ux-text);"></div>
+            <div style="margin-top: 15px; display: flex; gap: 10px; flex-wrap: wrap;">
+                <button id="btnPrivateMessage" class="btn" style="background: #111; color: #fff; display:none" onclick="startPrivateChat()">Enviar mensaje privado</button>
+            </div>
+        </div>
+    </section>
+
+    <section class="card">
+        <h2 style="margin-bottom: 15px; font-size: 1.3rem;">ReseÃ±as pÃºblicas</h2>
+        <div id="reviews">Cargando actividad reciente...</div>
+    </section>
+</main>
+
+<footer class="site-footer">
+    <div class="footer-top">
+        <span class="footer-copy">Â© 2026 Todo Sevilla Este</span>
+        <span class="footer-version">VersiÃ³n: 3.7</span>
+    </div>
+    <nav class="footer-links">
+        <a class="footer-link" href="/frontend.html">Inicio</a>
+        <a class="footer-link" href="/cookies.html">Cookies</a>
+        <a class="footer-link" href="/terminos.html">TÃ©rminos</a>
+        <a class="footer-link" href="/aviso_legal.html">Aviso legal</a>
+    </nav>
+</footer>
+
+<script>
+    // Funciones de utilidad y lÃ³gica
+    function esc(v){return String(v??"").replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;");}
+    function stars(n) { 
+        const val = Math.round(Number(n) || 0);
+        return "â˜…".repeat(val) + "â˜†".repeat(Math.max(0, 5 - val)); 
+    }
+    
+    let viewedUserId = 0;
+    let meUser = null;
+
+    async function loadSession(){
+        try {
+            const res = await fetch("/auth/me", { cache: "no-store" });
+            if(res.ok) meUser = await res.json();
+        } catch(e){}
+    }
+
+    async function boot(){
+        await loadSession();
+        const params = new URLSearchParams(location.search);
+        viewedUserId = params.get("u") || params.get("id");
+        
+        if(!viewedUserId) {
+            document.getElementById("reviews").innerHTML = "Usuario no especificado.";
+            return;
+        }
+
+        try {
+            const res = await fetch(`/profiles/${viewedUserId}`);
+            const data = await res.json();
+            if(!res.ok) {
+                document.getElementById("reviews").innerHTML = "El perfil solicitado no existe.";
+                return;
+            }
+
+            // Rellenar datos
+            document.title = `${data.username} | Todo Sevilla Este`;
+            document.getElementById("username").textContent = data.username;
+            document.getElementById("avatar").src = data.avatar || "/icono/perfil_iniciar.png";
+            document.getElementById("desc").textContent = data.description || "Este usuario no ha aÃ±adido una descripciÃ³n.";
+            document.getElementById("stats").textContent = `${data.total_public_reviews || 0} reseÃ±as publicadas`;
+
+            // BotÃ³n de mensaje (solo si no soy yo)
+            if(meUser && String(meUser.id) !== String(viewedUserId)) {
+                document.getElementById("btnPrivateMessage").style.display = "inline-flex";
+            }
+
+            // Cargar reseÃ±as
+            const revRes = await fetch(`/profiles/${viewedUserId}/reviews?limit=20`);
+            const revData = await revRes.json();
+            const box = document.getElementById("reviews");
+            box.innerHTML = "";
+            
+            if(revData.reviews && revData.reviews.length > 0) {
+                revData.reviews.forEach(r => {
+                    const div = document.createElement("div");
+                    div.className = "review";
+                    div.innerHTML = `
+                        <div style="margin-bottom:4px"><strong>${stars(r.rating)}</strong> en <span style="color:var(--ux-focus)">${esc(r.place_name)}</span></div>
+                        <p style="margin:0; font-size:0.95rem;">${esc(r.description || "Sin comentario.")}</p>
+                        <div class="muted" style="font-size:0.8rem; margin-top:8px;">${r.created_at ? r.created_at.split('T')[0] : ''}</div>
+                    `;
+                    box.appendChild(div);
+                });
+            } else {
+                box.innerHTML = `<p class="muted">Este usuario aÃºn no ha realizado reseÃ±as pÃºblicas.</p>`;
+            }
+        } catch(e) {
+            document.getElementById("reviews").innerHTML = "Error al cargar los datos del perfil.";
+        }
+    }
+
+    async function startPrivateChat(){
+        if(!meUser) { window.location.href = "/login.html"; return; }
+        try {
+            const res = await fetch(`/messages/chats/with_user/${viewedUserId}`, { method: "POST" });
+            const data = await res.json();
+            if(res.ok) window.location.href = `/frontend.html?chat=${data.chat_id}`;
+            else alert(data.detail || "No se pudo iniciar el chat");
+        } catch(e) { alert("Error de conexiÃ³n"); }
+    }
+
+    function goBack(){ 
+        if(window.history.length > 1) window.history.back();
+        else window.location.href = "/frontend.html";
+    }
+    
+    boot();
+</script>
+
+</body>
+</html>

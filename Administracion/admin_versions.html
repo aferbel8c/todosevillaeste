@@ -1,0 +1,1188 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Control de versiones</title>
+<link rel="icon" href="/icono/tsev2admin_beta.png" type="image/png">
+<link rel="stylesheet" href="/administracion/assets/ui_admin.css">
+<script defer src="/administracion/assets/ui_admin.js"></script>
+<style>
+:root{--bg:#f4f6f9;--card:#fff;--line:#dde3ee;--text:#1f2937}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);font-family:Segoe UI,Arial,sans-serif;color:var(--text)}
+.wrap{padding:14px;max-width:1200px;margin:0 auto}
+h1{margin:0 0 10px 0;font-size:1.2rem}
+.tabs{display:flex;gap:8px;flex-wrap:wrap;margin:6px 0 12px}
+.tab-btn{border:2px solid #111;background:#fff;color:#111;border-radius:10px;padding:6px 12px;font-weight:800;cursor:pointer;transition:transform .12s ease, filter .12s ease, box-shadow .12s ease, background-color .12s ease}
+.tab-btn.active{background:#f3d044}
+.tab-btn:not(.active):hover,.tab-btn:not(.active):focus-visible{transform:translateY(-1px);filter:brightness(1.05);box-shadow:0 6px 12px rgba(0,0,0,.12);background:#e0e0e0}
+.web-actions{display:flex;gap:8px;flex-wrap:wrap;margin:6px 0 12px}
+.web-actions .btn-soft{border:2px solid #111;background:#fff;color:#111;border-radius:10px;padding:6px 12px;font-weight:800;cursor:pointer;transition:transform .12s ease, filter .12s ease, box-shadow .12s ease, background-color .12s ease}
+.web-actions .btn-soft:hover,.web-actions .btn-soft:focus-visible{transform:translateY(-1px);filter:brightness(1.05);box-shadow:0 6px 12px rgba(0,0,0,.12);background:#e0e0e0}
+.tab-panel{display:none}
+.tab-panel.active{display:block}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:12px}
+label{display:block;font-weight:700;margin-bottom:6px}
+textarea{width:100%;min-height:90px;border:1px solid #cfd8e3;border-radius:8px;padding:8px;resize:vertical}
+button{border:none;border-radius:8px;background:#111;color:#fff;font-weight:700;padding:.5rem .8rem;cursor:pointer;transition:transform .12s ease, filter .12s ease, box-shadow .12s ease, background-color .12s ease}
+button.soft{background:#e8edf5;color:#111}
+button.use-active{background:#2f7d32;color:#fff}
+button.danger{background:#c62828;color:#fff}
+button[disabled]{opacity:.6;cursor:not-allowed}
+button:not([disabled]):hover,button:not([disabled]):focus-visible{transform:translateY(-1px);filter:brightness(1.05);box-shadow:0 6px 12px rgba(0,0,0,.12)}
+.web-actions-row{display:flex;gap:6px;flex-wrap:wrap;align-items:center}
+.menu-wrap{position:relative;display:inline-flex;align-items:center}
+.menu-toggle{
+  width:36px;
+  height:36px;
+  border:1px solid #cfd8e3;
+  border-radius:10px;
+  background:#f8fafc;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  gap:4px;
+  padding:0;
+  box-shadow:inset 0 -1px 0 rgba(0,0,0,.04);
+}
+.menu-toggle span{
+  display:block;
+  width:16px;
+  height:2px;
+  background:#1f2937;
+  border-radius:999px;
+}
+.menu-toggle:hover,.menu-toggle:focus-visible{
+  background:#eef2f7;
+  border-color:#b9c5d6;
+}
+.web-actions-menu{
+  position:absolute;
+  right:0;
+  top:42px;
+  min-width:200px;
+  background:#ffffff;
+  border:1px solid #d7e0ec;
+  border-radius:12px;
+  box-shadow:0 16px 28px rgba(15,23,42,.16);
+  padding:6px;
+  display:none;
+  z-index:10;
+}
+.web-actions-menu.open{display:block}
+.web-actions-menu button{
+  width:100%;
+  text-align:left;
+  background:transparent;
+  color:#1f2937;
+  border-radius:10px;
+  padding:9px 10px;
+  box-shadow:none;
+}
+.web-actions-menu button:hover,.web-actions-menu button:focus-visible{
+  background:#e3e9f2;
+  color:#0f172a;
+  box-shadow:inset 0 0 0 1px #c7d2e4;
+  transform:none;
+}
+tr.web-row-active td{
+  background:#f1f3f7;
+}
+tr.web-row-active td:first-child{border-top-left-radius:8px;border-bottom-left-radius:8px}
+tr.web-row-active td:last-child{border-top-right-radius:8px;border-bottom-right-radius:8px}
+table{width:100%;border-collapse:collapse}
+th,td{padding:8px;border-bottom:1px solid #ebeff5;text-align:left;font-size:.92rem;vertical-align:top}
+.small{font-size:.85rem;color:#607081}
+.actions-top{display:flex;gap:8px;flex-wrap:wrap;margin:8px 0 10px}
+.btn-client-qr{background:#1f4d8f;color:#fff}
+.btn-admin-qr{background:#333;color:#fff}
+.toast{position:fixed;right:14px;bottom:14px;max-width:min(480px,92vw);background:#fff;border:1px solid #d6e1ef;border-left:6px solid #f3d044;border-radius:10px;padding:10px 12px;box-shadow:0 10px 20px rgba(0,0,0,.12);display:none;z-index:50}
+.toast strong{display:block;margin-bottom:3px}
+.progress-wrap{margin-top:10px;padding:8px;border:1px solid #e4eaf2;border-radius:8px;background:#f8fafd;display:none}
+.progress-row{display:flex;justify-content:space-between;gap:8px;font-size:.85rem;color:#445469;margin-bottom:6px}
+.bar{height:10px;background:#e8edf5;border-radius:999px;overflow:hidden}
+.bar>span{display:block;height:100%;width:0;background:#1f6feb;transition:width .2s ease}
+.pager{
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:14px;
+  margin:10px 0 6px;
+  flex-wrap:wrap;
+}
+.pager-btn{
+  min-width:44px;
+  height:38px;
+  border:2px solid #121212;
+  border-radius:12px;
+  background:#fff;
+  color:#111;
+  font-size:1rem;
+  font-weight:800;
+  line-height:1;
+  padding:0 10px;
+  cursor:pointer;
+  transition:transform .12s ease, filter .12s ease, box-shadow .12s ease, background-color .12s ease;
+}
+.pager-btn:disabled{
+  opacity:.45;
+  cursor:not-allowed;
+}
+.pager-btn:not(:disabled):hover,.pager-btn:not(:disabled):focus-visible{transform:translateY(-1px);filter:brightness(1.05);box-shadow:0 6px 12px rgba(0,0,0,.12)}
+.pager-num{
+  width:44px;
+  height:38px;
+  border:2px solid #121212;
+  border-radius:12px;
+  background:#fff;
+  color:#111;
+  font-size:.98rem;
+  font-weight:800;
+  line-height:1;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  cursor:pointer;
+  transition:transform .12s ease, filter .12s ease, box-shadow .12s ease, background-color .12s ease;
+}
+.pager-num:hover,.pager-num:focus-visible{transform:translateY(-1px);filter:brightness(1.05);box-shadow:0 6px 12px rgba(0,0,0,.12)}
+.pager-num.active{
+  background:#f3d044;
+}
+.modal-overlay{
+  position:fixed;
+  top:0;
+  left:0;
+  width:100%;
+  height:100%;
+  background:rgba(0,0,0,0.7);
+  display:none;
+  justify-content:center;
+  align-items:center;
+  z-index:60;
+  padding:14px;
+}
+.modal-content{
+  background:#fff;
+  border-radius:10px;
+  border:1px solid #ddd;
+  width:min(920px,96vw);
+  max-height:92vh;
+  overflow:auto;
+  padding:14px;
+}
+.poster-preview-wrap{ background:#fff; border:1px solid #ddd; border-radius:10px; padding:10px; }
+.poster-preview-wrap canvas{ width:100%; max-height:70vh; object-fit:contain; border:1px solid #ececec; border-radius:8px; background:#fff; }
+.poster-note{ margin-top:8px; font-size:.85rem; color:#555; word-break:break-all; }
+@media (max-width:960px){.grid{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<main class="wrap">
+  <h1>Control de versiones</h1>
+  <div class="tabs">
+    <button type="button" class="tab-btn active" data-tab="android">Android</button>
+    <button type="button" class="tab-btn" data-tab="web">Web</button>
+  </div>
+
+  <section id="tab-android" class="tab-panel active">
+    <div class="actions-top">
+      <button type="button" class="btn-client-qr" onclick="openVersionsPoster('client_versions')">Generar QR de versiones cliente</button>
+      <button type="button" class="btn-admin-qr" onclick="openVersionsPoster('admin_versions')">Generar QR de versiones admin</button>
+    </div>
+    <div class="grid">
+      <section class="card">
+        <h2 style="margin:0 0 8px 0;font-size:1rem">Cliente</h2>
+        <label for="clientNotes">Novedades de esta version</label>
+        <textarea id="clientNotes" placeholder="Describe los cambios principales del APK cliente"></textarea>
+        <div style="margin-top:8px;display:flex;gap:8px;flex-wrap:wrap">
+          <button id="btnBuildClient" onclick="buildVersion('client')">Generar y guardar version</button>
+        </div>
+        <div id="progressClient" class="progress-wrap">
+          <div class="progress-row"><span id="progressClientText">Preparando...</span><strong id="progressClientPct">0%</strong></div>
+          <div class="bar"><span id="progressClientBar"></span></div>
+        </div>
+      </section>
+      <section class="card">
+        <h2 style="margin:0 0 8px 0;font-size:1rem">Administracion</h2>
+        <label for="adminNotes">Novedades de esta version</label>
+        <textarea id="adminNotes" placeholder="Describe los cambios principales del APK de administracion"></textarea>
+        <div style="margin-top:8px;display:flex;gap:8px;flex-wrap:wrap">
+          <button id="btnBuildAdmin" onclick="buildVersion('admin')">Generar y guardar version</button>
+        </div>
+        <div id="progressAdmin" class="progress-wrap">
+          <div class="progress-row"><span id="progressAdminText">Preparando...</span><strong id="progressAdminPct">0%</strong></div>
+          <div class="bar"><span id="progressAdminBar"></span></div>
+        </div>
+      </section>
+    </div>
+
+    <section class="card" style="margin-top:10px">
+      <h2 style="margin:0 0 8px 0;font-size:1rem">Versiones cliente</h2>
+      <div id="clientList"><div class="small">Cargando...</div></div>
+    </section>
+
+    <section class="card" style="margin-top:10px">
+      <h2 style="margin:0 0 8px 0;font-size:1rem">Versiones administracion</h2>
+      <div id="adminList"><div class="small">Cargando...</div></div>
+    </section>
+  </section>
+
+  <section id="tab-web" class="tab-panel">
+    <div class="web-actions">
+      <button type="button" class="btn-soft" onclick="window.open('/frontend.html', '_blank')">Abrir frontend</button>
+      <button type="button" class="btn-soft" onclick="window.open('/pruebas/', '_blank')">Abrir página de pruebas</button>
+    </div>
+    <div class="grid">
+      <section class="card">
+        <h2 style="margin:0 0 8px 0;font-size:1rem">Web pública</h2>
+        <label for="webPublicNotes">Novedades de esta version</label>
+        <textarea id="webPublicNotes" placeholder="Describe los cambios principales de la web pública"></textarea>
+        <div style="margin-top:8px;display:flex;gap:8px;flex-wrap:wrap">
+          <button id="btnWebPublicCreate" onclick="createWebVersion('public')">Crear versión web</button>
+        </div>
+      </section>
+      <section class="card">
+        <h2 style="margin:0 0 8px 0;font-size:1rem">Web administración</h2>
+        <label for="webAdminNotes">Novedades de esta version</label>
+        <textarea id="webAdminNotes" placeholder="Describe los cambios principales de la web de administración"></textarea>
+        <div style="margin-top:8px;display:flex;gap:8px;flex-wrap:wrap">
+          <button id="btnWebAdminCreate" onclick="createWebVersion('admin')">Crear versión web</button>
+        </div>
+      </section>
+    </div>
+
+    <section class="card" style="margin-top:10px">
+      <h2 style="margin:0 0 8px 0;font-size:1rem">Versiones web pública</h2>
+      <div id="webPublicList"><div class="small">Cargando...</div></div>
+    </section>
+
+    <section class="card" style="margin-top:10px">
+      <h2 style="margin:0 0 8px 0;font-size:1rem">Versiones web administración</h2>
+      <div id="webAdminList"><div class="small">Cargando...</div></div>
+    </section>
+  </section>
+</main>
+
+<div id="toast" class="toast"></div>
+<div id="posterModal" class="modal-overlay">
+  <div class="modal-content">
+    <div style="display:flex;justify-content:space-between;align-items:center;border-bottom:2px solid #f3d044;margin-bottom:12px;">
+      <h3 style="margin:0;">Generar cartel A4</h3>
+      <div style="display:flex;align-items:center;gap:8px;">
+        <button id="posterOpenTargetBtn" type="button" style="background:#1f2937;color:#fff;" onclick="openVersionsPosterTargetPage()">Abrir destino QR</button>
+        <button type="button" onclick="closeVersionsPoster()" style="background:none;color:#111;font-size:22px;">&times;</button>
+      </div>
+    </div>
+    <div class="poster-preview-wrap">
+      <canvas id="posterCanvas"></canvas>
+      <div id="posterQrNote" class="poster-note"></div>
+    </div>
+    <div style="display:flex;gap:10px;margin-top:12px;flex-wrap:wrap;">
+      <button type="button" onclick="downloadVersionsPosterPng()">Descargar PNG</button>
+      <button type="button" class="soft" onclick="copyVersionsPosterToClipboard()">Copiar al portapapeles</button>
+      <button type="button" class="soft" onclick="closeVersionsPoster()">Cerrar</button>
+    </div>
+  </div>
+</div>
+<div id="editNotesModal" class="modal-overlay">
+  <div class="modal-content" style="max-width:640px">
+    <div style="display:flex;justify-content:space-between;align-items:center;border-bottom:2px solid #f3d044;margin-bottom:12px;">
+      <h3 style="margin:0;">Editar novedades</h3>
+      <button type="button" onclick="closeEditNotesModal()" style="background:none;color:#111;font-size:22px;">&times;</button>
+    </div>
+    <div class="small" id="editNotesVersion" style="margin:0 0 8px 0;"></div>
+    <label for="editNotesInput">Novedades</label>
+    <textarea id="editNotesInput" placeholder="Describe los cambios principales"></textarea>
+    <div style="display:flex;gap:10px;margin-top:12px;flex-wrap:wrap;justify-content:flex-end;">
+      <button type="button" class="soft" onclick="closeEditNotesModal()">Cancelar</button>
+      <button id="editNotesSaveBtn" type="button" onclick="saveEditNotes()">Guardar</button>
+    </div>
+  </div>
+</div>
+
+<script src="/web/creador_qr/qrcode.min.js"></script>
+<script>
+function esc(v){ return String(v ?? "").replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;"); }
+function escAttr(v){ return String(v ?? "").replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/\"/g,"&quot;").replace(/'/g,"&#39;"); }
+function safeDomId(v){ return String(v ?? "").replace(/[^a-zA-Z0-9_-]/g, ""); }
+function fmt(iso){
+  if(!iso) return "";
+  const d = new Date(iso);
+  return Number.isNaN(d.getTime()) ? "" : d.toLocaleDateString("es-ES",{day:"2-digit",month:"2-digit",year:"numeric"});
+}
+function showToast(title, text){
+  const box = document.getElementById("toast");
+  box.innerHTML = `<strong>${esc(title)}</strong><div>${esc(text || "")}</div>`;
+  box.style.display = "block";
+  setTimeout(()=>{ box.style.display = "none"; }, 3500);
+}
+function parseError(err){
+  if(!err) return "Error";
+  if(typeof err === "string") return err;
+  if(typeof err.detail === "string") return err.detail;
+  return "Error";
+}
+
+function closeWebMenus(exceptId){
+  document.querySelectorAll(".web-actions-menu").forEach(menu => {
+    if(exceptId && menu.id === exceptId) return;
+    menu.classList.remove("open");
+  });
+  document.querySelectorAll("tr.web-row-active").forEach(row => row.classList.remove("web-row-active"));
+}
+
+function toggleWebMenu(event, menuId){
+  event.stopPropagation();
+  const menu = document.getElementById(menuId);
+  if(!menu) return;
+  const willOpen = !menu.classList.contains("open");
+  closeWebMenus(menuId);
+  menu.classList.toggle("open", willOpen);
+  if(willOpen){
+    const row = menu.closest("tr");
+    if(row) row.classList.add("web-row-active");
+  }
+}
+
+document.addEventListener("click", () => closeWebMenus());
+document.addEventListener("click", (event) => {
+  const btn = event.target.closest(".js-edit-notes");
+  if(!btn) return;
+  const target = btn.dataset.target || "";
+  const entryId = btn.dataset.entryId || "";
+  const notes = btn.dataset.notes || "";
+  const versionLabel = btn.dataset.version || "";
+  openEditNotesModal(target, entryId, notes, versionLabel);
+});
+
+function openEditNotesModal(target, entryId, notes, versionLabel){
+  closeWebMenus();
+  const modal = document.getElementById("editNotesModal");
+  const input = document.getElementById("editNotesInput");
+  const label = document.getElementById("editNotesVersion");
+  if(!modal || !input) return;
+  modal.dataset.target = target;
+  modal.dataset.entryId = entryId;
+  input.value = String(notes || "");
+  if(label) label.textContent = versionLabel ? `Version ${versionLabel}` : "";
+  modal.style.display = "flex";
+  input.focus();
+}
+
+function closeEditNotesModal(){
+  const modal = document.getElementById("editNotesModal");
+  if(!modal) return;
+  modal.style.display = "none";
+  modal.dataset.target = "";
+  modal.dataset.entryId = "";
+}
+
+async function saveEditNotes(){
+  const modal = document.getElementById("editNotesModal");
+  const input = document.getElementById("editNotesInput");
+  const btn = document.getElementById("editNotesSaveBtn");
+  if(!modal || !input) return;
+  const target = modal.dataset.target || "";
+  const entryId = modal.dataset.entryId || "";
+  const notes = (input.value || "").trim();
+  if(notes.length < 3){
+    showToast("Faltan datos", "Describe las novedades (minimo 3 caracteres).");
+    return;
+  }
+  if(btn) btn.disabled = true;
+  const res = await fetch("/admin/web_versions/update", {
+    method:"POST",
+    headers:{ "Content-Type":"application/json" },
+    credentials:"include",
+    body: JSON.stringify({ target, entry_id: entryId, notes })
+  });
+  const data = await res.json().catch(()=> ({}));
+  if(btn) btn.disabled = false;
+  if(!res.ok){
+    showToast("Error", parseError(data));
+    return;
+  }
+  closeEditNotesModal();
+  showToast("Actualizado", "Novedades actualizadas.");
+  await loadWebVersions({ focusEntry: { target, entryId } });
+  notifyWebVersionsUpdated();
+}
+
+const TAB_STORAGE_KEY = "admin_versions_tab";
+function setActiveTab(tabId){
+  const safeId = tabId === "web" ? "web" : "android";
+  document.querySelectorAll(".tab-btn").forEach(btn => {
+    btn.classList.toggle("active", btn.dataset.tab === safeId);
+  });
+  document.querySelectorAll(".tab-panel").forEach(panel => {
+    panel.classList.toggle("active", panel.id === `tab-${safeId}`);
+  });
+  localStorage.setItem(TAB_STORAGE_KEY, safeId);
+}
+
+function initTabs(){
+  document.querySelectorAll(".tab-btn").forEach(btn => {
+    btn.addEventListener("click", () => setActiveTab(btn.dataset.tab));
+  });
+  const stored = localStorage.getItem(TAB_STORAGE_KEY);
+  setActiveTab(stored || "android");
+}
+
+let cache = null;
+let pollTimers = { client: null, admin: null };
+const pageState = { client: 0, admin: 0 };
+let webCache = null;
+const webPageState = { public: 0, admin: 0 };
+let versionsPosterMode = "client_versions";
+const POSTER_A4_WIDTH = 1240;
+const POSTER_A4_HEIGHT = 1754;
+
+function getVersionsPosterConfig(mode){
+  if(mode === "admin_versions"){
+    return {
+      title: "Descarga la App de Admin de TSE",
+      qrUrl: "https://todosevillaeste.es/versiones.html",
+      openButtonLabel: "Abrir versiones admin",
+      fileNameBase: "versiones_admin_tse"
+    };
+  }
+  return {
+    title: "Descarga la App de Todo Sevilla Este",
+    qrUrl: "https://todosevillaeste.es/versiones_cliente.html",
+    openButtonLabel: "Abrir versiones cliente",
+    fileNameBase: "versiones_cliente_tse"
+  };
+}
+
+function openVersionsPoster(mode){
+  versionsPosterMode = mode === "admin_versions" ? "admin_versions" : "client_versions";
+  const modal = document.getElementById("posterModal");
+  if(modal) modal.style.display = "flex";
+  renderVersionsPosterCanvas().catch((err) => {
+    showToast("Error", err?.message || "No se pudo generar el cartel");
+  });
+}
+
+function closeVersionsPoster(){
+  const modal = document.getElementById("posterModal");
+  if(modal) modal.style.display = "none";
+}
+
+function openVersionsPosterTargetPage(){
+  const cfg = getVersionsPosterConfig(versionsPosterMode);
+  if(!cfg?.qrUrl) return;
+  window.open(cfg.qrUrl, "_blank", "noopener");
+}
+
+function wrapText(ctx, text, maxWidth){
+  const words = String(text || "").split(/\s+/).filter(Boolean);
+  const lines = [];
+  let line = "";
+  words.forEach(word => {
+    const test = line ? `${line} ${word}` : word;
+    if(ctx.measureText(test).width <= maxWidth){
+      line = test;
+    }else{
+      if(line) lines.push(line);
+      line = word;
+    }
+  });
+  if(line) lines.push(line);
+  return lines;
+}
+
+function drawCenteredTrackedText(ctx, text, centerX, baselineY, trackingPx){
+  const chars = Array.from(String(text || ""));
+  if(!chars.length) return;
+  const tracking = Number(trackingPx || 0);
+  const widths = chars.map(ch => ctx.measureText(ch).width);
+  const totalWidth = widths.reduce((acc, w) => acc + w, 0) + tracking * Math.max(0, chars.length - 1);
+  let x = centerX - (totalWidth / 2);
+  chars.forEach((ch, idx) => {
+    ctx.fillText(ch, x, baselineY);
+    x += widths[idx] + tracking;
+  });
+}
+
+function loadImage(src){
+  return new Promise((resolve, reject) => {
+    const img = new Image();
+    img.crossOrigin = "anonymous";
+    img.onload = () => resolve(img);
+    img.onerror = () => reject(new Error(`No se pudo cargar imagen: ${src}`));
+    img.src = src;
+  });
+}
+
+async function makeQrCanvas(text, size){
+  if(typeof QRCode === "undefined"){
+    throw new Error("Librería QR no cargada");
+  }
+  const holder = document.createElement("div");
+  holder.style.position = "fixed";
+  holder.style.left = "-9999px";
+  holder.style.top = "-9999px";
+  document.body.appendChild(holder);
+  new QRCode(holder, {
+    text,
+    width: size,
+    height: size,
+    correctLevel: QRCode.CorrectLevel.H
+  });
+  await new Promise(r => setTimeout(r, 40));
+  const sourceCanvas = holder.querySelector("canvas");
+  const sourceImg = holder.querySelector("img");
+  if(!sourceCanvas && !sourceImg){
+    holder.remove();
+    throw new Error("No se pudo generar el QR");
+  }
+  const out = document.createElement("canvas");
+  out.width = size;
+  out.height = size;
+  const outCtx = out.getContext("2d");
+  if(sourceCanvas){
+    outCtx.drawImage(sourceCanvas, 0, 0, size, size);
+  }else{
+    await new Promise((resolve, reject) => {
+      if(sourceImg.complete) return resolve();
+      sourceImg.onload = resolve;
+      sourceImg.onerror = reject;
+    });
+    outCtx.drawImage(sourceImg, 0, 0, size, size);
+  }
+  holder.remove();
+  return out;
+}
+
+async function renderVersionsPosterCanvas(){
+  const cfg = getVersionsPosterConfig(versionsPosterMode);
+  const canvas = document.getElementById("posterCanvas");
+  const ctx = canvas.getContext("2d");
+  canvas.width = POSTER_A4_WIDTH;
+  canvas.height = POSTER_A4_HEIGHT;
+  document.getElementById("posterQrNote").textContent = `QR destino: ${cfg.qrUrl}`;
+  const openBtn = document.getElementById("posterOpenTargetBtn");
+  if(openBtn) openBtn.textContent = cfg.openButtonLabel;
+
+  ctx.fillStyle = "#f3d044";
+  ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+  ctx.fillStyle = "#111";
+  ctx.font = "800 94px Montserrat, Helvetica Neue, Arial, sans-serif";
+  ctx.textAlign = "center";
+  const titleLines = wrapText(ctx, cfg.title, canvas.width - 120).slice(0, 2);
+  const titleLineHeight = 96;
+  const titleStartY = 136;
+  titleLines.forEach((line, idx) => ctx.fillText(line, canvas.width / 2, titleStartY + idx * titleLineHeight));
+  const lastTitleY = titleStartY + (Math.max(1, titleLines.length) - 1) * titleLineHeight;
+  const dividerY = lastTitleY + 30;
+  ctx.strokeStyle = "#1f2937";
+  ctx.lineWidth = 4;
+  ctx.beginPath();
+  ctx.moveTo(130, dividerY);
+  ctx.lineTo(canvas.width - 130, dividerY);
+  ctx.stroke();
+
+  const qrSize = 640;
+  const qrBorder = 56;
+  const qrX = Math.round((canvas.width - qrSize) / 2);
+  const qrY = dividerY + 106;
+  ctx.fillStyle = "#fff";
+  ctx.fillRect(qrX - qrBorder, qrY - qrBorder, qrSize + qrBorder * 2, qrSize + qrBorder * 2);
+  const qrCanvas = await makeQrCanvas(cfg.qrUrl, qrSize);
+  ctx.drawImage(qrCanvas, qrX, qrY, qrSize, qrSize);
+
+  const logo = await loadImage("/icono/tsev2_beta.png");
+  const logoWidth = 330;
+  const logoHeight = Math.round((logo.height / logo.width) * logoWidth);
+  const logoX = Math.round((canvas.width - logoWidth) / 2);
+  const logoY = qrY + qrSize + qrBorder + 102;
+  ctx.drawImage(logo, logoX, logoY, logoWidth, logoHeight);
+
+  ctx.fillStyle = "#1f2937";
+  ctx.font = "700 42px Montserrat, Helvetica Neue, Arial, sans-serif";
+  ctx.textAlign = "left";
+  drawCenteredTrackedText(ctx, "todosevillaeste.es", canvas.width / 2, canvas.height - 40, 2.6);
+}
+
+function downloadVersionsPosterPng(){
+  const canvas = document.getElementById("posterCanvas");
+  if(!canvas || !canvas.width){
+    showToast("Error", "Genera el cartel primero.");
+    return;
+  }
+  const cfg = getVersionsPosterConfig(versionsPosterMode);
+  const link = document.createElement("a");
+  link.download = `cartel_${cfg.fileNameBase}.png`;
+  link.href = canvas.toDataURL("image/png");
+  link.click();
+}
+
+async function copyVersionsPosterToClipboard(){
+  const canvas = document.getElementById("posterCanvas");
+  if(!canvas || !canvas.width){
+    showToast("Error", "Genera el cartel primero.");
+    return;
+  }
+  if(!navigator.clipboard || typeof ClipboardItem === "undefined"){
+    showToast("Error", "Tu navegador no permite copiar imagen al portapapeles.");
+    return;
+  }
+  const blob = await new Promise(resolve => canvas.toBlob(resolve, "image/png"));
+  if(!blob){
+    showToast("Error", "No se pudo convertir el cartel.");
+    return;
+  }
+  try{
+    await navigator.clipboard.write([new ClipboardItem({ "image/png": blob })]);
+    showToast("Copiado", "Cartel copiado al portapapeles.");
+  }catch(_e){
+    showToast("Error", "No se pudo copiar al portapapeles.");
+  }
+}
+
+function jobStorageKey(target){ return `android_build_job_${target}`; }
+function setBuildButtonState(target, disabled){
+  const btn = document.getElementById(target === "client" ? "btnBuildClient" : "btnBuildAdmin");
+  if(btn) btn.disabled = !!disabled;
+}
+function showProgress(target, visible){
+  const el = document.getElementById(target === "client" ? "progressClient" : "progressAdmin");
+  if(el) el.style.display = visible ? "block" : "none";
+}
+function setProgress(target, pct, text){
+  const safePct = Math.max(0, Math.min(100, Number(pct) || 0));
+  const p = target === "client" ? "progressClient" : "progressAdmin";
+  const bar = document.getElementById(p + "Bar");
+  const pctEl = document.getElementById(p + "Pct");
+  const textEl = document.getElementById(p + "Text");
+  if(bar) bar.style.width = `${safePct}%`;
+  if(pctEl) pctEl.textContent = `${Math.round(safePct)}%`;
+  if(textEl) textEl.textContent = text || "";
+}
+
+function getSortedItems(target, payload){
+  const rawItems = (payload?.[target]?.items || []);
+  return [...rawItems].sort((a,b) => {
+    const av = String(a?.version || "");
+    const bv = String(b?.version || "");
+    const am = av.match(/^(\d+)\.(\d+)/);
+    const bm = bv.match(/^(\d+)\.(\d+)/);
+    if(am && bm){
+      const aMaj = Number(am[1]), aMin = Number(am[2]);
+      const bMaj = Number(bm[1]), bMin = Number(bm[2]);
+      if(aMaj !== bMaj) return bMaj - aMaj;
+      if(aMin !== bMin) return bMin - aMin;
+    } else if(am && !bm){
+      return -1;
+    } else if(!am && bm){
+      return 1;
+    }
+    const ad = new Date(a?.created_at || 0).getTime() || 0;
+    const bd = new Date(b?.created_at || 0).getTime() || 0;
+    return bd - ad;
+  });
+}
+
+function getPageKeysForItems(items){
+  const pagesMap = new Map();
+  items.forEach((it) => {
+    const vm = String(it?.version || "").match(/^(\d+)\.(\d+)/);
+    const majorKey = vm ? Number(vm[1]) : -1;
+    if(!pagesMap.has(majorKey)) pagesMap.set(majorKey, []);
+    pagesMap.get(majorKey).push(it);
+  });
+  const pageKeys = [...pagesMap.keys()].sort((a,b) => b - a);
+  return { pagesMap, pageKeys };
+}
+
+function getPageIndexForEntry(items, entryId){
+  if(entryId == null) return -1;
+  const targetId = String(entryId);
+  const { pagesMap, pageKeys } = getPageKeysForItems(items);
+  for(let i = 0; i < pageKeys.length; i++){
+    const key = pageKeys[i];
+    const rows = pagesMap.get(key) || [];
+    if(rows.some(it => String(it?.id) === targetId)) return i;
+  }
+  return -1;
+}
+
+function renderTable(target, payload){
+  const box = document.getElementById(target + "List");
+  const items = getSortedItems(target, payload);
+
+  if(!items.length){
+    box.innerHTML = '<div class="small">No hay versiones guardadas.</div>';
+    return;
+  }
+
+  // Paginacion por version mayor: X.0 ... X.9 en una pagina, siguiente mayor en otra.
+  const { pagesMap, pageKeys } = getPageKeysForItems(items);
+  if(pageState[target] >= pageKeys.length) pageState[target] = 0;
+  const currentPage = Math.max(0, Math.min(pageState[target], pageKeys.length - 1));
+  const currentKey = pageKeys[currentPage];
+  const pageItems = pagesMap.get(currentKey) || [];
+
+  const pageRows = pageItems.map(it => {
+    const useBtn = it.is_active
+      ? `<button class="use-active" disabled>En uso</button>`
+      : `<button class="soft" onclick="useVersion('${target}','${esc(it.id)}')">Usar</button>`;
+    const dl = it.download_url ? `<a href="${esc(it.download_url)}" target="_blank">Descargar</a>` : "-";
+    return `
+      <tr>
+        <td><strong>${esc(it.version || "-")}</strong><div class="small">${esc(fmt(it.created_at))}</div></td>
+        <td>${esc(it.notes || "")}</td>
+        <td>${dl}</td>
+        <td>${useBtn}</td>
+      </tr>`;
+  }).join("");
+  const pageLabel = currentKey >= 0 ? `Versiones ${currentKey}.0 a ${currentKey}.9` : "Versiones sin formato X.Y";
+  const pageButtons = pageKeys.map((k, i) => {
+    const cls = i === currentPage ? "pager-num active" : "pager-num";
+    const label = k >= 0 ? String(k) : String(i + 1);
+    return `<button type="button" class="${cls}" onclick="goToPage('${target}', ${i})">${esc(label)}</button>`;
+  }).join("");
+  box.innerHTML = `
+    <div class="small" style="text-align:center;margin:0 0 4px 0"><strong>${esc(pageLabel)}</strong></div>
+    <div class="pager">
+      <button class="pager-btn" ${currentPage <= 0 ? "disabled" : ""} onclick="changePage('${target}', -1)">&lt;</button>
+      ${pageButtons}
+      <button class="pager-btn" ${currentPage >= pageKeys.length - 1 ? "disabled" : ""} onclick="changePage('${target}', 1)">&gt;</button>
+    </div>
+    <table>
+      <thead><tr><th>Version</th><th>Novedades</th><th>APK</th><th>Estado</th></tr></thead>
+      <tbody>${pageRows}</tbody>
+    </table>`;
+}
+
+function changePage(target, delta){
+  const t = target === "admin" ? "admin" : "client";
+  pageState[t] = Math.max(0, (pageState[t] || 0) + Number(delta || 0));
+  if(cache){
+    renderTable(t, cache);
+  }
+}
+
+function goToPage(target, index){
+  const t = target === "admin" ? "admin" : "client";
+  pageState[t] = Math.max(0, Number(index) || 0);
+  if(cache){
+    renderTable(t, cache);
+  }
+}
+
+async function loadVersions(options = {}){
+  const res = await fetch("/admin/android_versions", { credentials:"include" });
+  const data = await res.json().catch(()=> ({}));
+  if(!res.ok){
+    throw new Error(parseError(data));
+  }
+  cache = data;
+
+  if(options.resetPages){
+    pageState.client = 0;
+    pageState.admin = 0;
+  }
+
+  if(options.focusEntry && options.focusEntry.target && options.focusEntry.entryId != null){
+    const t = options.focusEntry.target === "admin" ? "admin" : "client";
+    const items = getSortedItems(t, data);
+    const pageIdx = getPageIndexForEntry(items, options.focusEntry.entryId);
+    if(pageIdx >= 0) pageState[t] = pageIdx;
+  }else if(options.focusActive){
+    ["client", "admin"].forEach((t) => {
+      const activeId = data?.[t]?.active_id;
+      const items = getSortedItems(t, data);
+      const pageIdx = getPageIndexForEntry(items, activeId);
+      if(pageIdx >= 0) pageState[t] = pageIdx;
+    });
+  }
+
+  renderTable("client", data);
+  renderTable("admin", data);
+}
+
+function setWebButtonState(target, disabled){
+  const btnId = target === "admin" ? "btnWebAdminCreate" : "btnWebPublicCreate";
+  const btn = document.getElementById(btnId);
+  if(btn) btn.disabled = !!disabled;
+}
+
+function renderWebTable(target, payload){
+  const boxId = target === "admin" ? "webAdminList" : "webPublicList";
+  const box = document.getElementById(boxId);
+  const items = getSortedItems(target, payload);
+  const activeId = String(payload?.[target]?.active_id || "");
+  const testActiveId = String(payload?.[target]?.test_active_id || "");
+
+  if(!items.length){
+    box.innerHTML = '<div class="small">No hay versiones guardadas.</div>';
+    return;
+  }
+
+  const { pagesMap, pageKeys } = getPageKeysForItems(items);
+  if(webPageState[target] >= pageKeys.length) webPageState[target] = 0;
+  const currentPage = Math.max(0, Math.min(webPageState[target], pageKeys.length - 1));
+  const currentKey = pageKeys[currentPage];
+  const pageItems = pagesMap.get(currentKey) || [];
+
+  const pageRows = pageItems.map(it => {
+    const isActive = String(it.id) === activeId;
+    const isTest = String(it.id) === testActiveId;
+    const useBtn = isActive
+      ? `<button class="use-active" disabled>En uso</button>`
+      : `<button class="soft" onclick="useWebVersion('${target}','${esc(it.id)}','${esc(it.version || "")}')">Usar</button>`;
+    const testBtn = isTest
+      ? `<button class="use-active" disabled>En pruebas</button>`
+      : `<button class="soft" onclick="useWebVersionTest('${target}','${esc(it.id)}','${esc(it.version || "")}')">Usar en pruebas</button>`;
+    const menuId = `web-menu-${target}-${safeDomId(it.id)}`;
+    const editBtn = `<button class="soft js-edit-notes" type="button" data-target="${escAttr(target)}" data-entry-id="${escAttr(it.id)}" data-notes="${escAttr(it.notes || "")}" data-version="${escAttr(it.version || "")}">Editar novedades</button>`;
+    const syncBtn = `<button class="soft" onclick="syncWebVersion('${target}','${esc(it.id)}','${esc(it.version || "")}')">Sincronizar</button>`;
+    const menu = `
+      <div class="menu-wrap">
+        <button class="menu-toggle" type="button" onclick="toggleWebMenu(event,'${menuId}')" aria-label="Mas opciones">
+          <span></span><span></span><span></span>
+        </button>
+        <div id="${menuId}" class="web-actions-menu">
+          ${syncBtn}
+          ${editBtn}
+        </div>
+      </div>
+    `;
+    return `
+      <tr>
+        <td><strong>${esc(it.version || "-")}</strong><div class="small">${esc(fmt(it.created_at))}</div></td>
+        <td>${esc(it.notes || "")}</td>
+        <td><div class="web-actions-row">${useBtn}${testBtn}${menu}</div></td>
+      </tr>`;
+  }).join("");
+  const pageLabel = currentKey >= 0 ? `Versiones ${currentKey}.0 a ${currentKey}.9` : "Versiones sin formato X.Y";
+  const pageButtons = pageKeys.map((k, i) => {
+    const cls = i === currentPage ? "pager-num active" : "pager-num";
+    const label = k >= 0 ? String(k) : String(i + 1);
+    return `<button type="button" class="${cls}" onclick="goToWebPage('${target}', ${i})">${esc(label)}</button>`;
+  }).join("");
+  box.innerHTML = `
+    <div class="small" style="text-align:center;margin:0 0 4px 0"><strong>${esc(pageLabel)}</strong></div>
+    <div class="pager">
+      <button class="pager-btn" ${currentPage <= 0 ? "disabled" : ""} onclick="changeWebPage('${target}', -1)">&lt;</button>
+      ${pageButtons}
+      <button class="pager-btn" ${currentPage >= pageKeys.length - 1 ? "disabled" : ""} onclick="changeWebPage('${target}', 1)">&gt;</button>
+    </div>
+    <table>
+      <thead><tr><th>Version</th><th>Novedades</th><th>Estado</th></tr></thead>
+      <tbody>${pageRows}</tbody>
+    </table>`;
+}
+
+function changeWebPage(target, delta){
+  const t = target === "admin" ? "admin" : "public";
+  webPageState[t] = Math.max(0, (webPageState[t] || 0) + Number(delta || 0));
+  if(webCache){
+    renderWebTable(t, webCache);
+  }
+}
+
+function goToWebPage(target, index){
+  const t = target === "admin" ? "admin" : "public";
+  webPageState[t] = Math.max(0, Number(index) || 0);
+  if(webCache){
+    renderWebTable(t, webCache);
+  }
+}
+
+async function loadWebVersions(options = {}){
+  const res = await fetch(`/admin/web_versions?v=${Date.now()}`, { credentials:"include", cache:"no-store" });
+  const data = await res.json().catch(()=> ({}));
+  if(!res.ok){
+    throw new Error(parseError(data));
+  }
+  webCache = data;
+
+  if(options.resetPages){
+    webPageState.public = 0;
+    webPageState.admin = 0;
+  }
+
+  if(options.focusEntry && options.focusEntry.target && options.focusEntry.entryId != null){
+    const t = options.focusEntry.target === "admin" ? "admin" : "public";
+    const items = getSortedItems(t, data);
+    const pageIdx = getPageIndexForEntry(items, options.focusEntry.entryId);
+    if(pageIdx >= 0) webPageState[t] = pageIdx;
+  }else if(options.focusActive){
+    ["public", "admin"].forEach((t) => {
+      const activeId = data?.[t]?.active_id;
+      const items = getSortedItems(t, data);
+      const pageIdx = getPageIndexForEntry(items, activeId);
+      if(pageIdx >= 0) webPageState[t] = pageIdx;
+    });
+  }
+
+  renderWebTable("public", data);
+  renderWebTable("admin", data);
+}
+
+async function createWebVersion(target){
+  const notesEl = document.getElementById(target === "admin" ? "webAdminNotes" : "webPublicNotes");
+  const notes = (notesEl.value || "").trim();
+  if(notes.length < 3){
+    showToast("Faltan datos", "Describe las novedades (minimo 3 caracteres).");
+    return;
+  }
+  setWebButtonState(target, true);
+  const res = await fetch("/admin/web_versions/create", {
+    method:"POST",
+    headers:{ "Content-Type":"application/json" },
+    credentials:"include",
+    body: JSON.stringify({ target, notes })
+  });
+  const data = await res.json().catch(()=> ({}));
+  setWebButtonState(target, false);
+  if(!res.ok){
+    showToast("Error", parseError(data));
+    return;
+  }
+  notesEl.value = "";
+  showToast("Version creada", `Web ${target === "admin" ? "administración" : "pública"} ${data?.entry?.version || ""} guardada.`);
+  await loadWebVersions({ focusEntry: { target, entryId: data?.entry?.id } });
+  notifyWebVersionsUpdated();
+}
+
+
+function notifyWebVersionsUpdated(){
+  try{
+    window.top?.postMessage({ type:"web-versions-updated" }, "*");
+  }catch(_e){}
+}
+
+async function useWebVersion(target, entryId, versionLabel){
+  const label = versionLabel ? ` ${versionLabel}` : "";
+  const msg = `Vas a marcar en uso la versión${label} de ${target === "admin" ? "administración" : "web pública"}. ¿Continuar?`;
+  let ok = true;
+  if (typeof window.uiConfirm === "function") {
+    ok = await window.uiConfirm(msg);
+  } else {
+    ok = window.confirm(msg);
+  }
+  if(!ok) return;
+  const res = await fetch("/admin/web_versions/use", {
+    method:"POST",
+    headers:{ "Content-Type":"application/json" },
+    credentials:"include",
+    body: JSON.stringify({ target, entry_id: entryId })
+  });
+  const data = await res.json().catch(()=> ({}));
+  if(!res.ok){
+    showToast("Error", parseError(data));
+    return;
+  }
+  showToast("Actualizado", "Version marcada en uso.");
+  await loadWebVersions({ focusEntry: { target, entryId } });
+  notifyWebVersionsUpdated();
+}
+
+async function useWebVersionTest(target, entryId, versionLabel){
+  const label = versionLabel ? ` ${versionLabel}` : "";
+  const msg = `Vas a marcar en pruebas la versión${label} de ${target === "admin" ? "administración" : "web pública"}. ¿Continuar?`;
+  let ok = true;
+  if (typeof window.uiConfirm === "function") {
+    ok = await window.uiConfirm(msg);
+  } else {
+    ok = window.confirm(msg);
+  }
+  if(!ok) return;
+  const res = await fetch("/admin/web_versions/use_test", {
+    method:"POST",
+    headers:{ "Content-Type":"application/json" },
+    credentials:"include",
+    body: JSON.stringify({ target, entry_id: entryId })
+  });
+  const data = await res.json().catch(()=> ({}));
+  if(!res.ok){
+    showToast("Error", parseError(data));
+    return;
+  }
+  showToast("Actualizado", "Version marcada para pruebas.");
+  await loadWebVersions({ focusEntry: { target, entryId } });
+  notifyWebVersionsUpdated();
+}
+
+async function deleteWebVersion(target, entryId, versionLabel){
+  const label = versionLabel ? ` ${versionLabel}` : "";
+  const msg = `Vas a eliminar la versión${label} de ${target === "admin" ? "administración" : "web pública"}. Esta acción no se puede deshacer. ¿Continuar?`;
+  let ok = true;
+  if (typeof window.uiConfirm === "function") {
+    ok = await window.uiConfirm(msg);
+  } else {
+    ok = window.confirm(msg);
+  }
+  if(!ok) return;
+  const res = await fetch("/admin/web_versions/delete", {
+    method:"POST",
+    headers:{ "Content-Type":"application/json" },
+    credentials:"include",
+    body: JSON.stringify({ target, entry_id: entryId })
+  });
+  const data = await res.json().catch(()=> ({}));
+  if(!res.ok){
+    showToast("Error", parseError(data));
+    return;
+  }
+  showToast("Eliminada", "Versión eliminada correctamente.");
+  await loadWebVersions({ focusActive: true });
+  notifyWebVersionsUpdated();
+}
+
+async function syncWebVersion(target, entryId, versionLabel){
+  const label = versionLabel ? ` ${versionLabel}` : "";
+  const msg = `Vas a sincronizar la versión${label} con la carpeta ${target === "admin" ? "/administracion" : "/frontend"}. Esto sobrescribirá los cambios actuales. ¿Continuar?`;
+  let ok = true;
+  if (typeof window.uiConfirm === "function") {
+    ok = await window.uiConfirm(msg);
+  } else {
+    ok = window.confirm(msg);
+  }
+  if(!ok) return;
+  const res = await fetch("/admin/web_versions/sync", {
+    method:"POST",
+    headers:{ "Content-Type":"application/json" },
+    credentials:"include",
+    body: JSON.stringify({ target, entry_id: entryId })
+  });
+  const data = await res.json().catch(()=> ({}));
+  if(!res.ok){
+    showToast("Error", parseError(data));
+    return;
+  }
+  showToast("Sincronizado", "La carpeta se actualizó con esta versión.");
+}
+
+async function buildVersion(target){
+  const notesEl = document.getElementById(target === "client" ? "clientNotes" : "adminNotes");
+  const notes = (notesEl.value || "").trim();
+  if(notes.length < 3){
+    showToast("Faltan datos", "Describe las novedades (minimo 3 caracteres).");
+    return;
+  }
+  showToast("Compilando", "Este proceso puede tardar varios minutos...");
+  setBuildButtonState(target, true);
+  showProgress(target, true);
+  setProgress(target, 2, "Iniciando compilacion...");
+  const res = await fetch("/admin/android_versions/build", {
+    method:"POST",
+    headers:{ "Content-Type":"application/json" },
+    credentials:"include",
+    body: JSON.stringify({ target, notes })
+  });
+  const data = await res.json().catch(()=> ({}));
+  if(!res.ok){
+    setBuildButtonState(target, false);
+    showProgress(target, false);
+    showToast("Error al generar", parseError(data));
+    return;
+  }
+  const jobId = data?.job?.id;
+  if(!jobId){
+    setBuildButtonState(target, false);
+    showProgress(target, false);
+    showToast("Error al generar", "No se recibio ID de compilacion.");
+    return;
+  }
+  localStorage.setItem(jobStorageKey(target), jobId);
+  notesEl.value = "";
+  monitorBuild(target, jobId);
+}
+
+async function fetchBuildStatus(jobId){
+  const res = await fetch(`/admin/android_versions/build_status?job_id=${encodeURIComponent(jobId)}`, { credentials:"include" });
+  const data = await res.json().catch(()=> ({}));
+  if(!res.ok){
+    throw new Error(parseError(data));
+  }
+  return data;
+}
+
+function stopPolling(target){
+  if(pollTimers[target]){
+    clearTimeout(pollTimers[target]);
+    pollTimers[target] = null;
+  }
+}
+
+async function monitorBuild(target, jobId){
+  stopPolling(target);
+  setBuildButtonState(target, true);
+  showProgress(target, true);
+  const loop = async () => {
+    try{
+      const job = await fetchBuildStatus(jobId);
+      setProgress(target, job.progress, job.message || "Compilando...");
+      const st = String(job.status || "");
+      if(st === "done"){
+        localStorage.removeItem(jobStorageKey(target));
+        setBuildButtonState(target, false);
+        showToast("Version creada", `${target === "client" ? "Cliente" : "Admin"} ${job?.entry?.version || ""} guardada.`);
+        await loadVersions();
+        stopPolling(target);
+        setTimeout(()=> showProgress(target, false), 1400);
+        return;
+      }
+      if(st === "error"){
+        localStorage.removeItem(jobStorageKey(target));
+        setBuildButtonState(target, false);
+        showToast("Error al generar", job.error || "Error desconocido");
+        stopPolling(target);
+        return;
+      }
+      pollTimers[target] = setTimeout(loop, 1600);
+    }catch(_err){
+      setProgress(target, 0, "No se pudo consultar el estado.");
+      pollTimers[target] = setTimeout(loop, 3000);
+    }
+  };
+  loop();
+}
+
+async function useVersion(target, entryId){
+  const res = await fetch("/admin/android_versions/use", {
+    method:"POST",
+    headers:{ "Content-Type":"application/json" },
+    credentials:"include",
+    body: JSON.stringify({ target, entry_id: entryId })
+  });
+  const data = await res.json().catch(()=> ({}));
+  if(!res.ok){
+    showToast("Error", parseError(data));
+    return;
+  }
+  showToast("Actualizado", "Version marcada como en uso.");
+  await loadVersions({ focusEntry: { target, entryId } });
+}
+
+loadVersions().catch(err => {
+  showToast("Error", err?.message || "No se pudo cargar");
+});
+
+loadWebVersions().catch(err => {
+  showToast("Error", err?.message || "No se pudo cargar");
+});
+
+initTabs();
+
+["client","admin"].forEach(target => {
+  const jobId = localStorage.getItem(jobStorageKey(target));
+  if(jobId){
+    monitorBuild(target, jobId);
+  }
+});
+</script>
+</body>
+</html>
+
+
+

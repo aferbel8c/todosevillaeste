@@ -1,0 +1,544 @@
+﻿<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#f3d044">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="TSE">
+
+<title>Escaneo QR | Todo Sevilla Este</title>
+<meta name="description" content="Escanea cÃ³digos QR para acceder rÃ¡pidamente a negocios y recursos en Todo Sevilla Este.">
+<link rel="canonical" href="https://todosevillaeste.es/scan_qr.html">
+<meta property="og:title" content="Escaneo QR | Todo Sevilla Este">
+<meta property="og:description" content="Escanea cÃ³digos QR para acceder rÃ¡pidamente a negocios y recursos en Todo Sevilla Este.">
+<meta property="og:url" content="https://todosevillaeste.es/scan_qr.html">
+<meta property="og:type" content="website">
+<meta property="og:image" content="https://todosevillaeste.es/icono/tsev2_beta.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Escaneo QR | Todo Sevilla Este">
+<meta name="twitter:description" content="Escanea cÃ³digos QR para acceder rÃ¡pidamente a negocios y recursos en Todo Sevilla Este.">
+<meta name="twitter:image" content="https://todosevillaeste.es/icono/tsev2_beta.png">
+
+<link rel="icon" href="/icono/tsev2_beta.png" type="image/png">
+<link rel="manifest" href="/manifest.webmanifest">
+<link rel="apple-touch-icon" href="/icono/tsev2_beta.png">
+<link rel="stylesheet" href="/3.7/header_shared.css">
+  
+  
+  
+  
+  <style>
+    :root{
+      --yellow:#f3d044;
+      --bg:#f6f7fb;
+      --card:#fff;
+      --text:#1f2937;
+      --muted:#6b7280;
+      --border:#dfe3ea;
+    }
+    *{box-sizing:border-box}
+    body{
+      margin:0;
+      font-family:Arial,Helvetica,sans-serif;
+      background:var(--bg);
+      color:var(--text);
+      width:100%;
+      min-height:100dvh;
+      display:flex;
+      flex-direction:column;
+      overflow:hidden;
+    }
+    .card{
+      width:100%;
+      flex:1;
+      min-height:0;
+      background:var(--card);
+      border:none;
+      border-radius:0;
+      box-shadow:none;
+      overflow:hidden;
+      display:flex;
+      flex-direction:column;
+    }
+    .head{
+      background:var(--yellow);
+      padding:14px 16px;
+      font-weight:800;
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      gap:8px;
+    }
+    .head button{
+      border:none;
+      background:#111;
+      color:#fff;
+      border-radius:8px;
+      padding:8px 10px;
+      font-weight:700;
+      cursor:pointer;
+    }
+    .body{
+      padding:14px 14px 12px;
+      flex:1;
+      display:flex;
+      flex-direction:column;
+      min-height:0;
+    }
+    .muted{color:var(--muted);font-size:.92rem; margin-bottom:10px}
+    .video-wrap{
+      margin-top:0;
+      width:100%;
+      flex:1;
+      min-height:0;
+      border:none;
+      border-radius:0;
+      overflow:hidden;
+      background:#000;
+      position:relative;
+    }
+    video{
+      width:100%;
+      height:100%;
+      object-fit:cover;
+      display:block;
+    }
+    .scan-frame{
+      position:absolute;
+      inset:10% 10%;
+      border:3px solid rgba(243,208,68,.95);
+      border-radius:16px;
+      box-shadow:0 0 0 9999px rgba(0,0,0,.25);
+      pointer-events:none;
+    }
+    .scan-frame::after{
+      content:"";
+      position:absolute;
+      left:6%;
+      right:6%;
+      height:3px;
+      border-radius:999px;
+      background:linear-gradient(90deg, rgba(243,208,68,0), rgba(243,208,68,.95), rgba(243,208,68,0));
+      box-shadow:0 0 10px rgba(243,208,68,.85);
+      animation:scanBarMove 1.6s linear infinite alternate;
+    }
+    @keyframes scanBarMove{
+      0%{ top:8%; }
+      100%{ top:88%; }
+    }
+    .actions{
+      display:flex;
+      gap:8px;
+      margin-top:12px;
+      flex-wrap:wrap;
+    }
+    .actions button{
+      border:none;
+      border-radius:8px;
+      padding:10px 12px;
+      font-weight:700;
+      cursor:pointer;
+    }
+    .btn-main{background:#111;color:#fff}
+    .btn-soft{background:#eceef3;color:#111}
+    .qr-modal{
+      position:fixed;
+      inset:0;
+      display:none;
+      align-items:center;
+      justify-content:center;
+      padding:18px;
+      background:rgba(15,23,42,.5);
+      z-index:40;
+    }
+    .qr-modal.show{ display:flex; }
+    .qr-modal-card{
+      width:min(420px,100%);
+      background:#fff;
+      border:1px solid #e5e7eb;
+      border-radius:14px;
+      box-shadow:0 18px 45px rgba(0,0,0,.22);
+      overflow:hidden;
+    }
+    .qr-modal-head{
+      padding:12px 14px;
+      background:#111;
+      color:#fff;
+      font-weight:800;
+      letter-spacing:.01em;
+    }
+    .qr-modal-body{
+      padding:14px;
+      color:#111827;
+      font-size:.97rem;
+      line-height:1.45;
+    }
+    .qr-modal-actions{
+      padding:0 14px 14px;
+      display:flex;
+      justify-content:flex-end;
+    }
+    .qr-modal-actions button{
+      border:none;
+      border-radius:8px;
+      padding:10px 14px;
+      background:var(--yellow);
+      color:#111;
+      font-weight:800;
+      cursor:pointer;
+    }
+    @media (max-width: 768px){
+      body{
+        min-height:100dvh;
+      }
+      .tse-header{
+        padding: .5rem .7rem;
+        gap: .5rem;
+      }
+      .tse-header-logo img{
+        width: 42px;
+      }
+      .tse-header-center{
+        grid-column: 1 / -1;
+        order: 2;
+        justify-content: center;
+      }
+      .scanqr-title{
+        font-size: 1rem;
+        font-weight: 800;
+        color: #111;
+      }
+      .tse-header-actions{
+        order: 3;
+        justify-content: flex-end;
+      }
+      .tse-header-actions .soft{
+        padding: .48rem .72rem;
+        min-height: 36px;
+        font-size: .9rem;
+      }
+      .body{
+        padding: 10px 12px 0;
+      }
+      .muted{
+        margin-bottom: 6px;
+      }
+      .video-wrap{
+        margin-top: 4px;
+        min-height: calc(100dvh - 150px);
+      }
+      .scan-frame{
+        inset: 6% 8%;
+        border-width: 2px;
+      }
+      .muted{
+        font-size: .95rem;
+        line-height: 1.35;
+      }
+    }
+  /* Cookie banner */
+</style>
+
+<link rel='stylesheet' href='/ui_public.css'>
+<script defer src='/ui_public.js'></script>
+</head>
+<body>
+  <header class="tse-header tse-header--rich">
+    <div class="tse-header-left">
+      <a class="tse-header-logo" href="/frontend.html" aria-label="Ir al inicio"><img src="/icono/tsev2_beta.png" alt="TodoSevillaEste"></a>
+    </div>
+    <div class="tse-header-center">
+      <strong class="scanqr-title">Escaneo QR</strong>
+    </div>
+    <div class="tse-header-actions">
+      <button class="soft" type="button" onclick="goBack()">Volver</button>
+    </div>
+  </header>
+  <div class="card">
+    <div class="body">
+      <div class="muted">Enfoca el QR del negocio. Al detectarlo, se abrira automaticamente. (solo se abrirÃ¡n url de todosevillaeste.es)</div>
+      <div class="video-wrap">
+        <video id="qrVideo" playsinline autoplay muted></video>
+        <div class="scan-frame"></div>
+      </div>
+    </div>
+  </div>
+  <div id="qrDeniedModal" class="qr-modal" role="dialog" aria-modal="true" aria-labelledby="qrDeniedTitle">
+    <div class="qr-modal-card">
+      <div id="qrDeniedTitle" class="qr-modal-head">QR no permitido</div>
+      <div class="qr-modal-body">Este QR no pertenece a Todo Sevilla Este o no estÃ¡s autorizado para abrirlo</div>
+      <div class="qr-modal-actions">
+        <button type="button" onclick="closeDeniedPopup()">Aceptar</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    let streamRef = null;
+    let detector = null;
+    let loopRef = null;
+    let scanning = false;
+    let scanTick = 0;
+    const SEARCH_PARAMS = new URLSearchParams(window.location.search || "");
+    const SCAN_APP_MODE = (SEARCH_PARAMS.get("app") || (SEARCH_PARAMS.get("android_admin") === "1" ? "admin" : "client")).toLowerCase() === "admin" ? "admin" : "client";
+    let qrAllowList = [];
+    let qrRulesLastLoadedAt = 0;
+    let qrRulesLoadingPromise = null;
+    let qrResolving = false;
+    let deniedPopupVisible = false;
+
+    function goBack(){
+      stopScanner();
+      if(document.referrer){
+        history.back();
+      }else if(SCAN_APP_MODE === "admin"){
+        location.href = "/administracion/index-panel.html?android_admin=1";
+      }else{
+        location.href = "/frontend.html";
+      }
+    }
+
+    function setStatus(text){
+      return;
+    }
+
+    function openDeniedPopup(){
+      const modal = document.getElementById("qrDeniedModal");
+      if(!modal) return;
+      deniedPopupVisible = true;
+      modal.classList.add("show");
+    }
+
+    function closeDeniedPopup(){
+      const modal = document.getElementById("qrDeniedModal");
+      if(modal) modal.classList.remove("show");
+      deniedPopupVisible = false;
+      startScanner();
+    }
+
+    function onAndroidQrMessage(text){
+      handleDetectedRaw(text);
+    }
+
+    function requestNativeAndroidScan(){
+      if(window.AndroidBridge && typeof window.AndroidBridge.openQrScanner === "function"){
+        setStatus("Abriendo escaner nativo...");
+        window.AndroidBridge.openQrScanner();
+        return true;
+      }
+      return false;
+    }
+
+    function normalizeTarget(raw){
+      const value = String(raw || "").trim();
+      if(!value) return null;
+      if(value.startsWith("http://") || value.startsWith("https://")) return value;
+      if(value.startsWith("/")) return `${location.origin}${value}`;
+      if(value.startsWith("web/") || value.startsWith("account/")) return `${location.origin}/${value}`;
+      if(/^\d+$/.test(value)) return `${location.origin}/negocio.html?id=${encodeURIComponent(value)}`;
+      return null;
+    }
+
+    function normalizeRule(rule){
+      const value = String(rule || "").trim();
+      if(!value) return "";
+      if(value.startsWith("http://") || value.startsWith("https://")) return value;
+      if(value.startsWith("/")) return `${location.origin}${value}`;
+      return value;
+    }
+
+    function parseAllowRule(rule){
+      let raw = String(rule || "").trim();
+      if(!raw) return null;
+      let enabled = true;
+      const lowerRaw = raw.toLowerCase();
+      if(lowerRaw.startsWith("off:")){
+        enabled = false;
+        raw = raw.slice(4).trim();
+      }else if(lowerRaw.startsWith("disabled:")){
+        enabled = false;
+        raw = raw.slice(9).trim();
+      }
+      if(!raw) return null;
+      const lower = raw.toLowerCase();
+      let mode = "prefix";
+      let body = raw;
+      if(lower.startsWith("exact:")){
+        mode = "exact";
+        body = raw.slice(6).trim();
+      }else if(lower.startsWith("prefix:")){
+        mode = "prefix";
+        body = raw.slice(7).trim();
+      }
+      const normalizedBody = normalizeRule(body);
+      if(!normalizedBody) return null;
+      return { mode, value: normalizedBody, enabled };
+    }
+
+    function isTargetAllowed(target){
+      const normalizedTarget = String(target || "").trim();
+      if(!normalizedTarget) return false;
+      if(!qrAllowList.length) return false;
+      return qrAllowList.some(rule => {
+        const parsed = parseAllowRule(rule);
+        if(!parsed) return false;
+        if(parsed.enabled === false) return false;
+        if(parsed.mode === "exact") return normalizedTarget === parsed.value;
+        return normalizedTarget.startsWith(parsed.value);
+      });
+    }
+
+    async function loadQrRules(force){
+      if(!force && qrRulesLoadingPromise) return qrRulesLoadingPromise;
+      qrRulesLoadingPromise = (async () => {
+        try{
+          const ts = Date.now();
+          const res = await fetch(`/qr/settings/public?app_mode=${encodeURIComponent(SCAN_APP_MODE)}&t=${ts}`, { cache: "no-store" });
+          const data = await res.json().catch(()=>({}));
+          if(!res.ok){
+            qrAllowList = [];
+            return;
+          }
+          qrAllowList = Array.isArray(data.allow_list) ? data.allow_list.map(v => String(v || "").trim()).filter(Boolean) : [];
+          qrRulesLastLoadedAt = Date.now();
+        }catch(_e){
+          qrAllowList = [];
+        } finally {
+          qrRulesLoadingPromise = null;
+        }
+      })();
+      return qrRulesLoadingPromise;
+    }
+
+    async function ensureFreshQrRules(maxAgeMs){
+      const maxAge = Number(maxAgeMs || 0);
+      const age = Date.now() - qrRulesLastLoadedAt;
+      if(age <= maxAge && qrAllowList.length){
+        return;
+      }
+      await loadQrRules(true);
+    }
+
+    async function handleDetectedRaw(raw){
+      if(qrResolving) return;
+      qrResolving = true;
+      const target = normalizeTarget(raw);
+      if(!target){
+        qrResolving = false;
+        return;
+      }
+      await ensureFreshQrRules(1200);
+      if(!isTargetAllowed(target)){
+        stopScanner();
+        openDeniedPopup();
+        qrResolving = false;
+        return;
+      }
+      stopScanner();
+      location.href = target;
+    }
+
+    function stopScanner(){
+      scanning = false;
+      if(loopRef){
+        cancelAnimationFrame(loopRef);
+        loopRef = null;
+      }
+      if(streamRef){
+        streamRef.getTracks().forEach(track => track.stop());
+        streamRef = null;
+      }
+      const video = document.getElementById("qrVideo");
+      if(video) video.srcObject = null;
+    }
+
+    async function startScanner(){
+      if(deniedPopupVisible) return;
+      stopScanner();
+      if(!("BarcodeDetector" in window)){
+        const openedNative = requestNativeAndroidScan();
+        if(!openedNative){
+          setStatus("Tu navegador no soporta escaneo QR en vivo. Usa Chrome/Android actualizado.");
+        }
+        return;
+      }
+      try{
+        detector = new BarcodeDetector({ formats: ["qr_code"] });
+      }catch(_e){
+        const openedNative = requestNativeAndroidScan();
+        if(!openedNative){
+          setStatus("No se pudo iniciar el detector QR.");
+        }
+        return;
+      }
+      try{
+        streamRef = await navigator.mediaDevices.getUserMedia({
+          video: { facingMode: { ideal: "environment" } },
+          audio: false
+        });
+      }catch(_e){
+        const openedNative = requestNativeAndroidScan();
+        if(!openedNative){
+          setStatus("No se pudo abrir la camara. Revisa permisos.");
+        }
+        return;
+      }
+      const video = document.getElementById("qrVideo");
+      video.srcObject = streamRef;
+      scanning = true;
+      scanLoop();
+    }
+
+    async function scanLoop(){
+      if(!scanning) return;
+      const video = document.getElementById("qrVideo");
+      if(video && video.readyState >= 2 && detector){
+        scanTick += 1;
+        if(scanTick % 5 === 0){
+          try{
+            const barcodes = await detector.detect(video);
+            if(barcodes && barcodes.length){
+              const raw = barcodes[0].rawValue || "";
+              handleDetectedRaw(raw);
+              if(!scanning) return;
+            }
+          }catch(_e){}
+        }
+      }
+      loopRef = requestAnimationFrame(scanLoop);
+    }
+
+    window.addEventListener("beforeunload", stopScanner);
+    loadQrRules(true).finally(startScanner);
+  </script>
+</div>
+</div>
+<div id='cookieBanner' class='cookie-banner' role='dialog' aria-modal='true' aria-live='polite'>
+  <div class="cookie-panel">
+    <div class="cookie-text">
+      Este sitio web usa <a class="cookie-link" href="https://todosevillaeste.es/cookies.html" target="_blank" rel="noopener">cookies</a> tÃ©cnicas necesarias. Puedes aceptar, rechazar o configurar.
+    </div>
+    <div class="cookie-actions">
+      <button class="cookie-btn accept" id="cookieAccept">Aceptar</button>
+      <button class="cookie-btn reject" id="cookieReject">Rechazar</button>
+      <button class="cookie-btn config" id="cookieConfig">Configurar</button>
+    </div>
+  </div>
+</div>
+<div id="cookieConfigOverlay" class="cookie-config-overlay" role="dialog" aria-modal="true">
+  <div class="cookie-config">
+    <h4>ConfiguraciÃ³n de cookies</h4>
+    <p>Las cookies tÃ©cnicas son necesarias para el funcionamiento del sitio.</p>
+    <p>No usamos cookies opcionales (analÃ­ticas o publicitarias).</p>
+    <div class="cookie-config-actions">
+      <button class="cookie-btn accept" id="cookieConfigSave">Guardar</button>
+      <button class="cookie-btn read" id="cookieConfigCancel">Cancelar</button>
+    </div>
+  </div>
+</div>
+</body>
+</html>
+

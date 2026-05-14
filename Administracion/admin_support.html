@@ -1,0 +1,387 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Administración de Soporte</title>
+<link rel="icon" href="/icono/tsev2admin_beta.png" type="image/png">
+<style>
+:root{--bg:#f4f6f9;--card:#fff;--line:#dde3ee;--text:#1f2937}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);font-family:Segoe UI,Arial,sans-serif;color:var(--text)}
+.wrap{padding:14px;max-width:1200px;margin:0 auto}
+h1{margin:0 0 10px 0;font-size:1.2rem}
+.bar{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:10px}
+button{border:none;border-radius:8px;background:#111;color:#fff;font-weight:700;padding:.5rem .8rem;cursor:pointer;transition:transform .12s ease, filter .12s ease, box-shadow .12s ease, background-color .12s ease}
+button:not([disabled]):hover,button:not([disabled]):focus-visible{transform:translateY(-1px);filter:brightness(1.05);box-shadow:0 6px 12px rgba(0,0,0,.12)}
+button.soft{background:#e8edf5;color:#111}
+button.warn{background:#7f1d1d}
+.list{display:grid;gap:10px}
+.ticket{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:10px}
+.row{display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap}
+.small{font-size:.85rem;color:#607081}
+.muted{color:#64748b}
+.attachments{display:flex;gap:6px;flex-wrap:wrap;margin-top:8px}
+.attachments img{width:72px;height:72px;object-fit:cover;border-radius:8px;border:1px solid #d4dcea}
+.overlay{position:fixed;inset:0;background:rgba(0,0,0,.5);display:none;align-items:center;justify-content:center;padding:14px;z-index:20}
+.panel{background:#fff;border-radius:12px;width:min(1000px,95vw);height:min(92vh,860px);display:grid;grid-template-rows:auto 1fr auto;overflow:hidden}
+.head{padding:10px;border-bottom:1px solid var(--line);display:flex;justify-content:space-between;gap:8px;align-items:flex-start}
+.main{padding:10px;overflow:auto;background:linear-gradient(180deg,#eef5ff,#eef2f7)}
+.summary{background:#fff;border:1px solid #d6e1ef;border-radius:10px;padding:10px;margin-bottom:10px}
+.msg{max-width:min(80%,760px);border:1px solid #dce6f1;border-radius:12px;padding:8px 10px;margin-bottom:8px;background:#fff}
+.msg.mine{margin-left:auto;background:#d9fdd3}
+.composer{padding:10px;border-top:1px solid var(--line);display:flex;gap:8px;align-items:flex-end;background:#fff}
+.composer textarea{flex:1;min-height:44px;max-height:150px;resize:vertical;border:1px solid #cfd8e3;border-radius:10px;padding:10px}
+.composer input[type=file]{display:none}
+.mail-modal{position:fixed;inset:0;background:rgba(0,0,0,.5);display:none;align-items:center;justify-content:center;padding:14px;z-index:30}
+.mail-panel{background:#fff;border:1px solid var(--line);border-radius:12px;width:min(640px,95vw);padding:12px}
+.mail-panel input,.mail-panel textarea{width:100%;margin-bottom:8px;border:1px solid #cfd8e3;border-radius:8px;padding:8px}
+.ui-modal{position:fixed;inset:0;background:rgba(0,0,0,.45);display:none;align-items:center;justify-content:center;padding:14px;z-index:40}
+.ui-panel{background:#fff;border:1px solid var(--line);border-radius:12px;width:min(460px,95vw);padding:12px}
+.ui-title{font-weight:800;margin-bottom:6px}
+</style>
+</head>
+<body>
+<main class="wrap">
+  <h1>Soporte</h1>
+  <div id="metricsBox" class="ticket" style="margin-bottom:10px">
+    <div style="font-weight:800;margin-bottom:6px">Métricas</div>
+    <div id="metricsText" class="small">Cargando métricas...</div>
+  </div>
+  <div class="bar">
+    <input id="subjectFilter" placeholder="Filtrar por asunto..." style="flex:1;min-width:220px;border:1px solid #cfd8e3;border-radius:8px;padding:8px">
+    <button class="soft" onclick="loadTickets(ticketFilter)">Aplicar filtro</button>
+    <button class="soft" onclick="loadTickets('open')">Abiertos</button>
+    <button class="soft" onclick="loadTickets('closed')">Cerrados</button>
+    <button class="soft" onclick="loadTickets('all')">Todos</button>
+  </div>
+  <div id="ticketsList" class="list"><div class="small">Cargando tickets...</div></div>
+</main>
+
+<div id="chatOverlay" class="overlay">
+  <div class="panel">
+    <div class="head">
+      <div>
+        <div id="chatTitle" style="font-weight:800">Ticket</div>
+        <div id="chatMeta" class="small"></div>
+      </div>
+      <div style="display:flex;gap:6px;flex-wrap:wrap">
+        <button id="btnOpenMail" class="soft" onclick="openEmailModal()">Enviar correo</button>
+        <button id="btnCloseTicket" class="warn" onclick="toggleTicketStatus(true)">Cerrar ticket</button>
+        <button class="soft" onclick="closeOverlay()">Cerrar</button>
+      </div>
+    </div>
+    <div id="chatMain" class="main"></div>
+    <div class="composer">
+      <label for="adminMsgFiles" class="soft" style="padding:.5rem .7rem;border:1px solid #d6deea;cursor:pointer">Fotos</label>
+      <input id="adminMsgFiles" type="file" accept="image/*" multiple>
+      <textarea id="adminMsgBody" placeholder="Escribe un mensaje..."></textarea>
+      <button onclick="sendAdminMessage()">Enviar</button>
+    </div>
+  </div>
+</div>
+
+<div id="mailModal" class="mail-modal">
+  <div class="mail-panel">
+    <div style="display:flex;justify-content:space-between;gap:8px;align-items:flex-start;margin-bottom:8px">
+      <div>
+        <div style="font-weight:800">Enviar correo</div>
+        <div id="mailDestination" class="small">Destino: -</div>
+      </div>
+      <button class="soft" onclick="closeEmailModal()">Cerrar</button>
+    </div>
+    <input id="emailSubject" placeholder="Asunto del correo">
+    <textarea id="emailBody" rows="5" placeholder="Cuerpo del correo"></textarea>
+    <input id="emailFiles" type="file" accept="image/*" multiple>
+    <div class="bar" style="margin-bottom:0">
+      <button onclick="sendTicketEmail()">Enviar correo</button>
+    </div>
+  </div>
+</div>
+
+<div id="uiModal" class="ui-modal">
+  <div class="ui-panel">
+    <div id="uiTitle" class="ui-title">Mensaje</div>
+    <div id="uiBody" class="small" style="margin-bottom:10px"></div>
+    <div id="uiActions" class="bar" style="margin:0"></div>
+  </div>
+</div>
+
+<script>
+let ticketFilter = "open";
+let tickets = [];
+let activeTicket = null;
+let activeMessages = [];
+let uiResolve = null;
+
+function esc(v){ return String(v ?? "").replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;"); }
+function fmt(iso){
+  if(!iso) return "";
+  const d = new Date(iso);
+  return Number.isNaN(d.getTime()) ? "" : d.toLocaleString("es-ES",{day:"2-digit",month:"2-digit",hour:"2-digit",minute:"2-digit"});
+}
+function attachmentsHtml(list){
+  const arr = Array.isArray(list) ? list : [];
+  if(!arr.length) return "";
+  return `<div class="attachments">${arr.map(url => `<img src="${esc(url)}" alt="adjunto">`).join("")}</div>`;
+}
+function ticketTitle(t){ return `Ticket#${t.ticket_code || String(t.id || 0).padStart(6,"0")}`; }
+function closeUiModal(result){
+  document.getElementById("uiModal").style.display = "none";
+  if(typeof uiResolve === "function"){
+    const resolver = uiResolve;
+    uiResolve = null;
+    resolver(!!result);
+  }
+}
+function showUiAlert(title, body){
+  document.getElementById("uiTitle").textContent = title || "Mensaje";
+  document.getElementById("uiBody").textContent = body || "";
+  const actions = document.getElementById("uiActions");
+  actions.innerHTML = '<button class="soft" onclick="closeUiModal(true)">Aceptar</button>';
+  document.getElementById("uiModal").style.display = "flex";
+}
+window.alert = function(message){
+  showUiAlert("Aviso", String(message || ""));
+};
+function showUiConfirm(title, body){
+  document.getElementById("uiTitle").textContent = title || "Confirmación";
+  document.getElementById("uiBody").textContent = body || "";
+  const actions = document.getElementById("uiActions");
+  actions.innerHTML = '<button class="soft" onclick="closeUiModal(false)">Cancelar</button><button class="warn" onclick="closeUiModal(true)">Confirmar</button>';
+  document.getElementById("uiModal").style.display = "flex";
+  return new Promise(resolve => { uiResolve = resolve; });
+}
+function fmtDuration(sec){
+  const total = Number(sec || 0);
+  if(!Number.isFinite(total) || total <= 0) return "0m";
+  const h = Math.floor(total / 3600);
+  const m = Math.floor((total % 3600) / 60);
+  if(h <= 0) return `${m}m`;
+  return `${h}h ${m}m`;
+}
+
+async function loadMetrics(){
+  const box = document.getElementById("metricsText");
+  const res = await fetch("/admin/support/metrics", { credentials:"include" });
+  const data = await res.json().catch(()=>({}));
+  if(!res.ok){
+    box.textContent = data.detail || "No se pudieron cargar métricas.";
+    return;
+  }
+  box.textContent = `Total: ${data.total_tickets || 0} | Abiertos: ${data.open_tickets || 0} | Cerrados: ${data.closed_tickets || 0} | Media espera primera respuesta: ${fmtDuration(data.avg_wait_seconds)} | Media tiempo abierto: ${fmtDuration(data.avg_open_seconds)}`;
+}
+
+async function loadTickets(status = ticketFilter){
+  ticketFilter = status || "open";
+  const subjectFilter = (document.getElementById("subjectFilter")?.value || "").trim();
+  const box = document.getElementById("ticketsList");
+  box.innerHTML = '<div class="small">Cargando tickets...</div>';
+  const query = new URLSearchParams({ status: ticketFilter });
+  if(subjectFilter) query.set("subject", subjectFilter);
+  const res = await fetch(`/admin/support/tickets?${query.toString()}`, { credentials:"include" });
+  const data = await res.json().catch(()=>({}));
+  if(!res.ok){
+    box.innerHTML = `<div class="small">${esc(data.detail || "No se pudieron cargar los tickets")}</div>`;
+    return;
+  }
+  tickets = Array.isArray(data.tickets) ? data.tickets : [];
+  if(!tickets.length){
+    box.innerHTML = '<div class="small">No hay tickets para este filtro.</div>';
+    return;
+  }
+  box.innerHTML = tickets.map(t => `
+    <article class="ticket">
+      <div class="row">
+        <div style="font-weight:800">${esc(ticketTitle(t))} ${t.status === "closed" ? "(Cerrado)" : ""}</div>
+        <div class="small">${esc(fmt(t.created_at))}</div>
+      </div>
+      <div class="small">Usuario: ${esc(t.username || "Usuario")} (${esc(t.email || "-")})</div>
+      <div><strong>Asunto:</strong> ${esc(t.subject || "")}${t.custom_subject ? ` - ${esc(t.custom_subject)}` : ""}</div>
+      <div><strong>Cuerpo:</strong> ${esc(t.body || "")}</div>
+      <div class="small">Tiempo abierto: ${esc(fmtDuration(t.open_duration_seconds))}</div>
+      ${attachmentsHtml(t.attachments)}
+      <div class="bar" style="margin-top:8px">
+        <button class="soft" onclick="openTicket(${Number(t.id)})">Abrir chat</button>
+        <button class="warn" onclick="closeTicketFromList(${Number(t.id)})">Cerrar ticket</button>
+      </div>
+    </article>
+  `).join("");
+}
+
+async function closeTicketFromList(ticketId){
+  const ok = await showUiConfirm("Cerrar ticket", "¿Cerrar este ticket?");
+  if(!ok) return;
+  const res = await fetch(`/admin/support/tickets/${ticketId}/close`, {
+    method:"POST",
+    credentials:"include",
+    headers:{ "Content-Type":"application/json" },
+    body: JSON.stringify({ close:true })
+  });
+  const data = await res.json().catch(()=>({}));
+  if(!res.ok){ alert(data.detail || "No se pudo cerrar el ticket"); return; }
+  await loadTickets(ticketFilter);
+  await loadMetrics();
+}
+
+async function openTicket(ticketId){
+  const res = await fetch(`/admin/support/tickets/${ticketId}`, { credentials:"include" });
+  const data = await res.json().catch(()=>({}));
+  if(!res.ok){
+    alert(data.detail || "No se pudo abrir el ticket");
+    return;
+  }
+  activeTicket = data.ticket || null;
+  activeMessages = Array.isArray(data.messages) ? data.messages : [];
+  document.getElementById("chatOverlay").style.display = "flex";
+  renderTicketChat();
+}
+
+function closeOverlay(){
+  document.getElementById("chatOverlay").style.display = "none";
+  closeEmailModal();
+  activeTicket = null;
+  activeMessages = [];
+}
+
+function renderTicketChat(){
+  if(!activeTicket) return;
+  document.getElementById("chatTitle").textContent = ticketTitle(activeTicket);
+  document.getElementById("chatMeta").textContent = `${activeTicket.status === "open" ? "Abierto" : "Cerrado"} | ${activeTicket.username || "Usuario"} | ${activeTicket.destination_email || activeTicket.email || "-"}`;
+  document.getElementById("btnCloseTicket").style.display = activeTicket.status === "open" ? "inline-block" : "none";
+  document.getElementById("btnOpenMail").style.display = activeTicket ? "inline-block" : "none";
+  document.getElementById("adminMsgBody").disabled = activeTicket.status !== "open";
+  document.getElementById("adminMsgFiles").disabled = activeTicket.status !== "open";
+
+  let html = `
+    <section class="summary">
+      <div><strong>Asunto:</strong> ${esc(activeTicket.subject || "")}${activeTicket.custom_subject ? ` - ${esc(activeTicket.custom_subject)}` : ""}</div>
+      <div><strong>Cuerpo:</strong> ${esc(activeTicket.body || "")}</div>
+      ${attachmentsHtml(activeTicket.attachments)}
+    </section>
+  `;
+  if(!activeMessages.length){
+    html += '<div class="small">Aún no hay mensajes en este ticket.</div>';
+  }else{
+    activeMessages.forEach(msg => {
+      const mine = msg.sender_type === "admin";
+      const sender = msg.sender_type === "admin" ? "Soporte" : (msg.sender_type === "system" ? "Sistema" : "Usuario");
+      html += `
+        <article class="msg ${mine ? "mine" : ""}">
+          <div class="small">${esc(sender)} | ${esc(fmt(msg.created_at))}</div>
+          <div>${esc(msg.body || "")}</div>
+          ${attachmentsHtml(msg.attachments)}
+        </article>
+      `;
+    });
+  }
+  const main = document.getElementById("chatMain");
+  main.innerHTML = html;
+  main.scrollTop = main.scrollHeight;
+}
+
+function openEmailModal(){
+  if(!activeTicket) return;
+  const destination = activeTicket.destination_email || activeTicket.email || "-";
+  document.getElementById("mailDestination").textContent = `Destino: ${destination}`;
+  document.getElementById("mailModal").style.display = "flex";
+}
+
+function closeEmailModal(){
+  document.getElementById("mailModal").style.display = "none";
+}
+
+async function refreshActiveTicket(){
+  if(!activeTicket) return;
+  await openTicket(activeTicket.id);
+}
+
+async function sendAdminMessage(){
+  if(!activeTicket || activeTicket.status !== "open") return;
+  const bodyEl = document.getElementById("adminMsgBody");
+  const filesEl = document.getElementById("adminMsgFiles");
+  const text = (bodyEl.value || "").trim();
+  const files = Array.from(filesEl.files || []);
+  if(!text && !files.length) return;
+  const fd = new FormData();
+  if(text) fd.append("body", text);
+  files.slice(0, 8).forEach(f => fd.append("files", f));
+  const res = await fetch(`/admin/support/tickets/${activeTicket.id}/messages`, {
+    method:"POST",
+    credentials:"include",
+    body: fd
+  });
+  const data = await res.json().catch(()=>({}));
+  if(!res.ok){ alert(data.detail || "No se pudo enviar el mensaje"); return; }
+  bodyEl.value = "";
+  filesEl.value = "";
+  await refreshActiveTicket();
+  await loadTickets(ticketFilter);
+  await loadMetrics();
+}
+
+async function toggleTicketStatus(close){
+  if(!activeTicket) return;
+  if(close){
+    const ok = await showUiConfirm("Cerrar ticket", `¿Cerrar ${ticketTitle(activeTicket)}?`);
+    if(!ok) return;
+  }
+  const res = await fetch(`/admin/support/tickets/${activeTicket.id}/close`, {
+    method:"POST",
+    credentials:"include",
+    headers:{ "Content-Type":"application/json" },
+    body: JSON.stringify({ close: !!close })
+  });
+  const data = await res.json().catch(()=>({}));
+  if(!res.ok){ alert(data.detail || "No se pudo cambiar estado del ticket"); return; }
+  await refreshActiveTicket();
+  await loadTickets(ticketFilter);
+  await loadMetrics();
+}
+
+async function sendTicketEmail(){
+  if(!activeTicket) return;
+  const subject = (document.getElementById("emailSubject").value || "").trim();
+  const body = (document.getElementById("emailBody").value || "").trim();
+  const files = Array.from(document.getElementById("emailFiles").files || []);
+  if(!subject || !body){
+    alert("Asunto y cuerpo del correo son obligatorios.");
+    return;
+  }
+  const fd = new FormData();
+  fd.append("subject", subject);
+  fd.append("body", body);
+  files.slice(0, 8).forEach(f => fd.append("files", f));
+  const res = await fetch(`/admin/support/tickets/${activeTicket.id}/email`, {
+    method:"POST",
+    credentials:"include",
+    body: fd
+  });
+  const data = await res.json().catch(()=>({}));
+  if(!res.ok){ showUiAlert("Correo", data.detail || "No se pudo enviar el correo"); return; }
+  showUiAlert("Correo", data.detail || "Correo enviado");
+  document.getElementById("emailSubject").value = "";
+  document.getElementById("emailBody").value = "";
+  document.getElementById("emailFiles").value = "";
+  closeEmailModal();
+  await refreshActiveTicket();
+  await loadTickets(ticketFilter);
+  await loadMetrics();
+}
+
+document.getElementById("subjectFilter").addEventListener("keydown", (e)=>{
+  if(e.key === "Enter"){
+    e.preventDefault();
+    loadTickets(ticketFilter);
+  }
+});
+loadMetrics();
+loadTickets("open");
+setInterval(loadMetrics, 12000);
+</script>
+</body>
+</html>
+
+
+
+

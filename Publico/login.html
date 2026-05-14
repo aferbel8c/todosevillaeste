@@ -1,0 +1,1508 @@
+﻿<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#f3d044">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="TSE">
+
+<title>Iniciar sesión | Todo Sevilla Este</title>
+<meta name="description" content="Accede a tu cuenta de Todo Sevilla Este para gestionar tu perfil y negocio.">
+<link rel="canonical" href="https://todosevillaeste.es/login.html">
+<meta property="og:title" content="Iniciar sesión | Todo Sevilla Este">
+<meta property="og:description" content="Accede a tu cuenta de Todo Sevilla Este para gestionar tu perfil y negocio.">
+<meta property="og:url" content="https://todosevillaeste.es/login.html">
+<meta property="og:type" content="website">
+<meta property="og:image" content="https://todosevillaeste.es/icono/tsev2_beta.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Iniciar sesión | Todo Sevilla Este">
+<meta name="twitter:description" content="Accede a tu cuenta de Todo Sevilla Este para gestionar tu perfil y negocio.">
+<meta name="twitter:image" content="https://todosevillaeste.es/icono/tsev2_beta.png">
+
+<link rel="icon" href="/icono/tsev2_beta.png" type="image/png">
+<link rel="manifest" href="/manifest.webmanifest">
+<link rel="apple-touch-icon" href="/icono/tsev2_beta.png">
+<link rel="stylesheet" href="/3.7/header_shared.css">
+<style>
+:root{--yellow:#f3d044;--bg:#f2f2f2;--card:#fff;--text:#222}
+*{box-sizing:border-box}
+body{margin:0;font-family:Segoe UI,Arial,sans-serif;background:var(--bg);color:var(--text)}
+header{background:rgba(243,208,68,.96);border-bottom:1px solid rgba(0,0,0,.08);box-shadow:0 2px 10px rgba(0,0,0,.08);padding:.8rem 1.5rem;display:grid;grid-template-columns:1fr auto 1fr;align-items:center}
+.logo{display:flex;align-items:center;gap:.5rem;text-decoration:none;color:inherit;cursor:pointer}
+.logo:focus-visible{outline:2px solid #111;outline-offset:4px;border-radius:10px}
+.logo img{width:clamp(54px,6vw,74px);display:block}
+.header-actions{text-align:right}
+.header-actions button{padding:.48rem .86rem;border:none;font-weight:bold;background:#111;color:#fff;border-radius:7px;cursor:pointer}
+.page{min-height:calc(100vh - 86px);display:flex;align-items:center;justify-content:center;padding:20px}
+.box{background:#fff;padding:40px;width:386px;border-radius:8px;box-shadow:0 10px 30px rgba(0,0,0,.15);position:relative}
+h1{font-size:22px;margin-bottom:20px}
+input{width:100%;padding:12px;margin-bottom:10px;border:1px solid #ccc;border-radius:4px}
+.input-wrap{position:relative;margin-bottom:10px}
+.input-wrap.float input{
+  margin-bottom:0;
+  padding:16px 12px 10px;
+  background:#fff;
+  border:1px solid #c7c7c7;
+  transition:border-color .15s ease;
+}
+.input-wrap.float.has-clear input{padding-right:46px}
+.input-wrap.float.has-toggle input{padding-right:46px}
+.input-wrap.float input:focus{
+  border-color:#0f6cbd;
+  outline:none;
+}
+.input-wrap.float label{
+  position:absolute;
+  left:12px;
+  top:50%;
+  transform:translateY(-50%);
+  display:inline-block;
+  max-width:calc(100% - 24px);
+  background:#fff;
+  padding:0 4px;
+  color:#6b7280;
+  font-size:.95rem;
+  transition:all .15s ease;
+  pointer-events:none;
+}
+.input-wrap.float.has-clear label,
+.input-wrap.float.has-toggle label{
+  max-width:calc(100% - 58px);
+  overflow:hidden;
+  text-overflow:ellipsis;
+  white-space:nowrap;
+}
+.input-wrap.float input:focus + label,
+.input-wrap.float input:not(:placeholder-shown) + label{
+  top:-8px;
+  transform:none;
+  font-size:.78rem;
+  color:#111;
+}
+button.pw-toggle{
+  position:absolute;
+  right:8px;
+  top:50%;
+  transform:translateY(-50%);
+  width:34px;
+  height:34px;
+  min-height:0;
+  border:0;
+  background:transparent;
+  border-radius:10px;
+  cursor:pointer;
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  color:#6b7280;
+  box-shadow:none;
+  filter:none;
+  transition:color .15s ease;
+}
+button.pw-toggle:not(:disabled):hover{
+  transform:translateY(-50%);
+  box-shadow:none;
+  filter:none;
+  background:transparent;
+  color:#111;
+}
+button.pw-toggle:focus-visible{outline:2px solid #111;outline-offset:2px;color:#111;box-shadow:none}
+.pw-toggle svg{width:18px;height:18px;display:block}
+.pw-toggle .icon-off{display:none}
+.pw-toggle.on .icon-on{display:none}
+.pw-toggle.on .icon-off{display:block}
+  .clear-btn{
+    position:absolute;
+    right:10px;
+    top:50%;
+    transform:translateY(-50%);
+    width:26px;
+    height:26px;
+    aspect-ratio:1/1;
+    margin-top:0;
+    border-radius:50%;
+    border:0;
+    background:transparent;
+    color:#222;
+    outline:none;
+    appearance:none;
+    -webkit-appearance:none;
+    -moz-appearance:none;
+    display:inline-flex;
+    align-items:center;
+    justify-content:center;
+    line-height:1;
+    padding:0;
+    cursor:pointer;
+    opacity:.65;
+    box-shadow:none;
+    overflow:visible;
+    transition:transform .12s ease, opacity .12s ease;
+  }
+  .clear-btn:hover{
+    opacity:1;
+    transform:translateY(-50%) scale(1.08) !important;
+    background:transparent;
+    outline:none;
+    box-shadow:none;
+  }
+  .clear-btn:hover{box-shadow:none !important}
+  .clear-btn:hover{filter:none}
+  .clear-btn::after{
+    content:"";
+    position:absolute;
+    left:50%;
+    top:50%;
+    width:26px;
+    height:26px;
+    border-radius:50%;
+    transform:translate(-50%,-50%);
+    box-shadow:none;
+    pointer-events:none;
+  }
+  .clear-btn:hover::after{box-shadow:0 6px 12px rgba(0,0,0,.12)}
+  .clear-btn:focus,
+  .clear-btn:focus-visible{outline:none;box-shadow:none}
+  .clear-btn.hidden{display:none}
+button.main{width:100%;padding:12px;border:none;background:#F3D044;color:#111;font-weight:bold;cursor:pointer;border-radius:4px}
+button.main[disabled]{opacity:.6;cursor:not-allowed}
+.captcha-wrap{display:grid;gap:8px;margin:8px 0 12px}
+.captcha-question{padding:10px;border:1px dashed #c8c8c8;border-radius:8px;background:#fafafa;font-weight:700;text-align:center}
+.captcha-actions{display:flex;gap:8px}
+.captcha-options{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+.captcha-option{border:1px solid #d8d8d8;border-radius:10px;padding:12px 10px;background:#fff;font-weight:800;color:#111;cursor:pointer;transition:background-color .15s ease, border-color .15s ease, filter .15s ease}
+.captcha-option:disabled{opacity:.55;cursor:not-allowed}
+.captcha-option:not(:disabled):hover{background:#f3f4f6;border-color:#bdbdbd;filter:none}
+.captcha-option:focus-visible{outline:2px solid #111;outline-offset:2px}
+.link{margin-top:15px;text-align:center;color:#0078d4;cursor:pointer;text-decoration:underline;text-underline-offset:3px;text-decoration-thickness:1px;transition:color .15s ease, text-decoration-color .15s ease}
+.link:hover,.link:focus-visible{color:#003d73;text-decoration-color:#003d73;text-decoration-thickness:2px}
+.social-wrap{display:grid;gap:10px;margin:12px 0 8px}
+.social-btn{display:flex;align-items:center;justify-content:center;gap:10px;border:1px solid #d8d8d8;border-radius:8px;padding:10px;background:#fff;font-weight:600;cursor:pointer;transition:transform .08s ease, box-shadow .15s ease, border-color .15s ease}
+.social-btn:hover{transform:translateY(-1px);box-shadow:0 6px 16px rgba(0,0,0,.08);border-color:#bdbdbd}
+.social-btn:disabled{opacity:.55;cursor:not-allowed;box-shadow:none;transform:none}
+.social-btn .icon{width:22px;height:22px;border-radius:6px;display:grid;place-items:center;font-weight:700;font-size:.92rem}
+.social-btn.google .icon{background:#fff;color:#1a1a1a;border:1px solid #e3e3e3}
+.social-btn.microsoft .icon{background:#0f6cbd;color:#fff}
+.divider{display:flex;align-items:center;gap:10px;margin:8px 0 6px;color:#666;font-size:.92rem}
+.divider::before,.divider::after{content:"";flex:1;height:1px;background:#e0e0e0}
+  .step-meta{font-size:.92rem;color:#6b7280;margin:8px 0 12px}
+  .step{display:none}
+  .step.active{display:block}
+  .step-help{min-height:18px;font-size:.88rem;color:#b3261e;margin:-4px 0 8px}
+  .step-actions{display:flex;gap:10px;align-items:center;width:100%}
+  .step-actions .main{width:100%;display:block}
+  .step-progress{display:none;width:100%;height:4px;background:#f0f2f6;border-radius:999px;overflow:hidden;margin:10px 0 0}
+  .step-progress.active{display:block}
+  .step-progress .bar{height:100%;width:30%;background:linear-gradient(90deg,#111,#f3d044,#111);animation:step-load 2s ease-in-out infinite}
+  @keyframes step-load{0%{transform:translateX(-120%)}100%{transform:translateX(320%)}}
+  button.secondary{padding:12px;border:1px solid #111;background:#fff;color:#111;font-weight:700;cursor:pointer;border-radius:4px}
+  .back-arrow{
+    position:absolute;
+    top:12px;
+    left:14px;
+    width:60px;
+    height:24px;
+    border:0;
+    background:transparent;
+    color:#111;
+    font-size:20px;
+    line-height:1;
+    cursor:pointer;
+    border-radius:8px;
+    display:inline-flex;
+    align-items:center;
+    justify-content:center;
+    transition:background-color .15s ease, box-shadow .15s ease;
+  }
+  .back-arrow:hover,.back-arrow:focus-visible{background:#f5f5f5;box-shadow:0 6px 16px rgba(0,0,0,0.12);outline:none}
+  .home-btn{
+    position:absolute;
+    left:14px;
+    bottom:12px;
+    width:36px;
+    height:36px;
+    border:0;
+    background:transparent;
+    color:#111;
+    border-radius:10px;
+    display:inline-flex;
+    align-items:center;
+    justify-content:center;
+    cursor:pointer;
+    transition:background-color .15s ease, box-shadow .15s ease;
+  }
+  .home-btn:hover,.home-btn:focus-visible{background:#f5f5f5;box-shadow:0 6px 16px rgba(0,0,0,.12);outline:none}
+  .home-btn svg{width:24px;height:24px;display:block}
+
+  .captcha-overlay{position:fixed;inset:0;display:none;align-items:center;justify-content:center;padding:22px;background:rgba(0,0,0,.45);z-index:1200}
+  .captcha-overlay.show{display:flex}
+  .captcha-card{background:#fff;border-radius:14px;max-width:420px;width:100%;padding:16px 16px 14px;box-shadow:0 18px 40px rgba(0,0,0,.22)}
+  .captcha-head{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:10px}
+  .captcha-title{font-weight:800;color:#111}
+  .captcha-close{border:0;background:transparent;font-size:26px;line-height:1;cursor:pointer;color:#333;padding:4px 8px;border-radius:10px}
+  .captcha-close:hover,.captcha-close:focus-visible{background:#f3f4f6;outline:none}
+  .captcha-overlay-actions{display:flex;justify-content:flex-end;margin-top:8px}
+  .email-code-grid{display:grid;grid-template-columns:repeat(6,1fr);gap:8px;margin:12px 0 8px}
+  .email-code-grid input{
+    width:100%;
+    padding:12px 0;
+    border:1px solid #c7c7c7;
+    border-radius:10px;
+    text-align:center;
+    font-size:18px;
+    font-weight:800;
+    color:#111;
+    outline:none;
+  }
+  .email-code-grid input:focus{border-color:#0f6cbd}
+  .email-code-actions{display:flex;gap:10px;align-items:center;justify-content:space-between;margin-top:10px}
+  .email-code-actions .secondary,.email-code-actions .main{flex:1}
+  .email-code-bottom{display:flex;justify-content:flex-start;margin-top:10px}
+  .email-code-resend{margin-top:0;text-align:left}
+.modal{display:none;position:fixed;z-index:1000;left:0;top:0;width:100%;height:100%;background:rgba(0,0,0,.5);justify-content:center;align-items:center}
+.modal-content{background:#fff;padding:25px 30px;border-radius:8px;width:350px;text-align:center;position:relative;box-shadow:0 10px 30px rgba(0,0,0,.2)}
+#modalBtn{margin-top:15px;padding:10px 20px;background:#F3D044;color:#111;border:none;font-weight:bold;cursor:pointer;border-radius:4px}
+#modalInput{width:100%;padding:10px;margin-top:10px;border:1px solid #ccc;border-radius:4px;display:none}
+.close{position:absolute;top:10px;right:15px;font-size:22px;cursor:pointer;color:#555}
+.assistant-nudge-close{display:none !important}
+.assistant-nudge{padding-right:.95rem !important}
+/* Cookie banner */
+</style>
+
+<link rel='stylesheet' href='/ui_public.css'>
+<script defer src='/ui_public.js'></script>
+</head>
+<body>
+<header class="tse-header">
+  <div class="tse-header-left">
+    <a class="logo tse-header-logo" href="/frontend.html" aria-label="Ir al inicio"><img src="/icono/tsev2_beta.png" alt="TodoSevillaEste"></a>
+  </div>
+  <div></div>
+  <div class="header-actions"></div>
+</header>
+<div class="page">
+  <div class="box">
+    <button type="button" id="backBtn" class="back-arrow" onclick="goPrevStep()" aria-label="Atrás">⮌</button>
+    <h1>Iniciar sesión</h1>
+    <br>
+    <div id="oauthWrap" class="social-wrap" style="display:none;">
+      <button type="button" class="social-btn google" data-oauth-provider="google" onclick="startOAuth('google')">
+        <span class="icon">G</span>
+        <span>Continuar con Google</span>
+      </button>
+      <button type="button" class="social-btn microsoft" data-oauth-provider="microsoft" onclick="startOAuth('microsoft')">
+        <span class="icon">M</span>
+        <span>Continuar con Microsoft</span>
+      </button>
+    </div>
+    <div id="oauthDivider" class="divider" style="display:none;"><span>o continúa con tu cuenta</span></div>
+
+
+    <div class="step active" data-step="0">
+      <div class="input-wrap float has-clear">
+        <input id="login" placeholder=" " autocomplete="username">
+        <label for="login">Correo electrónico o nombre de usuario</label>
+        <button type="button" class="clear-btn hidden" data-clear-for="login" aria-label="Borrar correo o usuario">×</button>
+      </div>
+      <div id="loginHelp" class="step-help"></div>
+    </div>
+
+    <div class="step" data-step="1">
+      <div class="input-wrap float has-toggle">
+        <input id="password" type="password" placeholder=" " autocomplete="current-password">
+        <label for="password">Contraseña</label>
+        <button type="button" id="pwToggle" class="pw-toggle" aria-label="Mostrar contraseña" title="Mostrar contraseña">
+          <svg class="icon-on" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+            <path fill="currentColor" d="M12 5c5.5 0 9.7 4.1 11 6.7a1.2 1.2 0 0 1 0 1.1C21.7 15.9 17.5 20 12 20S2.3 15.9 1 13.3a1.2 1.2 0 0 1 0-1.1C2.3 9.1 6.5 5 12 5Zm0 2C7.6 7 4.2 10.2 3.1 12c1.1 1.8 4.5 5 8.9 5s7.8-3.2 8.9-5C19.8 10.2 16.4 7 12 7Zm0 1.8a3.2 3.2 0 1 1 0 6.4 3.2 3.2 0 0 1 0-6.4Z"/>
+          </svg>
+          <svg class="icon-off" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+            <path fill="currentColor" d="M3.2 4.6 4.6 3.2l16.2 16.2-1.4 1.4-2.3-2.3A11.8 11.8 0 0 1 12 20C6.5 20 2.3 15.9 1 13.3a1.2 1.2 0 0 1 0-1.1A17.2 17.2 0 0 1 6 6.8L3.2 4.6Zm4.3 4.3A13.6 13.6 0 0 0 3.1 12c1.1 1.8 4.5 5 8.9 5 1.4 0 2.7-.3 3.9-.8l-1.7-1.7a3.2 3.2 0 0 1-4.4-4.4L7.5 8.9Zm3-3A11.8 11.8 0 0 1 12 5c5.5 0 9.7 4.1 11 6.7a1.2 1.2 0 0 1 0 1.1 16 16 0 0 1-3.4 4.3l-2.2-2.2A13.6 13.6 0 0 0 20.9 12C19.8 10.2 16.4 7 12 7c-.5 0-1 .1-1.5.1l-2-2Z"/>
+          </svg>
+        </button>
+      </div>
+      <div id="passwordHelp" class="step-help"></div>
+    </div>
+    <input id="antibotHoney" name="company" autocomplete="off" tabindex="-1" style="position:absolute;left:-9999px;opacity:0;height:0;width:0;border:0;padding:0;margin:0;" aria-hidden="true">
+
+    <div id="stepActions" class="step-actions">
+      <button id="nextBtn" class="main" onclick="handleStepAction()" disabled>Siguiente</button>
+    </div>
+    <div id="stepProgress" class="step-progress" aria-hidden="true">
+      <div class="bar"></div>
+    </div>
+ 
+    <div id="codeBox" style="display:none; margin-top:10px;">
+      <input id="code" placeholder="Escribe aquí el código recibido por correo">
+      <button class="main" onclick="verifyLogin()">Verificar</button>
+    </div>
+
+    <div class="link" onclick="goRegister()">Crear cuenta</div>
+    <div class="link" onclick="forgotPassword()">Olvidé mi contraseña</div>
+    <button type="button" class="home-btn" onclick="goHome()" aria-label="Ir al inicio" title="Inicio">
+      <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+        <path d="M2.5 10.5 12 2l9.5 8.5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+        <path d="M5.2 10.3V20a1.8 1.8 0 0 0 1.8 1.8h4.2v-5h1.6v5H17a1.8 1.8 0 0 0 1.8-1.8v-9.7" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+        <path d="M1.4 11.6 12 2.1l10.6 9.5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" opacity=".95"/>
+      </svg>
+    </button>
+  </div>
+</div>
+
+<div id="captchaOverlay" class="captcha-overlay" role="dialog" aria-modal="true" aria-hidden="true">
+  <div class="captcha-card">
+    <div class="captcha-head">
+      <div class="captcha-title">Verificación anti-bot</div>
+    </div>
+    <div class="captcha-wrap" aria-live="polite">
+      <div id="captchaQuestion" class="captcha-question">Cargando verificación...</div>
+      <div id="captchaOptions" class="captcha-options" role="group" aria-label="Opciones de verificación"></div>
+    </div>
+    <div id="captchaProgress" class="step-progress" aria-hidden="true">
+      <div class="bar"></div>
+    </div>
+  </div>
+</div>
+
+<div id="emailCodeOverlay" class="captcha-overlay" role="dialog" aria-modal="true" aria-hidden="true">
+  <div class="captcha-card">
+    <div class="captcha-head">
+      <div class="captcha-title">Verifica tu correo</div>
+    </div>
+    <div id="emailCodeGrid" class="email-code-grid" aria-label="Código de verificación por correo">
+      <input type="text" inputmode="numeric" pattern="[0-9]*" maxlength="1" aria-label="Dígito 1">
+      <input type="text" inputmode="numeric" pattern="[0-9]*" maxlength="1" aria-label="Dígito 2">
+      <input type="text" inputmode="numeric" pattern="[0-9]*" maxlength="1" aria-label="Dígito 3">
+      <input type="text" inputmode="numeric" pattern="[0-9]*" maxlength="1" aria-label="Dígito 4">
+      <input type="text" inputmode="numeric" pattern="[0-9]*" maxlength="1" aria-label="Dígito 5">
+      <input type="text" inputmode="numeric" pattern="[0-9]*" maxlength="1" aria-label="Dígito 6">
+    </div>
+    <div id="emailCodeProgress" class="step-progress" aria-hidden="true">
+      <div class="bar"></div>
+    </div>
+    <div id="emailCodeHelp" class="step-help"></div>
+    <div class="email-code-actions">
+      <button type="button" id="emailCodeCancel" class="secondary">Cancelar</button>
+      <button type="button" id="emailCodeAccept" class="main" disabled>Aceptar</button>
+    </div>
+    <div class="email-code-bottom">
+      <div id="emailCodeResend" class="link email-code-resend" role="button" tabindex="0">Reenviar código</div>
+    </div>
+  </div>
+</div>
+
+<div id="customModal" class="modal">
+  <div class="modal-content">
+    <span class="close">&times;</span>
+    <p id="modalText"></p>
+    <input id="modalInput" type="text" placeholder="">
+    <button id="modalBtn">Aceptar</button>
+  </div>
+</div>
+
+<script>
+const params = new URLSearchParams(location.search);
+const redirect = params.get("redirect") || "/";
+let loginCaptchaOk = false;
+const oauthProviders = { google: false, microsoft: false };
+let antibotToken = "";
+let antibotIssuedAt = 0;
+let antibotStartedAt = 0;
+let antibotMinElapsed = 2500;
+let captchaToken = "";
+let captchaVerified = false;
+let captchaSelectedAnswer = "";
+let captchaFailCount = 0;
+let steps = [];
+let currentStep = 0;
+let loginBusy = false;
+let captchaSubmitAfterVerify = false;
+let lastFocusBeforeCaptcha = null;
+let emailCodeBusy = false;
+let emailCodeLoading = false;
+let emailCodeLoadTimer = 0;
+let lastLoginPayload = null;
+let stepLoading = false;
+const minStepDelayMs = 650;
+const maxStepDelayMs = 1200;
+const minLoginLoadMs = 450;
+const minCaptchaLoadMs = 450;
+
+function setStepHelp(id, message){
+  const el = document.getElementById(id);
+  if(el) el.textContent = message || "";
+}
+
+function sleepMs(ms){
+  return new Promise((resolve) => setTimeout(resolve, Math.max(0, Number(ms || 0) || 0)));
+}
+
+async function ensureMinLoginLoad(startedAtMs){
+  const elapsed = Date.now() - (Number(startedAtMs || 0) || Date.now());
+  if(elapsed < minLoginLoadMs){
+    await sleepMs(minLoginLoadMs - elapsed);
+  }
+}
+
+async function ensureMinCaptchaLoad(startedAtMs){
+  const elapsed = Date.now() - (Number(startedAtMs || 0) || Date.now());
+  if(elapsed < minCaptchaLoadMs){
+    await sleepMs(minCaptchaLoadMs - elapsed);
+  }
+}
+function loadAntibotChallenge(){
+  return fetch("/public/antibot/challenge", { cache: "no-store" })
+    .then(r => (r && r.ok) ? r.json() : null)
+    .then(data => {
+      antibotToken = (data && data.token) ? String(data.token) : "";
+      antibotIssuedAt = Number(data && data.issued_at ? data.issued_at : 0);
+      antibotMinElapsed = Number(data && data.min_elapsed_ms ? data.min_elapsed_ms : 2500);
+      antibotStartedAt = Date.now();
+      return antibotToken;
+    })
+    .catch(() => {
+      antibotToken = "";
+      antibotIssuedAt = 0;
+      antibotStartedAt = 0;
+      return "";
+    });
+}
+function loadCaptchaChallenge(){
+  return fetch("/public/captcha/challenge", { cache: "no-store" })
+    .then(r => (r && r.ok) ? r.json() : null)
+    .then(data => {
+      captchaToken = (data && data.token) ? String(data.token) : "";
+      const question = (data && data.question) ? String(data.question) : "Verificación no disponible";
+      const questionEl = document.getElementById("captchaQuestion");
+      const parsed = parseCaptchaQuestion(question);
+      if(questionEl) questionEl.textContent = parsed ? parsed.display : question;
+      captchaSelectedAnswer = "";
+      loginCaptchaOk = false;
+      captchaVerified = false;
+      renderCaptchaOptions(parsed);
+      setCaptchaLoading(false);
+      updateStepEnabled();
+      return captchaToken;
+    })
+    .catch(() => {
+      captchaToken = "";
+      const questionEl = document.getElementById("captchaQuestion");
+      if(questionEl) questionEl.textContent = "Verificación no disponible";
+      captchaSelectedAnswer = "";
+      loginCaptchaOk = false;
+      captchaVerified = false;
+      renderCaptchaOptions(null);
+      setCaptchaLoading(false);
+      updateStepEnabled();
+      return "";
+    });
+}
+
+function setLoginEnabled(enabled){
+  const btn = document.getElementById("nextBtn");
+  if(btn) btn.disabled = stepLoading || !enabled;
+}
+
+function setLoginBusyState(active){
+  loginBusy = !!active;
+  setStepLoading(loginBusy);
+  const btn = document.getElementById("nextBtn");
+  if(btn){
+    btn.disabled = loginBusy || btn.disabled;
+    if(loginBusy){
+      btn.dataset.prevText = btn.textContent || "";
+      btn.textContent = "Procesando...";
+    }else{
+      const wanted = currentStep === 0 ? "Siguiente" : "Iniciar sesión";
+      btn.textContent = wanted;
+    }
+  }
+  const loginEl = document.getElementById("login");
+  const pwdEl = document.getElementById("password");
+  if(loginEl) loginEl.disabled = loginBusy;
+  if(pwdEl) pwdEl.disabled = loginBusy;
+}
+
+function updateStepMeta(){
+  const meta = document.getElementById("stepMeta");
+  if(meta) meta.textContent = `Paso ${currentStep + 1} de ${steps.length || 2}`;
+}
+
+function showStep(idx){
+  if(!steps || !steps.length){
+    steps = Array.from(document.querySelectorAll(".step"));
+  }
+  currentStep = Math.max(0, Math.min(idx, (steps.length || 2) - 1));
+  steps.forEach((step, i) => step.classList.toggle("active", i === currentStep));
+  setStepHelp("loginHelp", "");
+  setStepHelp("passwordHelp", "");
+  const backBtn = document.getElementById("backBtn");
+  if(backBtn) backBtn.style.display = currentStep === 0 ? "none" : "inline-flex";
+  const nextBtn = document.getElementById("nextBtn");
+  if(nextBtn) nextBtn.textContent = currentStep === 0 ? "Siguiente" : "Iniciar sesión";
+  setStepLoading(false);
+  updateStepMeta();
+  updateStepEnabled();
+  requestAnimationFrame(() => {
+    const targetId = currentStep === 0 ? "login" : "password";
+    const el = document.getElementById(targetId);
+    if(!el) return;
+    try{ el.focus({ preventScroll: true }); }catch(_e){ try{ el.focus(); }catch(_e2){} }
+    try{
+      const v = String(el.value || "");
+      el.setSelectionRange(v.length, v.length);
+    }catch(_e){}
+  });
+}
+
+function goPrevStep(){
+  if(currentStep <= 0){
+    goBack();
+    return;
+  }
+  if(stepLoading) return;
+  setStepLoading(true);
+  setTimeout(() => {
+    showStep(currentStep - 1);
+  }, getStepDelayMs());
+}
+
+function updateStepEnabled(){
+  if(loginBusy) return;
+  if(stepLoading){
+    setLoginEnabled(false);
+    return;
+  }
+  const codeBox = document.getElementById("codeBox");
+  if(codeBox && codeBox.style.display === "block"){
+    setLoginEnabled(false);
+    return;
+  }
+  const emailOverlay = document.getElementById("emailCodeOverlay");
+  if(emailOverlay && emailOverlay.classList.contains("show")){
+    setLoginEnabled(false);
+    return;
+  }
+  const loginVal = (document.getElementById("login").value || "").trim();
+  const passVal = (document.getElementById("password").value || "");
+  const enabled = currentStep === 0 ? !!loginVal : !!(loginVal && passVal);
+  setLoginEnabled(enabled);
+}
+
+function setStepLoading(active){
+  stepLoading = !!active;
+  const bar = document.getElementById("stepProgress");
+  if(bar) bar.classList.toggle("active", stepLoading);
+  if(!stepLoading){
+    updateStepEnabled();
+  } else {
+    const nextBtn = document.getElementById("nextBtn");
+    if(nextBtn) nextBtn.disabled = true;
+  }
+}
+
+function getStepDelayMs(){
+  return Math.floor(minStepDelayMs + Math.random() * (maxStepDelayMs - minStepDelayMs));
+}
+
+function setCaptchaLoading(active){
+  const bar = document.getElementById("captchaProgress");
+  if(bar) bar.classList.toggle("active", !!active);
+}
+
+function parseCaptchaQuestion(raw){
+  const text = String(raw || "");
+  const m = text.match(/(-?\d+)\s*([+\-])\s*(-?\d+)/);
+  if(!m) return null;
+  const a = Number(m[1]);
+  const op = m[2];
+  const b = Number(m[3]);
+  if(!Number.isFinite(a) || !Number.isFinite(b)) return null;
+  const result = op === "+" ? (a + b) : (a - b);
+  return { a, b, op, result, display: `${a} ${op} ${b}` };
+}
+
+function shuffleInPlace(arr){
+  for(let i=arr.length-1; i>0; i--){
+    const j = Math.floor(Math.random() * (i + 1));
+    const tmp = arr[i];
+    arr[i] = arr[j];
+    arr[j] = tmp;
+  }
+  return arr;
+}
+
+function buildCaptchaOptions(correct){
+  const base = Number(correct);
+  const opts = new Set([base]);
+  while(opts.size < 3){
+    const delta = 1 + Math.floor(Math.random() * 9);
+    const sign = Math.random() < 0.5 ? -1 : 1;
+    opts.add(base + sign * delta);
+  }
+  return shuffleInPlace(Array.from(opts).map(v => String(v)));
+}
+
+function renderCaptchaOptions(parsed){
+  const wrap = document.getElementById("captchaOptions");
+  if(!wrap) return;
+  if(!parsed || typeof parsed.result !== "number"){
+    wrap.innerHTML = "<button class=\"captcha-option\" type=\"button\" disabled>--</button><button class=\"captcha-option\" type=\"button\" disabled>--</button><button class=\"captcha-option\" type=\"button\" disabled>--</button>";
+    return;
+  }
+  const options = buildCaptchaOptions(parsed.result);
+  wrap.innerHTML = options.map(v => `<button class="captcha-option" type="button" data-captcha-answer="${v}">${v}</button>`).join("");
+}
+
+function disableCaptchaOptions(disabled){
+  const wrap = document.getElementById("captchaOptions");
+  if(!wrap) return;
+  wrap.querySelectorAll("button").forEach(btn => {
+    btn.disabled = !!disabled;
+  });
+}
+
+async function verifyCaptchaChoice(answerVal){
+  const answer = String(answerVal || "").trim();
+  if(!captchaToken || !answer) return;
+  const startedAt = Date.now();
+  setCaptchaLoading(true);
+  disableCaptchaOptions(true);
+  try{
+    const res = await fetch("/public/captcha/verify", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ token: captchaToken, answer })
+    });
+    const data = await res.json().catch(() => ({}));
+    await ensureMinCaptchaLoad(startedAt);
+    if(data && data.ok){
+      captchaVerified = true;
+      captchaSelectedAnswer = answer;
+      loginCaptchaOk = !!(captchaToken && captchaSelectedAnswer);
+      setCaptchaLoading(false);
+      disableCaptchaOptions(false);
+      if(captchaSubmitAfterVerify){
+        captchaSubmitAfterVerify = false;
+        closeCaptchaOverlay();
+        setStepLoading(true);
+        requestAnimationFrame(() => requestAnimationFrame(() => sendLogin()));
+      }
+      return;
+    }
+    captchaFailCount += 1;
+    if(captchaFailCount >= 3){
+      await restartLoginAfterCaptchaFail();
+      return;
+    }
+    setCaptchaLoading(false);
+    disableCaptchaOptions(false);
+    await loadCaptchaChallenge();
+  }catch(_e){
+    await ensureMinCaptchaLoad(startedAt);
+    setCaptchaLoading(false);
+    disableCaptchaOptions(false);
+    await loadCaptchaChallenge();
+  }
+}
+
+function resolveSafeRedirect(raw){
+  try{
+    const u = new URL(raw || "/", window.location.origin);
+    if(u.origin !== window.location.origin) return "/frontend.html";
+    return `${u.pathname}${u.search}${u.hash}`;
+  }catch(_e){
+    return "/frontend.html";
+  }
+}
+
+const safeRedirect = resolveSafeRedirect(redirect);
+
+function openCaptchaOverlay(){
+  const overlay = document.getElementById("captchaOverlay");
+  if(!overlay) return;
+  lastFocusBeforeCaptcha = document.activeElement || null;
+  overlay.classList.add("show");
+  overlay.setAttribute("aria-hidden", "false");
+  captchaSubmitAfterVerify = true;
+  captchaFailCount = 0;
+  captchaVerified = false;
+  captchaSelectedAnswer = "";
+  loginCaptchaOk = false;
+  setCaptchaLoading(false);
+  loadCaptchaChallenge();
+}
+
+function closeCaptchaOverlay(){
+  const overlay = document.getElementById("captchaOverlay");
+  if(!overlay) return;
+  overlay.classList.remove("show");
+  overlay.setAttribute("aria-hidden", "true");
+  captchaSubmitAfterVerify = false;
+  try{
+    if(lastFocusBeforeCaptcha && typeof lastFocusBeforeCaptcha.focus === "function"){
+      lastFocusBeforeCaptcha.focus();
+    }
+  }catch(_e){}
+}
+
+async function restartLoginAfterCaptchaFail(){
+  try{ closeCaptchaOverlay(); }catch(_e){}
+  setCaptchaLoading(false);
+  disableCaptchaOptions(false);
+  captchaFailCount = 0;
+  captchaVerified = false;
+  captchaSelectedAnswer = "";
+  captchaToken = "";
+  const loginEl = document.getElementById("login");
+  const pwdEl = document.getElementById("password");
+  if(loginEl) loginEl.value = "";
+  if(pwdEl) pwdEl.value = "";
+  const codeBox = document.getElementById("codeBox");
+  if(codeBox) codeBox.style.display = "none";
+  const actions = document.getElementById("stepActions");
+  if(actions) actions.style.display = "";
+  const meta = document.getElementById("stepMeta");
+  if(meta) meta.style.display = "";
+  setStepHelp("loginHelp", "");
+  setStepHelp("passwordHelp", "");
+  setStepLoading(false);
+  setLoginBusyState(false);
+  loadAntibotChallenge();
+  showStep(0);
+  setStepHelp("loginHelp", "Verificación fallida, inicia sesión de nuevo");
+}
+
+function handleStepAction(){
+  if(loginBusy || stepLoading) return;
+  const loginVal = (document.getElementById("login").value || "").trim();
+  if(currentStep === 0){
+    if(!loginVal){
+      setStepHelp("loginHelp", "Escribe tu correo electrónico o nombre de usuario.");
+      return;
+    }
+    setStepLoading(true);
+    setTimeout(() => {
+      showStep(1);
+    }, getStepDelayMs());
+    return;
+  }
+  const passVal = (document.getElementById("password").value || "");
+  if(!loginVal || !passVal){
+    setStepHelp("passwordHelp", "Escribe tu contraseña para continuar.");
+    return;
+  }
+  openCaptchaOverlay();
+}
+
+function enterCodeVerificationMode(){
+  openEmailCodeOverlay();
+  const actions = document.getElementById("stepActions");
+  if(actions) actions.style.display = "none";
+  const meta = document.getElementById("stepMeta");
+  if(meta) meta.style.display = "none";
+  const backBtn = document.getElementById("backBtn");
+  if(backBtn) backBtn.style.display = "none";
+  const bar = document.getElementById("stepProgress");
+  if(bar) bar.classList.remove("active");
+}
+
+function setEmailCodeHelp(message){
+  setStepHelp("emailCodeHelp", message || "");
+}
+
+function readEmailCodeValue(){
+  const grid = document.getElementById("emailCodeGrid");
+  if(!grid) return "";
+  const digits = Array.from(grid.querySelectorAll("input")).map(i => String(i.value || "").replace(/\D/g, "").slice(0, 1));
+  const code = digits.join("");
+  return /^\d{6}$/.test(code) ? code : "";
+}
+
+function updateEmailCodeAcceptEnabled(){
+  const accept = document.getElementById("emailCodeAccept");
+  if(!accept) return;
+  accept.disabled = emailCodeLoading || !readEmailCodeValue();
+}
+
+function setEmailCodeLoading(active){
+  emailCodeLoading = !!active;
+  const bar = document.getElementById("emailCodeProgress");
+  if(bar) bar.classList.toggle("active", emailCodeLoading);
+  const grid = document.getElementById("emailCodeGrid");
+  if(grid) grid.querySelectorAll("input").forEach(i => { i.disabled = emailCodeLoading; });
+  const accept = document.getElementById("emailCodeAccept");
+  const cancel = document.getElementById("emailCodeCancel");
+  if(accept) accept.disabled = emailCodeLoading || !readEmailCodeValue();
+  if(cancel) cancel.disabled = emailCodeLoading;
+  const resend = document.getElementById("emailCodeResend");
+  if(resend) resend.setAttribute("aria-disabled", emailCodeLoading ? "true" : "false");
+}
+
+function startEmailCodeLoadingDelayed(delayMs){
+  try{
+    if(emailCodeLoadTimer) clearTimeout(emailCodeLoadTimer);
+  }catch(_e){}
+  emailCodeLoadTimer = 0;
+  setEmailCodeLoading(false);
+  emailCodeLoadTimer = setTimeout(() => {
+    emailCodeLoadTimer = 0;
+    setEmailCodeLoading(true);
+  }, Math.max(0, Number(delayMs || 0) || 0));
+}
+
+function stopEmailCodeLoading(){
+  try{
+    if(emailCodeLoadTimer) clearTimeout(emailCodeLoadTimer);
+  }catch(_e){}
+  emailCodeLoadTimer = 0;
+  setEmailCodeLoading(false);
+}
+
+function resetEmailCodeInputs(){
+  const grid = document.getElementById("emailCodeGrid");
+  if(!grid) return;
+  grid.querySelectorAll("input").forEach(i => { i.value = ""; });
+  updateEmailCodeAcceptEnabled();
+  setEmailCodeHelp("");
+}
+
+function openEmailCodeOverlay(){
+  const overlay = document.getElementById("emailCodeOverlay");
+  if(!overlay) return;
+  overlay.classList.add("show");
+  overlay.setAttribute("aria-hidden", "false");
+  resetEmailCodeInputs();
+  requestAnimationFrame(() => {
+    const grid = document.getElementById("emailCodeGrid");
+    const first = grid ? grid.querySelector("input") : null;
+    if(first){
+      try{ first.focus({ preventScroll: true }); }catch(_e){ try{ first.focus(); }catch(_e2){} }
+    }
+  });
+}
+
+function closeEmailCodeOverlay(){
+  const overlay = document.getElementById("emailCodeOverlay");
+  if(!overlay) return;
+  overlay.classList.remove("show");
+  overlay.setAttribute("aria-hidden", "true");
+  stopEmailCodeLoading();
+  emailCodeBusy = false;
+}
+
+function exitEmailCodeMode(){
+  closeEmailCodeOverlay();
+  const actions = document.getElementById("stepActions");
+  if(actions) actions.style.display = "";
+  const meta = document.getElementById("stepMeta");
+  if(meta) meta.style.display = "";
+  const backBtn = document.getElementById("backBtn");
+  if(backBtn) backBtn.style.display = currentStep === 0 ? "none" : "inline-flex";
+  showStep(1);
+  updateStepEnabled();
+}
+
+async function resendLoginEmailCode(){
+  if(emailCodeBusy || emailCodeLoading) return;
+  if(!lastLoginPayload){
+    exitEmailCodeMode();
+    setStepHelp("passwordHelp", "Vuelve a iniciar sesión para reenviar el código.");
+    return;
+  }
+  emailCodeBusy = true;
+  startEmailCodeLoadingDelayed(260);
+  setEmailCodeHelp("");
+  try{
+    const res = await fetch(`/auth/login`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(lastLoginPayload),
+      credentials: "include"
+    });
+    const data = await res.json().catch(() => ({}));
+    if(!res.ok){
+      exitEmailCodeMode();
+      const detail = (data && data.detail) ? String(data.detail) : "No se pudo reenviar el código.";
+      setStepHelp("passwordHelp", detail);
+      loadAntibotChallenge();
+      captchaToken = "";
+      captchaVerified = false;
+      loginCaptchaOk = false;
+      return;
+    }
+    if(!data || !data.requires_email_verification){
+      closeEmailCodeOverlay();
+      goAfterLogin();
+      return;
+    }
+    resetEmailCodeInputs();
+  }catch(_e){
+    exitEmailCodeMode();
+    setStepHelp("passwordHelp", "No se pudo reenviar el código.");
+  }finally{
+    stopEmailCodeLoading();
+    emailCodeBusy = false;
+  }
+}
+
+async function verifyLoginEmailCode(code){
+  const login = document.getElementById("login").value.trim();
+  const cleanCode = String(code || "").replace(/\D/g, "").slice(0, 6);
+  if(!login || !/^\d{6}$/.test(cleanCode)) return;
+  if(emailCodeBusy || emailCodeLoading) return;
+  emailCodeBusy = true;
+  setEmailCodeLoading(true);
+  setEmailCodeHelp("");
+  try{
+    const res = await fetch(`/auth/login/verify`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ login, code: cleanCode, remember: true }),
+      credentials: "include"
+    });
+    const data = await res.json().catch(() => ({}));
+    if(!res.ok){
+      exitEmailCodeMode();
+      setStepHelp("passwordHelp", (data && data.detail) ? String(data.detail) : "Código inválido");
+      return;
+    }
+    closeEmailCodeOverlay();
+    goAfterLogin();
+  }catch(_e){
+    exitEmailCodeMode();
+    setStepHelp("passwordHelp", "Error de conexión con el servidor.");
+  }finally{
+    stopEmailCodeLoading();
+    emailCodeBusy = false;
+  }
+}
+
+function initPasswordToggle(){
+  const toggleBtn = document.getElementById("pwToggle");
+  const input = document.getElementById("password");
+  if(!toggleBtn || !input) return;
+
+  const setHidden = (hidden) => {
+    toggleBtn.classList.toggle("on", !!hidden);
+    input.type = hidden ? "password" : "text";
+    const label = hidden ? "Mostrar contraseña" : "Ocultar contraseña";
+    toggleBtn.setAttribute("aria-label", label);
+    toggleBtn.setAttribute("title", label);
+  };
+
+  setHidden(true);
+  toggleBtn.addEventListener("click", () => {
+    const wasHidden = toggleBtn.classList.contains("on");
+    const start = input.selectionStart;
+    const end = input.selectionEnd;
+    setHidden(!wasHidden);
+    try{
+      input.focus();
+      if(typeof start === "number" && typeof end === "number"){
+        input.setSelectionRange(start, end);
+      }
+    }catch(_e){}
+  });
+}
+
+function initClearButtons(){
+  document.querySelectorAll("[data-clear-for]").forEach(btn => {
+    const targetId = btn.getAttribute("data-clear-for");
+    const input = document.getElementById(targetId);
+    if(!input) return;
+    const updateVisibility = () => {
+      btn.classList.toggle("hidden", !input.value);
+    };
+    updateVisibility();
+    input.addEventListener("input", updateVisibility);
+    btn.addEventListener("click", () => {
+      input.value = "";
+      input.dispatchEvent(new Event("input", { bubbles: true }));
+      input.focus();
+    });
+  });
+}
+
+document.addEventListener("DOMContentLoaded", () => {
+  steps = Array.from(document.querySelectorAll(".step"));
+  showStep(0);
+  requestAnimationFrame(() => requestAnimationFrame(() => {
+    const el = document.getElementById("login");
+    if(!el) return;
+    try{ el.focus({ preventScroll: true }); }catch(_e){ try{ el.focus(); }catch(_e2){} }
+    try{
+      const v = String(el.value || "");
+      el.setSelectionRange(v.length, v.length);
+    }catch(_e){}
+  }));
+  ["login","password"].forEach(id => {
+    const el = document.getElementById(id);
+    if(el) el.addEventListener("input", () => {
+      if(id === "login") setStepHelp("loginHelp", "");
+      if(id === "password") setStepHelp("passwordHelp", "");
+      updateStepEnabled();
+    });
+  });
+  initPasswordToggle();
+  initClearButtons();
+  loadAntibotChallenge();
+  const emailGrid = document.getElementById("emailCodeGrid");
+  const emailAccept = document.getElementById("emailCodeAccept");
+  const emailCancel = document.getElementById("emailCodeCancel");
+  const emailResend = document.getElementById("emailCodeResend");
+  if(emailAccept){
+    emailAccept.addEventListener("click", () => {
+      const code = readEmailCodeValue();
+      if(!code) return;
+      verifyLoginEmailCode(code);
+    });
+  }
+  if(emailCancel){
+    emailCancel.addEventListener("click", () => {
+      exitEmailCodeMode();
+    });
+  }
+  if(emailResend){
+    const trigger = () => resendLoginEmailCode();
+    emailResend.addEventListener("click", trigger);
+    emailResend.addEventListener("keydown", (e) => {
+      if(e.key !== "Enter" && e.key !== " ") return;
+      e.preventDefault();
+      trigger();
+    });
+  }
+  if(emailGrid){
+    const inputs = Array.from(emailGrid.querySelectorAll("input"));
+    const focusIndex = (idx) => {
+      const el = inputs[idx];
+      if(!el) return;
+      try{ el.focus({ preventScroll: true }); }catch(_e){ try{ el.focus(); }catch(_e2){} }
+      try{ el.select(); }catch(_e){}
+    };
+    const fillDigits = (digits) => {
+      const clean = String(digits || "").replace(/\D/g, "").slice(0, 6).split("");
+      inputs.forEach((el, i) => { el.value = clean[i] || ""; });
+      updateEmailCodeAcceptEnabled();
+      if(clean.length >= 6){
+        verifyLoginEmailCode(readEmailCodeValue());
+      }
+    };
+    emailGrid.addEventListener("paste", (e) => {
+      try{
+        const text = (e.clipboardData && e.clipboardData.getData) ? e.clipboardData.getData("text") : "";
+        if(!text) return;
+        const digits = String(text).replace(/\D/g, "");
+        if(digits.length < 2) return;
+        e.preventDefault();
+        fillDigits(digits);
+      }catch(_e){}
+    });
+    inputs.forEach((el, idx) => {
+      el.addEventListener("input", () => {
+        const v = String(el.value || "").replace(/\D/g, "").slice(0, 1);
+        el.value = v;
+        updateEmailCodeAcceptEnabled();
+        if(v && idx < inputs.length - 1) focusIndex(idx + 1);
+        const code = readEmailCodeValue();
+        if(code) verifyLoginEmailCode(code);
+      });
+      el.addEventListener("keydown", (e) => {
+        if(e.key === "Backspace" && !el.value && idx > 0){
+          e.preventDefault();
+          focusIndex(idx - 1);
+          return;
+        }
+        if(e.key === "ArrowLeft" && idx > 0){
+          e.preventDefault();
+          focusIndex(idx - 1);
+          return;
+        }
+        if(e.key === "ArrowRight" && idx < inputs.length - 1){
+          e.preventDefault();
+          focusIndex(idx + 1);
+          return;
+        }
+        if(e.key === "Enter"){
+          const code = readEmailCodeValue();
+          if(code){
+            e.preventDefault();
+            verifyLoginEmailCode(code);
+          }
+        }
+      });
+      el.addEventListener("focus", () => {
+        try{ el.select(); }catch(_e){}
+      });
+    });
+  }
+  document.addEventListener("keydown", (e) => {
+    if(e.key !== "Escape") return;
+    const overlay = document.getElementById("emailCodeOverlay");
+    if(!(overlay && overlay.classList.contains("show"))) return;
+    e.preventDefault();
+    closeEmailCodeOverlay();
+  });
+  const optWrap = document.getElementById("captchaOptions");
+  if(optWrap){
+    optWrap.addEventListener("click", (ev) => {
+      const btn = ev.target && ev.target.closest ? ev.target.closest("[data-captcha-answer]") : null;
+      if(!btn) return;
+      const val = btn.getAttribute("data-captcha-answer");
+      verifyCaptchaChoice(val);
+    });
+  }
+  loadOAuthProviders();
+});
+
+function goAfterLogin(){
+  const target = new URL(safeRedirect, window.location.origin);
+  target.searchParams.set("_auth", String(Date.now()));
+  window.location.replace(target.toString());
+}
+
+function goBack(){
+  if(window.history.length > 1){
+    window.history.back();
+    return;
+  }
+  window.location.href = safeRedirect || "/frontend.html";
+}
+
+function goHome(){
+  window.location.href = "/frontend.html";
+}
+
+function showModal(message, placeholder = null) {
+  return new Promise((resolve) => {
+    const modal = document.getElementById("customModal");
+    const modalText = document.getElementById("modalText");
+    const modalInput = document.getElementById("modalInput");
+    const modalBtn = document.getElementById("modalBtn");
+    const closeBtn = modal.querySelector(".close");
+
+    modalText.textContent = message;
+    if(placeholder !== null){
+      modalInput.style.display = "block";
+      modalInput.value = "";
+      modalInput.placeholder = placeholder;
+      modalInput.focus();
+    } else {
+      modalInput.style.display = "none";
+    }
+
+    modal.style.display = "flex";
+
+    function cleanup(value) {
+      modal.style.display = "none";
+      modalBtn.removeEventListener("click", onClick);
+      closeBtn.removeEventListener("click", onClose);
+      resolve(value);
+    }
+
+    function onClick() { cleanup(modalInput.style.display==="block" ? modalInput.value : null); }
+    function onClose() { cleanup(null); }
+
+    modalBtn.addEventListener("click", onClick);
+    closeBtn.addEventListener("click", onClose);
+
+    modalInput.addEventListener("keydown", (e) => {
+      if(e.key === "Enter") cleanup(modalInput.value);
+    });
+  });
+}
+
+function showAlert(message) { return showModal(message); }
+
+async function loadOAuthProviders(){
+  try{
+    const res = await fetch("/auth/oauth/providers", { cache: "no-store", credentials: "omit" });
+    if(!res.ok) return;
+    const data = await res.json();
+    oauthProviders.google = !!data.google;
+    oauthProviders.microsoft = !!data.microsoft;
+    updateOAuthButtons();
+  }catch(_e){}
+}
+
+function updateOAuthButtons(){
+  const wrap = document.getElementById("oauthWrap");
+  const divider = document.getElementById("oauthDivider");
+  const anyEnabled = !!(oauthProviders.google || oauthProviders.microsoft);
+  if(wrap) wrap.style.display = anyEnabled ? "grid" : "none";
+  if(divider) divider.style.display = anyEnabled ? "flex" : "none";
+  const googleBtn = document.querySelector('[data-oauth-provider="google"]');
+  const microsoftBtn = document.querySelector('[data-oauth-provider="microsoft"]');
+  if(googleBtn) googleBtn.disabled = !oauthProviders.google;
+  if(microsoftBtn) microsoftBtn.disabled = !oauthProviders.microsoft;
+}
+
+function startOAuth(provider){
+  if(!oauthProviders[provider]){
+    showAlert("Este método de acceso no está disponible ahora mismo.");
+    return;
+  }
+  const redirectUrl = encodeURIComponent(safeRedirect);
+  window.location.href = `/auth/oauth/${provider}/start?redirect=${redirectUrl}`;
+}
+
+function goRegister(){
+  const redirectUrl = encodeURIComponent(safeRedirect);
+  window.location.href = `/register.html?redirect=${redirectUrl}`;
+}
+
+async function sendLogin(options = {}){
+  const skipBusy = !!options.skipBusy;
+  if(!skipBusy){
+    if(loginBusy) return;
+    setLoginBusyState(true);
+  }
+  const loginStartedAt = Date.now();
+  const login = document.getElementById("login").value.trim();
+  const password = document.getElementById("password").value;
+  const remember = true;
+  const captchaAnswer = String(captchaSelectedAnswer || "").trim();
+  if(!antibotToken){
+    await showAlert("Protección anti-bot no disponible. Recarga la página.");
+    if(!skipBusy) setLoginBusyState(false);
+    return;
+  }
+  if(!captchaToken){
+    await showAlert("Verificación no disponible. Recarga la página.");
+    if(!skipBusy) setLoginBusyState(false);
+    return;
+  }
+  const recaptchaToken = antibotToken;
+  const antibotElapsed = Date.now() - (antibotStartedAt || Date.now());
+  const antibotHoney = (document.getElementById("antibotHoney").value || "");
+  document.getElementById("codeBox").style.display = "none";
+  closeEmailCodeOverlay();
+  const actions = document.getElementById("stepActions");
+  if(actions) actions.style.display = "";
+  const meta = document.getElementById("stepMeta");
+  if(meta) meta.style.display = "";
+  const backBtn = document.getElementById("backBtn");
+  if(backBtn) backBtn.style.display = currentStep === 0 ? "none" : "inline-flex";
+
+  if(!login || !password){
+    await showAlert("Por favor ingresa tu correo/usuario y contraseña.");
+    if(!skipBusy) setLoginBusyState(false);
+    return;
+  }
+  if(!captchaAnswer || !captchaVerified){
+    await showAlert("Completa la verificación anti-bot.");
+    if(!skipBusy) setLoginBusyState(false);
+    return;
+  }
+  if(!recaptchaToken){
+    await showAlert("Protección anti-bot no disponible. Recarga la página.");
+    if(!skipBusy) setLoginBusyState(false);
+    return;
+  }
+
+  try {
+    lastLoginPayload = {
+      login,
+      password,
+      remember,
+      captcha_token: captchaToken,
+      captcha_answer: captchaAnswer,
+      antibot_token: recaptchaToken,
+      antibot_elapsed_ms: antibotElapsed,
+      antibot_honey: antibotHoney
+    };
+    const res = await fetch(`/auth/login`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(lastLoginPayload),
+      credentials: "include"
+    });
+    const data = await res.json();
+
+    if(!res.ok){
+      await ensureMinLoginLoad(loginStartedAt);
+      const detail = (data && data.detail) ? String(data.detail) : "";
+      const pwdEl = document.getElementById("password");
+      if(pwdEl) pwdEl.value = "";
+      if(/usuario no encontrado/i.test(detail)){
+        showStep(0);
+        setStepHelp("loginHelp", detail || "Usuario no encontrado");
+      }else if(/contraseñ[ao] incorrecta/i.test(detail)){
+        showStep(1);
+        setStepHelp("passwordHelp", detail || "Contraseña incorrecta");
+      }else{
+        await showAlert(detail || "Error al iniciar sesión");
+        showStep(1);
+      }
+      loadAntibotChallenge();
+      captchaToken = "";
+      captchaVerified = false;
+      loginCaptchaOk = false;
+      return;
+    }
+
+    if(data.must_change_password){
+      const newPwd = await showModal("Debes cambiar tu contraseña. Ingresa la nueva:", "Nueva contraseña");
+      if(!newPwd){
+        await showAlert("La contraseña no puede estar vacía.");
+        return;
+      }
+
+      const cpRes = await fetch(`/users/change_password`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ user_id: data.user_id, new_password: newPwd }),
+        credentials: "include"
+      });
+      const cpData = await cpRes.json();
+      if(!cpRes.ok){
+        await showAlert(cpData.detail || "Error al cambiar contraseña");
+        return;
+      }
+
+      await showAlert("Contraseña cambiada correctamente. Se iniciará sesión.");
+      document.getElementById("password").value = newPwd;
+      await sendLogin({ skipBusy: true });
+      return;
+    }
+
+    if(data.requires_email_verification){
+      await ensureMinLoginLoad(loginStartedAt);
+      enterCodeVerificationMode();
+      return;
+    }
+
+    goAfterLogin();
+  } catch(err){
+    console.error(err);
+    await ensureMinLoginLoad(loginStartedAt);
+    await showAlert("No se pudo conectar con el servidor.");
+    captchaToken = "";
+  }
+  finally{
+    if(!skipBusy){
+      setLoginBusyState(false);
+      updateStepEnabled();
+    }
+  }
+}
+
+async function verifyLogin(){
+  const codeEl = document.getElementById("code");
+  const raw = codeEl ? String(codeEl.value || "") : "";
+  const clean = raw.replace(/\D/g, "").slice(0, 6);
+  if(!clean){
+    await showAlert("Por favor ingresa el código recibido por correo.");
+    return;
+  }
+  await verifyLoginEmailCode(clean);
+}
+
+async function forgotPassword(){
+  const email = await showModal("Introduce tu correo para recibir el código de verificación:", "correo@example.com");
+  if(!email) return;
+
+  try{
+    let res = await fetch(`/auth/forgot_password`, {
+      method:"POST",
+      headers: {"Content-Type":"application/json"},
+      body: JSON.stringify({ email })
+    });
+    const data1 = await res.json();
+    await showAlert(data1.detail);
+
+    const code = await showModal("Introduce el código recibido por correo:", "Código");
+    if(!code) return;
+
+    const newPassword = await showModal("Introduce tu nueva contraseña:", "Nueva contraseña");
+    if(!newPassword) return;
+
+    res = await fetch(`/auth/reset_password/verify`, {
+      method:"POST",
+      headers: {"Content-Type":"application/json"},
+      body: JSON.stringify({ email, code, new_password: newPassword })
+    });
+    const data2 = await res.json();
+    await showAlert(data2.detail);
+  } catch(err){
+    console.error(err);
+    await showAlert("Error al restablecer la contraseña.");
+  }
+}
+
+document.getElementById("login").addEventListener("keydown", (e) => {
+  if(e.key === "Enter"){
+    e.preventDefault();
+    if(currentStep === 0) handleStepAction();
+  }
+});
+
+document.getElementById("password").addEventListener("keydown", (e) => {
+  if(e.key === "Enter"){
+    e.preventDefault();
+    if(currentStep === 1) handleStepAction();
+  }
+});
+
+document.addEventListener("keydown", (e) => {
+  if(e.key === "Escape"){
+    const overlay = document.getElementById("captchaOverlay");
+    if(overlay && overlay.classList.contains("show")){
+      // No se puede cerrar la verificación anti-bot con Escape.
+      return;
+    }
+  }
+});
+
+document.getElementById("code").addEventListener("keydown", (e) => {
+  if(e.key === "Enter"){
+    e.preventDefault();
+    verifyLogin();
+  }
+});
+</script>
+
+<div id="cookieBanner" class="cookie-banner" role="dialog" aria-modal="true" aria-live="polite">
+  <div class="cookie-panel">
+    <div class="cookie-text">
+      Este sitio web usa <a class="cookie-link" href="https://todosevillaeste.es/cookies.html" target="_blank" rel="noopener">cookies</a> técnicas necesarias. Puedes aceptar, rechazar o configurar.
+    </div>
+    <div class="cookie-actions">
+      <button class="cookie-btn accept" id="cookieAccept">Aceptar</button>
+      <button class="cookie-btn reject" id="cookieReject">Rechazar</button>
+      <button class="cookie-btn config" id="cookieConfig">Configurar</button>
+    </div>
+  </div>
+</div>
+<div id="cookieConfigOverlay" class="cookie-config-overlay" role="dialog" aria-modal="true">
+  <div class="cookie-config">
+    <h4>Configuración de cookies</h4>
+    <p>Las cookies técnicas son necesarias para el funcionamiento del sitio.</p>
+    <p>No usamos cookies opcionales (analíticas o publicitarias).</p>
+    <div class="cookie-config-actions">
+      <button class="cookie-btn accept" id="cookieConfigSave">Guardar</button>
+      <button class="cookie-btn read" id="cookieConfigCancel">Cancelar</button>
+    </div>
+  </div>
+</div>
+  
+  <footer class="site-footer">
+  <div class="footer-top">
+    <span class="footer-copy">© 2026 Todo Sevilla Este</span>
+    <span id="footerVersion" class="footer-version" data-version="3.6">Versión: 3.6</span>
+  </div>
+  <nav class="footer-links" aria-label="Enlaces legales">
+    <a class="footer-link" href="/frontend.html">Inicio</a>
+    <a class="footer-link" href="/cookies.html">Cookies</a>
+    <a class="footer-link" href="/privacidad.html">Privacidad</a>
+    <a class="footer-link" href="/terminos.html">Términos</a>
+    <a class="footer-link" href="/aviso_legal.html">Aviso legal</a>
+  </nav>
+</footer>
+</body>
+</html>
+
+
+

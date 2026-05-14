@@ -1,0 +1,561 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<title>Panel Admin - Reseñas</title>
+<link rel="icon" href="/icono/tse_black.png" type="image/png">
+<link rel="stylesheet" href="/administracion/assets/ui_admin.css">
+<script defer src="/administracion/assets/ui_admin.js"></script>
+<style>
+:root{--primary:#f3d044;--dark:#1f1f1f;--bg:#f4f6f9;--card:#fff;--border:#e1e1e1}
+body{font-family:Segoe UI,Roboto,Arial,sans-serif;margin:0;background:var(--bg);color:#333}
+.header{background:var(--dark);color:#fff;padding:14px 20px;font-size:1.15rem;font-weight:700;display:flex;align-items:center;gap:10px}
+.container{padding:18px}
+.filters{display:grid;grid-template-columns:repeat(7,minmax(130px,1fr));gap:10px;align-items:end;margin-bottom:12px}
+.filters input,.filters select{width:100%;padding:8px;border:1px solid #ccc;border-radius:6px}
+button{border:none;border-radius:6px;padding:8px 12px;cursor:pointer;font-weight:700;transition:transform .12s ease, filter .12s ease, box-shadow .12s ease, background-color .12s ease}
+button:not([disabled]):hover,button:not([disabled]):focus-visible{transform:translateY(-1px);filter:brightness(1.05);box-shadow:0 6px 12px rgba(0,0,0,.12)}
+.primary{background:var(--primary);color:#000}
+.soft{background:#e9ecf2;color:#223}
+.danger{background:#c62020;color:#fff}
+.warn{background:#f6a700;color:#111}
+.ok{background:#2f7d32;color:#fff}
+.tabs{display:flex;gap:8px;margin-bottom:10px}
+.tabs button{background:#ddd}
+.tabs button.active{background:#111;color:#fff}
+.tabs button:not(.active):hover,.tabs button:not(.active):focus-visible{background:#e5e7eb}
+.panel{display:none}
+.panel.active{display:block}
+table{width:100%;border-collapse:collapse;background:var(--card);border:1px solid var(--border)}
+th,td{padding:8px;border-bottom:1px solid var(--border);vertical-align:top;font-size:.92rem}
+th{background:#fafafa;text-align:left}
+.actions{display:flex;gap:6px;flex-wrap:wrap}
+.muted{color:#666;font-size:.85rem}
+img.thumb{width:42px;height:42px;object-fit:cover;border-radius:6px;border:1px solid #ddd;margin-right:5px}
+.review-alert{background:#fff7d6;color:#775100;border:1px solid #f1d48a;border-radius:6px;padding:6px 8px;margin-top:6px}
+.highlight{background:#ffd85c;color:#111}
+.modal{position:fixed;inset:0;background:rgba(0,0,0,.5);display:none;align-items:center;justify-content:center;padding:18px;z-index:30}
+.modal.show{display:flex}
+.modal-card{width:min(980px,95vw);max-height:90vh;overflow:auto;background:#fff;border-radius:10px;padding:14px}
+.cmp-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.cmp-box{border:1px solid #e5e7eb;border-radius:8px;padding:10px;background:#fafafa}
+.feedback-chat-modal{position:fixed;inset:0;background:rgba(0,0,0,.52);display:none;align-items:center;justify-content:center;z-index:45;padding:16px}
+.feedback-chat-modal.show{display:flex}
+.feedback-chat-card{width:min(860px,96vw);height:min(86vh,760px);background:#fff;border-radius:12px;border:1px solid #dfe4ec;display:grid;grid-template-rows:auto 1fr auto;overflow:hidden}
+.feedback-chat-head{padding:10px 12px;border-bottom:1px solid #eceff5;display:flex;justify-content:space-between;align-items:center;background:#f7f9fc}
+.feedback-chat-sub{font-size:.84rem;color:#586174;margin-top:2px}
+.feedback-chat-body{padding:12px;overflow:auto;background:#f4f6fb}
+.feedback-chat-msg{max-width:min(75%,560px);padding:8px 10px;border-radius:10px;margin-bottom:8px;white-space:pre-wrap;word-wrap:break-word}
+.feedback-chat-msg.mine{margin-left:auto;background:#ffe07a;color:#161616}
+.feedback-chat-msg.other{margin-right:auto;background:#fff;border:1px solid #e3e8ef}
+.feedback-chat-msg .meta{font-size:.76rem;color:#5d6878;margin-bottom:4px}
+.feedback-chat-compose{padding:10px 12px;border-top:1px solid #eceff5;background:#fff}
+.feedback-chat-compose textarea{width:100%;min-height:94px;max-height:220px;resize:vertical;border:1px solid #cfd6e1;border-radius:8px;padding:9px;font:inherit}
+.feedback-chat-actions{display:flex;justify-content:space-between;align-items:center;gap:8px;margin-top:8px}
+@media(max-width:980px){.filters{grid-template-columns:1fr 1fr}}
+</style>
+</head>
+<body>
+<div class="header">
+  <img src="/icono/tsev2admin_beta.png" alt="TodoSevillaEste" style="width:42px;height:auto;display:block;">
+  
+  <span>Administración de Reseñas</span>
+</div>
+<div class="container">
+  <div class="filters">
+    <div><label>Negocio ID</label><input id="fPlace" placeholder="Ej: 12"></div>
+    <div><label>Usuario ID</label><input id="fUser" placeholder="Ej: 34"></div>
+    <div><label>Puntuación</label><select id="fRating"><option value="">Todas</option><option value="5">5</option><option value="4">4</option><option value="3">3</option><option value="2">2</option><option value="1">1</option></select></div>
+    <div><label>Visibilidad</label><select id="fHidden"><option value="all">Todas</option><option value="visible">Visibles</option><option value="hidden">Ocultas</option></select></div>
+    <div><label>Estado reportes</label><select id="fReportStatus"><option value="pending">Pendientes</option><option value="resolved">Resueltos</option><option value="dismissed">Descartados</option><option value="all">Todos</option></select></div>
+    <div><label>Estado mejoras</label><select id="fImprovementStatus"><option value="open">Abiertas</option><option value="closed">Cerradas</option><option value="all">Todas</option></select></div>
+    <div class="actions"><button class="primary" onclick="reloadAll()">Aplicar</button><button class="soft" onclick="clearFilters()">Limpiar</button></div>
+  </div>
+
+  <div class="tabs">
+    <button id="tabReviews" class="active" onclick="openTab('reviews')">Reseñas</button>
+    <button id="tabReports" onclick="openTab('reports')">Reportes</button>
+    <button id="tabImprovements" onclick="openTab('improvements')">Mejoras</button>
+  </div>
+
+  <div id="panelReviews" class="panel active">
+    <table>
+      <thead><tr><th>ID</th><th>Negocio</th><th>Autor</th><th>Contenido</th><th>Métricas</th><th>Acciones</th></tr></thead>
+      <tbody id="reviewsBody"></tbody>
+    </table>
+  </div>
+
+  <div id="panelReports" class="panel">
+    <table>
+      <thead><tr><th>ID</th><th>Reporte</th><th>Reseña</th><th>Estado</th><th>Acciones</th></tr></thead>
+      <tbody id="reportsBody"></tbody>
+    </table>
+  </div>
+
+  <div id="panelImprovements" class="panel">
+    <table>
+      <thead><tr><th>ID</th><th>Valoración</th><th>Contacto</th><th>Descripción</th><th>Estado</th><th>Acciones</th></tr></thead>
+      <tbody id="improvementsBody"></tbody>
+    </table>
+  </div>
+</div>
+<div id="revisionModal" class="modal" onclick="closeRevisionModal(event)">
+  <div class="modal-card">
+    <div style="display:flex;justify-content:space-between;gap:10px;align-items:center;">
+      <h3 style="margin:0;">Revisar modificación de reseña</h3>
+      <button class="soft" onclick="closeRevisionModal(event)">Cerrar</button>
+    </div>
+    <div id="revisionMeta" class="muted" style="margin:8px 0 12px;"></div>
+    <div class="cmp-grid">
+      <div class="cmp-box">
+        <strong>Versión anterior</strong>
+        <div id="revisionOld" style="margin-top:8px;"></div>
+      </div>
+      <div class="cmp-box">
+        <strong>Nueva versión</strong>
+        <div id="revisionNew" style="margin-top:8px;"></div>
+      </div>
+    </div>
+    <div class="actions" style="margin-top:12px;">
+      <button class="ok" onclick="resolveRevision('approve')">Aprobar y publicar</button>
+      <button class="danger" onclick="resolveRevision('reject')">Rechazar cambios</button>
+    </div>
+  </div>
+</div>
+<div id="feedbackChatModal" class="feedback-chat-modal" onclick="closeFeedbackChat(event)">
+  <div class="feedback-chat-card">
+    <div class="feedback-chat-head">
+      <div>
+        <div id="feedbackChatTitle" style="font-weight:800;">Chat de mejora</div>
+        <div id="feedbackChatSubtitle" class="feedback-chat-sub"></div>
+      </div>
+      <button class="soft" onclick="closeFeedbackChat(event)">Cerrar</button>
+    </div>
+    <div id="feedbackChatBody" class="feedback-chat-body"></div>
+    <div class="feedback-chat-compose">
+      <textarea id="feedbackChatInput" placeholder="Escribe la respuesta para el usuario..."></textarea>
+      <div class="feedback-chat-actions">
+        <span id="feedbackChatStatus" class="muted"></span>
+        <button id="feedbackChatSendBtn" class="primary" onclick="sendFeedbackChatMessage()">Enviar</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+const API = location.origin;
+const reviewMap = new Map();
+const improvementMap = new Map();
+let activeRevisionReviewId = null;
+let activeFeedbackChatId = null;
+let feedbackChatPollTimer = null;
+let feedbackChatSignature = "";
+const nativeFetch = window.fetch.bind(window);
+window.fetch = async (input, init = {}) => {
+  if(init.credentials === undefined) init.credentials = "include";
+  if(init.cache === undefined) init.cache = "no-store";
+  const res = await nativeFetch(input, init);
+  if(res.status === 401 && window.top && window.top !== window){
+    window.top.postMessage({ type: "admin-auth-required" }, "*");
+  }
+  return res;
+};
+
+function q(id){ return document.getElementById(id); }
+function esc(v){ return String(v ?? "").replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;"); }
+function reviewWasEdited(r){ return !!(r && r.created_at && r.updated_at && String(r.created_at) !== String(r.updated_at)); }
+function starVisual(n){
+  const v = Math.max(0, Math.min(5, Number(n) || 0));
+  return `${"\u2605".repeat(v)}${"\u2606".repeat(Math.max(0, 5 - v))}`;
+}
+function stars(n){
+  const v = Math.max(0, Math.min(5, Number(n) || 0));
+  return `${starVisual(v)} (${v}/5)`;
+}
+
+function reviewBlock(rating, description, photos){
+  const pics = (Array.isArray(photos) ? photos : []).slice(0, 3).map(p => `<img class="thumb" src="${esc(p)}" alt="foto">`).join("");
+  return `<div><strong>${stars(Number(rating || 0))}</strong></div><div>${esc(description || "")}</div><div>${pics}</div>`;
+}
+
+function openTab(key){
+  q("tabReviews").classList.toggle("active", key === "reviews");
+  q("tabReports").classList.toggle("active", key === "reports");
+  q("tabImprovements").classList.toggle("active", key === "improvements");
+  q("panelReviews").classList.toggle("active", key === "reviews");
+  q("panelReports").classList.toggle("active", key === "reports");
+  q("panelImprovements").classList.toggle("active", key === "improvements");
+}
+
+function buildReviewQuery(){
+  const params = new URLSearchParams();
+  if(q("fPlace").value.trim()) params.set("place_public_id", q("fPlace").value.trim());
+  if(q("fUser").value.trim()) params.set("user_id", q("fUser").value.trim());
+  if(q("fRating").value) params.set("rating", q("fRating").value);
+  params.set("hidden", q("fHidden").value || "all");
+  params.set("limit", "400");
+  return params.toString();
+}
+
+function buildReportQuery(){
+  const params = new URLSearchParams();
+  if(q("fPlace").value.trim()) params.set("place_public_id", q("fPlace").value.trim());
+  if(q("fUser").value.trim()) params.set("user_id", q("fUser").value.trim());
+  const st = q("fReportStatus").value || "pending";
+  if(st !== "all") params.set("status", st);
+  params.set("limit", "400");
+  return params.toString();
+}
+
+function buildImprovementQuery(){
+  const params = new URLSearchParams();
+  const status = q("fImprovementStatus").value || "open";
+  if(status !== "all") params.set("status", status);
+  return params.toString();
+}
+
+async function loadReviews(){
+  const res = await fetch(`${API}/admin/reviews?${buildReviewQuery()}`);
+  const data = await res.json().catch(()=>({}));
+  if(!res.ok){ alert(data.detail || "No se pudieron cargar reseñas"); return; }
+  const rows = Array.isArray(data.reviews) ? data.reviews : [];
+  reviewMap.clear();
+  const tbody = q("reviewsBody");
+  tbody.innerHTML = "";
+  rows.forEach(r => {
+    reviewMap.set(Number(r.id), r);
+    const editedLine = reviewWasEdited(r) ? `<div class="muted">Editada: ${esc(r.updated_at || "")}</div>` : "";
+    const tr = document.createElement("tr");
+    const photos = (r.photos || []).slice(0,3).map(p => `<img class=\"thumb\" src=\"${esc(p)}\" alt=\"foto\">`).join("");
+    tr.innerHTML = `
+      <td>#${r.id}</td>
+      <td>${esc(r.place_name || "")}<div class="muted">ID ${r.place_public_id}</div></td>
+      <td>${esc(r.user?.username || "Usuario")}<div class="muted">u${r.user?.id || ""}</div></td>
+      <td>
+        <div><strong>${starVisual(r.rating)}</strong></div>
+        <div>${esc(r.description)}</div>
+        <div>${photos}</div>
+        <div class="muted">Publicada: ${esc(r.created_at || "")}</div>
+        ${editedLine}
+        ${r.is_hidden ? `<div class=\"muted\"><strong>Oculta:</strong> ${esc(r.hidden_reason || "")}</div>` : ""}
+        ${r.pending_recheck ? `<div class="review-alert"><strong>Revisión pendiente:</strong> el usuario modificó esta reseña ocultada.</div>` : ""}
+      </td>
+      <td><div>Me gusta: ${r.like_count || 0}</div><div>No me gusta: ${r.dislike_count || 0}</div><div>Reportes: ${r.report_count || 0}</div></td>
+      <td><div class="actions">
+        ${r.pending_recheck ? `<button class="highlight" onclick="openRevisionModal(${r.id})">Revisar modificación</button>` : ""}
+        ${r.is_hidden ? `<button class=\"ok\" onclick=\"moderateReview(${r.id},'unhide')\">Mostrar</button>` : `<button class=\"warn\" onclick=\"moderateReview(${r.id},'hide')\">Ocultar</button>`}
+        <button class="danger" onclick="moderateReview(${r.id},'delete')">Eliminar</button>
+      </div></td>
+    `;
+    tbody.appendChild(tr);
+  });
+}
+
+function openRevisionModal(reviewId){
+  const review = reviewMap.get(Number(reviewId));
+  if(!review) return;
+  activeRevisionReviewId = Number(reviewId);
+  q("revisionMeta").textContent = `Reseña #${review.id} | Negocio ${review.place_public_id} | Autor u${review.user?.id || ""}`;
+  q("revisionOld").innerHTML = reviewBlock(
+    review.previous_rating ?? review.rating,
+    review.previous_description ?? "",
+    review.previous_photos || []
+  );
+  q("revisionNew").innerHTML = reviewBlock(
+    review.rating,
+    review.description,
+    review.photos || []
+  );
+  q("revisionModal").classList.add("show");
+}
+
+function closeRevisionModal(ev){
+  if(ev && ev.target && ev.target.id !== "revisionModal" && !ev.target.classList.contains("soft")) return;
+  q("revisionModal").classList.remove("show");
+  activeRevisionReviewId = null;
+}
+
+function closeFeedbackChat(ev){
+  if(ev){
+    const t = ev.target;
+    const isBackdrop = !!(t && t.id === "feedbackChatModal");
+    const isSoftBtn = !!(t && t.classList && t.classList.contains("soft"));
+    if(!isBackdrop && !isSoftBtn && ev.type !== "keydown") return;
+  }
+  q("feedbackChatModal").classList.remove("show");
+  q("feedbackChatBody").innerHTML = "";
+  q("feedbackChatInput").value = "";
+  q("feedbackChatStatus").textContent = "";
+  activeFeedbackChatId = null;
+  feedbackChatSignature = "";
+  if(feedbackChatPollTimer){
+    clearInterval(feedbackChatPollTimer);
+    feedbackChatPollTimer = null;
+  }
+}
+
+function feedbackCreatedLabel(raw){
+  if(!raw) return "";
+  const d = new Date(raw);
+  if(Number.isNaN(d.getTime())) return String(raw).slice(0, 19).replace("T", " ");
+  return d.toLocaleString("es-ES", { hour12: false });
+}
+
+function buildFeedbackSignature(messages){
+  return (Array.isArray(messages) ? messages : []).map(m => `${m.id}|${m.created_at}|${(m.body || "").length}`).join("||");
+}
+
+function renderFeedbackConversation(data, preserveScroll = true){
+  const pane = q("feedbackChatBody");
+  const messages = Array.isArray(data.messages) ? data.messages : [];
+  const nextSignature = buildFeedbackSignature(messages);
+  if(preserveScroll && nextSignature === feedbackChatSignature) return;
+  const wasNearBottom = pane.scrollTop + pane.clientHeight >= pane.scrollHeight - 28;
+  feedbackChatSignature = nextSignature;
+  pane.innerHTML = messages.map(m => {
+    const isMine = !!m.is_mine || m.sender_type === "admin";
+    const cls = isMine ? "mine" : "other";
+    const sender = esc(m.sender_label || (isMine ? "Administración" : "Usuario"));
+    return `
+      <div class="feedback-chat-msg ${cls}">
+        <div class="meta">${sender} | ${esc(feedbackCreatedLabel(m.created_at))}</div>
+        <div>${esc(m.body || "")}</div>
+      </div>
+    `;
+  }).join("") || '<div class="muted">Sin mensajes todavía.</div>';
+  if(!preserveScroll || wasNearBottom) pane.scrollTop = pane.scrollHeight;
+}
+
+async function loadFeedbackConversation(feedbackId, preserveScroll = true){
+  const res = await fetch(`${API}/admin/feedback/${Number(feedbackId)}/conversation`);
+  const data = await res.json().catch(()=>({}));
+  if(!res.ok){
+    q("feedbackChatStatus").textContent = data.detail || "No se pudo cargar el chat.";
+    return;
+  }
+  const meta = data.feedback || {};
+  q("feedbackChatTitle").textContent = `Chat mejora #${Number(feedbackId)}`;
+  const subUser = meta.user_id ? `${meta.username || "Usuario"} (u${meta.user_id})` : "Usuario sin cuenta";
+  const subEmail = meta.email ? ` | ${meta.email}` : "";
+  q("feedbackChatSubtitle").textContent = `${subUser}${subEmail}`;
+  renderFeedbackConversation(data, preserveScroll);
+}
+
+function openFeedbackChat(feedbackId){
+  activeFeedbackChatId = Number(feedbackId);
+  q("feedbackChatModal").classList.add("show");
+  q("feedbackChatStatus").textContent = "Cargando conversación...";
+  loadFeedbackConversation(activeFeedbackChatId, false).finally(() => {
+    q("feedbackChatStatus").textContent = "";
+  });
+  if(feedbackChatPollTimer) clearInterval(feedbackChatPollTimer);
+  feedbackChatPollTimer = setInterval(() => {
+    if(!activeFeedbackChatId) return;
+    loadFeedbackConversation(activeFeedbackChatId, true).catch(() => {});
+  }, 10000);
+}
+
+async function sendFeedbackChatMessage(){
+  if(!activeFeedbackChatId) return;
+  const input = q("feedbackChatInput");
+  const text = (input.value || "").trim();
+  if(!text){
+    q("feedbackChatStatus").textContent = "Debes escribir un mensaje.";
+    return;
+  }
+  const btn = q("feedbackChatSendBtn");
+  btn.disabled = true;
+  q("feedbackChatStatus").textContent = "Enviando...";
+  try{
+    const res = await fetch(`${API}/admin/feedback/${Number(activeFeedbackChatId)}/conversation/messages`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ message: text })
+    });
+    const data = await res.json().catch(()=>({}));
+    if(!res.ok){
+      q("feedbackChatStatus").textContent = data.detail || "No se pudo enviar.";
+      return;
+    }
+    input.value = "";
+    q("feedbackChatStatus").textContent = data.detail || "Mensaje enviado.";
+    await loadFeedbackConversation(activeFeedbackChatId, false);
+  }catch(_e){
+    q("feedbackChatStatus").textContent = "No se pudo enviar.";
+  }finally{
+    btn.disabled = false;
+  }
+}
+
+async function resolveRevision(action){
+  if(!activeRevisionReviewId) return;
+  let reason = "";
+  if(action === "reject"){
+    reason = prompt("Motivo de rechazo:", "") || "";
+    if(!reason.trim()) return;
+  }
+  const res = await fetch(`${API}/admin/reviews/${activeRevisionReviewId}/revision`, {
+    method: "PATCH",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ action, reason })
+  });
+  const data = await res.json().catch(()=>({}));
+  if(!res.ok){ alert(data.detail || "No se pudo resolver la revisión"); return; }
+  closeRevisionModal();
+  reloadAll();
+}
+
+async function loadReports(){
+  const res = await fetch(`${API}/admin/review_reports?${buildReportQuery()}`);
+  const data = await res.json().catch(()=>({}));
+  if(!res.ok){ alert(data.detail || "No se pudieron cargar reportes"); return; }
+  const rows = Array.isArray(data.reports) ? data.reports : [];
+  const tbody = q("reportsBody");
+  tbody.innerHTML = "";
+  rows.forEach(rep => {
+    const rv = rep.review || {};
+    const tr = document.createElement("tr");
+    tr.innerHTML = `
+      <td>#${rep.id}</td>
+      <td><div><strong>Reporta:</strong> ${esc(rep.reporter_username)} (u${rep.reporter_user_id})</div><div><strong>Motivo:</strong> ${esc(rep.reason)}</div><div class="muted">${esc(rep.created_at || "")}</div></td>
+      <td><div><strong>Reseña #${rv.id}</strong> (${stars(rv.rating || 0)})</div><div>${esc(rv.description || "")}</div><div class="muted">Negocio ${esc(rv.place_name || "")} (${rv.place_public_id || ""})</div><div class="muted">Autor: ${esc(rv.username || "")} (u${rv.user_id || ""})</div></td>
+      <td><div>${esc(rep.status)}</div><div class="muted">${esc(rep.admin_action || "")}</div></td>
+      <td><div class="actions">
+        <button class="warn" onclick="moderateReport(${rep.id},'hide')">Ocultar</button>
+        <button class="danger" onclick="moderateReport(${rep.id},'delete')">Eliminar</button>
+        <button class="soft" onclick="moderateReport(${rep.id},'dismiss')">Descartar</button>
+      </div></td>
+    `;
+    tbody.appendChild(tr);
+  });
+}
+
+async function loadImprovements(){
+  const res = await fetch(`${API}/admin/feedback?${buildImprovementQuery()}`);
+  const data = await res.json().catch(()=>({}));
+  if(!res.ok){ alert(data.detail || "No se pudieron cargar mejoras"); return; }
+  const rows = Array.isArray(data.feedback) ? data.feedback : [];
+  const tbody = q("improvementsBody");
+  improvementMap.clear();
+  tbody.innerHTML = "";
+  rows.forEach(t => {
+    const id = Number(t.id || 0);
+    improvementMap.set(id, t);
+    const tr = document.createElement("tr");
+    const userText = t.user_id ? `${esc(t.username || "Usuario")} (u${t.user_id})` : "Sin cuenta";
+    const contactText = esc(t.destination_email || t.email || "");
+    const ratingText = `<strong>${starVisual(t.rating || 0)}</strong><div class="muted">${Math.max(0, Math.min(5, Number(t.rating || 0)))}/5</div>`;
+    tr.innerHTML = `
+      <td>#${t.id}</td>
+      <td>${ratingText}</td>
+      <td><div>${userText}</div><div class="muted">${contactText}</div></td>
+      <td>${esc(t.body || "")}</td>
+      <td><div>${esc(t.status || "open")}</div><div class="muted">${esc(t.created_at || "")}</div></td>
+      <td>
+        <div class="actions">
+          <button class="soft" onclick="toggleImprovementStatus(${id})">${(t.status || "open") === "open" ? "Marcar cerrada" : "Reabrir"}</button>
+        </div>
+      </td>
+    `;
+    tbody.appendChild(tr);
+  });
+}
+
+async function toggleImprovementStatus(feedbackId){
+  const item = improvementMap.get(Number(feedbackId));
+  const currentStatus = String((item && item.status) || "open").toLowerCase();
+  const close = currentStatus === "open";
+  const res = await fetch(`${API}/admin/feedback/${Number(feedbackId)}/status`, {
+    method: "PATCH",
+    headers: { "Content-Type":"application/json" },
+    body: JSON.stringify({ close })
+  });
+  const data = await res.json().catch(()=>({}));
+  if(!res.ok){
+    alert(data.detail || "No se pudo actualizar el estado.");
+    return;
+  }
+  loadImprovements();
+}
+
+async function moderateReview(reviewId, action){
+  let reason = "";
+  if(action === "hide" || action === "delete"){
+    reason = prompt("Motivo:", "") || "";
+    if(!reason.trim()) return;
+  }
+  const res = await fetch(`${API}/admin/reviews/${reviewId}/moderate`, {
+    method:"PATCH",
+    headers:{"Content-Type":"application/json"},
+    body: JSON.stringify({ action, reason })
+  });
+  const data = await res.json().catch(()=>({}));
+  if(!res.ok){ alert(data.detail || "No se pudo moderar"); return; }
+  reloadAll();
+}
+
+async function moderateReport(reportId, action){
+  let reason = "";
+  if(action === "hide" || action === "delete" || action === "dismiss"){
+    reason = prompt("Motivo/nota:", "") || "";
+  }
+  const res = await fetch(`${API}/admin/review_reports/${reportId}`, {
+    method:"PATCH",
+    headers:{"Content-Type":"application/json"},
+    body: JSON.stringify({ action, reason })
+  });
+  const data = await res.json().catch(()=>({}));
+  if(!res.ok){ alert(data.detail || "No se pudo resolver el reporte"); return; }
+  reloadAll();
+}
+
+function clearFilters(){
+  q("fPlace").value = "";
+  q("fUser").value = "";
+  q("fRating").value = "";
+  q("fHidden").value = "all";
+  q("fReportStatus").value = "pending";
+  q("fImprovementStatus").value = "open";
+  reloadAll();
+}
+
+function reloadAll(){
+  loadReviews();
+  loadReports();
+  loadImprovements();
+}
+
+window.addEventListener("message", (e) => {
+  if(!e.data || e.data.type !== "set-review-filters") return;
+  const f = e.data.filters || {};
+  if(f.place_public_id != null) q("fPlace").value = String(f.place_public_id);
+  if(f.user_id != null) q("fUser").value = String(f.user_id);
+  if(f.rating != null) q("fRating").value = String(f.rating);
+  if(f.hidden != null) q("fHidden").value = String(f.hidden);
+  if(f.tab === "reports") openTab("reports");
+  if(f.tab === "improvements") openTab("improvements");
+  reloadAll();
+});
+
+const initialParams = new URLSearchParams(window.location.search);
+if(initialParams.has("place_public_id")) q("fPlace").value = initialParams.get("place_public_id") || "";
+if(initialParams.has("user_id")) q("fUser").value = initialParams.get("user_id") || "";
+if(initialParams.has("hidden")) q("fHidden").value = initialParams.get("hidden") || "all";
+if(initialParams.has("tab") && initialParams.get("tab") === "reports") openTab("reports");
+if(initialParams.has("tab") && initialParams.get("tab") === "improvements") openTab("improvements");
+
+reloadAll();
+// Desactivado auto-refresh para evitar parpadeo del listado.
+window.addEventListener("keydown", (ev) => {
+  if(ev.key === "Escape" && q("feedbackChatModal").classList.contains("show")){
+    closeFeedbackChat(ev);
+  }
+});
+</script>
+</body>
+</html>
+
+
+
+
+

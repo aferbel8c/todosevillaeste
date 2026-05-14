@@ -1,0 +1,3118 @@
+<!DOCTYPE html>
+
+<html lang="es">
+
+<head>
+
+<meta charset="UTF-8">
+
+<title>Gestión de Negocios - Todo Sevilla Este</title>
+
+<link rel="icon" href="/icono/tse_black.png" type="image/png">
+<link rel="stylesheet" href="/administracion/assets/ui_admin.css">
+<script defer src="/administracion/assets/ui_admin.js"></script>
+
+<style>
+
+    :root { --primary: #f3d044; --secondary: #222; }
+
+    body { font-family: sans-serif; margin: 0; padding: 20px; background: #f4f4f4; }
+    .top-header {
+        background: #1f1f1f;
+        color: #fff;
+        border-radius: 8px;
+        padding: 10px 14px;
+        margin-bottom: 14px;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        font-weight: 700;
+    }
+
+    h2 { margin-top: 30px; border-bottom: 2px solid var(--primary); padding-bottom: 10px; }
+
+    
+
+    /* Formulario */
+
+    #placeForm { background: rgb(204, 203, 203); padding: 20px; border-radius: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
+
+    form input, form textarea { width: 100%; margin-bottom: 10px; padding: 10px; border: 1px solid #ddd; border-radius: 4px; box-sizing: border-box; }
+
+    button { padding: 10px 15px; cursor: pointer; border-radius: 4px; border: none; font-weight: bold; background: var(--primary); color: #000; }
+
+    button:hover { opacity: 0.9; }
+
+    /* Estilo para el selector de categoría mixto */
+
+    .cat-combo { display: flex; gap: 5px; margin-bottom: 10px; }
+
+    .cat-combo select { padding: 10px; border-radius: 4px; border: 1px solid #ddd; width: 100px; background: white; }
+
+    .cat-combo input { margin-bottom: 0; flex: 1; }
+
+    .cat-combo button { padding:10px; border-radius:4px; border:1px solid #ddd; width:100px; background:white; cursor:pointer; transition:all 0.2s ease; font-size:1rem; }
+
+    .cat-combo button:hover { background:var(--primary); color:#000; transform:scale(1.1); border-color:#f3d044; }
+
+    /* Tabla */
+
+    table { width: 100%; border-collapse: collapse; margin-top: 20px; background: white; font-size: 0.9rem; }
+
+    th, td { border: 1px solid #ddd; padding: 10px; text-align: left; vertical-align: middle; }
+
+    th { background: #eee; }
+
+    .active-btn { background-color: #00c42e; color: white; }
+
+    .inactive-btn { background-color: #a30010; color: white; }
+
+    #placesTable tbody tr { transition: opacity 0.22s ease, transform 0.22s ease; }
+
+    .table-name { font-weight: 700; }
+    .contact-stack { display: flex; flex-direction: column; gap: 4px; font-size: 0.85rem; }
+    .contact-stack strong { font-weight: 700; }
+    .biz-photo { width: 64px; height: 48px; object-fit: cover; border-radius: 6px; border: 1px solid #ddd; background: #f0f0f0; }
+
+    .details-modal { max-width: 980px; width: min(980px, 96vw); }
+    .details-header { display:flex; justify-content:space-between; align-items:center; border-bottom:2px solid #f3d044; margin-bottom:12px; }
+    .details-title { margin: 0; }
+    .details-grid { display:grid; grid-template-columns: 1.1fr 0.9fr; gap:14px; }
+    .details-block { background:#f8f8f8; border:1px solid #e6e6e6; border-radius:10px; padding:12px; }
+    .details-line { margin:0 0 8px; }
+    .details-text { white-space: pre-line; color:#333; }
+    .details-map { width:100%; height:220px; border:1px solid #ddd; border-radius:8px; background:#f1f4f8; }
+    .details-map.empty { display:flex; align-items:center; justify-content:center; color:#666; font-weight:700; }
+    .details-map-note { margin-top:6px; font-size:0.85rem; color:#555; }
+    .details-photos { display:grid; gap:10px; }
+    .details-main-photo { width:100%; max-height:240px; object-fit:cover; border-radius:10px; border:1px solid #ddd; background:#f0f0f0; }
+    .details-carousel { display:flex; gap:8px; overflow-x:auto; padding-bottom:6px; }
+    .details-carousel img { width:120px; height:90px; object-fit:cover; border-radius:8px; border:1px solid #ddd; background:#f0f0f0; }
+    .details-empty { font-size:0.85rem; color:#666; }
+    .details-actions { display:flex; justify-content:flex-end; gap:10px; margin-top:12px; flex-wrap:wrap; }
+    .details-schedule div { margin-bottom: 4px; font-size: 0.9rem; }
+    .details-day { padding: 4px 6px; border-radius: 6px; }
+    .details-day-today { background: #fff4b8; border: 1px solid #f3d044; }
+
+    @media(max-width:900px){
+        .details-grid { grid-template-columns: 1fr; }
+    }
+
+    
+
+    /* Buscador */
+
+    .search-row { display:flex; align-items:flex-end; gap:10px; margin-bottom:10px; }
+    .search-container { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; margin-bottom: 20px; }
+    .search-row .search-container { flex:1; margin-bottom:0; }
+
+    .search-container div { display: flex; gap: 5px; }
+
+    .search-container input { padding: 10px; border-radius: 4px; border: 1px solid #ccc; width: 100%; box-sizing: border-box; }
+
+    .filter-input-wrap { position: relative; width: 100%; }
+
+    .filter-input-wrap input { padding-right: 34px; }
+
+    .single-filter-clear {
+        position:absolute;
+        right:6px;
+        top:50%;
+        transform:translateY(-50%);
+        width:24px;
+        height:24px;
+        border-radius:50%;
+        border:1px solid #c8ced8;
+        background:#eceff4;
+        color:#666;
+        font-weight:700;
+        padding:0;
+        line-height:1;
+        display:none;
+    }
+
+    .single-filter-clear:hover{
+        background:#ffdedd !important;
+        border-color:#e8a5a2 !important;
+        color:#b01915 !important;
+        transform:translateY(-50%) !important;
+        opacity:1 !important;
+    }
+
+    #clearFilterBtn{
+        display:none;
+        align-self:flex-end;
+        margin-bottom:2px;
+        padding:10px 14px;
+        background:#c51f1a;
+        color:#fff;
+        border:2px solid #fff;
+        border-radius:10px;
+        box-shadow:0 3px 10px rgba(0,0,0,0.2);
+    }
+    #clearFilterBtn:hover{
+        background:#e35d59 !important;
+        transform:none !important;
+        opacity:1 !important;
+        color:#fff !important;
+    }
+    @media(max-width:960px){
+        .search-row{flex-direction:column;align-items:stretch}
+    }
+
+    .highlight { background-color: #fff3b0 !important; }
+
+    /* Horarios */
+
+    .day-schedule { margin-bottom: 10px; padding: 10px; border: 1px solid #eee; border-radius: 5px; background: #fafafa; }
+
+    .time-trays { display: flex; gap: 5px; margin-top: 5px; align-items: center; }
+
+    .time-trays input[type="time"] { width: auto; }
+
+    /* MODAL */
+
+    .modal-overlay {
+
+        position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+
+        background: rgba(0,0,0,0.7); display: none; justify-content: center; align-items: center; z-index: 1000;
+
+    }
+
+    .modal-content {
+
+        background: white; padding: 25px; border-radius: 8px; width: 90%; max-width: 500px;
+
+        max-height: 85vh; overflow-y: auto; box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+
+    }
+
+        /* Animación modal */
+
+    .modal-overlay {
+
+        opacity: 0;
+
+        transition: opacity 0.2s ease;
+
+    }
+
+    .modal-overlay.show {
+
+        opacity: 1;
+
+    }
+
+    /* Evitar scroll del fondo cuando hay modal abierto */
+
+    body.modal-open {
+
+        overflow: hidden;
+
+    }
+
+    .schedule-cell { cursor: pointer; background: #eef6ff; font-weight: bold; color: #0056b3; text-align: center; }
+
+    .schedule-cell:hover { background: #d0e4ff; }
+
+    .cat-item {
+
+        padding: 8px 10px;
+
+        cursor: pointer;
+
+        border-radius: 6px;
+
+        border: 1px solid transparent;
+
+        margin-bottom: 4px;
+
+        word-break: break-word;
+
+    }
+
+    .cat-item:hover { background: #f3d044; }
+
+    .cat-item.selected {
+
+        background: #fff3b0;
+
+        border-color: #f3d044;
+
+        font-weight: bold;
+
+    }
+
+    .cat-quick {
+
+        display: flex;
+
+        flex-wrap: wrap;
+
+        gap: 6px;
+
+        margin-bottom: 10px;
+
+    }
+
+    .cat-quick button {
+
+        padding: 6px 10px;
+
+        border: 1px solid #ddd;
+
+        border-radius: 999px;
+
+        background: #fff;
+
+        cursor: pointer;
+
+        font-size: 0.8rem;
+
+        transition: all 0.2s ease;
+
+    }
+
+    .cat-quick button:hover { background: #f3d044; border-color: #f3d044; }
+
+    .clock-input {
+
+        width: 74px;
+
+        text-align: center;
+
+        font-weight: bold;
+
+        background: #fff;
+
+        cursor: pointer;
+
+    }
+
+    .time-trays .clock-input {
+
+        width: 74px;
+
+        margin-bottom: 0;
+
+    }
+
+    .clock-input:focus { outline: 2px solid #f3d044; }
+
+    .clock-step-label {
+
+        text-align: center;
+
+        font-size: 0.9rem;
+
+        color: #666;
+
+        margin-bottom: 8px;
+
+    }
+
+    .clock-preview {
+
+        text-align: center;
+
+        font-size: 1.8rem;
+
+        font-weight: bold;
+
+        margin-bottom: 10px;
+
+    }
+
+    .clock-dial {
+
+        position: relative;
+
+        width: 280px;
+
+        height: 280px;
+
+        margin: 0 auto 12px;
+
+        border-radius: 50%;
+
+        background: #f7f7f7;
+
+        border: 1px solid #ddd;
+
+    }
+
+    .clock-center-dot {
+
+        position: absolute;
+
+        left: 50%;
+
+        top: 50%;
+
+        width: 10px;
+
+        height: 10px;
+
+        margin-left: -5px;
+
+        margin-top: -5px;
+
+        border-radius: 50%;
+
+        background: #222;
+
+    }
+
+    .clock-number {
+
+        position: absolute;
+
+        width: 36px;
+
+        height: 36px;
+
+        margin-left: -18px;
+
+        margin-top: -18px;
+
+        border: none;
+
+        border-radius: 50%;
+
+        background: #fff;
+
+        border: 1px solid #ddd;
+
+        font-size: 0.8rem;
+
+        font-weight: bold;
+
+        cursor: pointer;
+
+    }
+
+    .clock-number:hover { background: #f3d044; border-color: #f3d044; }
+
+    .clock-number.selected {
+
+        background: #222;
+
+        color: #fff;
+
+        border-color: #222;
+
+    }
+
+    .time-range-wrap {
+
+        flex: 1;
+
+        min-width: 260px;
+
+    }
+
+    .time-range-values {
+
+        display: flex;
+
+        align-items: center;
+
+        justify-content: center;
+
+        gap: 8px;
+
+        margin-bottom: 6px;
+
+    }
+
+    .range-track {
+
+        position: relative;
+
+        height: 28px;
+
+    }
+
+    .range-bg {
+
+        position: absolute;
+
+        left: 0;
+
+        right: 0;
+
+        top: 11px;
+
+        height: 6px;
+
+        border-radius: 999px;
+
+        background: #d8d8d8;
+
+    }
+
+    .range-fill {
+
+        position: absolute;
+
+        top: 11px;
+
+        height: 6px;
+
+        border-radius: 999px;
+
+        background: #f3d044;
+
+        cursor: grab;
+
+    }
+
+    .range-fill.dragging { cursor: grabbing; }
+
+    .time-range {
+
+        position: absolute;
+
+        left: 0;
+
+        top: 0;
+
+        width: 100%;
+
+        height: 28px;
+
+        margin: 0;
+
+        background: transparent;
+
+        pointer-events: none;
+
+        -webkit-appearance: none;
+
+        appearance: none;
+
+    }
+
+    .time-range::-webkit-slider-thumb {
+
+        pointer-events: all;
+
+        -webkit-appearance: none;
+
+        width: 16px;
+
+        height: 16px;
+
+        border-radius: 50%;
+
+        background: #222;
+
+        border: 2px solid #fff;
+
+        box-shadow: 0 0 0 1px #222;
+
+        cursor: pointer;
+
+    }
+
+    .time-range::-moz-range-thumb {
+
+        pointer-events: all;
+
+        width: 16px;
+
+        height: 16px;
+
+        border-radius: 50%;
+
+        background: #222;
+
+        border: 2px solid #fff;
+
+        box-shadow: 0 0 0 1px #222;
+
+        cursor: pointer;
+
+    }
+
+    .range-marks {
+
+        margin-top: 6px;
+
+        display: flex;
+
+        justify-content: space-between;
+
+        font-size: 0.68rem;
+
+        color: #666;
+
+        user-select: none;
+
+    }
+
+    /* TOASTS */
+
+    .toast-container {
+
+        position: fixed;
+
+        right: 20px;
+
+        bottom: 20px;
+
+        z-index: 2000;
+
+        display: flex;
+
+        flex-direction: column;
+
+        gap: 10px;
+
+        pointer-events: none;
+
+    }
+
+    .toast {
+
+        min-width: 240px;
+
+        max-width: 360px;
+
+        padding: 12px 14px;
+
+        border-radius: 8px;
+
+        box-shadow: 0 6px 16px rgba(0,0,0,0.18);
+
+        font-weight: bold;
+
+        color: #fff;
+
+        opacity: 0;
+
+        transform: translateY(14px);
+
+        transition: opacity 0.2s ease, transform 0.2s ease;
+
+    }
+
+    .toast.show { opacity: 1; transform: translateY(0); }
+
+    .toast-success { background: #00a63a; }
+
+    .toast-error { background: #c52333; }
+
+    .toast-info { background: #2255cc; }
+    .poster-preview-wrap { background:#fff; border:1px solid #ddd; border-radius:10px; padding:10px; }
+    .poster-preview-wrap canvas { width:100%; max-height:70vh; object-fit:contain; border:1px solid #ececec; border-radius:8px; background:#fff; }
+    .poster-note { margin-top:8px; font-size:.85rem; color:#555; word-break:break-all; }
+
+    .create-launch-wrap { margin-bottom: 16px; display: flex; justify-content: flex-start; gap: 10px; }
+    .create-launch-btn { background: #222; color: #fff; }
+    .random-launch-btn { background: #757575; color: #fff; }
+    #createBizOverlay .modal-content { max-width: 980px; width: min(980px, 96vw); }
+    .create-modal-header {
+        display:flex;
+        justify-content:space-between;
+        align-items:center;
+        border-bottom:2px solid #f3d044;
+        margin-bottom:12px;
+    }
+    .create-modal-header h2 { margin: 0; border-bottom: none; padding-bottom: 0; }
+    .map-mini-row { display:grid; grid-template-columns:1fr 1fr auto; gap:6px; align-items:center; margin:8px 0; }
+    .pick-map-btn { background:#f0f0f0; border:1px solid #ddd; color:#222; }
+    #mapPickerCanvas { width:100%; height:320px; border:1px solid #ddd; border-radius:8px; margin:10px 0; background:#f7f7f7; }
+
+</style>
+
+</head>
+
+<body>
+<div class="top-header">
+    <img src="/icono/tsev2admin_beta.png" alt="TodoSevillaEste" style="width:42px;height:auto;display:block;">
+    
+    <span>Gestión de Negocios</span>
+</div>
+
+<div class="create-launch-wrap">
+    <button type="button" class="create-launch-btn" onclick="openCreateBizModal()">Abrir creación de negocio</button>
+    <button type="button" class="random-launch-btn" onclick="fillRandomPlace()">Crear negocio aleatorio</button>
+</div>
+
+<div id="createBizOverlay" class="modal-overlay">
+<div class="modal-content">
+<div class="create-modal-header">
+    <h2>Añadir nuevo negocio</h2>
+    <button type="button" onclick="closeCreateBizModal()" style="background:none; font-size:24px;">&times;</button>
+</div>
+
+<form id="placeForm">
+
+    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
+
+        <input name="name" placeholder="Nombre" required>
+
+        <div class="cat-combo">
+
+            <button type="button" onclick="openCategoryModal(this)">Categorías</button>
+
+            <input name="category" list="categoryDatalist" placeholder="Categoría..." required>
+
+        </div>
+
+    </div>
+
+    <input name="address" placeholder="Dirección" required>
+
+    <div class="map-mini-row">
+        <input name="map_latitude" id="createMapLat" placeholder="Latitud">
+        <input name="map_longitude" id="createMapLng" placeholder="Longitud">
+        <button type="button" class="pick-map-btn" onclick="openMapPickerForInputs(document.getElementById('createMapLat'), document.getElementById('createMapLng'), 'Ubicación del nuevo negocio')">Mapa</button>
+    </div>
+
+    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
+
+        <input name="phone" placeholder="Teléfono">
+
+        <input name="website" placeholder="Web">
+
+    </div>
+
+    <input name="business_email" type="email" placeholder="Correo electrónico del negocio" required>
+
+    <textarea name="description" placeholder="Descripción larga"></textarea>
+
+    <textarea name="initial_phrase" placeholder="Frase corta tarjeta"></textarea>
+
+    <label>Foto Principal:</label>
+
+    <input type="file" name="main_photo_file" accept="image/*">
+
+    
+
+    <h3>Horario inicial</h3>
+
+    <div id="scheduleContainer"></div>
+
+    <button type="submit" style="width: 100%; background: #000; color: #fff; margin-top: 10px;">CREAR NEGOCIO</button>
+
+</form>
+</div>
+</div>
+
+<h2>Listado de negocios</h2>
+
+<div class="search-row">
+<div class="search-container">
+
+    <div class="filter-input-wrap">
+        <input type="text" id="searchName" placeholder="Nombre...">
+        <button type="button" class="single-filter-clear" id="clearSearchName" onclick="clearBizFilter('searchName')">×</button>
+    </div>
+
+    <div class="cat-combo" style="margin-bottom:0">
+
+        <button type="button" onclick="openCategoryModal(document.getElementById('searchCategory'))">Categorías</button>
+
+        <div class="filter-input-wrap">
+            <input type="text" id="searchCategory" list="categoryDatalist" placeholder="Categoría...">
+            <button type="button" class="single-filter-clear" id="clearSearchCategory" onclick="clearBizFilter('searchCategory')">×</button>
+        </div>
+
+    </div>
+
+    <div class="filter-input-wrap">
+        <input type="text" id="searchPhone" placeholder="Teléfono...">
+        <button type="button" class="single-filter-clear" id="clearSearchPhone" onclick="clearBizFilter('searchPhone')">×</button>
+    </div>
+
+    <div class="filter-input-wrap">
+        <input type="text" id="searchId" placeholder="Public ID...">
+        <button type="button" class="single-filter-clear" id="clearSearchId" onclick="clearBizFilter('searchId')">×</button>
+    </div>
+
+</div>
+<button id="clearFilterBtn" type="button">Limpiar filtros</button>
+<button id="refreshIABtn" type="button" onclick="refreshIACache()" style="background:#111;color:#fff;">Actualizar IA</button>
+</div>
+<div id="bizCount" style="margin:-8px 0 12px; font-weight:700; color:#444;">0 negocios mostrados de 0</div>
+
+<table id="placesTable">
+
+    <thead>
+
+        <tr>
+
+            <th>Estado</th>
+
+            <th>ID</th>
+
+            <th>Nombre</th>
+
+            <th>Contacto</th>
+
+            <th>Foto</th>
+
+            <th>Acciones</th>
+
+        </tr>
+
+    </thead>
+
+    <tbody></tbody>
+
+</table>
+
+<div id="tablePagination" style="display:flex; justify-content:center; align-items:center; gap:6px; margin-top:12px; flex-wrap:wrap;"></div>
+
+<div id="toastContainer" class="toast-container"></div>
+
+<div id="bizDetailsModal" class="modal-overlay">
+  <div class="modal-content details-modal">
+    <div class="details-header">
+      <h3 id="bizDetailsTitle" class="details-title">Negocio</h3>
+      <button type="button" onclick="closeBizDetailsModal()" style="background:none; font-size:24px;">&times;</button>
+    </div>
+    <div class="details-grid">
+      <div class="details-block">
+        <p class="details-line"><strong>Frase corta:</strong> <span id="bizDetailsPhrase">-</span></p>
+        <p class="details-line"><strong>Categor?a:</strong> <span id="bizDetailsCategory">-</span></p>
+        <p class="details-line"><strong>Descripci?n:</strong></p>
+        <div id="bizDetailsDescription" class="details-text"></div>
+        <div style="margin-top:10px;">
+          <div class="details-line"><strong>Horario:</strong></div>
+          <div id="bizDetailsSchedule" class="details-schedule"></div>
+        </div>
+      </div>
+      <div class="details-block">
+        <div class="details-line"><strong>Mapa:</strong></div>
+        <div id="bizDetailsMap" class="details-map"></div>
+        <div id="bizDetailsAddress" class="details-map-note">Dirección: -</div>
+      </div>
+    </div>
+    <div class="details-block details-photos" style="margin-top:12px;">
+      <div class="details-line"><strong>Foto principal:</strong></div>
+      <img id="bizDetailsMainPhoto" class="details-main-photo" src="" alt="Foto principal">
+      <div class="details-line"><strong>Carrusel de fotos:</strong></div>
+      <div id="bizDetailsCarousel" class="details-carousel"></div>
+    </div>
+    <div class="details-actions">
+      <button type="button" class="btn btn-primary" onclick="requestBizDetailsAction('save')">Guardar</button>
+      <button type="button" class="btn btn-soft" onclick="requestBizDetailsAction('cancel')">Cancelar</button>
+    </div>
+  </div>
+</div>
+
+<div id="bizDetailsConfirm" class="modal-overlay">
+  <div class="modal-content" style="max-width:420px;">
+    <div style="display:flex; justify-content:space-between; align-items:center; border-bottom:2px solid #f3d044; margin-bottom:10px;">
+      <h3 id="bizDetailsConfirmTitle">Confirmar</h3>
+      <button type="button" onclick="closeBizDetailsConfirm()" style="background:none; font-size:22px">&times;</button>
+    </div>
+    <div id="bizDetailsConfirmBody" style="font-weight:600; color:#444;"></div>
+    <div class="modal-actions" style="margin-top:14px;">
+      <button type="button" class="btn btn-primary" onclick="confirmBizDetailsAction()">Aceptar</button>
+      <button type="button" class="btn btn-soft" onclick="closeBizDetailsConfirm()">Volver</button>
+    </div>
+  </div>
+</div>
+
+<div id="statusEmailModal" class="modal-overlay">
+  <div class="modal-content" style="max-width:460px;">
+    <div style="display:flex; justify-content:space-between; align-items:center; border-bottom:2px solid #f3d044; margin-bottom:12px;">
+      <h3 id="statusEmailModalTitle" style="margin:0;">Enviar aviso por correo</h3>
+      <button type="button" onclick="closeStatusEmailModal()" style="background:none; font-size:22px">&times;</button>
+    </div>
+    <div id="statusEmailModalBody" style="font-weight:600; color:#444; line-height:1.5;"></div>
+    <div style="margin-top:14px; display:flex; gap:10px; flex-wrap:wrap;">
+      <button type="button" class="btn btn-primary" style="flex:1; min-width: 150px;" onclick="confirmStatusEmailToggle(true)">Si, enviar</button>
+      <button type="button" class="btn btn-soft" style="flex:1; min-width: 150px;" onclick="confirmStatusEmailToggle(false)">No, solo cambiar</button>
+    </div>
+  </div>
+</div>
+
+<div id="scheduleModal" class="modal-overlay">
+
+    <div class="modal-content">
+
+        <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid #f3d044; margin-bottom: 15px;">
+
+            <h3>Editar Horario: <span id="modalPlaceName" style="color:#666"></span></h3>
+
+            <button onclick="closeScheduleModal()" style="background:none; font-size:24px;">&times;</button>
+
+        </div>
+
+        <div id="modalScheduleContainer"></div>
+
+        <div style="margin-top: 20px; display: flex; gap: 10px;">
+
+            <button onclick="saveScheduleFromModal()" style="flex:1; background:rgb(219, 26, 26); color:#fff">GUARDAR HORARIO</button>
+
+            <button onclick="closeScheduleModal()" style="flex:1; background:#ccc; color:#000">CANCELAR</button>
+
+        </div>
+
+    </div>
+
+</div>
+
+<!-- MODAL SELECTOR CATEGORÍA SIMPLE -->
+
+<div id="categoryModal" class="modal-overlay">
+
+  <div class="modal-content" style="max-width:600px; overflow-x:hidden;">
+
+    <div style="display:flex; justify-content:space-between; align-items:center; border-bottom:2px solid #f3d044; margin-bottom:10px;">
+
+      <h3>Seleccionar categoría <span id="catTargetHint" style="font-size:0.8rem; color:#666;"></span></h3>
+
+      <button onclick="closeCategoryModal()" style="background:none; font-size:22px">&times;</button>
+
+    </div>
+
+    <!-- Buscador -->
+
+    <input id="catSearchInput" placeholder="Buscar categoría..." style="width:100%; margin-bottom:10px; padding:8px">
+
+    <div id="catQuickPicks" class="cat-quick"></div>
+
+    <!-- Lista de categorías -->
+
+    <div id="catList" style="max-height:400px; overflow-y:auto; overflow-x:hidden;"></div>
+
+  </div>
+
+</div>
+
+<!-- MODAL RELOJ -->
+
+<div id="clockModal" class="modal-overlay">
+
+  <div class="modal-content" style="max-width:380px;">
+
+    <div style="display:flex; justify-content:space-between; align-items:center; border-bottom:2px solid #f3d044; margin-bottom:10px;">
+
+      <h3>Seleccionar hora</h3>
+
+      <button onclick="closeClockModal()" style="background:none; font-size:22px">&times;</button>
+
+    </div>
+
+    <div id="clockStepLabel" class="clock-step-label">Selecciona hora</div>
+
+    <div id="clockPreview" class="clock-preview">00:00</div>
+
+    <div id="clockDial" class="clock-dial">
+
+      <div class="clock-center-dot"></div>
+
+    </div>
+
+    <button type="button" onclick="closeClockModal()" style="width:100%; background:#ccc; color:#000;">Cancelar</button>
+
+  </div>
+
+</div>
+
+<div id="mapPickerModal" class="modal-overlay">
+  <div class="modal-content" style="max-width:760px;">
+    <div style="display:flex; justify-content:space-between; align-items:center; border-bottom:2px solid #f3d044; margin-bottom:10px;">
+      <h3 id="mapPickerTitle">Seleccionar ubicación</h3>
+      <button onclick="closeMapPickerModal()" style="background:none; font-size:22px">&times;</button>
+    </div>
+    <div class="map-mini-row" style="grid-template-columns:1fr 1fr;">
+      <input id="mapPickerLat" placeholder="Latitud">
+      <input id="mapPickerLng" placeholder="Longitud">
+    </div>
+    <div id="mapPickerCanvas"></div>
+    <div style="display:flex; gap:8px; justify-content:flex-end;">
+      <button type="button" class="pick-map-btn" onclick="clearMapPickerSelection()">Limpiar</button>
+      <button type="button" onclick="applyMapPickerSelection()">Usar ubicación</button>
+    </div>
+  </div>
+</div>
+
+<div id="posterModal" class="modal-overlay">
+  <div class="modal-content" style="max-width:920px;">
+    <div style="display:flex;justify-content:space-between;align-items:center;border-bottom:2px solid #f3d044;margin-bottom:12px;">
+      <h3 style="margin:0;">Generar cartel A4</h3>
+      <div style="display:flex;align-items:center;gap:8px;">
+        <button id="posterOpenTargetBtn" type="button" style="background:#1f2937;color:#fff;" onclick="openPosterTargetPage()">Abrir destino QR</button>
+        <button onclick="closePosterModal()" style="background:none;font-size:22px;">&times;</button>
+      </div>
+    </div>
+    <div class="poster-preview-wrap">
+      <canvas id="posterCanvas"></canvas>
+      <div id="posterQrNote" class="poster-note"></div>
+    </div>
+    <div style="display:flex;gap:10px;margin-top:12px;flex-wrap:wrap;">
+      <button type="button" onclick="downloadPosterPng()">Descargar PNG</button>
+      <button type="button" class="pick-map-btn" onclick="copyPosterToClipboard()">Copiar al portapapeles</button>
+      <button type="button" style="background:#ccc;color:#000;" onclick="closePosterModal()">Cerrar</button>
+    </div>
+  </div>
+</div>
+
+<datalist id="categoryDatalist"></datalist>
+<script src="/web/creador_qr/qrcode.min.js"></script>
+<script>
+
+const API_URL = location.origin;
+
+const DAYS = ["Lunes","Martes","Miércoles","Jueves","Viernes","Sábado","Domingo"];
+let leafletLoaderPromise = null;
+let mapPickerState = { targetLatInput: null, targetLngInput: null, map: null, marker: null };
+
+let detailsMapState = { map: null, marker: null };
+let currentDetailsPlace = null;
+let pendingDetailsAction = null;
+let posterCurrentPlace = null;
+let posterCurrentMode = "business";
+const POSTER_A4_WIDTH = 1240;
+const POSTER_A4_HEIGHT = 1754;
+
+let currentEditingId = null;
+
+let placesPollTimer = null;
+
+const nativeFetch = window.fetch.bind(window);
+
+window.fetch = async (input, init = {}) => {
+
+    if(init.credentials === undefined) init.credentials = "include";
+
+    const res = await nativeFetch(input, init);
+
+    if(res.status === 401 && window.top && window.top !== window){
+
+        window.top.postMessage({ type: "admin-auth-required" }, "*");
+
+    }
+
+    return res;
+
+};
+
+let filterDebounceTimer = null;
+
+const TABLE_PAGE_SIZE = 10;
+
+let currentTablePage = 1;
+
+let currentClockInput = null;
+
+let clockPhase = "hour";
+
+let clockHour = 0;
+
+let clockMinute = 0;
+
+function pad2(n) {
+
+    return String(n).padStart(2, "0");
+
+}
+
+function normalizeMinuteToStep5(minute) {
+
+    const rounded = Math.round(minute / 5) * 5;
+
+    return rounded >= 60 ? 55 : rounded;
+
+}
+
+function openClockPicker(inputEl) {
+
+    currentClockInput = inputEl;
+
+    const raw = (inputEl.value || "").trim();
+
+    const match = /^([01]?\d|2[0-3]):([0-5]\d)$/.exec(raw);
+
+    if (match) {
+
+        clockHour = Number(match[1]);
+
+        clockMinute = normalizeMinuteToStep5(Number(match[2]));
+
+    } else {
+
+        const now = new Date();
+
+        clockHour = now.getHours();
+
+        clockMinute = normalizeMinuteToStep5(now.getMinutes());
+
+    }
+
+    clockPhase = "hour";
+
+    renderClockDial();
+
+    openModal(document.getElementById("clockModal"));
+
+}
+
+function closeClockModal() {
+
+    closeModal(document.getElementById("clockModal"));
+
+    currentClockInput = null;
+
+}
+
+function applyClockValue() {
+
+    if (!currentClockInput) return;
+
+    currentClockInput.value = `${pad2(clockHour)}:${pad2(clockMinute)}`;
+
+    closeClockModal();
+
+}
+
+function renderClockDial() {
+
+    const dial = document.getElementById("clockDial");
+
+    const stepLabel = document.getElementById("clockStepLabel");
+
+    const preview = document.getElementById("clockPreview");
+
+    dial.innerHTML = '<div class="clock-center-dot"></div>';
+
+    preview.textContent = `${pad2(clockHour)}:${pad2(clockMinute)}`;
+
+    const values = clockPhase === "hour" ?
+
+         Array.from({ length: 24 }, (_, i) => i)
+
+        : Array.from({ length: 12 }, (_, i) => i * 5);
+
+    stepLabel.textContent = clockPhase === "hour" ?
+
+         "Selecciona hora"
+
+        : "Selecciona minutos (de 5 en 5)";
+
+    const radius = 118;
+
+    values.forEach((value, index) => {
+
+        const angle = (Math.PI * 2 * index / values.length) - Math.PI / 2;
+
+        const x = 140 + Math.cos(angle) * radius;
+
+        const y = 140 + Math.sin(angle) * radius;
+
+        const btn = document.createElement("button");
+
+        btn.type = "button";
+
+        btn.className = "clock-number";
+
+        btn.style.left = `${x}px`;
+
+        btn.style.top = `${y}px`;
+
+        btn.textContent = pad2(value);
+
+        if ((clockPhase === "hour" && value === clockHour) || (clockPhase === "minute" && value === clockMinute)) {
+
+            btn.classList.add("selected");
+
+        }
+
+        btn.onclick = () => {
+
+            if (clockPhase === "hour") {
+
+                clockHour = value;
+
+                clockPhase = "minute";
+
+                renderClockDial();
+
+            } else {
+
+                clockMinute = value;
+
+                preview.textContent = `${pad2(clockHour)}:${pad2(clockMinute)}`;
+
+                applyClockValue();
+
+            }
+
+        };
+
+        dial.appendChild(btn);
+
+    });
+
+}
+
+function showToast(message, type="success") {
+
+    const container = document.getElementById("toastContainer");
+
+    const toast = document.createElement("div");
+
+    toast.className = `toast toast-${type}`;
+
+    toast.textContent = message;
+
+    container.appendChild(toast);
+
+    requestAnimationFrame(() => toast.classList.add("show"));
+
+    setTimeout(() => {
+
+        toast.classList.remove("show");
+
+        setTimeout(() => toast.remove(), 220);
+
+    }, 2600);
+
+}
+
+async function refreshIACache(){
+    const btn = document.getElementById("refreshIABtn");
+    if(btn){
+        btn.disabled = true;
+        btn.textContent = "Actualizando...";
+    }
+    try{
+        const res = await fetch("/admin/ia/cache/refresh", { method: "POST", credentials: "include" });
+        const data = await res.json().catch(() => ({}));
+        if(!res.ok){
+            showToast(data.detail || "No se pudo actualizar la cache de IA", "error");
+            return;
+        }
+        const count = Number(data.places_cached || 0);
+        const updatedAt = data.places_cache_last_update ? ` (${data.places_cache_last_update})` : "";
+        showToast(`Cache IA actualizada: ${count} lugares${updatedAt}`, "success");
+    }catch(_err){
+        showToast("No se pudo contactar con el servicio de IA", "error");
+    }finally{
+        if(btn){
+            btn.disabled = false;
+            btn.textContent = "Actualizar IA";
+        }
+    }
+}
+
+function buildPosterQrUrl(place, mode = "business"){
+    if(mode === "client_versions"){
+        return "https://todosevillaeste.es/versiones_cliente.html";
+    }
+    if(mode === "admin_versions"){
+        return "https://todosevillaeste.es/versiones.html";
+    }
+    const id = String(place?.public_id || "").trim();
+    return `https://todosevillaeste.es/negocio.html?id=${encodeURIComponent(id)}&from_qr=1`;
+}
+
+function getPosterConfig(place, mode = "business"){
+    if(mode === "client_versions"){
+        return {
+            title: "Descarga la App de Todo Sevilla Este",
+            qrUrl: buildPosterQrUrl(null, mode),
+            showMessage: false,
+            openButtonLabel: "Abrir versiones cliente",
+            fileNameBase: "versiones_cliente_tse"
+        };
+    }
+    if(mode === "admin_versions"){
+        return {
+            title: "Descarga la App de Admin de Todo Sevilla Este",
+            qrUrl: buildPosterQrUrl(null, mode),
+            showMessage: false,
+            openButtonLabel: "Abrir versiones admin",
+            fileNameBase: "versiones_admin_tse"
+        };
+    }
+    return {
+        title: String(place?.name || `Negocio ${place?.public_id || ""}`).trim(),
+        qrUrl: buildPosterQrUrl(place, mode),
+        showMessage: true,
+        openButtonLabel: "Descargar APP",
+        fileNameBase: String(place?.name || `negocio_${place?.public_id || "cartel"}`)
+    };
+}
+
+function loadImage(src){
+    return new Promise((resolve, reject) => {
+        const img = new Image();
+        img.crossOrigin = "anonymous";
+        img.onload = () => resolve(img);
+        img.onerror = () => reject(new Error(`No se pudo cargar imagen: ${src}`));
+        img.src = src;
+    });
+}
+
+function wrapText(ctx, text, maxWidth){
+    const words = String(text || "").split(/\s+/).filter(Boolean);
+    const lines = [];
+    let line = "";
+    words.forEach(word => {
+        const test = line ? `${line} ${word}` : word;
+        if(ctx.measureText(test).width <= maxWidth){
+            line = test;
+        }else{
+            if(line) lines.push(line);
+            line = word;
+        }
+    });
+    if(line) lines.push(line);
+    return lines;
+}
+
+function drawCenteredTrackedText(ctx, text, centerX, baselineY, trackingPx){
+    const raw = String(text || "");
+    const chars = Array.from(raw);
+    if(!chars.length){
+        return;
+    }
+    const tracking = Number(trackingPx || 0);
+    const widths = chars.map(ch => ctx.measureText(ch).width);
+    const totalWidth = widths.reduce((acc, w) => acc + w, 0) + tracking * Math.max(0, chars.length - 1);
+    let x = centerX - (totalWidth / 2);
+    chars.forEach((ch, idx) => {
+        ctx.fillText(ch, x, baselineY);
+        x += widths[idx] + tracking;
+    });
+}
+
+async function makeQrCanvas(text, size){
+    if(typeof QRCode === "undefined"){
+        throw new Error("Librería QR no cargada");
+    }
+    const holder = document.createElement("div");
+    holder.style.position = "fixed";
+    holder.style.left = "-9999px";
+    holder.style.top = "-9999px";
+    document.body.appendChild(holder);
+    new QRCode(holder, {
+        text,
+        width: size,
+        height: size,
+        correctLevel: QRCode.CorrectLevel.H
+    });
+    await new Promise(r => setTimeout(r, 40));
+    const sourceCanvas = holder.querySelector("canvas");
+    const sourceImg = holder.querySelector("img");
+    if(!sourceCanvas && !sourceImg){
+        holder.remove();
+        throw new Error("No se pudo generar el QR");
+    }
+    const out = document.createElement("canvas");
+    out.width = size;
+    out.height = size;
+    const outCtx = out.getContext("2d");
+    if(sourceCanvas){
+        outCtx.drawImage(sourceCanvas, 0, 0, size, size);
+    }else{
+        await new Promise((resolve, reject) => {
+            if(sourceImg.complete) return resolve();
+            sourceImg.onload = resolve;
+            sourceImg.onerror = reject;
+        });
+        outCtx.drawImage(sourceImg, 0, 0, size, size);
+    }
+    holder.remove();
+    return out;
+}
+
+async function renderPosterCanvas(){
+    const place = posterCurrentPlace;
+    const cfg = getPosterConfig(place, posterCurrentMode);
+    if(!cfg || !cfg.qrUrl) return;
+    const canvas = document.getElementById("posterCanvas");
+    const ctx = canvas.getContext("2d");
+    canvas.width = POSTER_A4_WIDTH;
+    canvas.height = POSTER_A4_HEIGHT;
+
+    const qrUrl = cfg.qrUrl;
+    document.getElementById("posterQrNote").textContent = `QR destino: ${qrUrl}`;
+    const openBtn = document.getElementById("posterOpenTargetBtn");
+    if(openBtn){
+        openBtn.textContent = cfg.openButtonLabel || "Abrir destino QR";
+    }
+
+    ctx.fillStyle = "#f3d044";
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+    const title = cfg.title;
+    const titleMaxWidth = canvas.width - 120;
+    ctx.fillStyle = "#111";
+    ctx.font = "800 94px Montserrat, Helvetica Neue, Arial, sans-serif";
+    ctx.textAlign = "center";
+    const titleLines = wrapText(ctx, title, titleMaxWidth).slice(0, 2);
+    const titleLineHeight = 96;
+    const titleStartY = 136;
+    titleLines.forEach((line, idx) => {
+        ctx.fillText(line, canvas.width / 2, titleStartY + idx * titleLineHeight);
+    });
+    const lastTitleY = titleStartY + (Math.max(1, titleLines.length) - 1) * titleLineHeight;
+    const dividerY = lastTitleY + 30;
+    ctx.strokeStyle = "#1f2937";
+    ctx.lineWidth = 4;
+    ctx.beginPath();
+    ctx.moveTo(130, dividerY);
+    ctx.lineTo(canvas.width - 130, dividerY);
+    ctx.stroke();
+
+    const qrSize = 640;
+    const qrBorder = 56;
+    const qrX = Math.round((canvas.width - qrSize) / 2);
+    const qrY = dividerY + 106;
+    ctx.fillStyle = "#fff";
+    ctx.fillRect(qrX - qrBorder, qrY - qrBorder, qrSize + qrBorder * 2, qrSize + qrBorder * 2);
+    const qrCanvas = await makeQrCanvas(qrUrl, qrSize);
+    ctx.drawImage(qrCanvas, qrX, qrY, qrSize, qrSize);
+
+    const logo = await loadImage("/icono/tsev2_beta.png");
+    const logoWidth = 330;
+    const logoHeight = Math.round((logo.height / logo.width) * logoWidth);
+    const textTopY = qrY + qrSize + qrBorder + 84;
+
+    let logoStartY = textTopY;
+    if(cfg.showMessage){
+        const msg = "Escanea este QR, inicia sesión o crea tu cuenta y valora el negocio";
+        const msgBoxWidth = Math.min(canvas.width - 180, 940);
+        const msgCenterX = canvas.width / 2;
+        ctx.fillStyle = "#1f2937";
+        ctx.font = "700 43px Montserrat, Helvetica Neue, Arial, sans-serif";
+        ctx.textAlign = "center";
+        const lines = wrapText(ctx, msg, msgBoxWidth);
+        const lineHeight = 56;
+        const totalHeight = lines.length * lineHeight;
+        const startY = textTopY;
+        lines.forEach((line, i) => {
+            ctx.fillText(line, msgCenterX, startY + i * lineHeight);
+        });
+        logoStartY = startY + totalHeight;
+    }
+
+    const logoGap = cfg.showMessage ? 34 : 18;
+    const logoX = Math.round((canvas.width - logoWidth) / 2);
+    const logoY = logoStartY + logoGap;
+    ctx.drawImage(logo, logoX, logoY, logoWidth, logoHeight);
+
+    ctx.fillStyle = "#1f2937";
+    ctx.font = "700 42px Montserrat, Helvetica Neue, Arial, sans-serif";
+    ctx.textAlign = "left";
+    drawCenteredTrackedText(ctx, "todosevillaeste.es", canvas.width / 2, canvas.height - 40, 2.6);
+}
+
+function openPosterTargetPage(){
+    const cfg = getPosterConfig(posterCurrentPlace, posterCurrentMode);
+    if(!cfg || !cfg.qrUrl) return;
+    window.open(cfg.qrUrl, "_blank", "noopener");
+}
+
+async function openPosterModal(place, mode = "business"){
+    posterCurrentPlace = place || null;
+    posterCurrentMode = mode || "business";
+    openModal(document.getElementById("posterModal"));
+    try{
+        await renderPosterCanvas();
+    }catch(err){
+        console.error(err);
+        showToast("No se pudo generar el cartel", "error");
+    }
+}
+
+function openClientVersionsPoster(){
+    openPosterModal(null, "client_versions");
+}
+
+function openAdminVersionsPoster(){
+    openPosterModal(null, "admin_versions");
+}
+
+function closePosterModal(){
+    closeModal(document.getElementById("posterModal"));
+}
+
+function downloadPosterPng(){
+    const canvas = document.getElementById("posterCanvas");
+    if(!canvas || !canvas.width){
+        showToast("Genera el cartel primero", "error");
+        return;
+    }
+    const link = document.createElement("a");
+    const cfg = getPosterConfig(posterCurrentPlace, posterCurrentMode);
+    const safeName = String(cfg.fileNameBase || `cartel_${posterCurrentMode || "tse"}`)
+        .replace(/[^\w\-]+/g, "_")
+        .slice(0, 60);
+    link.download = `cartel_${safeName}.png`;
+    link.href = canvas.toDataURL("image/png");
+    link.click();
+}
+
+async function copyPosterToClipboard(){
+    const canvas = document.getElementById("posterCanvas");
+    if(!canvas || !canvas.width){
+        showToast("Genera el cartel primero", "error");
+        return;
+    }
+    if(!navigator.clipboard || typeof ClipboardItem === "undefined"){
+        showToast("Tu navegador no permite copiar imagen al portapapeles", "error");
+        return;
+    }
+    const blob = await new Promise(resolve => canvas.toBlob(resolve, "image/png"));
+    if(!blob){
+        showToast("No se pudo convertir el cartel", "error");
+        return;
+    }
+    try{
+        await navigator.clipboard.write([new ClipboardItem({ "image/png": blob })]);
+        showToast("Cartel copiado al portapapeles", "success");
+    }catch(_e){
+        showToast("No se pudo copiar al portapapeles", "error");
+    }
+}
+
+function debounceApplyFilter() {
+
+    clearTimeout(filterDebounceTimer);
+
+    filterDebounceTimer = setTimeout(() => applyFilter(1), 140);
+
+}
+
+function animateRowVisibility(tr, shouldShow) {
+
+    if (shouldShow) {
+
+        clearTimeout(tr._hideTimer);
+
+        if (tr.style.display === "none") {
+
+            tr.style.display = "";
+
+            tr.style.opacity = "0";
+
+            tr.style.transform = "translateY(6px)";
+
+            requestAnimationFrame(() => {
+
+                tr.style.opacity = "1";
+
+                tr.style.transform = "translateY(0)";
+
+            });
+
+        } else {
+
+            tr.style.opacity = "1";
+
+            tr.style.transform = "translateY(0)";
+
+        }
+
+        return;
+
+    }
+
+    if (tr.style.display === "none") return;
+
+    tr.style.opacity = "0";
+
+    tr.style.transform = "translateY(6px)";
+
+    clearTimeout(tr._hideTimer);
+
+    tr._hideTimer = setTimeout(() => {
+
+        tr.style.display = "none";
+
+    }, 180);
+
+}
+
+// --- FUNCIONES CORE ---
+
+function updateDayVisual(dayDiv) {
+
+    const trays = dayDiv.querySelectorAll(".time-trays");
+
+    const status = dayDiv.querySelector(".day-status");
+
+    if(trays.length === 0){
+
+        dayDiv.style.background = "#fafafa"; // fondo del contenedor
+
+        if(status){
+
+            status.innerText = "Día cerrado";
+
+            status.style.background = "#ED4D2D"; // rojo -> cerrado
+
+            status.style.color = "#800000"; // texto más visible
+
+        }
+
+    } else {
+
+        dayDiv.style.background = "#fafafa";
+
+        if(status){
+
+            status.innerText = "Día abierto";
+
+            status.style.background = "#62F046"; // verde claro -> abierto
+
+            status.style.color = "#006600";
+
+        }
+
+    }
+
+}
+
+function timeToMinutes(str){
+
+    if(!str || !str.includes(":")) return 0;
+
+    const [h, m] = str.split(":").map(Number);
+
+    if(Number.isNaN(h) || Number.isNaN(m)) return 0;
+
+    return (h * 60) + m;
+
+}
+
+function minutesToTime(mins){
+
+    const normalized = Math.max(0, Math.min(1435, mins));
+
+    const h = Math.floor(normalized / 60);
+
+    const m = normalized % 60;
+
+    return `${String(h).padStart(2, "0")}:${String(m).padStart(2, "0")}`;
+
+}
+
+function updateTrayRangeVisual(trayDiv){
+
+    const startRange = trayDiv.querySelector(".time-start-range");
+
+    const endRange = trayDiv.querySelector(".time-end-range");
+
+    const startValEl = trayDiv.querySelector(".tray-start");
+
+    const endValEl = trayDiv.querySelector(".tray-end");
+
+    const fill = trayDiv.querySelector(".range-fill");
+
+    const start = Number(startRange.value);
+
+    const end = Number(endRange.value);
+
+    startValEl.value = minutesToTime(start);
+
+    endValEl.value = minutesToTime(end);
+
+    const leftPct = (start / 1435) * 100;
+
+    const rightPct = (end / 1435) * 100;
+
+    fill.style.left = `${leftPct}%`;
+
+    fill.style.width = `${Math.max(0, rightPct - leftPct)}%`;
+
+}
+
+function getTrayNeighborBounds(trayDiv) {
+    const siblings = Array.from(
+        trayDiv.parentElement.querySelectorAll(".time-trays")
+    );
+
+    const idx = siblings.indexOf(trayDiv);
+
+    const minStart = idx > 0
+        ? Number(siblings[idx - 1].querySelector(".time-end-range").value)
+        : 0;
+
+    const maxEnd = idx < siblings.length - 1
+        ? Number(siblings[idx + 1].querySelector(".time-start-range").value)
+        : 1435;
+
+    return { minStart, maxEnd };
+}
+
+function enforceTrayNoOverlap(trayDiv, changed){
+
+    const startRange = trayDiv.querySelector(".time-start-range");
+
+    const endRange = trayDiv.querySelector(".time-end-range");
+
+    let start = Number(startRange.value);
+
+    let end = Number(endRange.value);
+
+    const { minStart, maxEnd } = getTrayNeighborBounds(trayDiv);
+
+    if (maxEnd - minStart < 5) {
+
+        start = minStart;
+
+        end = minStart;
+
+        startRange.value = start;
+
+        endRange.value = end;
+
+        return;
+
+    }
+
+    if (changed === "start") {
+
+        start = Math.max(minStart, start);
+
+        start = Math.min(start, maxEnd - 5);
+
+        if (start >= end) end = Math.min(maxEnd, start + 5);
+
+    } else if (changed === "end") {
+
+        end = Math.min(maxEnd, end);
+
+        end = Math.max(end, minStart + 5);
+
+        if (end <= start) start = Math.max(minStart, end - 5);
+
+    } else {
+
+        start = Math.max(minStart, Math.min(start, maxEnd - 5));
+
+        end = Math.max(start + 5, Math.min(end, maxEnd));
+
+    }
+
+    startRange.value = start;
+
+    endRange.value = end;
+
+}
+
+function bindTrayDrag(trayDiv){
+
+    const fill = trayDiv.querySelector(".range-fill");
+
+    const startRange = trayDiv.querySelector(".time-start-range");
+
+    const endRange = trayDiv.querySelector(".time-end-range");
+
+    let dragging = false;
+
+    let startX = 0;
+
+    let initialStart = 0;
+
+    let initialEnd = 0;
+
+    const onPointerMove = (e) => {
+
+        if (!dragging) return;
+
+        const track = trayDiv.querySelector(".range-track");
+
+        const rect = track.getBoundingClientRect();
+
+        if (rect.width <= 0) return;
+
+        const deltaPx = e.clientX - startX;
+
+        const minsPerPx = 1435 / rect.width;
+
+        const rawDelta = deltaPx * minsPerPx;
+
+        const snappedDelta = Math.round(rawDelta / 5) * 5;
+
+        const { minStart, maxEnd } = getTrayNeighborBounds(trayDiv);
+
+        const length = initialEnd - initialStart;
+
+        let newStart = initialStart + snappedDelta;
+
+        newStart = Math.max(minStart, newStart);
+
+        newStart = Math.min(maxEnd - length, newStart);
+
+        let newEnd = newStart + length;
+
+        startRange.value = newStart;
+
+        endRange.value = newEnd;
+
+        enforceTrayNoOverlap(trayDiv, "move");
+
+        updateTrayRangeVisual(trayDiv);
+
+    };
+
+    const onPointerUp = () => {
+
+        if (!dragging) return;
+
+        dragging = false;
+
+        fill.classList.remove("dragging");
+
+        window.removeEventListener("pointermove", onPointerMove);
+
+        window.removeEventListener("pointerup", onPointerUp);
+
+    };
+
+    fill.addEventListener("pointerdown", (e) => {
+
+        e.preventDefault();
+
+        dragging = true;
+
+        fill.classList.add("dragging");
+
+        startX = e.clientX;
+
+        initialStart = Number(startRange.value);
+
+        initialEnd = Number(endRange.value);
+
+        window.addEventListener("pointermove", onPointerMove);
+
+        window.addEventListener("pointerup", onPointerUp);
+
+    });
+
+}
+
+function bindTrayRange(trayDiv, startMinutes, endMinutes){
+
+    const startRange = trayDiv.querySelector(".time-start-range");
+
+    const endRange = trayDiv.querySelector(".time-end-range");
+
+    startRange.value = startMinutes;
+
+    endRange.value = endMinutes;
+
+    enforceTrayNoOverlap(trayDiv, "init");
+
+    updateTrayRangeVisual(trayDiv);
+
+    startRange.addEventListener("input", () => {
+
+        enforceTrayNoOverlap(trayDiv, "start");
+
+        updateTrayRangeVisual(trayDiv);
+
+    });
+
+    endRange.addEventListener("input", () => {
+
+        enforceTrayNoOverlap(trayDiv, "end");
+
+        updateTrayRangeVisual(trayDiv);
+
+    });
+
+    bindTrayDrag(trayDiv);
+
+}
+
+function addTimeTray(btn = null, trayData = null, parent = null) {
+
+    if (!parent && btn) {
+        parent = btn.parentElement.querySelector(".day-trays");
+    }
+
+    if (!parent) return;
+
+    let startMinutes = trayData
+        ? timeToMinutes(trayData.inicio)
+        : 9 * 60;
+
+    let endMinutes = trayData
+        ? timeToMinutes(trayData.fin)
+        : 14 * 60;
+
+    if (!trayData) {
+        const existing = Array.from(
+            parent.querySelectorAll(".time-trays")
+        );
+
+        if (existing.length) {
+            const last = existing[existing.length - 1];
+            const lastEnd = Number(
+                last.querySelector(".time-end-range").value
+            );
+
+            if (lastEnd >= 1435) {
+                showToast(
+                    "No hay más hueco horario disponible en este día",
+                    "error"
+                );
+                return;
+            }
+
+            startMinutes = lastEnd;
+            endMinutes = Math.min(1435, startMinutes + 300);
+        }
+    }
+
+    const safeStart = Math.max(0, Math.min(1430, startMinutes));
+    const safeEnd = Math.max(safeStart + 5, Math.min(1435, endMinutes));
+
+    const trayDiv = document.createElement("div");
+    trayDiv.className = "time-trays";
+
+    trayDiv.innerHTML = `
+        <div class="time-range-wrap">
+            <div class="time-range-values">
+                <input type="text" class="clock-input tray-start" readonly value="${minutesToTime(safeStart)}">
+                <span>?</span>
+                <input type="text" class="clock-input tray-end" readonly value="${minutesToTime(safeEnd)}">
+            </div>
+
+            <div class="range-track">
+                <div class="range-bg"></div>
+                <div class="range-fill"></div>
+                <input type="range" class="time-range time-start-range" min="0" max="1435" step="5" value="${safeStart}">
+                <input type="range" class="time-range time-end-range" min="0" max="1435" step="5" value="${safeEnd}">
+            </div>
+
+            <div class="range-marks">
+                <span>00:00</span>
+                <span>06:00</span>
+                <span>12:00</span>
+                <span>18:00</span>
+                <span>23:59</span>
+            </div>
+        </div>
+
+        <button type="button">-</button>
+    `;
+
+    parent.appendChild(trayDiv);
+
+    bindTrayRange(trayDiv, safeStart, safeEnd);
+
+    // Botón eliminar tramo
+    const delBtn = trayDiv.querySelector("button");
+    delBtn.onclick = () => {
+        trayDiv.remove();
+        updateDayVisual(parent.parentElement);
+    };
+
+    updateDayVisual(parent.parentElement);
+}
+
+function toggleClosed(btn) {
+
+    const dayDiv = btn.parentElement;
+
+    const isClosed = dayDiv.dataset.closed === "true";
+
+    dayDiv.dataset.closed = isClosed ? "false" : "true";
+
+    // Activar/desactivar inputs sin borrar tramos
+    dayDiv
+        .querySelectorAll(".time-trays input")
+        .forEach(input => {
+            input.disabled = dayDiv.dataset.closed === "true";
+        });
+
+    updateDayVisual(dayDiv);
+}
+
+function initScheduleUI(containerId, existingSchedule = null) {
+
+    const container = document.getElementById(containerId);
+    container.innerHTML = "";
+
+    DAYS.forEach(day => {
+
+        const dayDiv = document.createElement("div");
+        dayDiv.className = "day-schedule";
+
+        const dayData = (existingSchedule && existingSchedule[day])
+            ? existingSchedule[day]
+            : [];
+
+        const isClosed = dayData.length === 0;
+
+        dayDiv.dataset.closed = isClosed ? "true" : "false";
+
+        dayDiv.innerHTML = `
+            <strong>${day}</strong> 
+            <span class="day-status" 
+                  style="font-size:0.7rem; padding:2px 5px; font-weight:bold; border-radius:4px; display:inline-block; text-align:center;">
+                ${isClosed ? 'Día cerrado' : 'Día abierto'}
+            </span>
+
+            <div class="day-trays"></div>
+
+            <button type="button" 
+                    onclick="addTimeTray(this)" 
+                    style="font-size:0.7rem; padding:2px 5px; background:#ddd">
+                + Añadir tramo
+            </button>
+        `;
+
+        container.appendChild(dayDiv);
+
+        const traysContainer = dayDiv.querySelector(".day-trays");
+
+        if (dayData.length) {
+            dayData.forEach(t => addTimeTray(null, t, traysContainer));
+        }
+
+        updateDayVisual(dayDiv);
+    });
+}
+
+// --- TABLA ---
+
+// Función para escapar HTML y prevenir ruptura por caracteres especiales
+function escapeHtml(str) {
+    return String(str || '')
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#39;");
+}
+
+function parseOptionalCoord(value, min, max){
+    const raw = String(value ?? "").trim().replace(",", ".");
+    if(!raw) return null;
+    const num = Number(raw);
+    if(!Number.isFinite(num) || num < min || num > max) return NaN;
+    return Number(num.toFixed(7));
+}
+
+function normalizeMapFieldsInData(data){
+    const latRaw = String(data.map_latitude ?? "").trim();
+    const lngRaw = String(data.map_longitude ?? "").trim();
+    const lat = parseOptionalCoord(latRaw, -90, 90);
+    const lng = parseOptionalCoord(lngRaw, -180, 180);
+    if(Number.isNaN(lat) || Number.isNaN(lng)){
+        return { ok:false, detail:"Latitud o longitud inválidas." };
+    }
+    if((lat === null) !== (lng === null)){
+        return { ok:false, detail:"Debes indicar latitud y longitud juntas, o dejar ambas vacías." };
+    }
+    data.map_latitude = lat;
+    data.map_longitude = lng;
+    return { ok:true };
+}
+
+function setupLeafletDefaultIcon(){
+    if(!window.L || !window.L.Icon || !window.L.Icon.Default) return;
+    const iconUrl = "https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon.png";
+    const iconRetinaUrl = "https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon-2x.png";
+    const shadowUrl = "https://unpkg.com/leaflet@1.9.4/dist/images/marker-shadow.png";
+    window.L.Icon.Default.imagePath = "";
+    window.L.Icon.Default.mergeOptions({ iconUrl, iconRetinaUrl, shadowUrl });
+    if(window.L.Icon.Default.prototype && window.L.Icon.Default.prototype.options){
+        window.L.Icon.Default.prototype.options.iconUrl = iconUrl;
+        window.L.Icon.Default.prototype.options.iconRetinaUrl = iconRetinaUrl;
+        window.L.Icon.Default.prototype.options.shadowUrl = shadowUrl;
+    }
+}
+
+async function ensureLeafletAssets(){
+    if(window.L?.map){ setupLeafletDefaultIcon(); return true; }
+    if(leafletLoaderPromise) return leafletLoaderPromise;
+    leafletLoaderPromise = new Promise((resolve)=>{
+        if(!document.getElementById("leaflet-css-admin-negocios")){
+            const css = document.createElement("link");
+            css.id = "leaflet-css-admin-negocios";
+            css.rel = "stylesheet";
+            css.href = "https://unpkg.com/leaflet@1.9.4/dist/leaflet.css";
+            document.head.appendChild(css);
+        }
+        const script = document.createElement("script");
+        script.src = "https://unpkg.com/leaflet@1.9.4/dist/leaflet.js";
+        script.async = true;
+        script.defer = true;
+        script.onload = ()=> {
+            setupLeafletDefaultIcon();
+            resolve(true);
+        };
+        script.onerror = ()=> resolve(false);
+        document.head.appendChild(script);
+    });
+    return leafletLoaderPromise;
+}
+
+function getTodayName(){
+    const now = new Date(new Date().toLocaleString("en-US", { timeZone: "Europe/Madrid" }));
+    const names = ["Domingo","Lunes","Martes","Mi?rcoles","Jueves","Viernes","S?bado"];
+    return names[now.getDay()] || "";
+}
+
+function buildScheduleSummary(openingHours){
+    if(!openingHours || typeof openingHours !== "object"){
+        return '<div class="details-empty">Sin horario.</div>';
+    }
+    const todayName = getTodayName();
+    return DAYS.map(day => {
+        const slots = Array.isArray(openingHours[day]) ? openingHours[day] : [];
+        const isToday = day === todayName;
+        const cls = isToday ? "details-day details-day-today" : "details-day";
+        if(!slots.length){
+            return `<div class="${cls}"><strong>${escapeHtml(day)}:</strong> Cerrado</div>`;
+        }
+        const text = slots.map(s => `${escapeHtml(s.inicio)}-${escapeHtml(s.fin)}`).join(", " );
+        return `<div class="${cls}"><strong>${escapeHtml(day)}:</strong> ${text}</div>`;
+    }).join("");
+}
+
+function closeBizDetailsModal(){
+    closeModal(document.getElementById("bizDetailsModal"));
+    if(detailsMapState.map){
+        detailsMapState.map.remove();
+        detailsMapState.map = null;
+        detailsMapState.marker = null;
+    }
+}
+
+function closeBizDetailsConfirm(){
+    closeModal(document.getElementById("bizDetailsConfirm"));
+    pendingDetailsAction = null;
+}
+
+function requestBizDetailsAction(type){
+    pendingDetailsAction = type;
+    const title = type === "save" ? "Guardar datos" : "Cancelar";
+    const body = type === "save"
+        ? "¿Quieres guardar y cerrar este panel?"
+        : "¿Quieres cancelar y cerrar este panel?";
+    document.getElementById("bizDetailsConfirmTitle").textContent = title;
+    document.getElementById("bizDetailsConfirmBody").textContent = body;
+    openModal(document.getElementById("bizDetailsConfirm"));
+}
+
+function confirmBizDetailsAction(){
+    closeBizDetailsConfirm();
+    closeBizDetailsModal();
+}
+
+async function initBizDetailsMap(place){
+    const mapEl = document.getElementById("bizDetailsMap");
+    if(!mapEl) return;
+
+    const lat = parseOptionalCoord(place?.map_latitude, -90, 90);
+    const lng = parseOptionalCoord(place?.map_longitude, -180, 180);
+    const hasCoords = lat !== null && lng !== null && !Number.isNaN(lat) && !Number.isNaN(lng);
+
+    mapEl.innerHTML = "";
+    mapEl.classList.remove("empty");
+
+    if(detailsMapState.map){
+        detailsMapState.map.remove();
+        detailsMapState.map = null;
+        detailsMapState.marker = null;
+    }
+
+    if(!hasCoords){
+        mapEl.classList.add("empty");
+        mapEl.textContent = "Sin ubicación";
+        return;
+    }
+
+    const loaded = await ensureLeafletAssets();
+    if(!loaded || !window.L?.map){
+        mapEl.classList.add("empty");
+        mapEl.textContent = "Mapa no disponible";
+        return;
+    }
+
+    detailsMapState.map = L.map("bizDetailsMap").setView([lat, lng], 16);
+    L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
+        maxZoom: 19,
+    }).addTo(detailsMapState.map);
+    detailsMapState.marker = L.marker([lat, lng]).addTo(detailsMapState.map);
+    setTimeout(() => detailsMapState.map && detailsMapState.map.invalidateSize(), 0);
+}
+
+function openBizDetailsModal(place){
+    if(!place) return;
+    currentDetailsPlace = place;
+
+    document.getElementById("bizDetailsTitle").textContent = `${place.name || "Negocio"} (${place.public_id})`;
+    document.getElementById("bizDetailsPhrase").textContent = place.initial_phrase || "-";
+    document.getElementById("bizDetailsCategory").textContent = place.category || "-";
+
+    const descEl = document.getElementById("bizDetailsDescription");
+    descEl.textContent = place.description || "Sin descripción.";
+
+    document.getElementById("bizDetailsSchedule").innerHTML = buildScheduleSummary(place.opening_hours);
+    document.getElementById("bizDetailsAddress").textContent = `Dirección: ${place.address || "Sin dirección"}`;
+
+    const mainPhoto = place.main_photo || "/web/icono/no_imagen.png";
+    const mainPhotoEl = document.getElementById("bizDetailsMainPhoto");
+    mainPhotoEl.src = mainPhoto;
+    mainPhotoEl.onerror = () => { mainPhotoEl.onerror = null; mainPhotoEl.src = "/web/icono/no_imagen.png"; };
+
+    const extras = Array.isArray(place.photos) ? place.photos : [];
+    const carousel = document.getElementById("bizDetailsCarousel");
+    if(extras.length){
+        carousel.innerHTML = extras.map(src => `<img src="${escapeHtml(src)}" alt="Foto extra">`).join("");
+    }else{
+        carousel.innerHTML = '<div class="details-empty">Sin fotos extra.</div>';
+    }
+
+    openModal(document.getElementById("bizDetailsModal"));
+    setTimeout(() => initBizDetailsMap(place), 50);
+}
+
+async function openMapPickerForInputs(latInput, lngInput, title = "Seleccionar ubicación"){
+
+    mapPickerState.targetLatInput = latInput;
+    mapPickerState.targetLngInput = lngInput;
+    document.getElementById("mapPickerTitle").textContent = title;
+    document.getElementById("mapPickerLat").value = latInput?.value || "";
+    document.getElementById("mapPickerLng").value = lngInput?.value || "";
+    openModal(document.getElementById("mapPickerModal"));
+
+    const loaded = await ensureLeafletAssets();
+    if(!loaded || !window.L?.map){
+        showToast("No se pudo cargar el mapa. Introduce coordenadas manualmente.", "error");
+        return;
+    }
+
+    const lat = parseOptionalCoord(latInput?.value, -90, 90);
+    const lng = parseOptionalCoord(lngInput?.value, -180, 180);
+    const hasCoords = lat !== null && lng !== null && !Number.isNaN(lat) && !Number.isNaN(lng);
+    const center = hasCoords ? [lat, lng] : [37.3891, -5.9845];
+
+    if(mapPickerState.map){
+        mapPickerState.map.remove();
+        mapPickerState.map = null;
+        mapPickerState.marker = null;
+    }
+
+    mapPickerState.map = L.map("mapPickerCanvas").setView(center, hasCoords ? 16 : 13);
+    L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
+        maxZoom: 19,
+    }).addTo(mapPickerState.map);
+
+    if(hasCoords){
+        mapPickerState.marker = L.marker(center, { draggable: true }).addTo(mapPickerState.map);
+        mapPickerState.marker.on("dragend", ()=>{
+            const p = mapPickerState.marker.getLatLng();
+            document.getElementById("mapPickerLat").value = Number(p.lat).toFixed(7);
+            document.getElementById("mapPickerLng").value = Number(p.lng).toFixed(7);
+        });
+    }
+
+    mapPickerState.map.on("click", (e)=>{
+        const p = e.latlng;
+        if(!p) return;
+        if(!mapPickerState.marker){
+            mapPickerState.marker = L.marker([p.lat, p.lng], { draggable: true }).addTo(mapPickerState.map);
+            mapPickerState.marker.on("dragend", ()=>{
+                const r = mapPickerState.marker.getLatLng();
+                document.getElementById("mapPickerLat").value = Number(r.lat).toFixed(7);
+                document.getElementById("mapPickerLng").value = Number(r.lng).toFixed(7);
+            });
+        }else{
+            mapPickerState.marker.setLatLng([p.lat, p.lng]);
+        }
+        document.getElementById("mapPickerLat").value = Number(p.lat).toFixed(7);
+        document.getElementById("mapPickerLng").value = Number(p.lng).toFixed(7);
+    });
+}
+
+function clearMapPickerSelection(){
+    document.getElementById("mapPickerLat").value = "";
+    document.getElementById("mapPickerLng").value = "";
+    if(mapPickerState.marker){
+        mapPickerState.map.removeLayer(mapPickerState.marker);
+        mapPickerState.marker = null;
+    }
+}
+
+function applyMapPickerSelection(){
+    const lat = parseOptionalCoord(document.getElementById("mapPickerLat").value, -90, 90);
+    const lng = parseOptionalCoord(document.getElementById("mapPickerLng").value, -180, 180);
+    if(Number.isNaN(lat) || Number.isNaN(lng) || (lat === null) !== (lng === null)){
+        showToast("Coordenadas inválidas. Revisa latitud/longitud.", "error");
+        return;
+    }
+    if(mapPickerState.targetLatInput) mapPickerState.targetLatInput.value = lat === null ? "" : String(lat);
+    if(mapPickerState.targetLngInput) mapPickerState.targetLngInput.value = lng === null ? "" : String(lng);
+    closeMapPickerModal();
+}
+
+function closeMapPickerModal(){
+    closeModal(document.getElementById("mapPickerModal"));
+}
+
+function openCreateBizModal(){
+    openModal(document.getElementById("createBizOverlay"));
+}
+
+function closeCreateBizModal(){
+    closeModal(document.getElementById("createBizOverlay"));
+}
+
+async function fetchPlaces() {
+    const res = await fetch(`${API_URL}/places`);
+    if (!res.ok) {
+        showToast("No se pudieron cargar los negocios", "error");
+        return;
+    }
+    const data = await res.json();
+    const places = Array.isArray(data) ? data : [];
+
+    const tbody = document.querySelector("#placesTable tbody");
+    tbody.innerHTML = "";
+
+    places.forEach(p => {
+        const tr = document.createElement("tr");
+        tr.style.opacity = "1";
+        tr.style.transform = "translateY(0)";
+
+        // InnerHTML base sin atributos con JSON/onclick
+        tr.innerHTML = `
+            <td>
+                <button class="${p.active ? 'active-btn' : 'inactive-btn'}">
+                    ${p.active ? 'Activo' : 'Inactivo'}
+                </button>
+            </td>
+
+            <td>${p.public_id}</td>
+
+            <td>
+                <div class="table-name">${escapeHtml(p.name || '')}</div>
+            </td>
+
+            <td>
+                <div class="contact-stack">
+                    <span><strong>Tel:</strong> ${escapeHtml(p.phone || '-')}</span>
+                    <span><strong>Email:</strong> ${escapeHtml(p.business_email || '-')}</span>
+                </div>
+            </td>
+
+            <td>
+                <img class="biz-photo" src="${escapeHtml(p.main_photo || "/web/icono/no_imagen.png")}" alt="Foto negocio" onerror="this.onerror=null;this.src='/web/icono/no_imagen.png';">
+            </td>
+
+            <td>
+                <button class="btn btn-dark" style="width:100%; margin-bottom:6px">Ver más datos</button>
+                <button class="btn btn-primary" style="width:100%">Generar cartel</button>
+            </td>
+        `;
+
+        tbody.appendChild(tr);
+
+        // Botones y eventos seguros
+        tr.dataset.name = String(p.name || "");
+        tr.dataset.category = String(p.category || "");
+        tr.dataset.phone = String(p.phone || "");
+        tr.dataset.bizId = String(p.public_id || "");
+
+        const btnActive = tr.querySelector("td:nth-child(1) button");
+        btnActive.addEventListener("click", () => toggleActive(p.public_id, btnActive));
+
+        const detailsBtn = tr.querySelector("td:nth-child(6) button:first-child");
+        detailsBtn.addEventListener("click", () => openBizDetailsModal(p));
+
+        const posterBtn = tr.querySelector("td:nth-child(6) button:nth-child(2)");
+        posterBtn.addEventListener("click", () => openPosterModal(p));
+    });
+
+    applyFilter(currentTablePage);
+}
+
+function applyFilter(page = 1) {
+    const nQ = (document.getElementById("searchName").value || "").toLowerCase().trim();
+    const cQ = (document.getElementById("searchCategory").value || "").toLowerCase().trim();
+    const pQ = (document.getElementById("searchPhone").value || "").toLowerCase().trim();
+    const iQ = (document.getElementById("searchId").value || "").toLowerCase().trim();
+
+    const rows = Array.from(document.querySelectorAll("#placesTable tbody tr"));
+    const matchedRows = rows.filter(tr => {
+        const trName = (tr.dataset.name || "").toLowerCase();
+        const trCat = (tr.dataset.category || "").toLowerCase();
+        const trPhone = (tr.dataset.phone || "").toLowerCase();
+        const trId = (tr.dataset.bizId || "").toLowerCase();
+
+        const nameMatch = !nQ || trName.includes(nQ);
+        const catMatch = !cQ || trCat.includes(cQ);
+        const phoneMatch = !pQ || trPhone.startsWith(pQ);
+        const idMatch = !iQ || trId.startsWith(iQ);
+
+        return nameMatch && catMatch && phoneMatch && idMatch;
+    });
+
+    const totalPages = Math.max(1, Math.ceil(matchedRows.length / TABLE_PAGE_SIZE));
+    currentTablePage = Math.max(1, Math.min(page, totalPages));
+    const from = (currentTablePage - 1) * TABLE_PAGE_SIZE;
+    const to = from + TABLE_PAGE_SIZE;
+    const visibleRows = new Set(matchedRows.slice(from, to));
+
+    rows.forEach(tr => animateRowVisibility(tr, visibleRows.has(tr)));
+
+    const bizCount = document.getElementById("bizCount");
+    if(bizCount){
+        bizCount.textContent = `${matchedRows.length} negocios mostrados de ${rows.length}`;
+    }
+
+    const clearBtn = document.getElementById("clearFilterBtn");
+    clearBtn.style.display = (nQ || cQ || pQ || iQ) ? "inline-flex" : "none";
+    updateBizFilterButtons();
+
+    renderTablePagination(currentTablePage, totalPages, matchedRows.length);
+}
+
+function updateBizFilterButtons(){
+    const ids = ["searchName", "searchCategory", "searchPhone", "searchId"];
+    ids.forEach((id)=>{
+        const input = document.getElementById(id);
+        const clearBtn = document.getElementById(`clear${id.charAt(0).toUpperCase()}${id.slice(1)}`);
+        if(!clearBtn) return;
+        const hasValue = !!String(input?.value || "").trim();
+        clearBtn.style.display = hasValue ? "inline-flex" : "none";
+    });
+}
+
+function clearBizFilter(fieldId){
+    const el = document.getElementById(fieldId);
+    if(!el) return;
+    el.value = "";
+    debounceApplyFilter();
+}
+
+function clearAllBizFilters(){
+    ["searchName", "searchCategory", "searchPhone", "searchId"].forEach(id => {
+        const el = document.getElementById(id);
+        if(el) el.value = "";
+    });
+    applyFilter(1);
+}
+
+function renderTablePagination(current, totalPages, totalResults) {
+    const container = document.getElementById("tablePagination");
+    container.innerHTML = "";
+
+    if (totalResults === 0) {
+        container.innerHTML = '<span style="color:#666; font-weight:bold;">Sin resultados</span>';
+        return;
+    }
+
+    const mkBtn = (label, targetPage, disabled = false, active = false) => {
+        const b = document.createElement("button");
+        b.textContent = label;
+        b.disabled = disabled;
+        b.style.padding = "6px 10px";
+        b.style.border = "1px solid #ccc";
+        b.style.borderRadius = "6px";
+        b.style.background = active ? "#222" : "#fff";
+        b.style.color = active ? "#fff" : "#000";
+        b.style.cursor = disabled ? "not-allowed" : "pointer";
+        b.style.opacity = disabled ? "0.45" : "1";
+        b.style.transition = "all 0.2s ease";
+
+        if (!disabled) {
+            b.onmouseenter = () => { if (!active) b.style.background = "#f3d044"; };
+            b.onmouseleave = () => { if (!active) b.style.background = "#fff"; };
+            b.onclick = () => applyFilter(targetPage);
+        }
+        return b;
+    };
+
+    container.appendChild(mkBtn("«", current - 1, current === 1));
+
+    for (let i = 1; i <= totalPages; i++) {
+        if (totalPages > 9 && i !== 1 && i !== totalPages && Math.abs(i - current) > 1) continue;
+        container.appendChild(mkBtn(String(i), i, false, i === current));
+    }
+
+    container.appendChild(mkBtn("»", current + 1, current === totalPages));
+
+    const info = document.createElement("span");
+    info.style.marginLeft = "8px";
+    info.style.fontWeight = "bold";
+    info.style.color = "#444";
+    info.textContent = `${totalResults} resultados`;
+    container.appendChild(info);
+}
+
+// --- GENERADOR ALEATORIO REAL ---
+const generatedRandomNames = new Set();
+const generatedRandomDescriptions = new Set();
+
+async function fillRandomPlace() {
+    const random = arr => arr[Math.floor(Math.random() * arr.length)];
+    const buildUnique = (factory, usedSet, maxTries = 40) => {
+        for(let i = 0; i < maxTries; i++){
+            const candidate = factory();
+            if(!usedSet.has(candidate)){
+                usedSet.add(candidate);
+                return candidate;
+            }
+        }
+        const fallback = `${factory()} ${Math.floor(Math.random()*1000)}`;
+        usedSet.add(fallback);
+        return fallback;
+    };
+
+    const cats = ["Hostelería", "Tiendas", "Servicios", "Belleza", "Restauración"];
+    const streets = ["Av. Ciencias", "C/ Emilio Lemos", "C/ Innovación", "Av. del Deporte"];
+
+    const brandPrefixes = ["Nova", "Urban", "Casa", "Aura", "Viva", "Atlas", "Luz", "Punto", "Nexo", "Origen"];
+    const brandCoresByCat = {
+        "Hostelería": ["Tapas", "Cafe", "Brasa", "Boca", "Mesa"],
+        "Tiendas": ["Market", "Moda", "Store", "Outlet", "Boutique"],
+        "Servicios": ["Center", "Gestion", "Soluciones", "Service", "Lab"],
+        "Belleza": ["Beauty", "Glow", "Estetica", "Style", "Care"],
+        "Restauración": ["Sabor", "Kitchen", "Comedor", "Bistro", "Delicia"]
+    };
+    const brandSuffixes = ["Sevilla", "Este", "Premium", "Express", "Plus", "Local", "360", "Center"];
+
+    const descriptionOpeners = [
+        "Negocio de proximidad con trato cercano y enfoque profesional.",
+        "Proyecto local pensado para dar un servicio agil y de calidad.",
+        "Espacio moderno orientado a una experiencia comoda y fiable.",
+        "Iniciativa del barrio centrada en atencion personalizada."
+    ];
+    const descriptionMiddle = [
+        "Destaca por su servicio rapido y una propuesta adaptada al vecindario.",
+        "Trabaja con horarios amplios para cubrir necesidades del dia a dia.",
+        "Combina cercania, buena relacion calidad-precio y atencion constante.",
+        "Ofrece una propuesta practica, clara y orientada a fidelizar clientes."
+    ];
+    const descriptionClose = [
+        "Una opcion fiable para vecinos de Sevilla Este.",
+        "Ideal para quienes valoran rapidez y buen trato.",
+        "Recomendado para resolver compras o servicios sin complicaciones.",
+        "Pensado para ofrecer confianza desde la primera visita."
+    ];
+
+    const catTags = {
+        "Hostelería": ["Especializado en desayunos, tapas y menu diario.", "Con opciones para consumir en local o para llevar."],
+        "Tiendas": ["Con catalogo variado y novedades frecuentes.", "Orientado a compras rapidas y buena atencion."],
+        "Servicios": ["Con enfoque en soluciones rapidas y resultados medibles.", "Aporta soporte cercano y trabajo por encargo."],
+        "Belleza": ["Enfocado en cuidado personal y citas flexibles.", "Con tratamientos actuales y atencion detallista."],
+        "Restauración": ["Con cocina diaria y producto de cercania.", "Ofrece platos preparados con opcion para llevar."]
+    };
+
+    const category = random(cats);
+    const brandCore = random(brandCoresByCat[category] || ["Local"]);
+    const name = buildUnique(
+        () => `${random(brandPrefixes)} ${brandCore} ${random(brandSuffixes)}`,
+        generatedRandomNames
+    );
+
+    const randomSchedule = {};
+    DAYS.forEach(day => {
+        if(Math.random() > 0.18) {
+            randomSchedule[day] = [{inicio: "09:00", fin: "14:00"}, {inicio: "17:00", fin: "21:00"}];
+        } else {
+            randomSchedule[day] = [];
+        }
+    });
+
+    const description = buildUnique(
+        () => [
+            random(descriptionOpeners),
+            random(descriptionMiddle),
+            random(catTags[category] || ["Servicio pensado para la zona."]),
+            random(descriptionClose)
+        ].join(" "),
+        generatedRandomDescriptions
+    );
+
+    const data = {
+        name,
+        category,
+        address: random(streets) + ", " + Math.floor(Math.random()*100),
+        phone: "6" + Math.floor(10000000 + Math.random()*89999999),
+        website: "https://ejemplo.com",
+        business_email: `negocio${Date.now()}${Math.floor(Math.random()*999)}@correo.es`,
+        suppress_business_email: true,
+        description,
+        initial_phrase: random([
+            "Tu negocio de confianza en el barrio.",
+            "Cerca de ti, con atencion personal.",
+            "Calidad local para tu dia a dia.",
+            "Servicio rapido y trato cercano."
+        ]),
+        opening_hours: randomSchedule,
+        active: false
+    };
+
+    const res = await fetch(`${API_URL}/places`, {
+
+        method: "POST", headers: {"Content-Type":"application/json"},
+
+        body: JSON.stringify(data)
+
+    });
+
+    const result = await res.json().catch(()=>({}));
+    if(!res.ok){
+        showToast(result.detail || "No se pudo crear el negocio aleatorio", "error");
+        return;
+    }
+    if(result.warning){
+        showToast(result.warning, "info");
+    }
+
+    try {
+
+        const imgResponse = await fetch("/icono/tsev2.png");
+
+        const imgBlob = await imgResponse.blob();
+
+        const imgFd = new FormData();
+
+        imgFd.append("file", imgBlob, "tsev2.png");
+
+        await fetch(`${API_URL}/places/${result.id}/main_photo`, { method: "POST", body: imgFd });
+
+    } catch(e) { console.log("No se pudo subir foto por defecto"); }
+
+    document.getElementById("placeForm").reset();
+
+    initScheduleUI("scheduleContainer");
+
+    fetchPlaces();
+
+}
+
+// --- CRUD Y MODAL ---
+
+function openScheduleModal(id, name, schedule) {
+
+    currentEditingId = id;
+
+    document.getElementById("modalPlaceName").innerText = name;
+
+    openModal(document.getElementById("scheduleModal"));
+
+    initScheduleUI("modalScheduleContainer", schedule);
+
+}
+
+function closeScheduleModal() {
+
+    closeModal(document.getElementById("scheduleModal"));
+
+}
+
+async function saveScheduleFromModal() {
+
+    const schedule = {};
+
+    document.querySelectorAll("#modalScheduleContainer .day-schedule").forEach((div, i) => {
+
+        const day = DAYS[i]; schedule[day] = [];
+
+        div.querySelectorAll(".time-trays").forEach(t => {
+            const startInput = t.querySelector(".tray-start");
+            const endInput = t.querySelector(".tray-end");
+            const startVal = startInput ? startInput.value : "";
+            const endVal = endInput ? endInput.value : "";
+            if (startVal && endVal) {
+                schedule[day].push({ inicio: startVal, fin: endVal });
+            }
+        });
+
+    });
+
+    const data = { opening_hours: schedule };
+
+    document.querySelectorAll(`[data-id='${currentEditingId}']`).forEach(inp => data[inp.dataset.field] = inp.value);
+    const mapCheck = normalizeMapFieldsInData(data);
+    if(!mapCheck.ok){
+        showToast(mapCheck.detail, "error");
+        return;
+    }
+
+    const resp = await fetch(`${API_URL}/places/${currentEditingId}`, { method: "PUT", headers: {"Content-Type":"application/json"}, body: JSON.stringify(data) });
+    const out = await resp.json().catch(()=>({}));
+    if(!resp.ok){
+        showToast(out.detail || "No se pudo guardar el horario", "error");
+        return;
+    }
+
+    closeScheduleModal();
+
+    fetchPlaces();
+
+    showToast("Horario guardado correctamente", "success");
+
+}
+
+async function updatePlace(id){
+
+    const data = {};
+
+    document.querySelectorAll(`[data-id='${id}']`).forEach(inp => data[inp.dataset.field] = inp.value);
+    const mapCheck = normalizeMapFieldsInData(data);
+    if(!mapCheck.ok){
+        showToast(mapCheck.detail, "error");
+        return;
+    }
+
+    const resp = await fetch(`${API_URL}/places/${id}`, { method: "PUT", headers: {"Content-Type":"application/json"}, body: JSON.stringify(data) });
+    const out = await resp.json().catch(()=>({}));
+    if(!resp.ok){
+        showToast(out.detail || "No se pudieron guardar cambios", "error");
+        return;
+    }
+
+    showToast("Cambios guardados correctamente", "success");
+
+}
+
+async function deletePlace(id){
+
+    if(confirm("¿Borrar?")) {
+
+        await fetch(`${API_URL}/places/${id}`, { method: "DELETE" });
+
+        fetchPlaces();
+
+        showToast("Negocio eliminado", "info");
+
+    }
+
+}
+
+let pendingStatusEmailToggle = null;
+
+async function toggleActive(id, btn) {
+
+    const active = btn.innerText !== "Activo";
+    const modal = document.getElementById("statusEmailModal");
+    const title = document.getElementById("statusEmailModalTitle");
+    const body = document.getElementById("statusEmailModalBody");
+    const placeName = (btn.closest("tr")?.dataset?.name || "este negocio").trim();
+
+    pendingStatusEmailToggle = { id, active, placeName };
+    title.textContent = active ? "Activar negocio" : "Desactivar negocio";
+    body.textContent = `Vas a ${active ? "activar" : "desactivar"} "${placeName}". ¿Quieres enviar un correo informativo al usuario?`;
+    openModal(modal);
+}
+
+function closeStatusEmailModal() {
+    closeModal(document.getElementById("statusEmailModal"));
+}
+
+async function confirmStatusEmailToggle(sendEmail) {
+    const pending = pendingStatusEmailToggle;
+    if (!pending) return;
+
+    pendingStatusEmailToggle = null;
+    closeStatusEmailModal();
+
+    try {
+        const res = await fetch(`${API_URL}/places/${pending.id}/active`, {
+            method: "PUT",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ active: pending.active, send_email: sendEmail })
+        });
+        const data = await res.json().catch(() => ({}));
+        if (!res.ok) throw new Error(data.detail || "No se pudo actualizar el estado");
+
+        await fetchPlaces();
+
+        const baseMsg = pending.active ? "Negocio activado" : "Negocio desactivado";
+        if (sendEmail) {
+            if (data.email_sent) {
+                showToast(`${baseMsg} y correo enviado`, "success");
+            } else {
+                showToast(`${baseMsg}, pero no se pudo enviar el correo`, "warning");
+            }
+        } else {
+            showToast(baseMsg, "info");
+        }
+    } catch (error) {
+        console.error("Error al cambiar estado:", error);
+        showToast("Error al actualizar el estado", "error");
+    }
+}
+
+async function changeMainPhoto(id, inputFile){
+
+    const file = inputFile.files[0]; if(!file) return;
+
+    const fd = new FormData(); fd.append("file", file);
+
+    await fetch(`${API_URL}/places/${id}/main_photo`, { method: "POST", body: fd });
+
+    fetchPlaces();
+
+    showToast("Foto actualizada correctamente", "success");
+
+}
+
+document.getElementById("placeForm").onsubmit = async e => {
+
+    e.preventDefault();
+
+    const fd = new FormData(e.target);
+
+    const schedule = {};
+
+    document.querySelectorAll("#scheduleContainer .day-schedule").forEach((div, i) => {
+
+        const day = DAYS[i]; schedule[day] = [];
+
+        div.querySelectorAll(".time-trays").forEach(t => {
+            const startInput = t.querySelector(".tray-start");
+            const endInput = t.querySelector(".tray-end");
+            const startVal = startInput ? startInput.value : "";
+            const endVal = endInput ? endInput.value : "";
+            if (startVal && endVal) {
+                schedule[day].push({ inicio: startVal, fin: endVal });
+            }
+        });
+
+    });
+
+    const placeData = {
+
+        name: fd.get("name"), address: fd.get("address"), phone: fd.get("phone"),
+
+        website: fd.get("website"), category: fd.get("category"),
+        business_email: fd.get("business_email"),
+        map_latitude: fd.get("map_latitude"),
+        map_longitude: fd.get("map_longitude"),
+
+        description: fd.get("description"), initial_phrase: fd.get("initial_phrase"),
+
+        opening_hours: schedule, active: false
+
+    };
+    const createMapCheck = normalizeMapFieldsInData(placeData);
+    if(!createMapCheck.ok){
+        showToast(createMapCheck.detail, "error");
+        return;
+    }
+
+    const res = await fetch(`${API_URL}/places`, { method: "POST", headers: {"Content-Type":"application/json"}, body: JSON.stringify(placeData) });
+
+    const result = await res.json().catch(()=>({}));
+    if(!res.ok){
+        showToast(result.detail || "No se pudo crear el negocio", "error");
+        return;
+    }
+    if(result.business_user){
+        alert(
+            `Cuenta de negocio creada:\n\n` +
+            `Usuario: ${result.business_user.username}\n` +
+            `Correo: ${result.business_user.email}\n` +
+            `Contraseña temporal: ${result.business_user.temporary_password || "(no disponible)"}\n\n` +
+            `Estado envío correo: ${result.email_delivery || "desconocido"}`
+        );
+    }
+    if(result.warning){
+        showToast(result.warning, "info");
+    }
+
+    const file = fd.get("main_photo_file");
+
+    if(file && file.size > 0) {
+
+        const imgFd = new FormData(); imgFd.append("file", file);
+
+        await fetch(`${API_URL}/places/${result.id}/main_photo`, { method: "POST", body: imgFd });
+
+    }
+
+    e.target.reset(); initScheduleUI("scheduleContainer"); fetchPlaces(); closeCreateBizModal();
+
+    showToast("Negocio creado correctamente", "success");
+
+};
+
+// =====================
+
+// CATEGORÍAS SIMPLES
+
+// =====================
+
+const ALL_CATEGORIES = ["Supermercados","Tiendas de alimentación","Fruterías","Carnicerías","Pescaderías","Panaderías / pastelerías","Tiendas ecológicas / bio","Tiendas gourmet","Tiendas de ropa","Zapaterías","Tiendas de deportes","Tiendas de bebés / infantil","Jugueterías","Papelerías / librerías","Tiendas de informática","Tiendas de móviles / accesorios","Tiendas de electrodomésticos","Tiendas de muebles","Decoración / hogar","Ferreterías","Pinturas / bricolaje","Iluminación","Bazares / multiprecio","Floristerías","Regalos / souvenirs","Joyerías / relojerías","Ópticas","Parafarmacias","Bares","Cafeterías","Restaurantes","Fast food / comida rápida","Hamburgueserías","Pizzerías","Kebabs","Comida para llevar","Catering","Heladerías","Pastelerías cafetería","Bares de tapas","Cervecerías","Pub / copas","Discotecas","Food trucks","Abogados","Asesorías / gestorías","Consultorías","Notarías","Arquitectos","Ingenieros","Administradores de fincas","Traductores","Marketing / publicidad","Diseño gráfico","Fotografía / vídeo","Recursos humanos","Formación empresarial","Servicios jurídicos","Coworking / centros de negocios","Clínicas médicas","Clínicas dentales","Fisioterapia","Psicología","Podología","Nutricionistas","Centros de estética","Peluquerías","Barberías","Centros de masaje","Quiromasaje","Centros de depilación láser","Clínicas veterinarias","Farmacias","Gimnasios","Crossfit","Artes marciales","Yoga / pilates","Academias de baile","Entrenadores personales","Clubes deportivos","Piscinas","Escuelas deportivas","Escape room","Salones recreativos","Cines","Parques infantiles","Organización de eventos","Guarderías","Academias escolares","Academias de idiomas","Clases particulares","Academias de oposiciones","Formación profesional","Autoescuelas","Escuelas de música","Escuelas de arte","Formación online","Inmobiliarias","Promotoras","Reformas","Albañiles","Electricistas","Fontaneros","Pintores","Carpintería madera","Carpintería aluminio / PVC","Cerrajeros","Instaladores aire acondicionado","Energía solar","Domótica","Talleres mecánicos","Taller chapa y pintura","Electricidad del automóvil","Lavaderos de coches","Compra-venta vehículos","Rent a car","ITV / inspección","Repuestos automóvil","Neumáticos","Gasolineras","Mensajería / paquetería","Transporte privado","Tiendas informática","Reparación móviles","Desarrollo web","Software / apps","Ciberseguridad","Telecomunicaciones","Marketing digital","Hosting / servidores","Servicios IT","Impresión 3D","Limpieza","Seguridad privada","Control de plagas","Lavanderías","Tintorerías","Alquiler maquinaria","Alquiler vehículos","Mudanzas","Almacenes / logística","Distribución / mayoristas","Importación / exportación","Estudios de tatuajes","Estudios de grabación","Galerías de arte","Tiendas de música","Productoras audiovisuales","Organización de bodas","Animación infantil","Decoración eventos","Editoriales","Artesanía","Agricultura urbana / huertos","Energías renovables","Reciclaje / residuos","ONG / asociaciones","Servicios domésticos","Cuidado de mayores","Cuidado infantil","Empleo doméstico"];
+
+let currentCategoryTarget = null;
+
+const TOP_CATEGORIES = ["Hostelería", "Tiendas", "Servicios", "Belleza", "Restauración"];
+
+function fillCategoryDatalist() {
+
+  const dl = document.getElementById("categoryDatalist");
+
+  if (!dl) return;
+
+  dl.innerHTML = "";
+
+  ALL_CATEGORIES.forEach(cat => {
+
+    const option = document.createElement("option");
+
+    option.value = cat;
+
+    dl.appendChild(option);
+
+  });
+
+}
+
+function applyCategory(cat) {
+
+  if (!currentCategoryTarget) return;
+
+  currentCategoryTarget.value = cat;
+
+  currentCategoryTarget.dispatchEvent(new Event("input", { bubbles: true }));
+
+  closeCategoryModal();
+
+  if (currentCategoryTarget.id === "searchCategory") debounceApplyFilter();
+
+}
+
+// abrir modal
+
+function openCategoryModal(target) {
+    currentCategoryTarget = target.tagName === "INPUT"
+        ? target
+        : target.nextElementSibling;
+
+    const modal = document.getElementById("categoryModal");
+    openModal(modal);
+
+    const searchInput = document.getElementById("catSearchInput");
+    searchInput.value = currentCategoryTarget?.value || "";
+
+    const hint = document.getElementById("catTargetHint");
+    hint.textContent = currentCategoryTarget?.id === "searchCategory"
+        ? "(filtro)"
+        : "(campo de negocio)";
+
+    renderCategoryList();
+
+    setTimeout(() => searchInput.focus(), 0);
+}
+
+// cerrar
+
+function closeCategoryModal(){
+
+  closeModal(document.getElementById("categoryModal"));
+
+}
+
+// render lista filtrando por input
+
+function renderCategoryList(){
+
+  const search = document.getElementById("catSearchInput").value.toLowerCase();
+
+  const list = document.getElementById("catList");
+
+  const quick = document.getElementById("catQuickPicks");
+
+  list.innerHTML = "";
+
+  quick.innerHTML = "";
+
+  TOP_CATEGORIES.forEach(cat => {
+
+    const b = document.createElement("button");
+
+    b.type = "button";
+
+    b.textContent = cat;
+
+    b.onclick = () => applyCategory(cat);
+
+    quick.appendChild(b);
+
+  });
+
+  const filtered = ALL_CATEGORIES.filter(c => c.toLowerCase().includes(search));
+
+  filtered.forEach(cat=>{
+
+    const div = document.createElement("div");
+
+    div.innerText = cat;
+
+    div.className = "cat-item";
+
+    if ((currentCategoryTarget?.value || "").toLowerCase() === cat.toLowerCase()) {
+
+      div.classList.add("selected");
+
+    }
+
+    div.onclick = () => applyCategory(cat);
+
+    list.appendChild(div);
+
+  });
+
+  if(filtered.length === 0){
+
+    const empty = document.createElement("div");
+
+    empty.innerText = "No se encontró categoría";
+
+    empty.style.color = "#999";
+
+    empty.style.padding = "5px";
+
+    list.appendChild(empty);
+
+  }
+
+}
+
+// Botón flotante Eliminar filtro
+
+document.getElementById("clearFilterBtn").onclick = () => {
+    clearAllBizFilters();
+
+};
+
+["searchName", "searchCategory", "searchPhone", "searchId"].forEach(id => {
+
+    const el = document.getElementById(id);
+
+    if (el) el.addEventListener("input", () => {
+        updateBizFilterButtons();
+        debounceApplyFilter();
+    });
+
+});
+updateBizFilterButtons();
+
+// ========================================
+
+// SISTEMA GLOBAL DE MODALES PROFESIONAL
+
+// ========================================
+
+// Abrir modal con animación + bloqueo scroll
+
+function openModal(modal){
+
+    modal.style.display = "flex";
+
+    requestAnimationFrame(()=> modal.classList.add("show"));
+
+    document.body.classList.add("modal-open");
+
+}
+
+// Cerrar modal con fade-out
+
+function closeModal(modal){
+
+    modal.classList.remove("show");
+
+    setTimeout(()=>{
+
+        modal.style.display = "none";
+
+        // Si no quedan modales abiertos -> restaurar scroll
+
+        const anyOpen = [...document.querySelectorAll(".modal-overlay")]
+
+            .some(m => m.style.display === "flex");
+
+        if(!anyOpen) document.body.classList.remove("modal-open");
+
+    }, 200); // igual que transition CSS
+
+}
+
+// Click fuera -> cerrar
+
+document.querySelectorAll(".modal-overlay").forEach(overlay=>{
+
+    overlay.addEventListener("click", e=>{
+
+        if(e.target === overlay) closeModal(overlay);
+
+    });
+
+});
+
+// ESC -> cerrar el modal superior abierto
+
+document.addEventListener("keydown", e=>{
+
+    if(e.key === "Escape"){
+
+        const openModals = [...document.querySelectorAll(".modal-overlay")]
+
+            .filter(m => m.style.display === "flex");
+
+        if(openModals.length){
+
+            const topModal = openModals[openModals.length - 1];
+
+            closeModal(topModal);
+
+        }
+
+    }
+
+});
+
+document.getElementById("catSearchInput").oninput = renderCategoryList;
+
+document.getElementById("catSearchInput").addEventListener("keydown", e => {
+
+    if (e.key === "Enter") {
+
+        e.preventDefault();
+
+        const first = document.querySelector("#catList .cat-item");
+
+        if (first) applyCategory(first.textContent);
+
+    }
+
+});
+
+fillCategoryDatalist();
+
+initScheduleUI("scheduleContainer");
+
+closeCreateBizModal();
+
+fetchPlaces();
+// Desactivado auto-refresh para evitar parpadeo del listado.
+
+</script>
+
+</body>
+
+</html>
+
+
+
+
+
+
+
+

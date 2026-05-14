@@ -1,0 +1,1979 @@
+﻿<!DOCTYPE html>
+
+
+<html lang="es">
+
+
+<head>
+
+
+<meta charset="UTF-8">
+
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+
+<title>Gestión de cuenta</title>
+
+
+<link rel="icon" href="/web/icono/tsev2.png">
+
+
+
+
+
+<style>
+
+
+:root{
+
+ --yellow:#f3d044;
+
+ --bg:#f5f6f8;
+
+ --card:#ffffff;
+
+ --border:#e5e7eb;
+
+ --text:#222;
+
+ --text-secondary:#555;
+
+ --primary:#007bff;
+
+ --danger:#dc3545;
+
+ --secondary:#f0f0f0;
+
+ --muted:#6b7280;
+
+ --soft-shadow:0 3px 10px rgba(0,0,0,.05);
+
+}
+
+
+
+body{
+
+ margin:0;
+
+ font-family: "Segoe UI", Roboto, Arial, sans-serif;
+
+ background:linear-gradient(180deg, #f8f9fb 0%, var(--bg) 100%);
+
+ color:var(--text);
+
+ line-height:1.5;
+
+}
+
+
+
+header{
+
+ background:var(--yellow);
+
+ padding:16px 24px;
+
+ font-weight:bold;
+
+ font-size:1.4rem;
+
+ box-shadow:0 2px 8px rgba(0,0,0,.08);
+
+ border-bottom:1px solid rgba(0,0,0,.08);
+
+ display:flex;
+
+ align-items:center;
+
+ gap:10px;
+
+}
+
+
+
+.container{
+
+ max-width:960px;
+
+ margin:28px auto 36px;
+
+ padding:0 20px;
+
+}
+
+
+
+.card{
+
+ background:var(--card);
+
+ border-radius:16px;
+
+ padding:24px;
+
+ margin-bottom:24px;
+
+ border:1px solid var(--border);
+
+ box-shadow:var(--soft-shadow);
+
+}
+
+
+
+.settings-grid{
+
+ display:grid;
+
+ grid-template-columns:1fr 1fr;
+
+ gap:24px;
+
+}
+
+.avatar-panel{order:1;}
+
+.password-panel{order:2;}
+
+.name-panel{order:3;}
+
+.birth-panel{order:4;}
+
+.email-panel{order:5;}
+
+.description-panel{order:6;}
+
+.reviews-panel{order:7;}
+
+.security-panel{order:8;}
+
+.help-panel{order:9;}
+
+
+
+.full-width{
+
+ grid-column:1 / -1;
+
+}
+
+
+
+@media (max-width:900px){
+
+ .settings-grid{
+
+  grid-template-columns:1fr;
+
+ }
+
+ .full-width{
+
+  grid-column:auto;
+
+ }
+
+}
+
+
+
+h2,h3{
+
+ margin-top:0;
+
+ margin-bottom:12px;
+
+ color:var(--text);
+
+
+}
+
+
+
+
+
+h2{
+
+
+ font-size:1.6rem;
+
+
+}
+
+
+
+
+
+h3{
+
+ font-size:1.2rem;
+
+ color:var(--text-secondary);
+
+ font-weight:600;
+
+}
+
+
+
+
+.row{
+
+
+ display:flex;
+
+
+ gap:16px;
+
+
+ flex-wrap:wrap;
+
+
+ align-items:center;
+
+
+}
+
+
+
+
+
+.avatar-clickable{
+
+ transition: transform .2s ease, filter .2s ease;
+
+ transform-origin:center;
+
+}
+
+
+
+.avatar-clickable:hover{
+
+ transform: scale(1.06);
+
+ filter: brightness(.82);
+
+ cursor:zoom-in;
+
+}
+
+
+
+
+button{
+
+ border:none;
+
+ border-radius:8px;
+
+ padding:10px 18px;
+
+ font-weight:bold;
+
+ cursor:pointer;
+
+
+ font-size:.95rem;
+
+
+ transition: background .2s ease, transform .1s ease;
+
+
+}
+
+
+
+
+
+button:hover{
+
+
+ transform:translateY(-1px);
+
+
+}
+
+
+
+
+
+button.primary{
+
+
+ background:var(--primary);
+
+
+ color:#fff;
+
+
+}
+
+
+
+
+
+button.primary:hover{
+
+
+ background:#0056b3;
+
+
+}
+
+
+
+
+
+button.secondary{
+
+
+ background:var(--secondary);
+
+
+ color:var(--text);
+
+
+}
+
+
+
+
+
+button.secondary:hover{
+
+
+ background:#e2e2e2;
+
+
+}
+
+
+
+
+
+button.danger{
+
+
+ background:var(--danger);
+
+
+ color:#fff;
+
+
+}
+
+
+
+
+
+button.danger:hover{
+
+
+ background:#b02a37;
+
+
+}
+
+
+
+
+
+input,textarea{
+
+ width:100%;
+
+ padding:11px 12px;
+
+ border-radius:8px;
+
+ border:1px solid #d1d5db;
+
+  font-size:1rem;
+
+ outline:none;
+
+ transition: border-color .2s ease, box-shadow .2s ease;
+
+}
+
+
+
+
+input:focus, textarea:focus{
+
+
+ border-color:var(--primary);
+
+
+ box-shadow:0 0 6px rgba(0,123,255,.2);
+
+
+}
+
+
+
+
+
+textarea{
+
+
+ resize:vertical;
+
+
+ min-height:100px;
+
+
+}
+
+
+
+
+
+.hidden{display:none;}
+
+
+
+
+
+.notice{
+
+
+ font-size:.9rem;
+
+
+ margin-top:10px;
+
+
+ color:var(--text-secondary);
+
+
+ line-height:1.4;
+
+
+}
+
+
+
+
+
+.help-btn{
+
+
+ margin-top:15px;
+
+
+ width:100%;
+
+
+ padding:14px;
+
+
+ font-size:1rem;
+
+
+ background:var(--yellow);
+
+
+ color:#000;
+
+
+ border-radius:10px;
+
+
+ font-weight:bold;
+
+
+ transition:background .2s ease;
+
+
+}
+
+
+
+
+
+.help-btn:hover{
+
+
+ background:#e6c93b;
+
+
+}
+
+
+
+
+
+.top-actions{
+
+ margin-bottom:20px;
+
+ display:flex;
+
+ justify-content:flex-start;
+
+ gap:12px;
+
+}
+
+
+
+#saveDescBtn,#cancelDescBtn{
+
+ margin-top:12px;
+
+ margin-right:8px;
+
+}
+
+
+
+.value-text{
+
+ margin-bottom:12px;
+
+ padding:9px 10px;
+
+ border:1px solid #edf0f3;
+
+ border-radius:10px;
+
+ background:#fafbfc;
+
+ color:var(--text);
+
+ font-weight:500;
+
+}
+
+
+
+.edit-panel{
+
+ margin-top:10px;
+
+ padding:14px;
+
+ border:1px dashed #d9dee5;
+
+ border-radius:10px;
+
+ background:#fcfdff;
+
+}
+
+
+
+.edit-panel input{
+
+ margin-bottom:10px;
+
+}
+
+
+
+#avatarSection{
+
+ text-align:left;
+
+}
+
+
+
+#avatarSection img{
+
+ display:block;
+
+ margin-bottom:12px;
+
+}
+
+
+
+
+.modal{
+
+
+ position:fixed;
+
+
+ inset:0;
+
+
+ background:rgba(0,0,0,.75);
+
+
+ display:none;
+
+
+ align-items:center;
+
+
+ justify-content:center;
+
+
+ z-index:1000;
+
+
+ padding:20px;
+
+
+}
+
+
+
+
+
+.modal.open{
+
+
+ display:flex;
+
+
+}
+
+
+
+
+
+.modal img{
+
+
+ max-width:90vw;
+
+
+ max-height:85vh;
+
+
+ border-radius:12px;
+
+
+ box-shadow:0 12px 30px rgba(0,0,0,.4);
+
+
+}
+
+
+
+
+
+.modal-close{
+
+
+ position:absolute;
+
+
+ top:12px;
+
+
+ right:14px;
+
+
+ background:#fff;
+
+
+ color:#000;
+
+
+ border:none;
+
+
+ border-radius:50%;
+
+
+ width:36px;
+
+
+ height:36px;
+
+
+ cursor:pointer;
+
+
+ font-size:22px;
+
+
+ line-height:36px;
+
+
+ text-align:center;
+
+
+}
+
+
+
+
+
+</style>
+
+
+
+<link rel='stylesheet' href='/web/frontend/ui_public.css'>
+<script defer src='/web/frontend/ui_public.js'></script>
+</head>
+
+
+
+
+
+<body>
+
+
+
+
+
+<header>
+<img src="/web/icono/tsev2.png" alt="TodoSevillaEste" style="width:56px;height:auto;display:block;">
+<span>  Gestión de cuenta</span>
+</header>
+
+
+
+
+
+<div class="container">
+
+
+
+
+
+<div class="top-actions">
+
+
+<button id="backBtn" class="secondary" onclick="goHome()">Volver a página principal</button>
+
+
+</div>
+
+
+
+
+
+<div class="card full-width">
+
+<h2 id="welcome">Bienvenid@</h2>
+
+</div>
+
+
+
+<div class="settings-grid">
+
+
+
+<div id="avatarSection" class="card avatar-panel">
+
+    <h3>Foto de perfil</h3>
+
+    <img id="avatarImg" class="avatar-clickable" src="/web/img/default-avatar.png" alt="Avatar" width="120" height="120" style="border-radius:50%; border:2px solid #f3d044;">
+
+    <input type="file" id="avatarInput" accept="image/*">
+
+    <button id="updateAvatarBtn" class="primary">Actualizar</button>
+
+    <button id="deleteAvatarBtn" class="danger">Eliminar</button>
+
+</div>
+
+
+
+<!-- EMAIL -->
+
+<div class="card full-width email-panel">
+
+<h3>Correo</h3>
+
+<div id="emailText" class="value-text"></div>
+
+<button onclick="toggle('emailEdit')">Editar correo</button>
+
+
+
+<div id="emailEdit" class="hidden edit-panel">
+
+<input id="newEmail" type="email" placeholder="Nuevo correo">
+
+<input id="emailPassword" type="password" placeholder="Tu contraseña para confirmar">
+
+<button onclick="updateEmail()">Guardar</button>
+
+</div>
+
+</div>
+
+
+
+
+
+<!-- NOMBRE -->
+
+<div class="card name-panel">
+
+<h3>Nombre</h3>
+
+<div id="usernameText" class="value-text"></div>
+
+<button onclick="toggle('nameEdit')">Editar nombre</button>
+
+
+
+<div id="nameEdit" class="hidden edit-panel">
+
+<input id="newUsername" placeholder="Nuevo nombre">
+
+<button onclick="updateName()">Guardar</button>
+
+</div>
+
+</div>
+
+
+
+
+
+<!-- FECHA NACIMIENTO -->
+
+<div class="card birth-panel">
+
+<h3>Fecha de nacimiento</h3>
+
+<div id="birthText" class="value-text"></div>
+
+<button onclick="toggle('birthEdit')">Editar fecha</button>
+
+
+
+<div id="birthEdit" class="hidden edit-panel">
+
+<input type="date" id="newBirth">
+
+<button onclick="updateBirth()">Guardar</button>
+
+</div>
+
+</div>
+
+
+
+
+
+<!-- CONTRASEñA -->
+
+<div class="card password-panel">
+
+<h3>Contraseña</h3>
+
+<button onclick="toggle('passEdit')">Editar contraseña</button>
+
+
+
+
+<div id="passEdit" class="hidden edit-panel">
+
+<input type="password" id="oldPass" placeholder="Contraseña actual">
+
+<input type="password" id="newPass" placeholder="Nueva contraseña">
+
+<input type="password" id="repeatPass" placeholder="Repetir nueva contraseña">
+
+<button onclick="updatePassword()">Guardar</button>
+
+</div>
+
+
+
+<div class="edit-panel" style="margin-top:14px;">
+
+<label style="display:flex; align-items:center; gap:8px; margin-bottom:10px;">
+
+<input id="email2faToggle" type="checkbox" style="width:auto;">
+
+Activar verificación por correo al iniciar sesión
+
+</label>
+
+<button class="secondary" onclick="updateEmailVerification()">Guardar preferencia</button>
+
+</div>
+
+</div>
+
+
+
+<!-- DESCRIPCION -->
+
+<div class="card full-width description-panel">
+
+<h3>Descripción</h3>
+
+<textarea id="description"></textarea>
+
+<button id="saveDescBtn" class="hidden" onclick="updateDescription()">Guardar</button>
+
+<button id="cancelDescBtn" class="secondary hidden" onclick="cancelDescription()">Cancelar</button>
+
+</div>
+
+<div class="card full-width reviews-panel">
+<h3>Reseñas</h3>
+<div id="myReviewsList" class="notice">Cargando reseñas...</div>
+</div>
+
+<div class="card full-width security-panel">
+
+    <h3>Seguridad de cuenta</h3>
+
+    <div class="row" style="margin-bottom:14px;">
+
+    <button class="secondary" onclick="logoutFromSettings()">Cerrar sesión</button>
+
+    </div>
+
+    <div class="edit-panel">
+
+        <strong style="display:block; margin-bottom:8px;">Borrar cuenta</strong>
+
+        <div class="notice" style="margin-top:0; margin-bottom:8px;">Puedes borrar la cuenta confirmando con tu contraseña o con un código enviado a tu correo.</div>
+
+        <input id="deletePassword" type="password" placeholder="Contraseña (opcional si usas código)">
+
+        <div class="row">
+
+        <button id="requestDeleteCodeBtn" class="secondary" onclick="requestDeleteCode()">Enviar código</button>
+
+        </div>
+
+        <div id="deleteCodeWrap" class="hidden">
+
+        <input id="deleteCode" placeholder="Código de verificación (opcional si usas contraseña)">
+
+        </div>
+
+        <button class="danger" onclick="deleteAccount()">Borrar cuenta definitivamente</button>
+
+
+
+
+
+    </div>
+
+
+
+</div>
+
+
+
+<!-- AYUDA -->
+
+<div class="card full-width help-panel">
+
+<div class="notice">
+
+En caso de pérdida/olvido de contraseña, enviar un ticket de soporte explicando el problema y se le enviará un correo con las instrucciones a seguir.
+
+</div>
+
+
+
+<button class="help-btn" onclick="goSupport()">Solicitar ayuda con la cuenta de usuario</button>
+
+</div>
+
+
+
+
+
+
+
+
+<div id="avatarModal" class="modal" onclick="closeAvatarModal(event)">
+
+
+<button class="modal-close" onclick="closeAvatarModal(event)">&times;</button>
+
+
+<img id="avatarModalImg" src="/web/img/default-avatar.png" alt="Avatar ampliado">
+
+
+</div>
+
+
+
+
+
+<script>
+
+
+function toggle(id){
+
+
+ document.getElementById(id).classList.toggle("hidden");
+
+
+}
+
+
+
+
+
+const avatarInput = document.getElementById("avatarInput");
+
+
+const avatarImg = document.getElementById("avatarImg");
+
+
+const deleteBtn = document.getElementById("deleteAvatarBtn");
+
+
+const updateBtn = document.getElementById("updateAvatarBtn");
+
+
+const avatarModal = document.getElementById("avatarModal");
+
+
+const avatarModalImg = document.getElementById("avatarModalImg");
+
+
+const descriptionEl = document.getElementById("description");
+
+
+const saveDescBtn = document.getElementById("saveDescBtn");
+
+
+const cancelDescBtn = document.getElementById("cancelDescBtn");
+
+
+let originalDescription = "";
+
+function stars(n){
+ const v = Number(n) || 0;
+ return "★".repeat(Math.max(0, Math.min(5, v))) + "☆".repeat(Math.max(0, 5 - v));
+}
+
+let myReviewsMap = new Map();
+
+function reviewWasEdited(r){
+ if(!r || !r.created_at || !r.updated_at) return false;
+ return String(r.created_at) !== String(r.updated_at);
+}
+
+function toggleReviewEditor(reviewId, forceOpen){
+ const editor = document.getElementById(`reviewEditor${reviewId}`);
+ if(!editor) return;
+ const isOpen = editor.style.display === "block";
+ editor.style.display = (forceOpen === true || !isOpen) ? "block" : "none";
+}
+
+async function loadMyReviews(){
+ const listEl = document.getElementById("myReviewsList");
+ if(!listEl) return;
+ const res = await fetch("/users/me/reviews", { credentials: "include" });
+ const data = await res.json().catch(() => ({}));
+ if(!res.ok){
+  listEl.innerHTML = "No se pudieron cargar tus reseñas.";
+  return;
+ }
+ const reviews = Array.isArray(data.reviews) ? data.reviews : [];
+ if(!reviews.length){
+  listEl.innerHTML = "Aún no has publicado reseñas.";
+  return;
+ }
+ myReviewsMap = new Map(reviews.map(r => [Number(r.id), r]));
+ listEl.innerHTML = "";
+ reviews.forEach(r => {
+  const showEdited = reviewWasEdited(r);
+  const editedLine = showEdited ? ` | Editada: ${r.updated_at || "-"}` : "";
+  const item = document.createElement("div");
+  item.className = "edit-panel";
+  item.style.marginBottom = "10px";
+  item.innerHTML = `
+   <div><strong>${stars(r.rating)}</strong> en negocio ${r.place_public_id} ${r.place_name ? `(${r.place_name})` : ""}</div>
+   <div style="margin:6px 0"></div>
+   <div class="notice">Publicada: ${r.created_at || "-"}${editedLine}</div>
+   ${r.is_hidden ? `<div class="notice" style="color:#b3261e"><strong>Oculta:</strong> ${r.hidden_reason || "Sin motivo indicado"}</div>` : ""}
+   ${r.pending_recheck ? `<div class="notice" style="color:#8a5b00"><strong>Pendiente de revisión:</strong> tu modificación será revisada por administración.</div>` : ""}
+   <div class="row" style="margin-top:8px;">
+    <button class="secondary">${r.is_hidden ? "Modificar para revisión" : "Editar"}</button>
+    <button class="danger">Eliminar</button>
+   </div>
+   <div id="reviewEditor${r.id}" style="display:none;margin-top:8px;border:1px solid #e5e7eb;border-radius:8px;padding:10px;background:#fff;">
+    <div style="margin-bottom:8px;">
+     <label style="display:block;font-size:.85rem;color:#4b5563;">Puntuación (1-5)</label>
+     <input id="reviewEditRating${r.id}" type="number" min="1" max="5" step="1" value="${Number(r.rating || 5)}" style="width:100%;padding:8px;border:1px solid #d1d5db;border-radius:8px;">
+    </div>
+    <div style="margin-bottom:8px;">
+     <label style="display:block;font-size:.85rem;color:#4b5563;">Descripción</label>
+     <textarea id="reviewEditDescription${r.id}" style="width:100%;min-height:90px;padding:8px;border:1px solid #d1d5db;border-radius:8px;"></textarea>
+    </div>
+    <div class="row">
+     <button class="secondary" id="reviewCancel${r.id}">Cancelar</button>
+     <button id="reviewSave${r.id}">Guardar cambios</button>
+    </div>
+   </div>
+  `;
+  const textDiv = item.querySelector("div:nth-child(2)");
+  if(textDiv) textDiv.textContent = r.description || "";
+  const editBtn = item.querySelector("button.secondary");
+  const delBtn = item.querySelector("button.danger");
+  const saveBtn = item.querySelector(`#reviewSave${r.id}`);
+  const cancelBtn = item.querySelector(`#reviewCancel${r.id}`);
+  const descEditor = item.querySelector(`#reviewEditDescription${r.id}`);
+  if(descEditor) descEditor.value = r.description || "";
+  if(editBtn) editBtn.addEventListener("click", () => toggleReviewEditor(r.id, true));
+  if(delBtn) delBtn.addEventListener("click", () => deleteMyReview(r.id));
+  if(cancelBtn) cancelBtn.addEventListener("click", () => toggleReviewEditor(r.id, false));
+  if(saveBtn) saveBtn.addEventListener("click", () => editMyReview(r.id));
+  listEl.appendChild(item);
+ });
+}
+
+async function editMyReview(reviewId){
+ const ratingInput = document.getElementById(`reviewEditRating${reviewId}`);
+ const descInput = document.getElementById(`reviewEditDescription${reviewId}`);
+ if(!ratingInput || !descInput) return;
+ const rating = Number(ratingInput.value);
+ const description = String(descInput.value || "");
+ if(!Number.isInteger(rating) || rating < 1 || rating > 5){
+  alert("Puntuación inválida");
+  return;
+ }
+ if(!description.trim()){
+  alert("La descripción es obligatoria");
+  return;
+ }
+ const res = await fetch(`/users/me/reviews/${reviewId}`, {
+  method: "PUT",
+  headers: { "Content-Type": "application/json" },
+  credentials: "include",
+  body: JSON.stringify({ rating, description })
+ });
+ const data = await res.json().catch(() => ({}));
+ if(!res.ok){
+  alert("Error: " + (data.detail || res.statusText));
+  return;
+ }
+ if(data && data.detail) alert(data.detail);
+ await loadMyReviews();
+}
+
+async function deleteMyReview(reviewId){
+ const ok = confirm("¿Eliminar reseña definitivamente?");
+ if(!ok) return;
+ const res = await fetch(`/users/me/reviews/${reviewId}`, {
+  method: "DELETE",
+  credentials: "include"
+ });
+ const data = await res.json().catch(() => ({}));
+ if(!res.ok){
+  alert("Error: " + (data.detail || res.statusText));
+  return;
+ }
+ await loadMyReviews();
+}
+
+async function loadUser(){
+
+
+ const r = await fetch("/auth/me", { credentials: "include" });
+
+
+ if(!r.ok){
+
+
+  location.href = "/web/auth/login.html";
+
+
+  return;
+
+
+ }
+
+
+ const u = await r.json();
+
+
+ document.getElementById("welcome").innerText = `Bienvenid@, ${u.username}`;
+
+
+ document.getElementById("usernameText").innerText = u.username || "";
+
+
+ document.getElementById("emailText").innerText = u.email || "";
+
+
+ document.getElementById("newEmail").value = u.email || "";
+
+ document.getElementById("birthText").innerText = u.birthdate || "No definida";
+
+ document.getElementById("newBirth").value = u.birthdate || "";
+
+ document.getElementById("email2faToggle").checked = !!u.email_verification_enabled;
+
+ originalDescription = u.description || "";
+
+ descriptionEl.value = originalDescription;
+
+
+ const avatarUrl = `${u.avatar || "/web/img/default-avatar.png"}?t=${Date.now()}`;
+
+
+ avatarImg.src = avatarUrl;
+
+
+ avatarModalImg.src = avatarUrl;
+
+
+ saveDescBtn.classList.add("hidden");
+
+
+ cancelDescBtn.classList.add("hidden");
+
+ await loadMyReviews();
+
+
+}
+
+
+
+
+
+async function updateEmail(){
+
+
+ const email = document.getElementById("newEmail").value.trim();
+
+
+ const password = document.getElementById("emailPassword").value;
+
+
+ if(!email || !password){
+
+
+  alert("Completa el correo y la contraseña");
+
+
+  return;
+
+
+ }
+
+
+
+
+
+ const res = await fetch("/users/me/email", {
+
+
+  method: "POST",
+
+
+  headers: { "Content-Type": "application/json" },
+
+
+  body: JSON.stringify({ email, password }),
+
+
+  credentials: "include"
+
+
+ });
+
+
+ if(!res.ok){
+
+
+  const err = await res.json().catch(() => ({}));
+
+
+  alert("Error: " + (err.detail || res.statusText));
+
+
+  return;
+
+
+ }
+
+
+
+
+
+ document.getElementById("emailPassword").value = "";
+
+
+ await loadUser();
+
+
+ toggle("emailEdit");
+
+
+}
+
+
+
+
+
+async function updateName(){
+
+
+ const username = document.getElementById("newUsername").value.trim();
+
+
+ if(!username) return;
+
+
+
+
+
+ const res = await fetch("/users/me", {
+
+
+  method: "PUT",
+
+
+  headers: { "Content-Type": "application/json" },
+
+
+  body: JSON.stringify({ username }),
+
+
+  credentials: "include"
+
+
+ });
+
+
+ if(!res.ok){
+
+
+  const err = await res.json().catch(() => ({}));
+
+
+  alert("Error: " + (err.detail || res.statusText));
+
+
+  return;
+
+
+ }
+
+
+ await loadUser();
+
+
+ toggle("nameEdit");
+
+
+}
+
+
+
+
+
+async function updateBirth(){
+
+
+ const birthdate = document.getElementById("newBirth").value;
+
+
+ if(!birthdate){
+
+
+  alert("Selecciona una fecha");
+
+
+  return;
+
+
+ }
+
+
+
+
+
+ const res = await fetch("/users/me", {
+
+
+  method: "PUT",
+
+
+  headers: { "Content-Type": "application/json" },
+
+
+  body: JSON.stringify({ birthdate }),
+
+
+  credentials: "include"
+
+
+ });
+
+
+ if(!res.ok){
+
+
+  const err = await res.json().catch(() => ({}));
+
+
+  alert("Error: " + (err.detail || res.statusText));
+
+
+  return;
+
+
+ }
+
+
+
+
+
+ const data = await res.json().catch(() => ({}));
+
+
+ if(data.detail === "Sin cambios"){
+
+
+  alert("Tu base de datos no tiene habilitado el campo birthdate.");
+
+
+  return;
+
+
+ }
+
+
+
+
+
+ await loadUser();
+
+
+ toggle("birthEdit");
+
+
+}
+
+
+
+
+
+async function updatePassword(){
+
+ const oldp = document.getElementById("oldPass").value;
+
+
+ const newp = document.getElementById("newPass").value;
+
+
+ const rep = document.getElementById("repeatPass").value;
+
+
+ if(newp !== rep){
+
+
+  alert("Las contraseñas no coinciden");
+
+
+  return;
+
+
+ }
+
+
+ const res = await fetch("/users/me/password", {
+
+
+  method: "POST",
+
+
+  headers: { "Content-Type": "application/json" },
+
+
+  body: JSON.stringify({ old_password: oldp, new_password: newp }),
+
+
+  credentials: "include"
+
+
+ });
+
+
+ if(!res.ok){
+
+
+  const err = await res.json().catch(() => ({}));
+
+
+  alert("Error: " + (err.detail || res.statusText));
+
+
+  return;
+
+
+ }
+
+
+ document.getElementById("oldPass").value = "";
+
+
+ document.getElementById("newPass").value = "";
+
+
+ document.getElementById("repeatPass").value = "";
+
+
+ alert("Contraseña actualizada");
+
+}
+
+
+
+async function updateEmailVerification(){
+
+ const enabled = document.getElementById("email2faToggle").checked;
+
+ const res = await fetch("/users/me", {
+
+  method: "PUT",
+
+  headers: { "Content-Type": "application/json" },
+
+  body: JSON.stringify({ email_verification_enabled: enabled }),
+
+  credentials: "include"
+
+ });
+
+ if(!res.ok){
+
+  const err = await res.json().catch(() => ({}));
+
+  alert("Error: " + (err.detail || res.statusText));
+
+  return;
+
+ }
+
+ const data = await res.json().catch(() => ({}));
+
+ if(data.detail === "Sin cambios"){
+
+  alert("Tu base de datos no tiene habilitado este ajuste.");
+
+  return;
+
+ }
+
+ alert("Preferencia actualizada");
+
+}
+
+
+
+
+descriptionEl.addEventListener("input", () => {
+
+
+ const changed = descriptionEl.value !== originalDescription;
+
+
+ saveDescBtn.classList.toggle("hidden", !changed);
+
+
+ cancelDescBtn.classList.toggle("hidden", !changed);
+
+
+});
+
+
+
+
+
+async function updateDescription(){
+
+
+ const description = descriptionEl.value;
+
+
+ const res = await fetch("/users/me", {
+
+
+  method: "PUT",
+
+
+  headers: { "Content-Type": "application/json" },
+
+
+  body: JSON.stringify({ description }),
+
+
+  credentials: "include"
+
+
+ });
+
+
+ if(!res.ok){
+
+
+  const err = await res.json().catch(() => ({}));
+
+
+  alert("Error: " + (err.detail || res.statusText));
+
+
+  return;
+
+
+ }
+
+
+ originalDescription = description;
+
+
+ saveDescBtn.classList.add("hidden");
+
+
+ cancelDescBtn.classList.add("hidden");
+
+
+}
+
+
+
+
+
+function cancelDescription(){
+
+
+ descriptionEl.value = originalDescription;
+
+
+ saveDescBtn.classList.add("hidden");
+
+
+ cancelDescBtn.classList.add("hidden");
+
+
+}
+
+
+
+
+
+function openAvatarModal(){
+
+
+ avatarModalImg.src = avatarImg.src;
+
+
+ avatarModal.classList.add("open");
+
+
+}
+
+
+
+
+
+function closeAvatarModal(event){
+
+
+ if(event && event.target !== avatarModal && !event.target.classList.contains("modal-close")) return;
+
+
+ avatarModal.classList.remove("open");
+
+
+}
+
+
+
+
+
+function goHome(){
+ const from = new URLSearchParams(window.location.search).get("from");
+ if(from === "business"){
+  location.href = "/negocios_gestion.html";
+  return;
+ }
+ location.href = `/frontend.html?_r=${Date.now()}`;
+}
+
+const __fromContext = new URLSearchParams(window.location.search).get("from");
+if(__fromContext === "business"){
+ const backBtn = document.getElementById("backBtn");
+ if(backBtn) backBtn.innerText = "Volver al panel de negocio";
+}
+
+
+
+
+
+function goSupport(){
+
+ location.href = "/support?subject=Solicitar ayuda con la cuenta de usuario";
+
+}
+
+
+
+async function logoutFromSettings(){
+
+ const res = await fetch("/auth/logout", {
+
+  method: "POST",
+
+  credentials: "include"
+
+ });
+
+ if(!res.ok){
+
+  const err = await res.json().catch(() => ({}));
+
+  alert("Error: " + (err.detail || res.statusText));
+
+  return;
+
+ }
+
+ location.href = "/web/auth/login.html";
+
+}
+
+
+
+async function requestDeleteCode(){
+
+ const res = await fetch("/users/me/delete/request_code", {
+
+  method: "POST",
+
+  credentials: "include"
+
+ });
+
+ const data = await res.json().catch(() => ({}));
+
+ if(!res.ok){
+
+  alert("Error: " + (data.detail || res.statusText));
+
+  return;
+
+ }
+
+ alert(data.detail || "Código enviado");
+
+ const codeWrap = document.getElementById("deleteCodeWrap");
+
+ const codeInput = document.getElementById("deleteCode");
+
+ const btn = document.getElementById("requestDeleteCodeBtn");
+
+ if(codeWrap) codeWrap.classList.remove("hidden");
+
+ if(codeInput) codeInput.focus();
+
+ if(btn) btn.innerText = "Reenviar código";
+
+}
+
+
+
+async function deleteAccount(){
+
+ const password = document.getElementById("deletePassword").value;
+
+ const code = document.getElementById("deleteCode").value.trim();
+
+ if(!password && !code){
+
+  alert("Introduce contraseña o código");
+
+  return;
+
+ }
+
+ const ok = confirm("Esta acción eliminará tu cuenta definitivamente. ¿Continuar?");
+
+ if(!ok) return;
+
+
+
+ const res = await fetch("/users/me", {
+
+  method: "DELETE",
+
+  headers: { "Content-Type": "application/json" },
+
+  credentials: "include",
+
+  body: JSON.stringify({ password: password || null, code: code || null })
+
+ });
+
+ const data = await res.json().catch(() => ({}));
+
+ if(!res.ok){
+
+  alert("Error: " + (data.detail || res.statusText));
+
+  return;
+
+ }
+
+ alert(data.detail || "Cuenta eliminada");
+
+ location.href = "/web/auth/register.html";
+
+}
+
+
+
+
+updateBtn.addEventListener("click", async () => {
+
+
+ const file = avatarInput.files[0];
+
+
+ if(!file){
+
+
+  alert("Selecciona una imagen");
+
+
+  return;
+
+
+ }
+
+
+ const formData = new FormData();
+
+
+ formData.append("file", file);
+
+
+ const res = await fetch("/users/me/avatar", {
+
+
+  method: "POST",
+
+
+  body: formData,
+
+
+  credentials: "include"
+
+
+ });
+
+
+ if(!res.ok){
+
+
+  const err = await res.json().catch(() => ({}));
+
+
+  alert("Error: " + (err.detail || res.statusText));
+
+
+  return;
+
+
+ }
+
+
+ const data = await res.json();
+
+
+ avatarImg.src = `${data.avatar_url}?t=${Date.now()}`;
+
+
+ avatarModalImg.src = avatarImg.src;
+
+
+ alert("Avatar actualizado");
+
+
+});
+
+
+
+
+
+deleteBtn.addEventListener("click", async () => {
+
+
+ const res = await fetch("/users/me/avatar", {
+
+
+  method: "DELETE",
+
+
+  credentials: "include"
+
+
+ });
+
+
+ if(!res.ok){
+
+
+  alert("Error al eliminar avatar");
+
+
+  return;
+
+
+ }
+
+
+ avatarImg.src = `/web/img/default-avatar.png?t=${Date.now()}`;
+
+
+ avatarModalImg.src = avatarImg.src;
+
+
+ alert("Avatar eliminado");
+
+
+});
+
+
+
+
+
+avatarImg.addEventListener("click", openAvatarModal);
+
+
+
+
+
+loadUser();
+
+
+</script>
+
+
+
+
+
+</body>
+
+
+</html>
+
+
+
+
+
+
+
+

@@ -1,0 +1,2448 @@
+﻿<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Panel de gestión de negocio</title>
+<link rel="icon" href="/icono/tsev2admin_beta.png" type="image/png">
+<link rel="stylesheet" href="/administracion/assets/ui_admin.css">
+<script defer src="/administracion/assets/ui_admin.js"></script>
+
+<style>
+:root{--yellow:#f3d044;--bg:#f4f6f9;--card:#fff;--border:#dbe2ea;--dark:#1f1f1f;--text:#1f2937}
+*{box-sizing:border-box}
+body{margin:0;font-family:Segoe UI,Arial,sans-serif;background:radial-gradient(circle at top right,#fff,#f3f5f8 60%);color:var(--text)}
+.hidden{display:none !important}
+header{background:rgba(243,208,68,.96);border-bottom:1px solid rgba(0,0,0,.08);box-shadow:0 2px 10px rgba(0,0,0,.08);padding:.8rem 1rem;display:grid;grid-template-columns:auto minmax(320px,720px) auto;align-items:center;gap:1rem;position:sticky;top:0;z-index:10}
+.logo a{display:inline-flex;align-items:center}
+.logo img{width:clamp(54px,6vw,74px);display:block}
+.center-info{position:relative;width:100%;min-width:0}
+#time{font-size:1.5rem}
+.weather{font-size:.9rem}
+.head-actions{text-align:right;position:relative}
+.header-search{position:relative;width:100%}
+.header-search-shell{width:100%;min-height:56px;display:flex;align-items:center;gap:.7rem;padding:.45rem .55rem .45rem .9rem;background:rgba(255,255,255,.88);border:1px solid rgba(0,0,0,.08);border-radius:18px;box-shadow:inset 0 1px 0 rgba(255,255,255,.5),0 10px 24px rgba(0,0,0,.08)}
+.header-search-shell:focus-within{background:rgba(255,255,255,.88);border-color:rgba(0,0,0,.08);box-shadow:inset 0 1px 0 rgba(255,255,255,.5),0 10px 24px rgba(0,0,0,.08)}
+.header-search-input{flex:1 1 auto;min-width:0;border:none;background:transparent;appearance:none;-webkit-appearance:none;color:var(--text);font:inherit;font-size:1rem;font-weight:700;box-shadow:none !important}
+.header-search-input::placeholder{color:#6b7280;font-weight:600}
+.header-search-input:focus{outline:none;border:none;box-shadow:none !important}
+.header-search-input::-webkit-search-cancel-button,.header-search-input::-webkit-search-decoration,.header-search-input::-webkit-search-results-button,.header-search-input::-webkit-search-results-decoration{-webkit-appearance:none;appearance:none;display:none}
+.header-search-clear{flex:0 0 auto;width:40px;height:40px;border:none;border-radius:999px;background:transparent;color:#444;font-size:1.3rem;line-height:1;cursor:pointer;display:inline-flex;align-items:center;justify-content:center;transition:background-color .18s ease,color .18s ease,transform .18s ease}
+.header-search-clear[hidden]{display:none !important}
+.header-search-clear:hover,.header-search-clear:focus-visible{background:rgba(0,0,0,.08);color:#111;transform:scale(1.04)}
+.header-search-submit{flex:0 0 auto;width:48px;height:48px;border:none;border-radius:999px;background:#111;color:#fff;font-size:1.15rem;font-weight:700;line-height:1;padding:0;cursor:pointer;display:inline-flex;align-items:center;justify-content:center;transition:transform .18s ease,filter .18s ease,box-shadow .18s ease}
+.header-search-submit[hidden]{display:none !important}
+.header-search-submit:hover,.header-search-submit:focus-visible{transform:translateY(-1px);filter:brightness(1.06);box-shadow:0 10px 18px rgba(0,0,0,.16)}
+.search-suggestions{position:absolute;top:calc(100% + 8px);left:0;right:0;background:#fff;border:1px solid rgba(0,0,0,.08);border-radius:18px;box-shadow:0 20px 44px rgba(0,0,0,.16);overflow:hidden;z-index:240}
+.search-suggestion-group{padding:.35rem 0}
+.search-suggestion-group + .search-suggestion-group{border-top:1px solid #edf0f4}
+.search-suggestion-group-title{margin:0;padding:.35rem .95rem .45rem;font-size:.72rem;letter-spacing:.08em;text-transform:uppercase;color:#6b7280}
+.search-suggestion-btn{width:100%;border:none;background:#fff;display:flex;justify-content:space-between;gap:.75rem;align-items:flex-start;padding:.7rem .95rem;cursor:pointer;text-align:left;font:inherit}
+.search-suggestion-btn:hover,.search-suggestion-btn:focus-visible{background:#f7f8fa;outline:none}
+.search-suggestion-main{display:grid;gap:.2rem;min-width:0}
+.search-suggestion-title{font-weight:800;line-height:1.2}
+.search-suggestion-meta{font-size:.82rem;color:#5b6472;font-weight:600}
+.search-suggestion-kind{font-size:.72rem;font-weight:800;border-radius:999px;padding:.28rem .55rem;background:#fff3c4;color:#4b3d06;white-space:nowrap}
+.search-suggestion-empty{padding:.2rem .95rem .55rem;font-size:.82rem;color:#6b7280}
+.head-actions button{padding:.45rem .8rem;border:none;border-radius:8px;background:#111;color:#fff;font-weight:700;cursor:pointer}
+button{transition:transform .12s ease, filter .12s ease, box-shadow .12s ease, background-color .12s ease}
+button:not([disabled]):hover,button:not([disabled]):focus-visible{transform:translateY(-1px);filter:brightness(1.05);box-shadow:0 6px 12px rgba(0,0,0,.12)}
+.user-btn img{
+  pointer-events:none;
+  width:50px;
+  height:50px;
+  border-radius:50%;
+  display:block;
+  object-fit:cover;
+  border:2px solid #111;
+}
+.user-btn{
+  padding:0;
+  width:56px;
+  height:56px;
+  border-radius:50%;
+  background:transparent;
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  position:relative;
+  border:none;
+  box-shadow:none;
+}
+.user-btn:hover img{
+  border-color:#000;
+  filter:brightness(1.03);
+}
+.user-menu{position:absolute;right:0;top:50px;background:#fff;border:1px solid #ddd;border-radius:10px;min-width:200px;display:none;flex-direction:column;box-shadow:0 8px 20px rgba(0,0,0,.12)}
+.user-menu button{background:#fff;color:#222;text-align:left;border:none;padding:10px;cursor:pointer}
+.user-menu button:hover{background:#f7f7f7}
+.wrap{max-width:980px;margin:18px auto;padding:0 14px}
+.welcome{text-align:center;font-size:1.6rem;font-weight:800;margin:10px 0 16px}
+.biz-hero{border:1px solid var(--border);border-radius:14px;overflow:hidden;min-height:210px;width:100%;cursor:pointer;position:relative;background:#ddd;display:flex;align-items:flex-end;box-shadow:0 8px 18px rgba(0,0,0,.12)}
+.biz-hero .overlay{width:100%;padding:14px;background:linear-gradient(180deg,rgba(0,0,0,.2),rgba(0,0,0,.78));color:#fff}
+.biz-name{font-size:1.4rem;font-weight:800}
+.biz-status{font-size:.95rem;opacity:.95;margin-top:4px}
+.grid-2{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:12px}
+.grid-1{display:grid;grid-template-columns:1fr;gap:12px;margin-top:12px}
+.action-btn{border:1px solid var(--border);background:#fff;padding:16px;border-radius:12px;font-weight:700;cursor:pointer;min-height:62px;text-align:center}
+.action-btn.big{min-height:74px;font-size:1.05rem}
+.login-wrap{min-height:calc(100vh - 88px);display:flex;align-items:center;justify-content:center;padding:20px}
+.login-card{background:#fff;border:1px solid var(--border);border-radius:14px;padding:22px;width:min(420px,94vw);box-shadow:0 8px 22px rgba(0,0,0,.12)}
+.login-card h2{margin-top:0}
+input,textarea,select{width:100%;padding:10px;border:1px solid #ccd5df;border-radius:8px}
+textarea{min-height:84px;resize:vertical}
+.row{display:flex;gap:10px;align-items:center}
+.row > *{flex:1}
+.btn{border:none;border-radius:8px;padding:10px 12px;font-weight:700;cursor:pointer}
+.btn-primary{background:var(--yellow);color:#111}
+.btn-dark{background:#222;color:#fff}
+.btn-soft{background:#eee;color:#111}
+.btn-danger{background:#d83a4f;color:#fff}
+.modal-bg{position:fixed;inset:0;background:rgba(0,0,0,.42);display:none;align-items:center;justify-content:center;padding:14px;z-index:30}
+.modal{background:#fff;border-radius:12px;max-width:760px;width:min(760px,96vw);max-height:92vh;overflow-y:auto;overflow-x:hidden;padding:16px;border:1px solid var(--border);scrollbar-gutter:stable}
+.modal{scrollbar-width:thin;scrollbar-color:#b7c2d4 #f3f6fb}
+.modal::-webkit-scrollbar{width:9px;height:9px}
+.modal::-webkit-scrollbar-track{background:#f3f6fb;border-radius:999px}
+.modal::-webkit-scrollbar-thumb{background:linear-gradient(180deg,#c6d0df,#aebacf);border-radius:999px;border:2px solid #f3f6fb}
+.modal::-webkit-scrollbar-thumb:hover{background:linear-gradient(180deg,#b9c5d8,#9eacc5)}
+.modal::-webkit-scrollbar-corner{background:#f3f6fb}
+.modal h3{margin-top:0}
+.modal-actions{display:flex;gap:10px;justify-content:flex-end;margin-top:12px;flex-wrap:wrap}
+.day-row{border:1px solid #e4e7ee;border-radius:10px;padding:10px;margin-bottom:8px}
+.small{font-size:.9rem;color:#5f6877}
+.notice{background:#fff8d8;border:1px solid #f5df93;color:#7a6321;border-radius:8px;padding:10px;margin:8px 0}
+.schedule-editor .day-schedule{border:1px solid #e4e7ee;border-radius:10px;padding:10px;margin-bottom:10px;background:#fafafa}
+.schedule-editor .day-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px}
+.schedule-editor .day-status{font-size:.72rem;padding:2px 6px;font-weight:700;border-radius:5px}
+.day-trays{display:flex;flex-direction:column;gap:8px}
+.time-trays{display:flex;gap:8px;align-items:center;border:1px solid #eceff5;border-radius:8px;padding:8px;background:#fff}
+.time-trays > button{width:auto;flex:0 0 auto;padding:4px 8px}
+.clock-input{width:74px !important;text-align:center;font-weight:700;background:#fff;cursor:pointer}
+.stepper{display:flex;flex-direction:column;gap:3px}
+.step-btn{width:28px;height:18px;padding:0;border:1px solid #cfd6e2;border-radius:5px;background:#fff;cursor:pointer;line-height:1;font-weight:700}
+.step-btn:hover{background:#f4f7fb}
+.time-range-wrap{flex:1;min-width:260px}
+.time-range-values{display:flex;align-items:center;justify-content:center;gap:8px;margin-bottom:6px}
+.range-track{position:relative;height:28px}
+.range-bg{position:absolute;left:0;right:0;top:11px;height:6px;border-radius:999px;background:#d8d8d8}
+.range-fill{position:absolute;top:11px;height:6px;border-radius:999px;background:#f3d044;cursor:grab}
+.range-fill.dragging{cursor:grabbing}
+.time-range{position:absolute;left:-8px;top:0;width:calc(100% + 16px);height:28px;margin:0;background:transparent;pointer-events:none;-webkit-appearance:none;appearance:none}
+.time-range::-webkit-slider-thumb{pointer-events:all;-webkit-appearance:none;width:16px;height:16px;border-radius:50%;background:#222;border:2px solid #fff;box-shadow:0 0 0 1px #222;cursor:pointer}
+.time-range::-moz-range-thumb{pointer-events:all;width:16px;height:16px;border-radius:50%;background:#222;border:2px solid #fff;box-shadow:0 0 0 1px #222;cursor:pointer}
+.range-marks{margin-top:6px;display:flex;justify-content:space-between;font-size:.68rem;color:#666}
+.map-picker-wrap{border:1px solid #e4e7ee;border-radius:10px;padding:10px;background:#fafafa}
+.map-row{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.map-actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:8px}
+#m_map_canvas{width:100%;height:250px;border:1px solid #d8dee8;border-radius:10px;background:#f1f4f8;margin-top:8px}
+#m_map_canvas.hidden{display:none}
+.map-note{margin-top:6px}
+.schedule-planner{margin-top:12px;border:1px solid var(--border);border-radius:12px;background:#fff;padding:12px}
+.schedule-planner-grid{display:grid;grid-template-columns:minmax(280px, 1fr) minmax(320px, 1.2fr);gap:12px}
+.calendar-shell{border:1px solid #e4e7ee;border-radius:10px;padding:10px;background:#fafafa}
+.calendar-head{display:flex;align-items:center;gap:8px;margin-bottom:8px}
+.calendar-head .btn{padding:6px 10px}
+.calendar-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:6px}
+.calendar-weekday{font-size:.75rem;font-weight:700;color:#687386;text-align:center}
+.calendar-day{border:1px solid #d8deea;border-radius:8px;background:#fff;padding:8px 0;font-weight:700;cursor:pointer}
+.calendar-day.is-muted{opacity:.4;cursor:default}
+.calendar-day.is-today{border-color:#f3d044;box-shadow:0 0 0 2px rgba(243,208,68,.35)}
+.calendar-day.is-selected{background:#111;color:#fff;border-color:#111}
+.calendar-day.is-closed{background:#fff1f2;border-color:#f3b7c1;color:#7f1d1d}
+.calendar-day.is-selected.is-closed{background:#7f1d1d;color:#fff;border-color:#7f1d1d}
+.schedule-panel{border:1px solid #e4e7ee;border-radius:10px;padding:10px;background:#fafafa}
+.schedule-panel-title{font-weight:800;margin-bottom:8px}
+.planner-regular-wide{width:100%;margin-top:12px;display:block}
+.photo-dropzone{border:2px dashed #cfd6e2;border-radius:10px;padding:10px;background:#fafafa;text-align:center;cursor:pointer}
+.photo-dropzone.is-dragover{border-color:#f3d044;background:#fff9e6}
+.photo-dropzone .small{margin-top:6px}
+.photo-preview{width:100%;max-height:220px;object-fit:cover;border-radius:8px;border:1px solid #e4e7ee;margin:8px 0;background:#fff}
+.btn-save-pending{box-shadow:0 0 0 3px rgba(243,208,68,.5);animation:savePulse .9s ease}
+@keyframes savePulse{
+  0%{transform:scale(1)}
+  35%{transform:scale(1.04)}
+  100%{transform:scale(1)}
+}
+@media (max-width:860px){
+header{grid-template-columns:auto minmax(0,1fr) auto;gap:.45rem;padding:.55rem .65rem}
+.logo img{width:42px}
+.header-search-shell{min-height:46px;gap:.4rem;padding:.3rem .35rem .3rem .6rem;border-radius:14px}
+.header-search-input{font-size:.92rem}
+.header-search-clear{width:32px;height:32px;font-size:1.05rem}
+.header-search-submit{width:38px;height:38px;font-size:1rem}
+.head-actions{text-align:right}
+.user-btn{width:46px;height:46px}
+.user-btn img{width:42px;height:42px}
+.schedule-planner-grid{grid-template-columns:1fr}
+}
+</style>
+</head>
+<body>
+<header>
+  <div class="logo"><a href="/frontend.html" aria-label="Ir a inicio"><img src="/icono/tsev2admin_beta.png" alt="TodoSevillaEste"></a></div>
+  <div class="center-info">
+    <form id="headerSearchForm" class="header-search" autocomplete="off" role="search">
+      <div class="header-search-shell">
+        <input id="searchInput" class="header-search-input" type="search" placeholder="Busca negocios, servicios o categorias" aria-label="Buscar negocios">
+        <button id="searchClearBtn" class="header-search-clear" type="button" aria-label="Borrar busqueda" title="Borrar busqueda" hidden>&times;</button>
+                <button id="searchSubmitBtn" class="header-search-submit" type="submit" aria-label="Buscar" title="Buscar" hidden>&#128269;&#65038;</button>
+      </div>
+      <div id="searchSuggestions" class="search-suggestions" hidden></div>
+    </form>
+    <div style="display:none"><div id="time">--:--</div><div class="weather" id="weather">--</div></div>
+  </div>
+  <div class="head-actions">
+    <button id="userBtn" class="user-btn hidden" onclick="toggleUserMenu()"><img id="userAvatar" src="/web/img/default-avatar.png" alt="avatar"></button>
+    <div id="userMenu" class="user-menu">
+      <div id="menuUsername" style="padding:10px;border-bottom:1px solid #eee;font-weight:700"></div>
+      <button onclick="goSettings()">⚙️ Configuración</button>
+    </div>
+  </div>
+</header>
+
+<section id="loginLayer" class="login-wrap">
+  <div class="login-card">
+    <h2>Acceso de negocio</h2>
+    <input id="login" placeholder="Correo o usuario">
+    <input id="password" type="password" placeholder="Contraseña">
+    <button class="btn btn-primary" style="width:100%;margin-top:8px" onclick="sendLogin()">Continuar</button>
+
+    <div id="codeBox" class="hidden" style="margin-top:10px">
+      <input id="code" placeholder="Código recibido por correo">
+      <label class="small"><input id="remember" type="checkbox" style="width:auto;margin-right:6px">Recordarme</label>
+      <button class="btn btn-dark" style="width:100%;margin-top:8px" onclick="verifyLogin()">Verificar</button>
+    </div>
+
+    <div class="small" style="margin-top:12px;cursor:pointer" onclick="forgotPassword()">Olvidé mi contraseña</div>
+  </div>
+</section>
+
+<main id="app" class="wrap hidden">
+  <div id="welcome" class="welcome">Bienvenid@</div>
+
+  <button id="heroBtn" class="biz-hero" onclick="openPublicBusiness()">
+    <div class="overlay">
+      <div id="heroName" class="biz-name">Negocio</div>
+      <div id="heroStatus" class="biz-status">Estado</div>
+    </div>
+  </button>
+
+  <div class="grid-2">
+    <button class="action-btn" onclick="openDataModal()">Modificación de datos del negocio</button>
+    <button class="action-btn" onclick="openPhotosModal()">Fotos</button>
+  </div>
+
+  <div class="grid-1">
+    <section class="schedule-planner">
+      <div class="schedule-planner-grid">
+        <div class="calendar-shell">
+          <div class="calendar-head">
+            <button class="btn btn-soft" type="button" onclick="changePlannerMonth(-1)">&#9664;</button>
+            <select id="plannerMonth" onchange="onPlannerMonthYearChange()"></select>
+            <select id="plannerYear" onchange="onPlannerMonthYearChange()"></select>
+            <button class="btn btn-soft" type="button" onclick="changePlannerMonth(1)">&#9654;</button>
+          </div>
+          <div id="plannerCalendar" class="calendar-grid"></div>
+        </div>
+        <div class="schedule-panel">
+          <div id="plannerSelectedDateLabel" class="schedule-panel-title">Día seleccionado</div>
+          <div class="modal-actions" style="justify-content:flex-start;margin:0 0 8px">
+            <button id="plannerToggleBtn" class="btn btn-dark" type="button" onclick="toggleSelectedDayOpenClosed()">Cerrado</button>
+            <button id="plannerResetRegularBtn" class="btn btn-soft" type="button" onclick="resetSelectedDayToRegular()">Volver a estado regular</button>
+          </div>
+          <div id="plannerTraysWrap">
+            <div id="plannerScheduleContainer" class="schedule-editor"></div>
+          </div>
+          <div class="modal-actions" style="justify-content:flex-start">
+            <button id="plannerCancelDayBtn" class="btn btn-soft" type="button" onclick="cancelSelectedDayChanges()" style="display:none">Cancelar</button>
+            <button id="plannerSaveDayBtn" class="btn btn-primary" type="button" onclick="saveSelectedDaySchedule()" style="display:none">Guardar día</button>
+          </div>
+        </div>
+      </div>
+      <button class="btn btn-soft planner-regular-wide" type="button" onclick="openRegularScheduleModal()">Cambiar horario regular</button>
+    </section>
+  </div>
+
+</main>
+
+<div id="modalBg" class="modal-bg">
+  <div class="modal">
+    <h3 id="modalTitle">Modal</h3>
+    <div id="modalBody"></div>
+    <div class="modal-actions" id="modalActions"></div>
+  </div>
+</div>
+<div id="confirmModalBg" class="modal-bg">
+  <div class="modal" style="max-width:520px">
+    <h3 id="confirmModalTitle">Confirmación</h3>
+    <div id="confirmModalBody"></div>
+    <div class="modal-actions" id="confirmModalActions"></div>
+  </div>
+</div>
+
+<script>
+const DAYS = ["Lunes","Martes","Miércoles","Jueves","Viernes","Sábado","Domingo"];
+const ALL_CATEGORIES = ["Supermercados","Tiendas de alimentación","Fruterías","Carnicerías","Pescaderías","Panaderías / pastelerías","Tiendas ecológicas / bio","Tiendas gourmet","Tiendas de ropa","Zapaterías","Tiendas de deportes","Tiendas de bebés / infantil","Jugueterías","Papelerías / librerías","Tiendas de informática","Tiendas de móviles / accesorios","Tiendas de electrodomésticos","Tiendas de muebles","Decoración / hogar","Ferreterías","Pinturas / bricolaje","Iluminación","Bazares / multiprecio","Floristerías","Regalos / souvenirs","Joyerías / relojerías","Ópticas","Parafarmacias","Bares","Cafeterías","Restaurantes","Fast food / comida rápida","Hamburgueserías","Pizzerías","Kebabs","Comida para llevar","Catering","Heladerías","Pastelerías cafetería","Bares de tapas","Cervecerías","Pub / copas","Discotecas","Abogados","Asesorías / gestorías","Consultorías","Notarías","Arquitectos","Ingenieros","Administradores de fincas","Marketing / publicidad","Diseño gráfico","Clínicas médicas","Clínicas dentales","Fisioterapia","Psicología","Peluquerías","Barberías","Centros de estética","Gimnasios","Crossfit","Yoga / pilates","Escuelas deportivas","Guarderías","Academias escolares","Academias de idiomas","Autoescuelas","Inmobiliarias","Reformas","Albañiles","Electricistas","Fontaneros","Cerrajeros","Talleres mecánicos","Lavaderos de coches","Gasolineras","Limpieza","Control de plagas","Lavanderías","Mudanzas","Estudios de tatuajes","Organización de eventos","Artesanía","ONG / asociaciones","Servicios domésticos"];
+
+let businessData = null;
+let meData = null;
+let currentMode = "";
+let editingVacationDate = null;
+let vacationBaseline = null;
+let mapsConfigCache = null;
+let mapsScriptPromise = null;
+let leafletAssetsPromise = null;
+let businessMapPicker = { provider: null, map: null, marker: null, geocoder: null };
+let plannerViewYear = null;
+let plannerViewMonth = null;
+let plannerSelectedDate = null;
+let plannerSpecialDaysBaseline = {};
+let pendingMainPhotoFile = null;
+let pendingExtraPhotoFile = null;
+let businessDataFormBaseline = null;
+const searchSuggestionsEl = document.getElementById('searchSuggestions');
+const HEADER_SEARCH_SUGGESTIONS_LIMIT = 6;
+const HEADER_SEARCH_REMOTE_MIN_CHARS = 2;
+const HEADER_BUSINESS_LIST_URL = '/places';
+const HEADER_BUSINESS_SUGGEST_URL = '/search/businesses/suggest';
+let headerSearchSuggestionsTimer = null;
+let headerSearchSuggestionsToken = 0;
+let headerSearchBusinesses = [];
+let headerSearchBusinessesLoaded = false;
+let headerSearchBusinessesLoadPromise = null;
+
+function madridNow(){
+  return new Date(new Date().toLocaleString("en-US",{timeZone:"Europe/Madrid"}));
+}
+
+function dateToKey(d){
+  return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,"0")}-${String(d.getDate()).padStart(2,"0")}`;
+}
+
+function keyToDate(key){
+  const [y,m,d] = String(key || "").split("-").map(Number);
+  if(!y || !m || !d) return null;
+  return new Date(y, m - 1, d);
+}
+
+function getDayNameFromDate(dateObj){
+  const jsDay = dateObj.getDay();
+  return DAYS[(jsDay + 6) % 7];
+}
+
+function normalizeSearchText(value){
+  return String(value || '').normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase().trim();
+}
+
+async function fetchRemoteJson(url){
+  const res = await fetch(url, { method: 'GET', cache: 'no-store', credentials: 'omit', headers: { 'Accept': 'application/json' } });
+  if(!res.ok) throw new Error('HTTP_' + res.status);
+  return res.json();
+}
+
+async function ensureHeaderSearchBusinessesLoaded(){
+  if(headerSearchBusinessesLoaded) return headerSearchBusinesses;
+  if(headerSearchBusinessesLoadPromise) return headerSearchBusinessesLoadPromise;
+  headerSearchBusinessesLoadPromise = (async () => {
+    try{
+      const res = await fetch(HEADER_BUSINESS_LIST_URL, { method: 'GET', cache: 'no-store', credentials: 'omit', headers: { 'Accept': 'application/json' } });
+      const data = await res.json().catch(() => []);
+      headerSearchBusinesses = Array.isArray(data) ? data.filter((item) => item && item.active !== false) : [];
+    }catch(_e){
+      headerSearchBusinesses = [];
+    }
+    headerSearchBusinessesLoaded = true;
+    return headerSearchBusinesses;
+  })();
+  return headerSearchBusinessesLoadPromise;
+}
+
+function buildHeaderBusinessSearchEntry(b){
+  const normalizedName = normalizeSearchText(b && b.name);
+  const normalizedCategory = normalizeSearchText(b && b.category);
+  const normalizedDescription = normalizeSearchText(b && b.initial_phrase);
+  const tokens = Array.from(new Set([
+    ...normalizedName.split(/[^a-z0-9]+/).filter(Boolean),
+    ...normalizedCategory.split(/[^a-z0-9]+/).filter(Boolean),
+    ...normalizedDescription.split(/[^a-z0-9]+/).filter(Boolean),
+  ]));
+  return { normalizedName, normalizedCategory, tokens };
+}
+
+async function getLocalHeaderSearchSuggestions(query){
+  const normalizedQuery = normalizeSearchText(query);
+  if(normalizedQuery.length < HEADER_SEARCH_REMOTE_MIN_CHARS) return [];
+  const businesses = await ensureHeaderSearchBusinessesLoaded();
+  const suggestions = [];
+  const seen = new Set();
+  businesses.forEach((business) => {
+    const entry = buildHeaderBusinessSearchEntry(business);
+    if(entry.normalizedCategory && entry.normalizedCategory.startsWith(normalizedQuery)){
+      const key = 'category:' + entry.normalizedCategory;
+      if(!seen.has(key)){
+        seen.add(key);
+        suggestions.push({ label: business.category || '', meta: 'Categoria', kind: 'Categoria', query: business.category || '' });
+      }
+    }
+    const businessMatch = entry.normalizedName.startsWith(normalizedQuery) || entry.tokens.some((token) => token.startsWith(normalizedQuery));
+    if(businessMatch){
+      const key = 'business:' + entry.normalizedName;
+      if(!seen.has(key)){
+        seen.add(key);
+        suggestions.push({ label: business.name || '', meta: business.category || 'Negocio', kind: 'Negocio', query: business.name || '' });
+      }
+    }
+  });
+  return suggestions.slice(0, HEADER_SEARCH_SUGGESTIONS_LIMIT);
+}
+
+async function resolveHeaderSearchSuggestions(query){
+  const normalizedQuery = normalizeSearchText(query);
+  if(normalizedQuery.length < HEADER_SEARCH_REMOTE_MIN_CHARS) return [];
+  try{
+    const url = new URL(HEADER_BUSINESS_SUGGEST_URL, window.location.href);
+    url.searchParams.set('q', query);
+    url.searchParams.set('limit', String(HEADER_SEARCH_SUGGESTIONS_LIMIT));
+    const data = await fetchRemoteJson(url.toString());
+    const items = Array.isArray(data && data.items) ? data.items : [];
+    if(items.length){
+      return items.slice(0, HEADER_SEARCH_SUGGESTIONS_LIMIT).map((item) => ({
+        label: item.label || item.query || item.name || '',
+        meta: item.meta || item.category || 'Sugerencia',
+        kind: item.kind || 'Meili',
+        query: item.query || item.label || item.name || '',
+      }));
+    }
+    return getLocalHeaderSearchSuggestions(query);
+  }catch(_e){
+    return getLocalHeaderSearchSuggestions(query);
+  }
+}
+
+function hideHeaderSearchSuggestions(){
+  if(!searchSuggestionsEl) return;
+  searchSuggestionsEl.hidden = true;
+  searchSuggestionsEl.innerHTML = '';
+}
+
+function renderHeaderSearchSuggestions(items){
+  if(!searchSuggestionsEl) return;
+  const safeItems = Array.isArray(items) ? items : [];
+  const businessItems = [];
+  const categoryItems = [];
+  safeItems.forEach((item) => {
+    const isCategory = normalizeSearchText(item && item.kind) === 'categoria';
+    if(isCategory) categoryItems.push(item); else businessItems.push(item);
+  });
+  const renderSuggestionButton = (item, variantClass) =>
+    '<button type="button" class="search-suggestion-btn ' + variantClass + '" data-query="' + escapeHtml(item.query || item.label || '') + '">' +
+      '<span class="search-suggestion-main">' +
+        '<span class="search-suggestion-title">' + escapeHtml(item.label || '') + '</span>' +
+        '<span class="search-suggestion-meta">' + escapeHtml(item.meta || '') + '</span>' +
+      '</span>' +
+      '<span class="search-suggestion-kind">' + escapeHtml(item.kind || 'Sugerencia') + '</span>' +
+    '</button>';
+  const renderSuggestionGroup = (title, groupItems, variantClass, emptyMessage) =>
+    '<section class="search-suggestion-group">' +
+      '<h4 class="search-suggestion-group-title">' + escapeHtml(title) + '</h4>' +
+      (groupItems.length ? groupItems.map((item) => renderSuggestionButton(item, variantClass)).join('') : '<div class="search-suggestion-empty">' + escapeHtml(emptyMessage) + '</div>') +
+    '</section>';
+  searchSuggestionsEl.innerHTML =
+    renderSuggestionGroup('Negocios', businessItems, 'is-business', 'No hay resultados para esa busqueda') +
+    renderSuggestionGroup('Categorias', categoryItems, 'is-category', 'No hay resultados para esa busqueda');
+  searchSuggestionsEl.hidden = false;
+}
+
+function updateHeaderSearchButtons(){
+  const input = document.getElementById('searchInput');
+  const clearBtn = document.getElementById('searchClearBtn');
+  const submitBtn = document.getElementById('searchSubmitBtn');
+  if(!input) return;
+  const hasQuery = !!String(input.value || '').trim();
+  if(clearBtn) clearBtn.hidden = !hasQuery;
+  if(submitBtn) submitBtn.hidden = !hasQuery;
+}
+
+function goFrontendWithSearch(query){
+  const safeQuery = String(query || '').trim();
+  if(!safeQuery) return;
+  window.location.href = `/frontend.html?q=${encodeURIComponent(safeQuery)}`;
+}
+
+async function queueHeaderSearchSuggestions(){
+  const input = document.getElementById('searchInput');
+  if(!input) return;
+  const query = String(input.value || '').trim();
+  if(!query){ hideHeaderSearchSuggestions(); return; }
+  const requestToken = ++headerSearchSuggestionsToken;
+  const items = await resolveHeaderSearchSuggestions(query);
+  if(requestToken !== headerSearchSuggestionsToken) return;
+  renderHeaderSearchSuggestions(items);
+}
+
+function initHeaderSearch(){
+  const form = document.getElementById('headerSearchForm');
+  const input = document.getElementById('searchInput');
+  const clearBtn = document.getElementById('searchClearBtn');
+  if(!form || !input) return;
+  updateHeaderSearchButtons();
+  input.addEventListener('input', () => {
+    updateHeaderSearchButtons();
+    if(headerSearchSuggestionsTimer) clearTimeout(headerSearchSuggestionsTimer);
+    const query = String(input.value || '').trim();
+    if(!query){ hideHeaderSearchSuggestions(); return; }
+    headerSearchSuggestionsTimer = setTimeout(queueHeaderSearchSuggestions, 220);
+  });
+  input.addEventListener('focus', () => {
+    const query = String(input.value || '').trim();
+    if(query) queueHeaderSearchSuggestions();
+  });
+  input.addEventListener('keydown', (ev) => {
+    if(ev.key === 'Escape'){
+      input.value = '';
+      updateHeaderSearchButtons();
+      hideHeaderSearchSuggestions();
+      input.blur();
+    }
+    if(ev.key === 'Enter'){
+      ev.preventDefault();
+      goFrontendWithSearch(input.value);
+    }
+  });
+  if(clearBtn){
+    clearBtn.addEventListener('click', () => {
+      input.value = '';
+      updateHeaderSearchButtons();
+      hideHeaderSearchSuggestions();
+      input.focus();
+    });
+  }
+  form.addEventListener('submit', (ev) => {
+    ev.preventDefault();
+    goFrontendWithSearch(input.value);
+  });
+  if(searchSuggestionsEl){
+    searchSuggestionsEl.addEventListener('click', (ev) => {
+      const btn = ev.target && ev.target.closest ? ev.target.closest('.search-suggestion-btn') : null;
+      if(!btn) return;
+      goFrontendWithSearch(btn.dataset.query || btn.textContent || '');
+    });
+  }
+  document.addEventListener('click', (ev) => {
+    const insideSearch = ev.target && ev.target.closest ? ev.target.closest('.header-search') : null;
+    if(!insideSearch) hideHeaderSearchSuggestions();
+  });
+}
+
+function setAuthUI(logged){
+  document.getElementById("loginLayer").classList.toggle("hidden", logged);
+  document.getElementById("app").classList.toggle("hidden", !logged);
+  document.getElementById("userBtn").classList.toggle("hidden", !logged);
+}
+
+function goHome(){ location.href = "/frontend.html"; }
+function goSettings(){ location.href = "/account/settings/index.html?from=business"; }
+function toggleUserMenu(){
+  const menu = document.getElementById("userMenu");
+  menu.style.display = menu.style.display === "flex" ? "none" : "flex";
+}
+document.addEventListener("click", (e)=>{
+  const menu = document.getElementById("userMenu");
+  const userBtn = document.getElementById("userBtn");
+  if(!menu.contains(e.target) && !userBtn.contains(e.target)) menu.style.display = "none";
+});
+
+async function logoutPanelOnly(){
+  await fetch("/auth/logout", { method:"POST", credentials:"include" }).catch(()=>{});
+  sessionStorage.setItem("bizPanelLoggedOut", "1");
+  sessionStorage.removeItem("bizPanelUserId");
+  setAuthUI(false);
+  window.location.href = "/frontend.html";
+}
+
+function showModal(title, html, actions){
+  document.getElementById("modalTitle").innerText = title;
+  document.getElementById("modalBody").innerHTML = html;
+  const actionsBox = document.getElementById("modalActions");
+  actionsBox.innerHTML = "";
+  (actions || []).forEach(a=>{
+    const btn = document.createElement("button");
+    btn.className = `btn ${a.cls || "btn-soft"}`;
+    btn.textContent = a.label;
+    btn.onclick = a.onClick;
+    actionsBox.appendChild(btn);
+  });
+  document.getElementById("modalBg").style.display = "flex";
+}
+
+function closeModal(){ document.getElementById("modalBg").style.display = "none"; }
+
+function showConfirmDialog({ title = "Confirmación", message = "", confirmLabel = "Confirmar", cancelLabel = "Cancelar", onConfirm = null } = {}){
+  const bg = document.getElementById("confirmModalBg");
+  const titleEl = document.getElementById("confirmModalTitle");
+  const bodyEl = document.getElementById("confirmModalBody");
+  const actionsEl = document.getElementById("confirmModalActions");
+  if(!bg || !titleEl || !bodyEl || !actionsEl) return;
+  titleEl.textContent = title;
+  bodyEl.innerHTML = `<div>${escapeHtml(String(message || ""))}</div>`;
+  actionsEl.innerHTML = "";
+  const cancelBtn = document.createElement("button");
+  cancelBtn.className = "btn btn-soft";
+  cancelBtn.textContent = cancelLabel;
+  cancelBtn.onclick = closeConfirmDialog;
+  const confirmBtn = document.createElement("button");
+  confirmBtn.className = "btn btn-primary";
+  confirmBtn.textContent = confirmLabel;
+  confirmBtn.onclick = async ()=>{
+    closeConfirmDialog();
+    if(typeof onConfirm === "function"){
+      await onConfirm();
+    }
+  };
+  actionsEl.appendChild(cancelBtn);
+  actionsEl.appendChild(confirmBtn);
+  bg.style.display = "flex";
+}
+
+function closeConfirmDialog(){
+  const bg = document.getElementById("confirmModalBg");
+  if(bg) bg.style.display = "none";
+}
+
+function updateClock(){
+  const d = new Date(new Date().toLocaleString("en-US", { timeZone: "Europe/Madrid" }));
+  document.getElementById("time").innerText = `${String(d.getHours()).padStart(2,"0")}:${String(d.getMinutes()).padStart(2,"0")}`;
+}
+
+async function updateWeather(){
+  try{
+    const r = await fetch("/meta/realtime");
+    if(!r.ok) return;
+    const data = await r.json();
+    document.getElementById("weather").innerText = data.weather_text || "--";
+  }catch(e){}
+}
+
+function getBusinessStatus(b){
+  if(b && b.active === false) return "Pendiente de validación";
+  if(!b || !b.opening_hours) return "Cerrado";
+  const now = new Date(new Date().toLocaleString("en-US",{timeZone:"Europe/Madrid"}));
+  const dayNames = ["Domingo","Lunes","Martes","Miércoles","Jueves","Viernes","Sábado"];
+  const day = dayNames[now.getDay()];
+  const dateKey = `${now.getFullYear()}-${String(now.getMonth()+1).padStart(2,"0")}-${String(now.getDate()).padStart(2,"0")}`;
+  const regularSlots = b.opening_hours[day] || [];
+  const special = (b.special_days && b.special_days[dateKey]) ? b.special_days[dateKey] : null;
+  let slots = regularSlots;
+  if(special){
+    if(special.mode === "closed"){
+      slots = [];
+    }else if(Array.isArray(special.opening_hours)){
+      slots = special.opening_hours;
+    }else if(special.mode !== "open"){
+      slots = [];
+    }
+  }
+  const mins = now.getHours()*60 + now.getMinutes();
+  const toMins = t => { const [h,m] = String(t||"00:00").split(":").map(Number); return h*60+m; };
+  for(const slot of slots){
+    const s = toMins(slot.inicio), e = toMins(slot.fin);
+    if(mins >= s && mins < e) return "Abierto";
+  }
+  return "Cerrado";
+}
+
+function renderApp(){
+  if(!businessData || !meData) return;
+  document.getElementById("welcome").innerText = `Bienvenid@, ${meData.username}.`;
+  document.getElementById("menuUsername").innerText = meData.username;
+  document.getElementById("userAvatar").src = meData.avatar || "/web/img/default-avatar.png";
+  document.getElementById("heroName").innerText = businessData.name || "Negocio";
+  document.getElementById("heroStatus").innerText = `Estado actual: ${getBusinessStatus(businessData)}`;
+  const heroSrc = businessData.main_photo || `/web/img/${businessData.public_id}.webp`;
+  document.getElementById("heroBtn").style.backgroundImage = `url('${heroSrc}')`;
+  document.getElementById("heroBtn").style.backgroundSize = "cover";
+  document.getElementById("heroBtn").style.backgroundPosition = "center";
+  initSchedulePlanner();
+}
+
+function openPublicBusiness(){
+  if(!businessData) return;
+  location.href = `/negocio.html?id=${businessData.public_id}`;
+}
+
+async function loadBusinessContext(){
+  const res = await fetch("/business/me", { credentials:"include" });
+  if(!res.ok) return false;
+  const data = await res.json();
+  if(!data.has_business) return false;
+  meData = data.user;
+  businessData = data.place;
+  plannerSpecialDaysBaseline = JSON.parse(JSON.stringify(businessData?.special_days || {}));
+  sessionStorage.setItem("bizPanelUserId", String(meData.id));
+  sessionStorage.removeItem("bizPanelLoggedOut");
+  setAuthUI(true);
+  renderApp();
+  return true;
+}
+
+async function boot(){
+  updateClock();
+  updateWeather();
+  initHeaderSearch();
+  setInterval(updateClock, 1000);
+  setInterval(updateWeather, 60000);
+
+  const ok = await loadBusinessContext();
+  if(ok) return;
+  setAuthUI(false);
+}
+
+async function sendLogin(){
+  const login = document.getElementById("login").value.trim();
+  const password = document.getElementById("password").value;
+  document.getElementById("codeBox").classList.add("hidden");
+  if(!login || !password){ alert("Completa usuario/correo y contraseña."); return; }
+
+  const res = await fetch("/auth/login", {
+    method:"POST",
+    headers:{"Content-Type":"application/json"},
+    body: JSON.stringify({ login, password }),
+    credentials:"include"
+  });
+  const data = await res.json().catch(()=>({}));
+  if(!res.ok){ alert(data.detail || "No se pudo iniciar sesión"); return; }
+
+  if(data.must_change_password){
+    const newPwd = prompt("Debes cambiar tu contraseña. Escribe la nueva:");
+    if(!newPwd){ alert("La contraseña no puede estar vacía."); return; }
+    const cpRes = await fetch("/users/change_password", {
+      method:"POST",
+      headers:{ "Content-Type":"application/json" },
+      body: JSON.stringify({ user_id: data.user_id, new_password: newPwd }),
+      credentials:"include"
+    });
+    const cpData = await cpRes.json().catch(()=>({}));
+    if(!cpRes.ok){ alert(cpData.detail || "No se pudo cambiar contraseña"); return; }
+    document.getElementById("password").value = newPwd;
+    alert("Contraseña cambiada correctamente.");
+    await sendLogin();
+    return;
+  }
+
+  if(data.requires_email_verification){
+    document.getElementById("codeBox").classList.remove("hidden");
+    alert("Código enviado a tu correo.");
+    return;
+  }
+
+  const ok = await loadBusinessContext();
+  if(!ok){
+    alert("Esta cuenta no tiene negocio vinculado.");
+    return;
+  }
+}
+
+async function verifyLogin(){
+  const login = document.getElementById("login").value.trim();
+  const code = document.getElementById("code").value.trim();
+  const remember = document.getElementById("remember").checked;
+  if(!code){ alert("Introduce el código"); return; }
+
+  const res = await fetch("/auth/login/verify", {
+    method:"POST",
+    headers:{"Content-Type":"application/json"},
+    body: JSON.stringify({ login, code, remember }),
+    credentials:"include"
+  });
+  const data = await res.json().catch(()=>({}));
+  if(!res.ok){ alert(data.detail || "Código inválido"); return; }
+
+  if(data.must_change_password){
+    const newPwd = prompt("Debes cambiar tu contraseña. Escribe la nueva:");
+    if(!newPwd){ alert("La contraseña no puede estar vacía."); return; }
+    const cpRes = await fetch("/users/change_password", {
+      method:"POST",
+      headers:{ "Content-Type":"application/json" },
+      body: JSON.stringify({ user_id: data.user_id, new_password: newPwd }),
+      credentials:"include"
+    });
+    const cpData = await cpRes.json().catch(()=>({}));
+    if(!cpRes.ok){ alert(cpData.detail || "No se pudo cambiar contraseña"); return; }
+    document.getElementById("password").value = newPwd;
+    alert("Contraseña cambiada correctamente.");
+    await sendLogin();
+    return;
+  }
+
+  const ok = await loadBusinessContext();
+  if(!ok){ alert("Esta cuenta no tiene negocio vinculado."); }
+}
+
+async function forgotPassword(){
+  const email = prompt("Introduce tu correo:");
+  if(!email) return;
+  let res = await fetch("/auth/forgot_password", {
+    method:"POST",
+    headers:{"Content-Type":"application/json"},
+    body: JSON.stringify({ email })
+  });
+  let data = await res.json().catch(()=>({}));
+  if(!res.ok){ alert(data.detail || "No se pudo enviar código"); return; }
+  alert(data.detail || "Código enviado");
+
+  const code = prompt("Introduce el código recibido:");
+  if(!code) return;
+  const newPassword = prompt("Introduce tu nueva contraseña:");
+  if(!newPassword) return;
+  res = await fetch("/auth/reset_password/verify", {
+    method:"POST",
+    headers:{"Content-Type":"application/json"},
+    body: JSON.stringify({ email, code, new_password: newPassword })
+  });
+  data = await res.json().catch(()=>({}));
+  alert(data.detail || (res.ok ? "Contraseña actualizada" : "No se pudo actualizar"));
+}
+
+function parseCoordinateInput(value, min, max){
+  const normalized = String(value || "").trim().replace(",", ".");
+  if(!normalized) return null;
+  const parsed = Number(normalized);
+  if(!Number.isFinite(parsed)) return null;
+  if(parsed < min || parsed > max) return null;
+  return Number(parsed.toFixed(7));
+}
+
+async function getMapsConfig(){
+  if(mapsConfigCache) return mapsConfigCache;
+  try{
+    const res = await fetch("/meta/public-config", { credentials:"include" });
+    if(!res.ok) return { google_maps_api_key: "" };
+    mapsConfigCache = await res.json();
+    return mapsConfigCache;
+  }catch(_e){
+    return { google_maps_api_key: "" };
+  }
+}
+
+async function ensureGoogleMapsScript(apiKey){
+  if(window.google?.maps) return true;
+  if(mapsScriptPromise) return mapsScriptPromise;
+  mapsScriptPromise = new Promise((resolve)=>{
+    const script = document.createElement("script");
+    script.src = `https://maps.googleapis.com/maps/api/js?key=${encodeURIComponent(apiKey)}&libraries=places`;
+    script.async = true;
+    script.defer = true;
+    script.onload = ()=> resolve(true);
+    script.onerror = ()=> resolve(false);
+    document.head.appendChild(script);
+  });
+  return mapsScriptPromise;
+}
+
+async function ensureLeafletAssets(){
+  if(window.L?.map) return true;
+  if(leafletAssetsPromise) return leafletAssetsPromise;
+  leafletAssetsPromise = new Promise((resolve)=>{
+    const cssId = "leaflet-css-cdn";
+    if(!document.getElementById(cssId)){
+      const link = document.createElement("link");
+      link.id = cssId;
+      link.rel = "stylesheet";
+      link.href = "https://unpkg.com/leaflet@1.9.4/dist/leaflet.css";
+      document.head.appendChild(link);
+    }
+    const script = document.createElement("script");
+    script.src = "https://unpkg.com/leaflet@1.9.4/dist/leaflet.js";
+    script.async = true;
+    script.defer = true;
+    script.onload = ()=> resolve(true);
+    script.onerror = ()=> resolve(false);
+    document.head.appendChild(script);
+  });
+  return leafletAssetsPromise;
+}
+
+function syncMapInputs(lat, lng){
+  const latInput = document.getElementById("m_map_lat");
+  const lngInput = document.getElementById("m_map_lng");
+  if(latInput) latInput.value = Number(lat).toFixed(7);
+  if(lngInput) lngInput.value = Number(lng).toFixed(7);
+}
+
+function updateMapHelperText(){
+  const note = document.getElementById("m_map_note");
+  if(!note) return;
+  const lat = parseCoordinateInput(document.getElementById("m_map_lat")?.value, -90, 90);
+  const lng = parseCoordinateInput(document.getElementById("m_map_lng")?.value, -180, 180);
+  if(lat === null || lng === null){
+    note.textContent = "Busca una dirección o pulsa sobre el mapa para seleccionar ubicación.";
+    return;
+  }
+  note.textContent = ``;
+}
+
+function applyMapCoordinates(lat, lng, center = true){
+  syncMapInputs(lat, lng);
+  updateMapHelperText();
+  updateBusinessDataSaveButtonVisibility();
+  if(!businessMapPicker.map) return;
+  const pos = { lat: Number(lat), lng: Number(lng) };
+
+  if(businessMapPicker.provider === "google" && window.google?.maps){
+    if(!businessMapPicker.marker){
+      businessMapPicker.marker = new google.maps.Marker({
+        position: pos,
+        map: businessMapPicker.map,
+        draggable: true
+      });
+      businessMapPicker.marker.addListener("dragend", ()=>{
+        const p = businessMapPicker.marker.getPosition();
+        if(!p) return;
+        syncMapInputs(p.lat(), p.lng());
+        updateMapHelperText();
+      });
+    }else{
+      businessMapPicker.marker.setPosition(pos);
+    }
+    if(center){
+      businessMapPicker.map.setCenter(pos);
+      if((businessMapPicker.map.getZoom() || 0) < 14) businessMapPicker.map.setZoom(16);
+    }
+    return;
+  }
+
+  if(businessMapPicker.provider === "leaflet" && window.L){
+    const leafletPos = [pos.lat, pos.lng];
+    if(!businessMapPicker.marker){
+      businessMapPicker.marker = L.marker(leafletPos, { draggable: true }).addTo(businessMapPicker.map);
+      businessMapPicker.marker.on("dragend", ()=>{
+        const p = businessMapPicker.marker.getLatLng();
+        syncMapInputs(p.lat, p.lng);
+        updateMapHelperText();
+      });
+    }else{
+      businessMapPicker.marker.setLatLng(leafletPos);
+    }
+    if(center){
+      const currentZoom = Number(businessMapPicker.map.getZoom() || 0);
+      businessMapPicker.map.setView(leafletPos, currentZoom < 14 ? 16 : currentZoom);
+    }
+  }
+}
+
+function extractStreetNameFromGoogleResult(result){
+  const comps = Array.isArray(result?.address_components) ? result.address_components : [];
+  const route = comps.find((c)=>Array.isArray(c.types) && c.types.includes("route"));
+  return String(route?.long_name || route?.short_name || "").trim();
+}
+
+function extractStreetNameFromNominatim(row){
+  const a = row?.address || {};
+  return String(a.road || a.pedestrian || a.footway || a.path || a.cycleway || a.residential || "").trim();
+}
+
+function normalizeStreetOnly(value){
+  const raw = String(value || "").trim();
+  if(!raw) return "";
+  return raw.split(",")[0].trim();
+}
+
+async function updateAddressFieldFromCoordinates(lat, lng){
+  const addressInput = document.getElementById("m_address");
+  if(!addressInput) return;
+  if(businessMapPicker.provider === "google" && businessMapPicker.geocoder){
+    return new Promise((resolve)=>{
+      businessMapPicker.geocoder.geocode({ location: { lat: Number(lat), lng: Number(lng) } }, (results, status)=>{
+        if(status === "OK" && Array.isArray(results) && results.length){
+          const street = normalizeStreetOnly(extractStreetNameFromGoogleResult(results[0]));
+          if(street) addressInput.value = street;
+        }
+        updateBusinessDataSaveButtonVisibility();
+        resolve();
+      });
+    });
+  }
+  if(businessMapPicker.provider === "leaflet"){
+    try{
+      const url = `https://nominatim.openstreetmap.org/reverse?format=jsonv2&lat=${encodeURIComponent(String(lat))}&lon=${encodeURIComponent(String(lng))}`;
+      const res = await fetch(url, { headers: { "Accept": "application/json" } });
+      const row = await res.json().catch(()=>null);
+      const street = normalizeStreetOnly(extractStreetNameFromNominatim(row));
+      if(street) addressInput.value = street;
+      updateBusinessDataSaveButtonVisibility();
+    }catch(_e){
+      // no-op
+    }
+  }
+}
+
+function focusMapToLocation(lat, lng){
+  const pos = { lat: Number(lat), lng: Number(lng) };
+  if(!Number.isFinite(pos.lat) || !Number.isFinite(pos.lng) || !businessMapPicker.map) return;
+  if(businessMapPicker.provider === "google" && window.google?.maps){
+    businessMapPicker.map.setCenter(pos);
+    if((businessMapPicker.map.getZoom() || 0) < 14) businessMapPicker.map.setZoom(16);
+    return;
+  }
+  if(businessMapPicker.provider === "leaflet" && window.L){
+    const currentZoom = Number(businessMapPicker.map.getZoom() || 0);
+    businessMapPicker.map.setView([pos.lat, pos.lng], currentZoom < 14 ? 16 : currentZoom);
+  }
+}
+
+async function initBusinessMapPicker(){
+  const mapCanvas = document.getElementById("m_map_canvas");
+  const note = document.getElementById("m_map_note");
+  if(!mapCanvas || !note) return;
+
+  const initialLat = parseCoordinateInput(businessData?.map_latitude, -90, 90);
+  const initialLng = parseCoordinateInput(businessData?.map_longitude, -180, 180);
+  const hasInitialLocation = initialLat !== null && initialLng !== null;
+  const fallback = { lat: 37.3891, lng: -5.9845 };
+  if(hasInitialLocation){
+    syncMapInputs(initialLat, initialLng);
+  }else{
+    const latInput = document.getElementById("m_map_lat");
+    const lngInput = document.getElementById("m_map_lng");
+    if(latInput) latInput.value = "";
+    if(lngInput) lngInput.value = "";
+  }
+  updateMapHelperText();
+
+  const cfg = await getMapsConfig();
+  const apiKey = String(cfg?.google_maps_api_key || "").trim();
+  const googleReady = apiKey ? await ensureGoogleMapsScript(apiKey) : false;
+  if(googleReady && window.google?.maps){
+    mapCanvas.classList.remove("hidden");
+    businessMapPicker = { provider: "google", map: null, marker: null, geocoder: null };
+    businessMapPicker.map = new google.maps.Map(mapCanvas, {
+      center: { lat: hasInitialLocation ? initialLat : fallback.lat, lng: hasInitialLocation ? initialLng : fallback.lng },
+      zoom: hasInitialLocation ? 16 : 13,
+      mapTypeControl: false,
+      streetViewControl: false,
+      fullscreenControl: true
+    });
+    businessMapPicker.geocoder = new google.maps.Geocoder();
+    businessMapPicker.map.addListener("click", (event)=>{
+      const clicked = event.latLng;
+      if(!clicked) return;
+      applyMapCoordinates(clicked.lat(), clicked.lng(), false);
+      updateAddressFieldFromCoordinates(clicked.lat(), clicked.lng());
+    });
+    if(hasInitialLocation){
+      applyMapCoordinates(initialLat, initialLng, true);
+    }
+    note.textContent = "Mapa interactivo activo (Google Maps).";
+    return;
+  }
+
+  const leafletReady = await ensureLeafletAssets();
+  if(!leafletReady || !window.L?.map){
+    mapCanvas.classList.add("hidden");
+    note.textContent = "No se pudo cargar el mapa interactivo ahora mismo.";
+    return;
+  }
+
+  mapCanvas.classList.remove("hidden");
+  businessMapPicker = { provider: "leaflet", map: null, marker: null, geocoder: null };
+  businessMapPicker.map = L.map(mapCanvas).setView(
+    [hasInitialLocation ? initialLat : fallback.lat, hasInitialLocation ? initialLng : fallback.lng],
+    hasInitialLocation ? 16 : 13
+  );
+  L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
+    maxZoom: 19,
+  }).addTo(businessMapPicker.map);
+  businessMapPicker.map.on("click", (event)=>{
+    const { lat, lng } = event.latlng || {};
+    if(typeof lat !== "number" || typeof lng !== "number") return;
+    applyMapCoordinates(lat, lng, false);
+    updateAddressFieldFromCoordinates(lat, lng);
+  });
+  if(hasInitialLocation){
+    applyMapCoordinates(initialLat, initialLng, true);
+  }
+  note.textContent = "";
+}
+
+function openGoogleMapsFromModal(){
+  const lat = parseCoordinateInput(document.getElementById("m_map_lat")?.value, -90, 90);
+  const lng = parseCoordinateInput(document.getElementById("m_map_lng")?.value, -180, 180);
+  const address = (document.getElementById("m_address")?.value || "").trim();
+  let url = "";
+  if(lat !== null && lng !== null){
+    url = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(`${lat},${lng}`)}`;
+  }else if(address){
+    url = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(address)}`;
+  }else{
+    url = "https://www.google.com/maps";
+  }
+  window.open(url, "_blank", "noopener,noreferrer");
+}
+
+async function searchAddressOnMap(){
+  const rawAddress = (document.getElementById("m_map_search")?.value || "").trim();
+  if(!rawAddress){
+    alert("Escribe una dirección para buscar.");
+    return;
+  }
+  const normalizedAddress = rawAddress.toLowerCase();
+  const hasSevilleHint = normalizedAddress.includes("sevilla");
+  const sevilleAddress = hasSevilleHint ? rawAddress : `${rawAddress}, Sevilla, España`;
+  if(businessMapPicker.provider === "google" && businessMapPicker.geocoder){
+    businessMapPicker.geocoder.geocode({
+      address: sevilleAddress,
+      region: "es",
+      componentRestrictions: { country: "ES" }
+    }, (results, status)=>{
+      // Fallback sin sesgo local si no encuentra en Sevilla.
+      if((status !== "OK" || !results?.length) && sevilleAddress !== rawAddress){
+        businessMapPicker.geocoder.geocode({ address: rawAddress, region: "es", componentRestrictions: { country: "ES" } }, (results2, status2)=>{
+          if(status2 !== "OK" || !results2?.length){
+            alert("No se pudo localizar esa dirección.");
+            return;
+          }
+          const pos2 = results2[0].geometry?.location;
+          if(!pos2) return;
+          focusMapToLocation(pos2.lat(), pos2.lng());
+          updateAddressFieldFromCoordinates(pos2.lat(), pos2.lng());
+        });
+        return;
+      }
+      if(status !== "OK" || !results?.length){
+        alert("No se pudo localizar esa dirección.");
+        return;
+      }
+      const pos = results[0].geometry?.location;
+      if(!pos) return;
+      focusMapToLocation(pos.lat(), pos.lng());
+      updateAddressFieldFromCoordinates(pos.lat(), pos.lng());
+    });
+    return;
+  }
+
+  if(businessMapPicker.provider === "leaflet"){
+    try{
+      const url = `https://nominatim.openstreetmap.org/search?format=json&limit=1&q=${encodeURIComponent(sevilleAddress)}&countrycodes=es&viewbox=-6.15,37.50,-5.86,37.30&bounded=1`;
+      const res = await fetch(url, { headers: { "Accept": "application/json" } });
+      const rows = await res.json().catch(()=>[]);
+      let first = Array.isArray(rows) ? rows[0] : null;
+      if(!first && sevilleAddress !== rawAddress){
+        const fallbackUrl = `https://nominatim.openstreetmap.org/search?format=json&limit=1&q=${encodeURIComponent(rawAddress)}&countrycodes=es`;
+        const fallbackRes = await fetch(fallbackUrl, { headers: { "Accept": "application/json" } });
+        const fallbackRows = await fallbackRes.json().catch(()=>[]);
+        first = Array.isArray(fallbackRows) ? fallbackRows[0] : null;
+      }
+      if(!first) throw new Error("not_found");
+      const lat = Number(first.lat);
+      const lng = Number(first.lon);
+      if(!Number.isFinite(lat) || !Number.isFinite(lng)) throw new Error("invalid");
+      focusMapToLocation(lat, lng);
+      updateAddressFieldFromCoordinates(lat, lng);
+      return;
+    }catch(_e){
+      alert("No se pudo localizar esa dirección.");
+      return;
+    }
+  }
+
+  openGoogleMapsFromModal();
+}
+
+function useBrowserLocation(){
+  if(!navigator.geolocation){
+    alert("Tu navegador no permite geolocalización.");
+    return;
+  }
+  navigator.geolocation.getCurrentPosition(
+    (position)=>{
+      applyMapCoordinates(position.coords.latitude, position.coords.longitude, true);
+    },
+    ()=>{
+      alert("No se pudo obtener tu ubicación actual.");
+    },
+    { enableHighAccuracy: true, timeout: 12000, maximumAge: 0 }
+  );
+}
+
+function openDataModal(){
+  if(!businessData) return;
+  const catOptions = ALL_CATEGORIES.map(c=>`<option value="${c.replaceAll('"','&quot;')}"></option>`).join("");
+  const accountEmail = (businessData.business_email || meData.email || "").trim().toLowerCase();
+  const contactEmail = (businessData.contact_email || "").trim().toLowerCase();
+  const useAccountEmail = !contactEmail;
+  const mapLat = businessData.map_latitude != null ? businessData.map_latitude : "";
+  const mapLng = businessData.map_longitude != null ? businessData.map_longitude : "";
+  showModal(
+    "Modificación de datos del negocio",
+    `
+    <div class="row"><div><label>Nombre</label><input id="m_name" value="${escapeHtml(businessData.name || "")}"></div></div>
+    <div class="row"><div><label>Categoría</label><input id="m_category" list="catList" value="${escapeHtml(businessData.category || "")}"><datalist id="catList">${catOptions}</datalist></div></div>
+    <div class="row"><div><label>Dirección</label><input id="m_address" value="${escapeHtml(normalizeStreetOnly(businessData.address || ""))}"></div></div>
+    <div class="row"><div><label>Teléfono</label><input id="m_phone" value="${escapeHtml(businessData.phone || "")}"></div></div>
+    <div class="row"><div><label>Correo de contacto (visible en la web del negocio)</label><input id="m_contact_email" type="email" value="${escapeHtml(contactEmail)}" ${useAccountEmail ? "disabled" : ""}></div></div>
+    <label class="small"><input id="m_use_account_email" type="checkbox" style="width:auto;margin-right:6px" ${useAccountEmail ? "checked" : ""}>Usar el correo de la cuenta</label>
+    <div class="map-picker-wrap">
+      <label>Ubicación</label>
+      <div class="row" style="margin-top:8px">
+        <div><input id="m_map_search" placeholder="Buscar dirección"></div>
+        <button type="button" class="btn btn-soft" onclick="searchAddressOnMap()">Buscar</button>
+      </div>
+      <input id="m_map_lat" type="hidden" value="${escapeHtml(String(mapLat))}">
+      <input id="m_map_lng" type="hidden" value="${escapeHtml(String(mapLng))}">
+      <div id="m_map_canvas"></div>
+      <div id="m_map_note" class="small map-note">Cargando selector de mapa...</div>
+    </div>
+    <div class="row"><div><label>Descripción</label><textarea id="m_description">${escapeHtml(businessData.description || "")}</textarea></div></div>
+    <div class="row"><div><label>Frase corta</label><textarea id="m_initial_phrase">${escapeHtml(businessData.initial_phrase || "")}</textarea></div></div>
+    `,
+    [
+      { label:"Cancelar", cls:"btn-soft", onClick: closeModal },
+      { label:"Guardar", cls:"btn-primary", onClick: saveBusinessData }
+    ]
+  );
+  const dataActions = document.querySelectorAll("#modalActions button");
+  if(dataActions[1]){
+    dataActions[1].id = "mDataSaveBtn";
+    dataActions[1].style.display = "none";
+  }
+  document.getElementById("m_use_account_email")?.addEventListener("change", ()=>{
+    const useAccount = document.getElementById("m_use_account_email").checked;
+    const contactInput = document.getElementById("m_contact_email");
+    if(!contactInput) return;
+    contactInput.disabled = useAccount;
+    if(useAccount) contactInput.value = "";
+    updateBusinessDataSaveButtonVisibility();
+  });
+  ["m_name","m_category","m_address","m_phone","m_contact_email","m_description","m_initial_phrase","m_map_search","m_map_lat","m_map_lng"].forEach((id)=>{
+    document.getElementById(id)?.addEventListener("input", updateBusinessDataSaveButtonVisibility);
+    document.getElementById(id)?.addEventListener("change", updateBusinessDataSaveButtonVisibility);
+  });
+  document.getElementById("m_map_search")?.addEventListener("keydown", (ev)=>{
+    if(ev.key === "Enter"){
+      ev.preventDefault();
+      searchAddressOnMap();
+    }
+  });
+  businessDataFormBaseline = getBusinessDataFormState();
+  updateBusinessDataSaveButtonVisibility();
+  initBusinessMapPicker();
+}
+
+async function saveBusinessData(){
+  const useAccountEmail = !!document.getElementById("m_use_account_email")?.checked;
+  const contactEmail = (document.getElementById("m_contact_email")?.value || "").trim().toLowerCase();
+  const accountEmail = (businessData?.business_email || meData?.email || "").trim().toLowerCase();
+  const mapLat = parseCoordinateInput(document.getElementById("m_map_lat")?.value, -90, 90);
+  const mapLng = parseCoordinateInput(document.getElementById("m_map_lng")?.value, -180, 180);
+  const rawLat = (document.getElementById("m_map_lat")?.value || "").trim();
+  const rawLng = (document.getElementById("m_map_lng")?.value || "").trim();
+  if((mapLat === null || mapLng === null) && (rawLat || rawLng)){
+    alert("Latitud o longitud inválidas. Revisa el formato.");
+    return;
+  }
+  const payload = {
+    name: document.getElementById("m_name").value.trim(),
+    category: document.getElementById("m_category").value.trim(),
+    address: normalizeStreetOnly(document.getElementById("m_address").value),
+    phone: document.getElementById("m_phone").value.trim(),
+    business_email: accountEmail,
+    contact_email: useAccountEmail ? null : (contactEmail || null),
+    use_account_email: useAccountEmail,
+    description: document.getElementById("m_description").value,
+    initial_phrase: document.getElementById("m_initial_phrase").value,
+    map_latitude: mapLat,
+    map_longitude: mapLng
+  };
+  const res = await fetch("/business/me", {
+    method:"PUT",
+    headers:{"Content-Type":"application/json"},
+    credentials:"include",
+    body: JSON.stringify(payload)
+  });
+  const data = await res.json().catch(()=>({}));
+  if(!res.ok){ alert(data.detail || "No se pudo guardar"); return; }
+  closeModal();
+  await loadBusinessContext();
+}
+
+function getBusinessDataFormState(){
+  const useAccountEmail = !!document.getElementById("m_use_account_email")?.checked;
+  const contactEmail = (document.getElementById("m_contact_email")?.value || "").trim().toLowerCase();
+  const mapLat = parseCoordinateInput(document.getElementById("m_map_lat")?.value, -90, 90);
+  const mapLng = parseCoordinateInput(document.getElementById("m_map_lng")?.value, -180, 180);
+  return {
+    name: (document.getElementById("m_name")?.value || "").trim(),
+    category: (document.getElementById("m_category")?.value || "").trim(),
+    address: (document.getElementById("m_address")?.value || "").trim(),
+    phone: (document.getElementById("m_phone")?.value || "").trim(),
+    use_account_email: useAccountEmail,
+    contact_email: useAccountEmail ? null : (contactEmail || null),
+    description: document.getElementById("m_description")?.value || "",
+    initial_phrase: document.getElementById("m_initial_phrase")?.value || "",
+    map_latitude: mapLat,
+    map_longitude: mapLng
+  };
+}
+
+function updateBusinessDataSaveButtonVisibility(){
+  const btn = document.getElementById("mDataSaveBtn");
+  if(!btn) return;
+  const current = getBusinessDataFormState();
+  const baseline = businessDataFormBaseline || {};
+  const dirty = JSON.stringify(current) !== JSON.stringify(baseline);
+  btn.style.display = dirty ? "inline-flex" : "none";
+}
+
+let scheduleDraft = null;
+
+function openScheduleMenu(){
+  renderScheduleHub();
+}
+
+function renderScheduleHub(){
+  showModal(
+    "Gestión del horario",
+    `<div class="grid-1">
+      <button class="action-btn" onclick="openRegularScheduleModal()">Gestión del horario regular</button>
+      <button class="action-btn" onclick="openVacationModal()">Gestión de vacaciones</button>
+    </div>`,
+    [{ label:"Cerrar", cls:"btn-soft", onClick: closeModal }]
+  );
+}
+
+function normalizeSchedule(input){
+  const out = {};
+  DAYS.forEach(day=>{
+    const rows = Array.isArray(input?.[day]) ? input[day] : [];
+    out[day] = rows
+      .filter(r => r && r.inicio && r.fin)
+      .map(r => ({ inicio: String(r.inicio).slice(0,5), fin: String(r.fin).slice(0,5) }))
+      .sort((a,b)=>a.inicio.localeCompare(b.inicio));
+  });
+  return out;
+}
+
+function getSelectedDayInfo(){
+  const key = plannerSelectedDate || dateToKey(madridNow());
+  const dateObj = keyToDate(key);
+  if(!dateObj) return null;
+  const dayName = getDayNameFromDate(dateObj);
+  const regularSlots = Array.isArray(businessData?.opening_hours?.[dayName]) ? businessData.opening_hours[dayName] : [];
+  const special = businessData?.special_days?.[key] || null;
+  let isClosed = false;
+  let slots = regularSlots;
+  if(special){
+    if(special.mode === "closed"){
+      isClosed = true;
+      slots = [];
+    }else if(Array.isArray(special.opening_hours)){
+      slots = special.opening_hours;
+    }else if(special.mode === "open"){
+      slots = regularSlots;
+    }
+  }
+  if(!Array.isArray(slots) || !slots.length){
+    isClosed = true;
+    slots = [];
+  }
+  return { key, dateObj, dayName, regularSlots, special, isClosed, slots };
+}
+
+function initSingleDayScheduleUI(existingSlots = []){
+  const container = document.getElementById("plannerScheduleContainer");
+  if(!container) return;
+  container.innerHTML = `
+    <div class="day-trays"></div>
+    <button type="button" class="btn btn-dark" style="width:auto;padding:6px 10px" onclick="addTimeTray(this)">+ Añadir tramo</button>
+  `;
+  const traysContainer = container.querySelector(".day-trays");
+  const slots = Array.isArray(existingSlots) ? existingSlots : [];
+  if(slots.length){
+    slots.forEach(t=>addTimeTray(null, t, traysContainer));
+  }
+}
+
+function collectSingleDayScheduleFromDom(){
+  const slots = [];
+  document.querySelectorAll("#plannerScheduleContainer .time-trays").forEach(t=>{
+    const start = t.querySelector(".tray-start")?.value || "";
+    const end = t.querySelector(".tray-end")?.value || "";
+    if(start && end && start < end) slots.push({ inicio:start, fin:end });
+  });
+  slots.sort((a,b)=>a.inicio.localeCompare(b.inicio));
+  return slots;
+}
+
+function normalizeDaySlotsForCompare(slots){
+  return (Array.isArray(slots) ? slots : [])
+    .filter((slot) => slot && slot.inicio && slot.fin && String(slot.inicio) < String(slot.fin))
+    .map((slot) => ({ inicio: String(slot.inicio).slice(0,5), fin: String(slot.fin).slice(0,5) }))
+    .sort((a,b)=>a.inicio.localeCompare(b.inicio));
+}
+
+function normalizeSpecialDayForCompare(special){
+  if(!special) return null;
+  const mode = special.mode === "closed" ? "closed" : (special.mode === "custom" ? "custom" : "open");
+  const out = { mode, reason: String(special.reason || "") };
+  if(mode === "custom"){
+    out.opening_hours = normalizeDaySlotsForCompare(special.opening_hours);
+  }
+  return out;
+}
+
+function areDaySlotsEqual(a, b){
+  const left = normalizeDaySlotsForCompare(a);
+  const right = normalizeDaySlotsForCompare(b);
+  return JSON.stringify(left) === JSON.stringify(right);
+}
+
+function normalizeSpecialDaysMapForCompare(map){
+  const src = map && typeof map === "object" ? map : {};
+  const out = {};
+  Object.keys(src).sort().forEach((key)=>{
+    const normalized = normalizeSpecialDayForCompare(src[key]);
+    if(normalized) out[key] = normalized;
+  });
+  return out;
+}
+
+function getCurrentSelectedDaySpecialForCompare(){
+  const info = getSelectedDayInfo();
+  if(!info) return null;
+  const domSlots = collectSingleDayScheduleFromDom();
+  const normalizedDomSlots = normalizeDaySlotsForCompare(domSlots);
+  const regularSlots = normalizeDaySlotsForCompare(info.regularSlots);
+  const isClosedFromUi = info.isClosed || normalizedDomSlots.length === 0;
+  const reason = String(info.special?.reason || "");
+
+  if(!info.special){
+    if(isClosedFromUi && regularSlots.length === 0) return null;
+    if(!isClosedFromUi && areDaySlotsEqual(normalizedDomSlots, regularSlots)) return null;
+    if(isClosedFromUi) return { mode:"closed", reason:"" };
+    return { mode:"custom", reason:"", opening_hours: normalizedDomSlots };
+  }
+
+  if(isClosedFromUi){
+    return { mode:"closed", reason };
+  }
+  if(normalizedDomSlots.length){
+    return { mode:"custom", reason, opening_hours: normalizedDomSlots };
+  }
+  if(info.special.mode === "custom"){
+    return { mode:"custom", reason, opening_hours: normalizeDaySlotsForCompare(info.special.opening_hours) };
+  }
+  return null;
+}
+
+function updatePlannerSaveDayButtonVisibility(){
+  const saveBtn = document.getElementById("plannerSaveDayBtn");
+  const cancelBtn = document.getElementById("plannerCancelDayBtn");
+  if(!saveBtn && !cancelBtn) return;
+  const key = plannerSelectedDate;
+  if(!key){
+    if(saveBtn) saveBtn.style.display = "none";
+    if(cancelBtn) cancelBtn.style.display = "none";
+    return;
+  }
+  const baseline = normalizeSpecialDayForCompare(plannerSpecialDaysBaseline?.[key] || null);
+  const current = normalizeSpecialDayForCompare(getCurrentSelectedDaySpecialForCompare());
+  const dirty = JSON.stringify(baseline) !== JSON.stringify(current);
+  if(saveBtn) saveBtn.style.display = dirty ? "inline-flex" : "none";
+  if(cancelBtn) cancelBtn.style.display = dirty ? "inline-flex" : "none";
+}
+
+function updateVacationSaveButtonVisibility(){
+  const saveBtn = document.getElementById("vacationSaveBtn");
+  if(!saveBtn) return;
+  const baseline = normalizeSpecialDaysMapForCompare(plannerSpecialDaysBaseline || {});
+  const current = normalizeSpecialDaysMapForCompare(businessData?.special_days || {});
+  const persistedDirty = JSON.stringify(baseline) !== JSON.stringify(current);
+  const formDirty = !!document.getElementById("v_date") && isVacationFormDirty();
+  const dirty = persistedDirty || formDirty;
+  saveBtn.style.display = dirty ? "inline-flex" : "none";
+}
+
+function cancelSelectedDayChanges(){
+  if(!businessData || !plannerSelectedDate) return;
+  if(!businessData.special_days) businessData.special_days = {};
+  const key = plannerSelectedDate;
+  const baseline = plannerSpecialDaysBaseline?.[key];
+  if(baseline){
+    businessData.special_days[key] = JSON.parse(JSON.stringify(baseline));
+  }else{
+    delete businessData.special_days[key];
+  }
+  renderPlannerCalendar();
+  renderPlannerRightPanel();
+}
+
+function renderPlannerRightPanel(){
+  const info = getSelectedDayInfo();
+  if(!info) return;
+  const label = document.getElementById("plannerSelectedDateLabel");
+  const toggleBtn = document.getElementById("plannerToggleBtn");
+  const resetBtn = document.getElementById("plannerResetRegularBtn");
+  const traysWrap = document.getElementById("plannerTraysWrap");
+  if(label){
+    label.textContent = `${info.dayName} ${info.key}`;
+  }
+  if(toggleBtn){
+    toggleBtn.textContent = info.isClosed ? "Cerrado" : "Abierto";
+    toggleBtn.className = info.isClosed ? "btn btn-danger" : "btn btn-dark";
+  }
+  if(resetBtn){
+    resetBtn.style.display = info.special ? "inline-flex" : "none";
+  }
+  if(traysWrap){
+    traysWrap.style.display = info.isClosed ? "none" : "block";
+  }
+  initSingleDayScheduleUI(info.slots);
+  updatePlannerSaveDayButtonVisibility();
+}
+
+function onPlannerMonthYearChange(){
+  const m = Number(document.getElementById("plannerMonth")?.value);
+  const y = Number(document.getElementById("plannerYear")?.value);
+  if(Number.isInteger(m) && Number.isInteger(y)){
+    plannerViewMonth = m;
+    plannerViewYear = y;
+    renderPlannerCalendar();
+  }
+}
+
+function changePlannerMonth(delta){
+  const d = new Date(plannerViewYear, plannerViewMonth + delta, 1);
+  plannerViewYear = d.getFullYear();
+  plannerViewMonth = d.getMonth();
+  syncPlannerSelectors();
+  renderPlannerCalendar();
+}
+
+function syncPlannerSelectors(){
+  const monthSel = document.getElementById("plannerMonth");
+  const yearSel = document.getElementById("plannerYear");
+  if(monthSel) monthSel.value = String(plannerViewMonth);
+  if(yearSel) yearSel.value = String(plannerViewYear);
+}
+
+function renderPlannerCalendar(){
+  const root = document.getElementById("plannerCalendar");
+  if(!root) return;
+  const week = ["Lun","Mar","Mié","Jue","Vie","Sáb","Dom"];
+  const now = madridNow();
+  const todayKey = dateToKey(now);
+  const first = new Date(plannerViewYear, plannerViewMonth, 1);
+  const daysInMonth = new Date(plannerViewYear, plannerViewMonth + 1, 0).getDate();
+  let startOffset = first.getDay() - 1;
+  if(startOffset < 0) startOffset = 6;
+
+  let html = week.map(d=>`<div class="calendar-weekday">${d}</div>`).join("");
+  for(let i=0;i<startOffset;i++){
+    html += `<button class="calendar-day is-muted" type="button" disabled></button>`;
+  }
+  for(let day=1; day<=daysInMonth; day++){
+    const d = new Date(plannerViewYear, plannerViewMonth, day);
+    const key = dateToKey(d);
+    const dayName = getDayNameFromDate(d);
+    const regularSlots = Array.isArray(businessData?.opening_hours?.[dayName]) ? businessData.opening_hours[dayName] : [];
+    const special = businessData?.special_days?.[key] || null;
+    let daySlots = regularSlots;
+    if(special){
+      if(special.mode === "closed"){
+        daySlots = [];
+      }else if(Array.isArray(special.opening_hours)){
+        daySlots = special.opening_hours;
+      }
+    }
+    const isClosed = !Array.isArray(daySlots) || daySlots.length === 0;
+    const cls = [
+      "calendar-day",
+      key === todayKey ? "is-today" : "",
+      isClosed ? "is-closed" : "",
+      key === plannerSelectedDate ? "is-selected" : ""
+    ].join(" ").trim();
+    html += `<button class="${cls}" type="button" onclick="selectPlannerDay('${key}')">${day}</button>`;
+  }
+  root.innerHTML = html;
+}
+
+function selectPlannerDay(key){
+  plannerSelectedDate = key;
+  renderPlannerCalendar();
+  renderPlannerRightPanel();
+}
+
+function applyToggleSelectedDayOpenClosed(){
+  if(!businessData) return;
+  const info = getSelectedDayInfo();
+  if(!info) return;
+  if(!businessData.special_days) businessData.special_days = {};
+  if(info.isClosed){
+    const baseSlots = (info.regularSlots && info.regularSlots.length) ? info.regularSlots : [{ inicio:"09:00", fin:"14:00" }];
+    businessData.special_days[info.key] = { mode:"custom", reason: info.special?.reason || "", opening_hours: baseSlots };
+  }else{
+    businessData.special_days[info.key] = { mode:"closed", reason: info.special?.reason || "" };
+  }
+  renderPlannerRightPanel();
+}
+
+function toggleSelectedDayOpenClosed(){
+  const info = getSelectedDayInfo();
+  if(!info) return;
+  const toState = info.isClosed ? "abierto" : "cerrado";
+  showConfirmDialog({
+    title: "Confirmar cambio de estado",
+    message: `¿Quieres marcar este día como ${toState}?`,
+    confirmLabel: "Confirmar",
+    cancelLabel: "Cancelar",
+    onConfirm: applyToggleSelectedDayOpenClosed
+  });
+}
+
+async function persistSelectedDaySchedule(){
+  if(!businessData) return;
+  const info = getSelectedDayInfo();
+  if(!info) return;
+  if(!businessData.special_days) businessData.special_days = {};
+  if(info.isClosed){
+    businessData.special_days[info.key] = { mode:"closed", reason: info.special?.reason || "" };
+  }else{
+    const slots = collectSingleDayScheduleFromDom();
+    if(!slots.length){ alert("Debes añadir al menos un tramo de apertura o marcar el día como cerrado."); return; }
+    businessData.special_days[info.key] = { mode:"custom", reason: info.special?.reason || "", opening_hours: slots };
+  }
+  const res = await fetch("/business/me", {
+    method:"PUT",
+    headers:{"Content-Type":"application/json"},
+    credentials:"include",
+    body: JSON.stringify({ special_days: businessData.special_days || {} })
+  });
+  const data = await res.json().catch(()=>({}));
+  if(!res.ok){ alert(data.detail || "No se pudo guardar el día"); return; }
+  await loadBusinessContext();
+}
+
+function saveSelectedDaySchedule(){
+  showConfirmDialog({
+    title: "Confirmar guardado",
+    message: "¿Quieres guardar los cambios del día seleccionado?",
+    confirmLabel: "Guardar día",
+    cancelLabel: "Cancelar",
+    onConfirm: persistSelectedDaySchedule
+  });
+}
+
+async function persistResetSelectedDayToRegular(){
+  if(!businessData || !plannerSelectedDate) return;
+  if(!businessData.special_days || !businessData.special_days[plannerSelectedDate]){
+    alert("Este día ya está en estado regular.");
+    return;
+  }
+  delete businessData.special_days[plannerSelectedDate];
+  const res = await fetch("/business/me", {
+    method:"PUT",
+    headers:{"Content-Type":"application/json"},
+    credentials:"include",
+    body: JSON.stringify({ special_days: businessData.special_days || {} })
+  });
+  const data = await res.json().catch(()=>({}));
+  if(!res.ok){ alert(data.detail || "No se pudo restaurar el estado regular"); return; }
+  await loadBusinessContext();
+}
+
+function resetSelectedDayToRegular(){
+  showConfirmDialog({
+    title: "Confirmar restauración",
+    message: "¿Quieres volver este día a su estado regular?",
+    confirmLabel: "Volver a regular",
+    cancelLabel: "Cancelar",
+    onConfirm: persistResetSelectedDayToRegular
+  });
+}
+
+function initSchedulePlanner(){
+  if(!businessData) return;
+  const now = madridNow();
+  if(!plannerSelectedDate) plannerSelectedDate = dateToKey(now);
+  if(plannerViewYear === null || plannerViewMonth === null){
+    const selected = keyToDate(plannerSelectedDate) || now;
+    plannerViewYear = selected.getFullYear();
+    plannerViewMonth = selected.getMonth();
+  }
+  const monthSel = document.getElementById("plannerMonth");
+  const yearSel = document.getElementById("plannerYear");
+  if(monthSel && !monthSel.dataset.ready){
+    monthSel.innerHTML = [
+      "Enero","Febrero","Marzo","Abril","Mayo","Junio",
+      "Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre"
+    ].map((name, idx)=>`<option value="${idx}">${name}</option>`).join("");
+    monthSel.dataset.ready = "1";
+  }
+  if(yearSel && !yearSel.dataset.ready){
+    const baseYear = now.getFullYear();
+    let options = "";
+    for(let y = baseYear - 3; y <= baseYear + 3; y++){
+      options += `<option value="${y}">${y}</option>`;
+    }
+    yearSel.innerHTML = options;
+    yearSel.dataset.ready = "1";
+  }
+  syncPlannerSelectors();
+  renderPlannerCalendar();
+  renderPlannerRightPanel();
+}
+
+function updateDayVisual(dayDiv){
+  const trays = dayDiv.querySelectorAll(".time-trays");
+  const status = dayDiv.querySelector(".day-status");
+  const isClosed = trays.length === 0;
+  if(status){
+    status.innerText = isClosed ? "Día cerrado" : "Día abierto";
+    status.style.background = isClosed ? "#ED4D2D" : "#62F046";
+    status.style.color = isClosed ? "#800000" : "#006600";
+  }
+}
+
+function timeToMinutes(str){
+  if(!str || !str.includes(":")) return 0;
+  const [h,m] = str.split(":").map(Number);
+  if(Number.isNaN(h) || Number.isNaN(m)) return 0;
+  return (h * 60) + m;
+}
+
+function minutesToTime(mins){
+  const safe = Math.max(0, Math.min(1439, Number(mins) || 0));
+  const h = Math.floor(safe / 60);
+  const m = safe % 60;
+  return `${String(h).padStart(2, "0")}:${String(m).padStart(2, "0")}`;
+}
+
+function applyDayEndStep(value, delta){
+  const current = Number(value) || 0;
+  const step = Number(delta) || 0;
+  if(step > 0 && current === 1435) return 1439;
+  if(step < 0 && current === 1439) return 1435;
+  return current + step;
+}
+
+function updateTrayRangeVisual(trayDiv){
+  const startRange = trayDiv.querySelector(".time-start-range");
+  const endRange = trayDiv.querySelector(".time-end-range");
+  const startValEl = trayDiv.querySelector(".tray-start");
+  const endValEl = trayDiv.querySelector(".tray-end");
+  const fill = trayDiv.querySelector(".range-fill");
+  const track = trayDiv.querySelector(".range-track");
+
+  const start = Number(startRange.value);
+  const end = Number(endRange.value);
+  startValEl.value = minutesToTime(start);
+  endValEl.value = minutesToTime(end);
+
+  const trackWidth = track ? track.clientWidth : 0;
+  const leftPx = (start / 1439) * trackWidth;
+  const rightPx = (end / 1439) * trackWidth;
+  fill.style.left = `${leftPx}px`;
+  fill.style.width = `${Math.max(0, rightPx - leftPx)}px`;
+}
+
+function getTrayNeighborBounds(trayDiv){
+  const siblings = Array.from(trayDiv.parentElement.querySelectorAll(".time-trays"));
+  const idx = siblings.indexOf(trayDiv);
+  const minStart = idx > 0 ? Number(siblings[idx - 1].querySelector(".time-end-range").value) : 0;
+  const maxEnd = idx < siblings.length - 1 ? Number(siblings[idx + 1].querySelector(".time-start-range").value) : 1439;
+  return { minStart, maxEnd };
+}
+
+function enforceTrayNoOverlap(trayDiv, changed){
+  const startRange = trayDiv.querySelector(".time-start-range");
+  const endRange = trayDiv.querySelector(".time-end-range");
+  let start = Number(startRange.value);
+  let end = Number(endRange.value);
+  const { minStart, maxEnd } = getTrayNeighborBounds(trayDiv);
+
+  if(maxEnd - minStart < 5){
+    startRange.value = minStart;
+    endRange.value = minStart;
+    return;
+  }
+
+  if(changed === "start"){
+    start = Math.max(minStart, start);
+    start = Math.min(start, maxEnd - 5);
+    if(start >= end) end = Math.min(maxEnd, start + 5);
+  }else if(changed === "end"){
+    end = Math.min(maxEnd, end);
+    end = Math.max(end, minStart + 5);
+    if(end <= start) start = Math.max(minStart, end - 5);
+  }else{
+    start = Math.max(minStart, Math.min(start, maxEnd - 5));
+    end = Math.max(start + 5, Math.min(end, maxEnd));
+  }
+
+  startRange.value = start;
+  endRange.value = end;
+}
+
+function bindTrayDrag(trayDiv){
+  const fill = trayDiv.querySelector(".range-fill");
+  const startRange = trayDiv.querySelector(".time-start-range");
+  const endRange = trayDiv.querySelector(".time-end-range");
+  let dragging = false;
+  let startX = 0;
+  let initialStart = 0;
+  let initialEnd = 0;
+
+  const onMove = (e) => {
+    if(!dragging) return;
+    const track = trayDiv.querySelector(".range-track");
+    const rect = track.getBoundingClientRect();
+    if(rect.width <= 0) return;
+    const deltaPx = e.clientX - startX;
+    const minsPerPx = 1439 / rect.width;
+    const snappedDelta = Math.round((deltaPx * minsPerPx) / 5) * 5;
+    const { minStart, maxEnd } = getTrayNeighborBounds(trayDiv);
+    const length = initialEnd - initialStart;
+    let newStart = initialStart + snappedDelta;
+    newStart = Math.max(minStart, Math.min(maxEnd - length, newStart));
+    startRange.value = newStart;
+    endRange.value = newStart + length;
+    enforceTrayNoOverlap(trayDiv, "move");
+    updateTrayRangeVisual(trayDiv);
+    updatePlannerSaveDayButtonVisibility();
+  };
+
+  const onUp = () => {
+    if(!dragging) return;
+    dragging = false;
+    fill.classList.remove("dragging");
+    window.removeEventListener("pointermove", onMove);
+    window.removeEventListener("pointerup", onUp);
+  };
+
+  fill.addEventListener("pointerdown", (e)=>{
+    e.preventDefault();
+    dragging = true;
+    fill.classList.add("dragging");
+    startX = e.clientX;
+    initialStart = Number(startRange.value);
+    initialEnd = Number(endRange.value);
+    window.addEventListener("pointermove", onMove);
+    window.addEventListener("pointerup", onUp);
+  });
+}
+
+function bindTrayRange(trayDiv, startMinutes, endMinutes){
+  const startRange = trayDiv.querySelector(".time-start-range");
+  const endRange = trayDiv.querySelector(".time-end-range");
+  startRange.value = startMinutes;
+  endRange.value = endMinutes;
+  enforceTrayNoOverlap(trayDiv, "init");
+  updateTrayRangeVisual(trayDiv);
+  startRange.addEventListener("input", ()=>{ enforceTrayNoOverlap(trayDiv, "start"); updateTrayRangeVisual(trayDiv); updatePlannerSaveDayButtonVisibility(); });
+  endRange.addEventListener("input", ()=>{ enforceTrayNoOverlap(trayDiv, "end"); updateTrayRangeVisual(trayDiv); updatePlannerSaveDayButtonVisibility(); });
+  bindTrayDrag(trayDiv);
+  trayDiv.querySelectorAll(".step-btn").forEach(btn=>{
+    btn.addEventListener("click", ()=>{
+      const edge = btn.dataset.edge;
+      const delta = Number(btn.dataset.delta || "0");
+      if(!edge || !delta) return;
+      if(edge === "start"){
+        startRange.value = applyDayEndStep(startRange.value, delta);
+        enforceTrayNoOverlap(trayDiv, "start");
+      }else{
+        endRange.value = applyDayEndStep(endRange.value, delta);
+        enforceTrayNoOverlap(trayDiv, "end");
+      }
+      updateTrayRangeVisual(trayDiv);
+      updatePlannerSaveDayButtonVisibility();
+    });
+  });
+}
+
+function addTimeTray(btn = null, trayData = null, parent = null){
+  if(!parent && btn) parent = btn.parentElement.querySelector(".day-trays");
+  if(!parent) return;
+
+  let startMinutes = trayData ? timeToMinutes(trayData.inicio) : (9 * 60);
+  let endMinutes = trayData ? timeToMinutes(trayData.fin) : (14 * 60);
+
+  if(!trayData){
+    const existing = Array.from(parent.querySelectorAll(".time-trays"));
+    if(existing.length){
+      const last = existing[existing.length - 1];
+      const lastEnd = Number(last.querySelector(".time-end-range").value);
+      if(lastEnd >= 1439){ alert("No hay más hueco horario disponible en este día"); return; }
+      startMinutes = lastEnd;
+      endMinutes = Math.min(1439, startMinutes + 300);
+    }
+  }
+
+  const safeStart = Math.max(0, Math.min(1434, startMinutes));
+  const safeEnd = Math.max(safeStart + 5, Math.min(1439, endMinutes));
+  const trayDiv = document.createElement("div");
+  trayDiv.className = "time-trays";
+  trayDiv.innerHTML = `
+    <div class="time-range-wrap">
+      <div class="time-range-values">
+        <div class="stepper">
+          <button type="button" class="step-btn" data-edge="start" data-delta="5">▲</button>
+          <button type="button" class="step-btn" data-edge="start" data-delta="-5">▼</button>
+        </div>
+        <input type="text" class="clock-input tray-start" readonly value="${minutesToTime(safeStart)}">
+        <span>:</span>
+        <input type="text" class="clock-input tray-end" readonly value="${minutesToTime(safeEnd)}">
+        <div class="stepper">
+          <button type="button" class="step-btn" data-edge="end" data-delta="5">▲</button>
+          <button type="button" class="step-btn" data-edge="end" data-delta="-5">▼</button>
+        </div>
+      </div>
+      <div class="range-track">
+        <div class="range-bg"></div>
+        <div class="range-fill"></div>
+        <input type="range" class="time-range time-start-range" min="0" max="1439" step="1" value="${safeStart}">
+        <input type="range" class="time-range time-end-range" min="0" max="1439" step="1" value="${safeEnd}">
+      </div>
+      <div class="range-marks">
+        <span>00:00</span><span>06:00</span><span>12:00</span><span>18:00</span><span>23:59</span>
+      </div>
+    </div>
+    <button type="button" class="btn btn-soft tray-remove">-</button>
+  `;
+  parent.appendChild(trayDiv);
+  bindTrayRange(trayDiv, safeStart, safeEnd);
+  trayDiv.querySelector(".tray-remove").onclick = ()=>{ trayDiv.remove(); updateDayVisual(parent.parentElement); updatePlannerSaveDayButtonVisibility(); };
+  updateDayVisual(parent.parentElement);
+  updatePlannerSaveDayButtonVisibility();
+}
+
+function initScheduleUI(containerId, existingSchedule = null){
+  const container = document.getElementById(containerId);
+  container.innerHTML = "";
+  DAYS.forEach(day=>{
+    const dayDiv = document.createElement("div");
+    dayDiv.className = "day-schedule";
+    const dayData = Array.isArray(existingSchedule?.[day]) ? existingSchedule[day] : [];
+    dayDiv.innerHTML = `
+      <div class="day-header">
+        <strong>${day}</strong>
+        <span class="day-status"></span>
+      </div>
+      <div class="day-trays"></div>
+      <button type="button" class="btn btn-dark" onclick="addTimeTray(this)" style="width:auto;padding:6px 10px">+ Añadir tramo</button>
+    `;
+    container.appendChild(dayDiv);
+    const traysContainer = dayDiv.querySelector(".day-trays");
+    if(dayData.length) dayData.forEach(t=>addTimeTray(null, t, traysContainer));
+    updateDayVisual(dayDiv);
+  });
+}
+
+function openRegularScheduleModal(){
+  scheduleDraft = normalizeSchedule(businessData?.opening_hours || {});
+  showModal(
+    "Horario regular",
+    `<div id="bizRegularSchedule" class="schedule-editor"></div>`,
+    [
+      { label:"Cerrar", cls:"btn-soft", onClick: closeModal },
+      { label:"Guardar", cls:"btn-primary", onClick: saveRegularSchedule }
+    ]
+  );
+  initScheduleUI("bizRegularSchedule", scheduleDraft);
+}
+
+function collectRegularScheduleFromDom(){
+  const schedule = {};
+  document.querySelectorAll("#bizRegularSchedule .day-schedule").forEach((dayDiv, i)=>{
+    const day = DAYS[i];
+    const slots = [];
+    dayDiv.querySelectorAll(".time-trays").forEach(t=>{
+      const start = t.querySelector(".tray-start")?.value || "";
+      const end = t.querySelector(".tray-end")?.value || "";
+      if(start && end && start < end) slots.push({ inicio:start, fin:end });
+    });
+    slots.sort((a,b)=>a.inicio.localeCompare(b.inicio));
+    schedule[day] = slots;
+  });
+  return schedule;
+}
+
+async function saveRegularSchedule(){
+  const schedule = collectRegularScheduleFromDom();
+  const res = await fetch("/business/me", {
+    method:"PUT",
+    headers:{"Content-Type":"application/json"},
+    credentials:"include",
+    body: JSON.stringify({ opening_hours: schedule })
+  });
+  const data = await res.json().catch(()=>({}));
+  if(!res.ok){ alert(data.detail || "No se pudo guardar horario"); return; }
+  await loadBusinessContext();
+  closeModal();
+}
+
+function renderVacationRows(){
+  const list = businessData?.special_days || {};
+  const rows = Object.keys(list).sort().map(date=>{
+    const v = list[date] || {};
+    const slots = Array.isArray(v.opening_hours) ? v.opening_hours : [];
+    const slotsText = slots.length
+      ? ` | Tramos: ${slots.map(s=>`${escapeHtml(s.inicio)}-${escapeHtml(s.fin)}`).join(", ")}`
+      : "";
+    return `<div class="day-row">
+      <strong>${date}</strong>
+      <div class="small">Tipo: ${escapeHtml(v.mode || "closed")}${v.reason ? ` | Motivo: ${escapeHtml(v.reason)}` : ""}${slotsText}</div>
+      <div class="modal-actions" style="justify-content:flex-start;margin-top:6px">
+        <button class="btn btn-soft" onclick="loadVacationDay('${date}')">Editar</button>
+        <button class="btn btn-danger" onclick="deleteVacationDay('${date}')">Eliminar</button>
+      </div>
+    </div>`;
+  }).join("");
+  return rows || `<div class="small">No hay días especiales guardados.</div>`;
+}
+
+function initVacationScheduleUI(existingSlots = []){
+  const container = document.getElementById("vScheduleContainer");
+  if(!container) return;
+  container.innerHTML = `
+    <div class="day-trays"></div>
+    <button type="button" class="btn btn-dark" style="width:auto;padding:6px 10px" onclick="addTimeTray(this)">+ Añadir tramo</button>
+  `;
+  const traysContainer = container.querySelector(".day-trays");
+  const slots = Array.isArray(existingSlots) ? existingSlots : [];
+  if(slots.length){
+    slots.forEach(t=>addTimeTray(null, t, traysContainer));
+  }else{
+    addTimeTray(null, { inicio:"09:00", fin:"14:00" }, traysContainer);
+  }
+}
+
+function collectVacationScheduleFromDom(){
+  const slots = [];
+  document.querySelectorAll("#vScheduleContainer .time-trays").forEach(t=>{
+    const start = t.querySelector(".tray-start")?.value || "";
+    const end = t.querySelector(".tray-end")?.value || "";
+    if(start && end && start < end) slots.push({ inicio:start, fin:end });
+  });
+  slots.sort((a,b)=>a.inicio.localeCompare(b.inicio));
+  return slots;
+}
+
+function onVacationModeChange(){
+  const mode = document.getElementById("v_mode")?.value || "closed";
+  const wrap = document.getElementById("vTramosWrap");
+  if(!wrap) return;
+  const showTrays = mode !== "closed";
+  wrap.style.display = showTrays ? "block" : "none";
+  if(showTrays && !document.querySelector("#vScheduleContainer .time-trays")){
+    initVacationScheduleUI();
+  }
+}
+
+function updateVacationEditorInfo(){
+  const box = document.getElementById("vEditorInfo");
+  if(!box) return;
+  if(editingVacationDate){
+    box.textContent = `Editando excepción del día ${editingVacationDate}`;
+    box.style.display = "block";
+  }else{
+    box.style.display = "none";
+  }
+}
+
+function getVacationFormState(){
+  const dateEl = document.getElementById("v_date");
+  const modeEl = document.getElementById("v_mode");
+  const reasonEl = document.getElementById("v_reason");
+  if(!dateEl || !modeEl || !reasonEl) return null;
+  const date = dateEl.value || "";
+  const mode = modeEl.value || "closed";
+  const reason = reasonEl.value.trim();
+  const state = { date, mode, reason };
+  if(mode !== "closed"){
+    state.opening_hours = collectVacationScheduleFromDom();
+  }
+  return state;
+}
+
+function setVacationBaseline(){
+  vacationBaseline = getVacationFormState();
+}
+
+function isVacationFormDirty(){
+  const current = getVacationFormState();
+  return JSON.stringify(current || {}) !== JSON.stringify(vacationBaseline || {});
+}
+
+function upsertVacationFromForm(showErrors = true, refreshList = true){
+  const state = getVacationFormState();
+  if(!state || !state.date){
+    if(showErrors) alert("Selecciona un día");
+    return false;
+  }
+  if(!businessData.special_days) businessData.special_days = {};
+  const payload = { mode: state.mode, reason: state.reason };
+  if(state.mode !== "closed"){
+    const slots = Array.isArray(state.opening_hours) ? state.opening_hours : [];
+    if(!slots.length){
+      if(showErrors) alert("Debes añadir al menos un tramo de apertura");
+      return false;
+    }
+    payload.opening_hours = slots;
+  }
+  if(editingVacationDate && editingVacationDate !== state.date && businessData.special_days[editingVacationDate]){
+    delete businessData.special_days[editingVacationDate];
+  }
+  businessData.special_days[state.date] = payload;
+  editingVacationDate = state.date;
+  updateVacationEditorInfo();
+  if(refreshList){
+    document.getElementById("vacationList").innerHTML = renderVacationRows();
+  }
+  setVacationBaseline();
+  updateVacationSaveButtonVisibility();
+  return true;
+}
+
+function resetVacationForm(){
+  editingVacationDate = null;
+  const now = new Date(new Date().toLocaleString("en-US",{timeZone:"Europe/Madrid"}));
+  const dateKey = `${now.getFullYear()}-${String(now.getMonth()+1).padStart(2,"0")}-${String(now.getDate()).padStart(2,"0")}`;
+  const dateEl = document.getElementById("v_date");
+  const modeEl = document.getElementById("v_mode");
+  const reasonEl = document.getElementById("v_reason");
+  if(dateEl) dateEl.value = dateKey;
+  if(modeEl) modeEl.value = "closed";
+  if(reasonEl) reasonEl.value = "";
+  initVacationScheduleUI();
+  onVacationModeChange();
+  updateVacationEditorInfo();
+  setVacationBaseline();
+  updateVacationSaveButtonVisibility();
+}
+
+function loadVacationDay(date){
+  const data = businessData?.special_days?.[date];
+  if(!data) return;
+  editingVacationDate = date;
+  document.getElementById("v_date").value = date;
+  document.getElementById("v_mode").value = data.mode || "closed";
+  document.getElementById("v_reason").value = data.reason || "";
+  initVacationScheduleUI(Array.isArray(data.opening_hours) ? data.opening_hours : []);
+  onVacationModeChange();
+  updateVacationEditorInfo();
+  setVacationBaseline();
+  updateVacationSaveButtonVisibility();
+}
+
+function deleteVacationDay(date){
+  if(!businessData?.special_days?.[date]) return;
+  if(!confirm(`¿Eliminar excepción del día ${date}?`)) return;
+  delete businessData.special_days[date];
+  if(editingVacationDate === date){
+    resetVacationForm();
+  }
+  document.getElementById("vacationList").innerHTML = renderVacationRows();
+  updateVacationSaveButtonVisibility();
+}
+
+function openVacationModal(){
+  editingVacationDate = null;
+  showModal(
+    "Gestión de vacaciones",
+    `
+    <div class="notice">Selecciona un día y define su estado especial.</div>
+    <div id="vEditorInfo" class="small" style="display:none;margin-bottom:6px;font-weight:700"></div>
+    <div class="row">
+      <input id="v_date" type="date">
+      <select id="v_mode">
+        <option value="closed">Cerrado</option>
+        <option value="open">Abierto</option>
+        <option value="custom">Horario personalizado</option>
+      </select>
+    </div>
+    <div id="vTramosWrap" style="margin-top:8px">
+      <div class="small" style="margin-bottom:6px">Tramos de apertura para ese día</div>
+      <div id="vScheduleContainer" class="schedule-editor"></div>
+    </div>
+    <input id="v_reason" placeholder="Motivo (opcional)" style="margin-top:8px">
+    <div class="modal-actions" style="justify-content:flex-start">
+      <button class="btn btn-dark" onclick="addVacationDay()">Añadir / actualizar día</button>
+      <button class="btn btn-soft" onclick="resetVacationForm()">Nuevo</button>
+    </div>
+    <div id="vacationList">${renderVacationRows()}</div>
+    `,
+    [
+      { label:"Volver", cls:"btn-soft", onClick: renderScheduleHub },
+      { label:"Guardar", cls:"btn-primary", onClick: saveVacationDays }
+    ]
+  );
+  document.getElementById("v_mode")?.addEventListener("change", onVacationModeChange);
+  document.getElementById("v_date")?.addEventListener("input", updateVacationSaveButtonVisibility);
+  document.getElementById("v_reason")?.addEventListener("input", updateVacationSaveButtonVisibility);
+  const modalSaveBtn = document.querySelector("#modalActions .btn-primary");
+  if(modalSaveBtn){
+    modalSaveBtn.id = "vacationSaveBtn";
+  }
+  resetVacationForm();
+  updateVacationSaveButtonVisibility();
+}
+
+function addVacationDay(){
+  const mode = document.getElementById("v_mode")?.value || "closed";
+  const isCustom = mode === "custom";
+  showConfirmDialog({
+    title: isCustom ? "Confirmar horario personalizado" : "Confirmar excepción",
+    message: isCustom ? "¿Confirmas el horario personalizado para este día?" : "¿Confirmas los cambios de esta excepción?",
+    confirmLabel: isCustom ? "Confirmar personalizado" : "Confirmar",
+    cancelLabel: "Cancelar",
+    onConfirm: () => upsertVacationFromForm(true, true)
+  });
+}
+
+async function saveVacationDays(){
+  showConfirmDialog({
+    title: "Confirmar guardado",
+    message: "¿Quieres guardar todas las excepciones de vacaciones?",
+    confirmLabel: "Guardar",
+    cancelLabel: "Cancelar",
+    onConfirm: async () => {
+      if(isVacationFormDirty()){
+        const ok = upsertVacationFromForm(true, true);
+        if(!ok) return;
+      }
+      const res = await fetch("/business/me", {
+        method:"PUT",
+        headers:{"Content-Type":"application/json"},
+        credentials:"include",
+        body: JSON.stringify({ special_days: businessData.special_days || {} })
+      });
+      const data = await res.json().catch(()=>({}));
+      if(!res.ok){ alert(data.detail || "No se pudo guardar vacaciones"); return; }
+      await loadBusinessContext();
+      renderScheduleHub();
+    }
+  });
+}
+
+function renderBusinessPhotoRows(){
+  const extras = Array.isArray(businessData?.photos) ? businessData.photos : [];
+  if(!extras.length){
+    return `<div class="small">No hay fotos extra.</div>`;
+  }
+  return extras.map((src, idx)=>`
+    <div class="day-row">
+      <div class="small">Foto ${idx+1}</div>
+      <img src="${escapeHtml(src)}" alt="extra" style="width:100%;max-height:140px;object-fit:cover;border-radius:8px;border:1px solid #e4e7ee;margin:6px 0">
+      <button class="btn btn-danger" onclick="deleteBusinessExtraPhoto('${encodeURIComponent(src)}')">Eliminar</button>
+    </div>
+  `).join("");
+}
+
+function openPhotosModal(){
+  const mainSrc = businessData?.main_photo || `/web/img/${businessData?.public_id}.webp`;
+  pendingMainPhotoFile = null;
+  pendingExtraPhotoFile = null;
+  showModal(
+    "Fotos del negocio",
+    `
+    <div class="day-row">
+      <strong>Foto principal</strong>
+      <img id="biz_main_photo_preview" class="photo-preview" src="${escapeHtml(mainSrc)}" alt="principal">
+      <div id="biz_main_photo_dropzone" class="photo-dropzone" onclick="selectPhotoFile('biz_main_photo_file')">
+        Arrastra imagen aquí o pulsa añadir
+        <div class="small">Formatos imagen comunes</div>
+      </div>
+      <input type="file" id="biz_main_photo_file" accept="image/*" hidden>
+      <div class="row" style="margin-top:8px">
+        <button class="btn btn-soft" type="button" onclick="selectPhotoFile('biz_main_photo_file')">Añadir</button>
+        <button id="bizPhotosConfirmBtnMain" class="btn btn-primary" type="button" onclick="savePendingBusinessPhotos()" style="display:none">Confirmar</button>
+      </div>
+    </div>
+    <div class="day-row">
+      <strong>Añadir foto extra</strong>
+      <img id="biz_extra_photo_preview" class="photo-preview" src="" alt="preview extra" style="display:none">
+      <div id="biz_extra_photo_dropzone" class="photo-dropzone" onclick="selectPhotoFile('biz_extra_photo_file')">
+        Arrastra imagen aquí o pulsa añadir
+        <div class="small">Formatos imagen comunes</div>
+      </div>
+      <input type="file" id="biz_extra_photo_file" accept="image/*" hidden>
+      <div class="row" style="margin-top:8px">
+        <button class="btn btn-soft" type="button" onclick="selectPhotoFile('biz_extra_photo_file')">Añadir</button>
+        <button id="bizPhotosConfirmBtnExtra" class="btn btn-primary" type="button" onclick="savePendingBusinessPhotos()" style="display:none">Confirmar</button>
+      </div>
+    </div>
+    <div id="bizPhotosList">${renderBusinessPhotoRows()}</div>
+    `,
+    [{ label:"Cancelar", cls:"btn-soft", onClick: closeModal }]
+  );
+  initBusinessPhotoUploader(mainSrc);
+}
+
+function selectPhotoFile(inputId){
+  const input = document.getElementById(inputId);
+  if(input) input.click();
+}
+
+function setFileToInput(input, file){
+  if(!input || !file) return;
+  const dt = new DataTransfer();
+  dt.items.add(file);
+  input.files = dt.files;
+  input.dispatchEvent(new Event("change", { bubbles: true }));
+}
+
+function bindPhotoDropzone(dropzoneId, inputId){
+  const dz = document.getElementById(dropzoneId);
+  const input = document.getElementById(inputId);
+  if(!dz || !input) return;
+  ["dragenter","dragover"].forEach((evtName)=>{
+    dz.addEventListener(evtName, (e)=>{ e.preventDefault(); e.stopPropagation(); dz.classList.add("is-dragover"); });
+  });
+  ["dragleave","drop"].forEach((evtName)=>{
+    dz.addEventListener(evtName, (e)=>{ e.preventDefault(); e.stopPropagation(); dz.classList.remove("is-dragover"); });
+  });
+  dz.addEventListener("drop", (e)=>{
+    const file = e.dataTransfer?.files?.[0];
+    if(file && String(file.type || "").startsWith("image/")){
+      setFileToInput(input, file);
+    }
+  });
+}
+
+function bindPhotoPreview(inputId, previewId, fallbackSrc = ""){
+  const input = document.getElementById(inputId);
+  const preview = document.getElementById(previewId);
+  if(!input || !preview) return;
+  input.addEventListener("change", ()=>{
+    const file = input.files?.[0];
+    if(file && String(file.type || "").startsWith("image/")){
+      if(inputId === "biz_main_photo_file") pendingMainPhotoFile = file;
+      if(inputId === "biz_extra_photo_file") pendingExtraPhotoFile = file;
+      const reader = new FileReader();
+      reader.onload = ()=>{ preview.src = String(reader.result || fallbackSrc || preview.src); preview.style.display = "block"; };
+      reader.readAsDataURL(file);
+      updateBusinessPhotosSaveFabVisibility();
+      simulatePhotosSaveButton(inputId);
+      return;
+    }
+    if(fallbackSrc){
+      preview.src = fallbackSrc;
+      preview.style.display = "block";
+    }else{
+      preview.src = "";
+      preview.style.display = "none";
+    }
+    if(inputId === "biz_main_photo_file") pendingMainPhotoFile = null;
+    if(inputId === "biz_extra_photo_file") pendingExtraPhotoFile = null;
+    updateBusinessPhotosSaveFabVisibility();
+  });
+}
+
+function initBusinessPhotoUploader(mainFallbackSrc){
+  bindPhotoDropzone("biz_main_photo_dropzone", "biz_main_photo_file");
+  bindPhotoDropzone("biz_extra_photo_dropzone", "biz_extra_photo_file");
+  bindPhotoPreview("biz_main_photo_file", "biz_main_photo_preview", mainFallbackSrc || "/web/icono/no_imagen.png");
+  bindPhotoPreview("biz_extra_photo_file", "biz_extra_photo_preview", "/web/icono/no_imagen.png");
+  updateBusinessPhotosSaveFabVisibility();
+}
+
+function updateBusinessPhotosSaveFabVisibility(){
+  const btnMain = document.getElementById("bizPhotosConfirmBtnMain");
+  const btnExtra = document.getElementById("bizPhotosConfirmBtnExtra");
+  if(btnMain) btnMain.style.display = pendingMainPhotoFile ? "inline-flex" : "none";
+  if(btnExtra) btnExtra.style.display = pendingExtraPhotoFile ? "inline-flex" : "none";
+}
+
+function simulatePhotosSaveButton(sourceInputId = ""){
+  const btn = sourceInputId === "biz_main_photo_file"
+    ? document.getElementById("bizPhotosConfirmBtnMain")
+    : sourceInputId === "biz_extra_photo_file"
+      ? document.getElementById("bizPhotosConfirmBtnExtra")
+      : null;
+  if(!btn) return;
+  btn.style.display = "inline-flex";
+  btn.classList.remove("btn-save-pending");
+  void btn.offsetWidth;
+  btn.classList.add("btn-save-pending");
+  btn.focus();
+  setTimeout(()=>btn.classList.remove("btn-save-pending"), 950);
+}
+
+async function uploadBusinessMainPhoto(fileOverride = null, reopenAfter = true){
+  const file = fileOverride || document.getElementById("biz_main_photo_file")?.files?.[0];
+  if(!file){ alert("Selecciona una imagen"); return; }
+  const fd = new FormData();
+  fd.append("file", file);
+  const res = await fetch("/business/me/main_photo", { method:"POST", body: fd, credentials:"include" });
+  const data = await res.json().catch(()=>({}));
+  if(!res.ok){ alert(data.detail || "No se pudo subir la foto principal"); return; }
+  await loadBusinessContext();
+  if(reopenAfter) openPhotosModal();
+}
+
+async function uploadBusinessExtraPhoto(fileOverride = null, reopenAfter = true){
+  const file = fileOverride || document.getElementById("biz_extra_photo_file")?.files?.[0];
+  if(!file){ alert("Selecciona una imagen"); return; }
+  const fd = new FormData();
+  fd.append("file", file);
+  const res = await fetch("/business/me/photos", { method:"POST", body: fd, credentials:"include" });
+  const data = await res.json().catch(()=>({}));
+  if(!res.ok){ alert(data.detail || "No se pudo subir la foto"); return; }
+  await loadBusinessContext();
+  if(reopenAfter) openPhotosModal();
+}
+
+async function savePendingBusinessPhotos(){
+  if(!pendingMainPhotoFile && !pendingExtraPhotoFile) return;
+  const mainFile = pendingMainPhotoFile;
+  const extraFile = pendingExtraPhotoFile;
+  if(mainFile){
+    await uploadBusinessMainPhoto(mainFile, false);
+  }
+  if(extraFile){
+    await uploadBusinessExtraPhoto(extraFile, false);
+  }
+  pendingMainPhotoFile = null;
+  pendingExtraPhotoFile = null;
+  openPhotosModal();
+}
+
+async function deleteBusinessExtraPhoto(photoUrlEncoded){
+  const photoUrl = decodeURIComponent(photoUrlEncoded || "");
+  if(!confirm("¿Eliminar esta foto?")) return;
+  const res = await fetch("/business/me/photos", {
+    method:"DELETE",
+    headers:{"Content-Type":"application/json"},
+    credentials:"include",
+    body: JSON.stringify({ photo_url: photoUrl })
+  });
+  const data = await res.json().catch(()=>({}));
+  if(!res.ok){ alert(data.detail || "No se pudo eliminar la foto"); return; }
+  await loadBusinessContext();
+  openPhotosModal();
+}
+
+function escapeHtml(str){
+  return String(str || "")
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&#39;");
+}
+
+boot();
+</script>
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+

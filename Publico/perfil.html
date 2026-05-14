@@ -4,12 +4,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="theme-color" content="#f3d044">
-    <title>Perfil pÃºblico | Todo Sevilla Este</title>
+    <title>Perfil público | Todo Sevilla Este</title>
     
     <link rel="stylesheet" href="/3.7/header_shared.css">
     
     <style>
-        /* Variables de diseÃ±o de ui_public.css[cite: 3] */
+        /* Variables de diseño de ui_public.css */
         :root {
             --ux-bg: #f5f7fb;
             --ux-surface: #ffffff;
@@ -20,7 +20,7 @@
             --ux-focus: #0b67d1;
         }
 
-        /* SOLUCIÃ“N PARA EL FOOTER: Flexbox en el body[cite: 3] */
+        /* SOLUCIÓN PARA EL FOOTER: Flexbox en el body */
         html, body {
             height: 100%;
             margin: 0;
@@ -35,13 +35,13 @@
             line-height: 1.5;
         }
 
-        /* El contenedor principal crece para empujar al footer abajo[cite: 3] */
+        /* El contenedor principal crece para empujar al footer abajo */
         .wrap { 
             max-width: 940px; 
             margin: 20px auto; 
             padding: 0 16px; 
             width: 100%;
-            flex: 1 0 auto; /* Crece dinÃ¡micamente */
+            flex: 1 0 auto; /* Crece dinámicamente */
             box-sizing: border-box;
         }
 
@@ -84,7 +84,7 @@
             box-shadow: 0 10px 18px rgba(0,0,0,.16);
         }
 
-        /* FOOTER ESTILIZADO SEGÃšN UI_PUBLIC[cite: 3] */
+        /* FOOTER ESTILIZADO SEGÚN UI_PUBLIC */
         .site-footer {
             flex-shrink: 0; /* Evita que el footer se encoja */
             background: var(--ux-brand);
@@ -151,7 +151,7 @@
         <div class="profile-info">
             <h1 id="username">Cargando...</h1>
             <div id="birth" class="muted"></div>
-            <p id="desc" class="muted">Cargando informaciÃ³n del perfil...</p>
+            <p id="desc" class="muted">Cargando información del perfil...</p>
             <div id="stats" class="muted" style="font-weight: 700; color: var(--ux-text);"></div>
             <div style="margin-top: 15px; display: flex; gap: 10px; flex-wrap: wrap;">
                 <button id="btnPrivateMessage" class="btn" style="background: #111; color: #fff; display:none" onclick="startPrivateChat()">Enviar mensaje privado</button>
@@ -160,30 +160,30 @@
     </section>
 
     <section class="card">
-        <h2 style="margin-bottom: 15px; font-size: 1.3rem;">ReseÃ±as pÃºblicas</h2>
+        <h2 style="margin-bottom: 15px; font-size: 1.3rem;">Reseñas públicas</h2>
         <div id="reviews">Cargando actividad reciente...</div>
     </section>
 </main>
 
 <footer class="site-footer">
     <div class="footer-top">
-        <span class="footer-copy">Â© 2026 Todo Sevilla Este</span>
-        <span class="footer-version">VersiÃ³n: 3.7</span>
+        <span class="footer-copy">© 2026 Todo Sevilla Este</span>
+        <span class="footer-version">Versión: 3.7</span>
     </div>
     <nav class="footer-links">
         <a class="footer-link" href="/frontend.html">Inicio</a>
         <a class="footer-link" href="/cookies.html">Cookies</a>
-        <a class="footer-link" href="/terminos.html">TÃ©rminos</a>
+        <a class="footer-link" href="/terminos.html">Términos</a>
         <a class="footer-link" href="/aviso_legal.html">Aviso legal</a>
     </nav>
 </footer>
 
 <script>
-    // Funciones de utilidad y lÃ³gica
+    // Funciones de utilidad y lógica
     function esc(v){return String(v??"").replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;");}
     function stars(n) { 
         const val = Math.round(Number(n) || 0);
-        return "â˜…".repeat(val) + "â˜†".repeat(Math.max(0, 5 - val)); 
+        return "★".repeat(val) + "☆".repeat(Math.max(0, 5 - val)); 
     }
     
     let viewedUserId = 0;
@@ -218,15 +218,15 @@
             document.title = `${data.username} | Todo Sevilla Este`;
             document.getElementById("username").textContent = data.username;
             document.getElementById("avatar").src = data.avatar || "/icono/perfil_iniciar.png";
-            document.getElementById("desc").textContent = data.description || "Este usuario no ha aÃ±adido una descripciÃ³n.";
-            document.getElementById("stats").textContent = `${data.total_public_reviews || 0} reseÃ±as publicadas`;
+            document.getElementById("desc").textContent = data.description || "Este usuario no ha añadido una descripción.";
+            document.getElementById("stats").textContent = `${data.total_public_reviews || 0} reseñas publicadas`;
 
-            // BotÃ³n de mensaje (solo si no soy yo)
+            // Botón de mensaje (solo si no soy yo)
             if(meUser && String(meUser.id) !== String(viewedUserId)) {
                 document.getElementById("btnPrivateMessage").style.display = "inline-flex";
             }
 
-            // Cargar reseÃ±as
+            // Cargar reseñas
             const revRes = await fetch(`/profiles/${viewedUserId}/reviews?limit=20`);
             const revData = await revRes.json();
             const box = document.getElementById("reviews");
@@ -244,7 +244,7 @@
                     box.appendChild(div);
                 });
             } else {
-                box.innerHTML = `<p class="muted">Este usuario aÃºn no ha realizado reseÃ±as pÃºblicas.</p>`;
+                box.innerHTML = `<p class="muted">Este usuario aún no ha realizado reseñas públicas.</p>`;
             }
         } catch(e) {
             document.getElementById("reviews").innerHTML = "Error al cargar los datos del perfil.";
@@ -258,7 +258,7 @@
             const data = await res.json();
             if(res.ok) window.location.href = `/frontend.html?chat=${data.chat_id}`;
             else alert(data.detail || "No se pudo iniciar el chat");
-        } catch(e) { alert("Error de conexiÃ³n"); }
+        } catch(e) { alert("Error de conexión"); }
     }
 
     function goBack(){ 

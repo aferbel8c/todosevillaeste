@@ -1,7 +1,7 @@
 TodoSevillaEste es un ecosistema digital integral diseñado para conectar a los vecinos, comercios y administradores 
 del barrio de Sevilla Este. La plataforma facilita el descubrimiento de negocios locales, la interacción comunitaria y la gestión profesional del tejido comercial.
 
-Actualmente, se han subido las últimas versiones de todos los componentes del sistema, incluyendo la web pública, el panel de administración y las aplicaciones móviles.
+Actualmente, se han subido las últimas versiones de todos los componentes del sistema, incluyendo la web pública, el panel de administración y las aplicaciones móviles (Descarga la aplicación móvil desde https://todo-sevilla-este.uptodown.com/android).
 
 Funcionalidades Clave:
 Directorio Inteligente: Búsqueda avanzada de negocios con fichas detalladas, horarios y geolocalización.
